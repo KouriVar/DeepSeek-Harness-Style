@@ -1,0 +1,972 @@
+[
+  {
+    "name": "--dsw-alias-bg-document-selection",
+    "light": "color-mix(in srgb, #3b82f6 40%, transparent)",
+    "dark": "color-mix(in srgb, #3b82f6 40%, transparent)"
+  },
+  {
+    "name": "--dsw-alias-label-deep-diving",
+    "light": "color-mix(in srgb, #4176e6 70%, #172554)",
+    "dark": "color-mix(in srgb, #5686fe 55%, #adb2b8)"
+  },
+  {
+    "name": "--dsw-alias-label-deep-diving-shimmer",
+    "light": "color-mix(in srgb, #4176e6 30%, #172554)",
+    "dark": "color-mix(in srgb, #93c5fd 65%, #7aaaff)"
+  },
+  {
+    "name": "--dsw-alias-label-shimmer",
+    "light": "color-mix(in srgb, #000 30%, transparent)",
+    "dark": "color-mix(in srgb, #fff 45%, transparent)"
+  },
+  {
+    "name": "--dsw-alias-onboarding-card-fill",
+    "light": null,
+    "dark": "color-mix(in srgb, #2c2c2e 80%, transparent)"
+  },
+  {
+    "name": "--dsw-alias-tooltip-key-bg",
+    "light": "color-mix(in srgb, #2c2c2e, white 18%)",
+    "dark": "color-mix(in srgb, #43454a, white 18%)"
+  },
+  {
+    "name": "--dsw-corner-shape",
+    "light": "superellipse(1.5)",
+    "dark": "superellipse(1.5)"
+  },
+  {
+    "name": "--dsw-elevation-panel",
+    "light": "0 0 0 .5px var(--dsw-elevation-stroke-color), 0 3px 8px 0 #00000008, 0 0 16px 0 #00000005",
+    "dark": "0 0 0 .5px #ffffff29, 0 3px 8px 0 #00000008, 0 0 16px 0 #00000005"
+  },
+  {
+    "name": "--dsw-elevation-prominent",
+    "light": "0 0 0 .5px var(--dsw-elevation-stroke-color), 0 3px 8px 0 #0000000a, 0 0 20px 0 #0000000d",
+    "dark": "0 0 0 .5px #ffffff29, 0 3px 8px 0 #0000000a, 0 0 20px 0 #0000000d"
+  },
+  {
+    "name": "--dsw-elevation-soft",
+    "light": "0 0 0 .5px var(--dsw-elevation-stroke-color), 0 4px 16px 0 #00000008, 0 0 24px 0 #00000008",
+    "dark": "0 0 0 .5px #ffffff29, 0 4px 16px 0 #00000008, 0 0 24px 0 #00000008"
+  },
+  {
+    "name": "--dsw-elevation-stroke",
+    "light": "0 0 0 .5px var(--dsw-elevation-stroke-color)",
+    "dark": "0 0 0 .5px #ffffff29"
+  },
+  {
+    "name": "--dsw-font-base-16",
+    "light": "16px/24px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "16px/24px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-base-16-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-base-16-font-size",
+    "light": "16px",
+    "dark": "16px"
+  },
+  {
+    "name": "--dsw-font-base-16-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-base-16-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-base-16-line-height",
+    "light": "24px",
+    "dark": "24px"
+  },
+  {
+    "name": "--dsw-font-base-strong-16",
+    "light": "500 16px/24px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "500 16px/24px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-base-strong-16-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-base-strong-16-font-size",
+    "light": "16px",
+    "dark": "16px"
+  },
+  {
+    "name": "--dsw-font-base-strong-16-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-base-strong-16-font-weight",
+    "light": "500",
+    "dark": "500"
+  },
+  {
+    "name": "--dsw-font-base-strong-16-line-height",
+    "light": "24px",
+    "dark": "24px"
+  },
+  {
+    "name": "--dsw-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-l-20",
+    "light": "500 20px/28px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "500 20px/28px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-l-20-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-l-20-font-size",
+    "light": "20px",
+    "dark": "20px"
+  },
+  {
+    "name": "--dsw-font-l-20-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-l-20-font-weight",
+    "light": "500",
+    "dark": "500"
+  },
+  {
+    "name": "--dsw-font-l-20-line-height",
+    "light": "28px",
+    "dark": "28px"
+  },
+  {
+    "name": "--dsw-font-m-18",
+    "light": "500 16px/28px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "500 16px/28px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-m-18-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-m-18-font-size",
+    "light": "16px",
+    "dark": "16px"
+  },
+  {
+    "name": "--dsw-font-m-18-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-m-18-font-weight",
+    "light": "500",
+    "dark": "500"
+  },
+  {
+    "name": "--dsw-font-m-18-line-height",
+    "light": "28px",
+    "dark": "28px"
+  },
+  {
+    "name": "--dsw-font-markdown-base",
+    "light": "var(--dsh-content-font-size,14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-content-font-size,14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-base-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-base-font-size",
+    "light": "var(--dsh-content-font-size,14px)",
+    "dark": "var(--dsh-content-font-size,14px)"
+  },
+  {
+    "name": "--dsw-font-markdown-base-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-base-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-markdown-base-italic",
+    "light": "italic var(--dsh-content-font-size,14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "italic var(--dsh-content-font-size,14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-base-italic-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-base-italic-font-size",
+    "light": "var(--dsh-content-font-size,14px)",
+    "dark": "var(--dsh-content-font-size,14px)"
+  },
+  {
+    "name": "--dsw-font-markdown-base-italic-font-style",
+    "light": "italic",
+    "dark": "italic"
+  },
+  {
+    "name": "--dsw-font-markdown-base-italic-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-markdown-base-italic-line-height",
+    "light": "calc(24px + var(--dsh-content-font-delta))",
+    "dark": "calc(24px + var(--dsh-content-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-base-line-height",
+    "light": "calc(24px + var(--dsh-content-font-delta))",
+    "dark": "calc(24px + var(--dsh-content-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-base-strong",
+    "light": "600 var(--dsh-content-font-size,14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "600 var(--dsh-content-font-size,14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-base-strong-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-base-strong-font-size",
+    "light": "var(--dsh-content-font-size,14px)",
+    "dark": "var(--dsh-content-font-size,14px)"
+  },
+  {
+    "name": "--dsw-font-markdown-base-strong-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-base-strong-font-weight",
+    "light": "600",
+    "dark": "600"
+  },
+  {
+    "name": "--dsw-font-markdown-base-strong-italic",
+    "light": "italic 600 var(--dsh-content-font-size,14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "italic 600 var(--dsh-content-font-size,14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-base-strong-italic-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-base-strong-italic-font-size",
+    "light": "var(--dsh-content-font-size,14px)",
+    "dark": "var(--dsh-content-font-size,14px)"
+  },
+  {
+    "name": "--dsw-font-markdown-base-strong-italic-font-style",
+    "light": "italic",
+    "dark": "italic"
+  },
+  {
+    "name": "--dsw-font-markdown-base-strong-italic-font-weight",
+    "light": "600",
+    "dark": "600"
+  },
+  {
+    "name": "--dsw-font-markdown-base-strong-italic-line-height",
+    "light": "calc(24px + var(--dsh-content-font-delta))",
+    "dark": "calc(24px + var(--dsh-content-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-base-strong-line-height",
+    "light": "calc(24px + var(--dsh-content-font-delta))",
+    "dark": "calc(24px + var(--dsh-content-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-code",
+    "light": "calc(12px + var(--dsh-code-font-delta)) / calc(19px + var(--dsh-code-font-delta)) var(--ds-font-family-code)",
+    "dark": "calc(12px + var(--dsh-code-font-delta)) / calc(19px + var(--dsh-code-font-delta)) var(--ds-font-family-code)"
+  },
+  {
+    "name": "--dsw-font-markdown-code-block",
+    "light": "var(--dsh-code-font-size,11px) / calc(19px + var(--dsh-code-font-delta)) var(--ds-font-family-code)",
+    "dark": "var(--dsh-code-font-size,11px) / calc(19px + var(--dsh-code-font-delta)) var(--ds-font-family-code)"
+  },
+  {
+    "name": "--dsw-font-markdown-code-block-font-family",
+    "light": "var(--ds-font-family-code)",
+    "dark": "var(--ds-font-family-code)"
+  },
+  {
+    "name": "--dsw-font-markdown-code-block-font-size",
+    "light": "var(--dsh-code-font-size,11px)",
+    "dark": "var(--dsh-code-font-size,11px)"
+  },
+  {
+    "name": "--dsw-font-markdown-code-block-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-code-block-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-markdown-code-block-line-height",
+    "light": "calc(19px + var(--dsh-code-font-delta))",
+    "dark": "calc(19px + var(--dsh-code-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-code-block-small",
+    "light": "var(--dsh-code-font-size,11px) / calc(16px + var(--dsh-code-font-delta)) var(--ds-font-family-code)",
+    "dark": "var(--dsh-code-font-size,11px) / calc(16px + var(--dsh-code-font-delta)) var(--ds-font-family-code)"
+  },
+  {
+    "name": "--dsw-font-markdown-code-block-small-font-family",
+    "light": "var(--ds-font-family-code)",
+    "dark": "var(--ds-font-family-code)"
+  },
+  {
+    "name": "--dsw-font-markdown-code-block-small-font-size",
+    "light": "var(--dsh-code-font-size,11px)",
+    "dark": "var(--dsh-code-font-size,11px)"
+  },
+  {
+    "name": "--dsw-font-markdown-code-block-small-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-code-block-small-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-markdown-code-block-small-line-height",
+    "light": "calc(16px + var(--dsh-code-font-delta))",
+    "dark": "calc(16px + var(--dsh-code-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-code-font-family",
+    "light": "var(--ds-font-family-code)",
+    "dark": "var(--ds-font-family-code)"
+  },
+  {
+    "name": "--dsw-font-markdown-code-font-size",
+    "light": "calc(12px + var(--dsh-code-font-delta))",
+    "dark": "calc(12px + var(--dsh-code-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-code-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-code-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-markdown-code-line-height",
+    "light": "calc(19px + var(--dsh-code-font-delta))",
+    "dark": "calc(19px + var(--dsh-code-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-h1",
+    "light": "700 calc(21px + var(--dsh-content-font-delta)) / calc(30px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "700 calc(21px + var(--dsh-content-font-delta)) / calc(30px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-h1-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-h1-font-size",
+    "light": "calc(21px + var(--dsh-content-font-delta))",
+    "dark": "calc(21px + var(--dsh-content-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-h1-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-h1-font-weight",
+    "light": "700",
+    "dark": "700"
+  },
+  {
+    "name": "--dsw-font-markdown-h1-line-height",
+    "light": "calc(30px + var(--dsh-content-font-delta))",
+    "dark": "calc(30px + var(--dsh-content-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-h2",
+    "light": "700 calc(19px + var(--dsh-content-font-delta)) / calc(28px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "700 calc(19px + var(--dsh-content-font-delta)) / calc(28px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-h2-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-h2-font-size",
+    "light": "calc(19px + var(--dsh-content-font-delta))",
+    "dark": "calc(19px + var(--dsh-content-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-h2-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-h2-font-weight",
+    "light": "700",
+    "dark": "700"
+  },
+  {
+    "name": "--dsw-font-markdown-h2-line-height",
+    "light": "calc(28px + var(--dsh-content-font-delta))",
+    "dark": "calc(28px + var(--dsh-content-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-h3",
+    "light": "700 calc(18px + var(--dsh-content-font-delta)) / calc(26px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "700 calc(18px + var(--dsh-content-font-delta)) / calc(26px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-h3-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-h3-font-size",
+    "light": "calc(18px + var(--dsh-content-font-delta))",
+    "dark": "calc(18px + var(--dsh-content-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-h3-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-h3-font-weight",
+    "light": "700",
+    "dark": "700"
+  },
+  {
+    "name": "--dsw-font-markdown-h3-line-height",
+    "light": "calc(26px + var(--dsh-content-font-delta))",
+    "dark": "calc(26px + var(--dsh-content-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-h4",
+    "light": "600 var(--dsh-content-font-size,14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "600 var(--dsh-content-font-size,14px) / calc(24px + var(--dsh-content-font-delta)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-h4-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-h4-font-size",
+    "light": "var(--dsh-content-font-size,14px)",
+    "dark": "var(--dsh-content-font-size,14px)"
+  },
+  {
+    "name": "--dsw-font-markdown-h4-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-h4-font-weight",
+    "light": "600",
+    "dark": "600"
+  },
+  {
+    "name": "--dsw-font-markdown-h4-line-height",
+    "light": "calc(24px + var(--dsh-content-font-delta))",
+    "dark": "calc(24px + var(--dsh-content-font-delta))"
+  },
+  {
+    "name": "--dsw-font-markdown-small",
+    "light": "12px/20px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "12px/20px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-small-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-small-font-size",
+    "light": "12px",
+    "dark": "12px"
+  },
+  {
+    "name": "--dsw-font-markdown-small-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-small-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-markdown-small-italic",
+    "light": "italic 12px/20px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "italic 12px/20px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-small-italic-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-small-italic-font-size",
+    "light": "12px",
+    "dark": "12px"
+  },
+  {
+    "name": "--dsw-font-markdown-small-italic-font-style",
+    "light": "italic",
+    "dark": "italic"
+  },
+  {
+    "name": "--dsw-font-markdown-small-italic-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-markdown-small-italic-line-height",
+    "light": "20px",
+    "dark": "20px"
+  },
+  {
+    "name": "--dsw-font-markdown-small-line-height",
+    "light": "20px",
+    "dark": "20px"
+  },
+  {
+    "name": "--dsw-font-markdown-small-strong",
+    "light": "600 12px/20px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "600 12px/20px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-small-strong-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-small-strong-font-size",
+    "light": "12px",
+    "dark": "12px"
+  },
+  {
+    "name": "--dsw-font-markdown-small-strong-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-small-strong-font-weight",
+    "light": "600",
+    "dark": "600"
+  },
+  {
+    "name": "--dsw-font-markdown-small-strong-italic",
+    "light": "italic 600 12px/20px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "italic 600 12px/20px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-small-strong-italic-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-small-strong-italic-font-size",
+    "light": "12px",
+    "dark": "12px"
+  },
+  {
+    "name": "--dsw-font-markdown-small-strong-italic-font-style",
+    "light": "italic",
+    "dark": "italic"
+  },
+  {
+    "name": "--dsw-font-markdown-small-strong-italic-font-weight",
+    "light": "600",
+    "dark": "600"
+  },
+  {
+    "name": "--dsw-font-markdown-small-strong-italic-line-height",
+    "light": "20px",
+    "dark": "20px"
+  },
+  {
+    "name": "--dsw-font-markdown-small-strong-line-height",
+    "light": "20px",
+    "dark": "20px"
+  },
+  {
+    "name": "--dsw-font-markdown-table",
+    "light": "var(--dsh-content-font-size-secondary,13px)/calc(22px + var(--dsh-content-font-delta-secondary,0px)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-content-font-size-secondary,13px)/calc(22px + var(--dsh-content-font-delta-secondary,0px)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-table-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-table-font-size",
+    "light": "var(--dsh-content-font-size-secondary,13px)",
+    "dark": "var(--dsh-content-font-size-secondary,13px)"
+  },
+  {
+    "name": "--dsw-font-markdown-table-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-table-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-markdown-table-head",
+    "light": "500 var(--dsh-content-font-size-secondary,13px)/calc(22px + var(--dsh-content-font-delta-secondary,0px)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "500 var(--dsh-content-font-size-secondary,13px)/calc(22px + var(--dsh-content-font-delta-secondary,0px)) var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-table-head-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-markdown-table-head-font-size",
+    "light": "var(--dsh-content-font-size-secondary,13px)",
+    "dark": "var(--dsh-content-font-size-secondary,13px)"
+  },
+  {
+    "name": "--dsw-font-markdown-table-head-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-markdown-table-head-font-weight",
+    "light": "500",
+    "dark": "500"
+  },
+  {
+    "name": "--dsw-font-markdown-table-head-line-height",
+    "light": "calc(22px + var(--dsh-content-font-delta-secondary,0px))",
+    "dark": "calc(22px + var(--dsh-content-font-delta-secondary,0px))"
+  },
+  {
+    "name": "--dsw-font-markdown-table-line-height",
+    "light": "calc(22px + var(--dsh-content-font-delta-secondary,0px))",
+    "dark": "calc(22px + var(--dsh-content-font-delta-secondary,0px))"
+  },
+  {
+    "name": "--dsw-font-s-14",
+    "light": "14px/22px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "14px/22px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-s-14-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-s-14-font-size",
+    "light": "14px",
+    "dark": "14px"
+  },
+  {
+    "name": "--dsw-font-s-14-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-s-14-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-s-14-line-height",
+    "light": "22px",
+    "dark": "22px"
+  },
+  {
+    "name": "--dsw-font-s-strong-14",
+    "light": "500 14px/22px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "500 14px/22px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-s-strong-14-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-s-strong-14-font-size",
+    "light": "14px",
+    "dark": "14px"
+  },
+  {
+    "name": "--dsw-font-s-strong-14-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-s-strong-14-font-weight",
+    "light": "500",
+    "dark": "500"
+  },
+  {
+    "name": "--dsw-font-s-strong-14-line-height",
+    "light": "22px",
+    "dark": "22px"
+  },
+  {
+    "name": "--dsw-font-xl-24",
+    "light": "600 24px/32px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "600 24px/32px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xl-24-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xl-24-font-size",
+    "light": "24px",
+    "dark": "24px"
+  },
+  {
+    "name": "--dsw-font-xl-24-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-xl-24-font-weight",
+    "light": "600",
+    "dark": "600"
+  },
+  {
+    "name": "--dsw-font-xl-24-line-height",
+    "light": "32px",
+    "dark": "32px"
+  },
+  {
+    "name": "--dsw-font-xs-13",
+    "light": "13px/20px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "13px/20px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xs-13-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xs-13-font-size",
+    "light": "13px",
+    "dark": "13px"
+  },
+  {
+    "name": "--dsw-font-xs-13-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-xs-13-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-xs-13-line-height",
+    "light": "20px",
+    "dark": "20px"
+  },
+  {
+    "name": "--dsw-font-xs-strong-13",
+    "light": "500 13px/20px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "500 13px/20px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xs-strong-13-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xs-strong-13-font-size",
+    "light": "13px",
+    "dark": "13px"
+  },
+  {
+    "name": "--dsw-font-xs-strong-13-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-xs-strong-13-font-weight",
+    "light": "500",
+    "dark": "500"
+  },
+  {
+    "name": "--dsw-font-xs-strong-13-line-height",
+    "light": "20px",
+    "dark": "20px"
+  },
+  {
+    "name": "--dsw-font-xxs-12",
+    "light": "12px/18px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "12px/18px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xxs-12-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xxs-12-font-size",
+    "light": "12px",
+    "dark": "12px"
+  },
+  {
+    "name": "--dsw-font-xxs-12-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-xxs-12-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-xxs-12-line-height",
+    "light": "18px",
+    "dark": "18px"
+  },
+  {
+    "name": "--dsw-font-xxs-strong-12",
+    "light": "500 12px/18px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "500 12px/18px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xxs-strong-12-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xxs-strong-12-font-size",
+    "light": "12px",
+    "dark": "12px"
+  },
+  {
+    "name": "--dsw-font-xxs-strong-12-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-xxs-strong-12-font-weight",
+    "light": "500",
+    "dark": "500"
+  },
+  {
+    "name": "--dsw-font-xxs-strong-12-line-height",
+    "light": "18px",
+    "dark": "18px"
+  },
+  {
+    "name": "--dsw-font-xxxs-11",
+    "light": "11px/14px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "11px/14px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xxxs-11-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xxxs-11-font-size",
+    "light": "11px",
+    "dark": "11px"
+  },
+  {
+    "name": "--dsw-font-xxxs-11-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-xxxs-11-font-weight",
+    "light": "400",
+    "dark": "400"
+  },
+  {
+    "name": "--dsw-font-xxxs-11-line-height",
+    "light": "14px",
+    "dark": "14px"
+  },
+  {
+    "name": "--dsw-font-xxxs-strong-11",
+    "light": "500 11px/14px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "500 11px/14px var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xxxs-strong-11-font-family",
+    "light": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)",
+    "dark": "var(--dsh-font-family-text,var(--dsh-font-family-text-default)), var(--dsh-font-family-text-default)"
+  },
+  {
+    "name": "--dsw-font-xxxs-strong-11-font-size",
+    "light": "11px",
+    "dark": "11px"
+  },
+  {
+    "name": "--dsw-font-xxxs-strong-11-font-style",
+    "light": "normal",
+    "dark": "normal"
+  },
+  {
+    "name": "--dsw-font-xxxs-strong-11-font-weight",
+    "light": "500",
+    "dark": "500"
+  },
+  {
+    "name": "--dsw-font-xxxs-strong-11-line-height",
+    "light": "14px",
+    "dark": "14px"
+  },
+  {
+    "name": "--dsw-linear-gradient-think",
+    "light": null,
+    "dark": "linear-gradient(180deg, #151517 20.19%, #15151700 100%)"
+  },
+  {
+    "name": "--dsw-linear-think-select",
+    "light": null,
+    "dark": "linear-gradient(180deg, #232325 20.19%, #23232500 100%)"
+  }
+]
