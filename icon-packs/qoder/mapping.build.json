@@ -1,0 +1,1061 @@
+{
+  "schemaVersion": 1,
+  "kind": "dsh-icon-build-map",
+  "dshVersion": "0.2.1-rc.3",
+  "pack": {
+    "id": "qoder",
+    "version": "0.4.11"
+  },
+  "items": [
+    {
+      "native": {
+        "name": "IconChevronLeftOutlineRegular",
+        "resource": "native-icons/IconChevronLeftOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-attachment/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderArrowLeftSLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArrowLeftSLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconChevronRightOutlineRegular",
+        "resource": "native-icons/IconChevronRightOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-attachment/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderArrowRightSLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArrowRightSLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconCloseFillRegular",
+        "resource": "native-icons/IconCloseFillRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-attachment/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderCloseLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderCloseLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconLoadingOutlineRegular",
+        "resource": "native-icons/IconLoadingOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-attachment/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderLoadingLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderLoadingLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconRefreshOutlineRegular",
+        "resource": "native-icons/IconRefreshOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-attachment/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderRefreshLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderRefreshLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconWarningOutlineRegular",
+        "resource": "native-icons/IconWarningOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderWarningLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderWarningLine"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-input-bar-send",
+        "resource": "native-icons/inline-e32ac3bb2e4556da.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "fill"
+      },
+      "target": {
+        "fill": "svg/QoderArrowUpLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArrowUpLine"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-input-bar-stop",
+        "resource": "native-icons/inline-064ce14930f81b0c.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "fill"
+      },
+      "target": {
+        "fill": "svg/QoderStopFill.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderStopFill"
+      }
+    },
+    {
+      "native": {
+        "name": "IconPlusOutlineMedium",
+        "resource": "native-icons/IconPlusOutlineMedium.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderAddLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderAddLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconPaperclipOutlineRegular",
+        "resource": "native-icons/IconPaperclipOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderAttachmentLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderAttachmentLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconCheckOutlineRegular",
+        "resource": "native-icons/IconCheckOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderCheckLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderCheckLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconEditOutlineRegular",
+        "resource": "native-icons/IconEditOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderEditBoxLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderEditBoxLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconChevronDownOutlineRegular",
+        "resource": "native-icons/IconChevronDownOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderArrowDownSLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArrowDownSLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconChevronUpOutlineRegular",
+        "resource": "native-icons/IconChevronUpOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderArrowUpSLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArrowUpSLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconCloseOutlineRegular",
+        "resource": "native-icons/IconCloseOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderCloseLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderCloseLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconBrowseOutlineRegular",
+        "resource": "native-icons/IconBrowseOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderFileList2Line.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderFileList2Line"
+      }
+    },
+    {
+      "native": {
+        "name": "IconCopyOutlineRegular",
+        "resource": "native-icons/IconCopyOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderFileCopyLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderFileCopyLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconBranchOutlineRegular",
+        "resource": "native-icons/IconBranchOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderGitBranchLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderGitBranchLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconQuestionOutlineRegular",
+        "resource": "native-icons/IconQuestionOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderQuestionLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderQuestionLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconSearchOutlineRegular",
+        "resource": "native-icons/IconSearchOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderSearchLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderSearchLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconTrashOutlineRegular",
+        "resource": "native-icons/IconTrashOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderDeleteBin5Line.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderDeleteBin5Line"
+      }
+    },
+    {
+      "native": {
+        "name": "IconSendOutlineRegular",
+        "resource": "native-icons/IconSendOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderArrowUpLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArrowUpLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconChecklistOutlineRegular",
+        "resource": "native-icons/IconChecklistOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderListCheck2.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderListCheck2"
+      }
+    },
+    {
+      "native": {
+        "name": "IconEllipsisOutlineRegular",
+        "resource": "native-icons/IconEllipsisOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "fill"
+      },
+      "target": {
+        "fill": "svg/QoderMoreLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderMoreLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconClockOutlineRegular",
+        "resource": "native-icons/IconClockOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderTimeLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderTimeLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconPlayOutlineRegular",
+        "resource": "native-icons/IconPlayOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderPlayCircleLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderPlayCircleLine"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-information-icon-f2e92c47",
+        "resource": "native-icons/inline-f2e92c472dd5c453.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderInformationLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderInformationLine"
+      }
+    },
+    {
+      "native": {
+        "name": "Local-ToolWrenchIcon",
+        "resource": "native-icons/inline-5c049ad8071d53e7.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderWrenchLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderWrenchLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconSettingsOutlineRegular",
+        "resource": "native-icons/IconSettingsOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderSettings3Line.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderSettings3Line"
+      }
+    },
+    {
+      "native": {
+        "name": "IconUserOutlineRegular",
+        "resource": "native-icons/IconUserOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderUserLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderUserLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconFolderCloseRegular",
+        "resource": "native-icons/IconFolderCloseRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-files/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderFolderLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderFolderLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconFolderOpenRegular",
+        "resource": "native-icons/IconFolderOpenRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-files/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "fill"
+      },
+      "target": {
+        "fill": "svg/QoderFolderOpenLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderFolderOpenLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconPauseOutlineRegular",
+        "resource": "native-icons/IconPauseOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-files/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderPauseCircleLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderPauseCircleLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconPlusOutlineRegular",
+        "resource": "native-icons/IconPlusOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-agent-preset/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderAddLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderAddLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconStopFillRegular",
+        "resource": "native-icons/IconStopFillRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-cordis/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "fill"
+      },
+      "target": {
+        "fill": "svg/QoderStopFill.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderStopFill"
+      }
+    },
+    {
+      "native": {
+        "name": "IconMicrophoneOutlineRegular",
+        "resource": "native-icons/IconMicrophoneOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-experimental-client-ui-voice-input/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderMicLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderMicLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconCloseCircleFillRegular",
+        "resource": "native-icons/IconCloseCircleFillRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-plan/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "fill"
+      },
+      "target": {
+        "fill": "svg/QoderCloseCircleFill.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderCloseCircleFill"
+      }
+    },
+    {
+      "native": {
+        "name": "Local-IconCalendarOutlineRegular",
+        "resource": "native-icons/inline-7ade7472128103d4.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "viewBox": "0 0 14 14",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderCalendarScheduleLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderCalendarScheduleLine"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-arrow-up-icon-f39c92b9",
+        "resource": "native-icons/inline-f39c92b9019097f4.svg",
+        "sourcePath": "client.js",
+        "viewBox": "0 0 20 20",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderArrowUpLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArrowUpLine"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-chevron-left-icon-920df716",
+        "resource": "native-icons/inline-920df716013ab7f6.svg",
+        "sourcePath": "client.js",
+        "viewBox": "0 0 20 20",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderArrowLeftSLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArrowLeftSLine"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-chevron-right-icon-bd602b74",
+        "resource": "native-icons/inline-bd602b744a5c283d.svg",
+        "sourcePath": "client.js",
+        "viewBox": "0 0 20 20",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderArrowRightSLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArrowRightSLine"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-close-icon-19eceaf2",
+        "resource": "native-icons/inline-19eceaf2c4f635b6.svg",
+        "sourcePath": "client.js",
+        "viewBox": "0 0 20 20",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderCloseLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderCloseLine"
+      }
+    },
+    {
+      "native": {
+        "name": "Local-SearchIcon",
+        "resource": "native-icons/inline-b5f3938b8f568174.svg",
+        "sourcePath": "client.js",
+        "viewBox": "0 0 20 20",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderSearchLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderSearchLine"
+      }
+    },
+    {
+      "native": {
+        "name": "Local-ShareIcon",
+        "resource": "native-icons/inline-2452aef7b808cc02.svg",
+        "sourcePath": "client.js",
+        "viewBox": "0 0 20 20",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderShareBoxLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderShareBoxLine"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-key-icon-51615f15",
+        "resource": "native-icons/inline-51615f150d1b9455.svg",
+        "sourcePath": "client.js",
+        "viewBox": "0 0 20 20",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderKeyLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderKeyLine"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-link-icon-78f645ec",
+        "resource": "native-icons/inline-78f645ecd31af97a.svg",
+        "sourcePath": "client.js",
+        "viewBox": "0 0 20 20",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderLinkM.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderLinkM"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-lock-icon-6de5eefc",
+        "resource": "native-icons/inline-6de5eefcac95822c.svg",
+        "sourcePath": "client.js",
+        "viewBox": "0 0 20 20",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderLockLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderLockLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconDownloadOutlineRegular",
+        "resource": "native-icons/IconDownloadOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderDownloadLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderDownloadLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconCloseOutlineMedium",
+        "resource": "native-icons/IconCloseOutlineMedium.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderCloseLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderCloseLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconChevronLeftOutlineMedium",
+        "resource": "native-icons/IconChevronLeftOutlineMedium.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderArrowLeftSLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArrowLeftSLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconPluginPinwheelOutlineRegular",
+        "resource": "native-icons/IconPluginPinwheelOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderPuzzleLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderPuzzleLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconUserOutlineMedium",
+        "resource": "native-icons/IconUserOutlineMedium.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderUserLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderUserLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconEllipsisOutlineMedium",
+        "resource": "native-icons/IconEllipsisOutlineMedium.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "fill"
+      },
+      "target": {
+        "fill": "svg/QoderMoreLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderMoreLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconPaperPlaneOutlineMedium",
+        "resource": "native-icons/IconPaperPlaneOutlineMedium.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderSendPlaneLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderSendPlaneLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconSettingsOutlineMedium",
+        "resource": "native-icons/IconSettingsOutlineMedium.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderSettings3Line.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderSettings3Line"
+      }
+    },
+    {
+      "native": {
+        "name": "IconRightUpOutlineRegular",
+        "resource": "native-icons/IconRightUpOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderArrowRightUpLongLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArrowRightUpLongLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconArchiveOutlineMedium",
+        "resource": "native-icons/IconArchiveOutlineMedium.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-general/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderArchiveLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArchiveLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconLinkOutlineRegular",
+        "resource": "native-icons/IconLinkOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-browser/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderLink.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderLink"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-compass-glyph-954e2472",
+        "resource": "native-icons/inline-954e24725760da6b.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-right/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderCompassLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderCompassLine"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-exit-fullscreen-glyph-a6f1a168",
+        "resource": "native-icons/inline-a6f1a168ccb97b84.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-right/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderFullscreenExitLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderFullscreenExitLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconPanelLeftOutlineRegular",
+        "resource": "native-icons/IconPanelLeftOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-right/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderLayoutLeftLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderLayoutLeftLine"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-terminal-icon-9f72f4ce",
+        "resource": "native-icons/inline-9f72f4ce24fce7ee.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-terminal/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderTerminalLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderTerminalLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconNewChatOutlineRegular",
+        "resource": "native-icons/IconNewChatOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderChatNewLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderChatNewLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconPaperPlaneOutlineRegular",
+        "resource": "native-icons/IconPaperPlaneOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-session-log-export/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderSendPlaneLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderSendPlaneLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconFolderOpenOutlineRegular",
+        "resource": "native-icons/IconFolderOpenOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-open-in-app/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderFolderOpenLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderFolderOpenLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconArchiveOutlineRegular",
+        "resource": "native-icons/IconArchiveOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderArchiveLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderArchiveLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconUnarchiveOutlineRegular",
+        "resource": "native-icons/IconUnarchiveOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js",
+        "viewBox": "0 0 20 20",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderInboxUnarchiveLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderInboxUnarchiveLine"
+      }
+    },
+    {
+      "native": {
+        "name": "IconPinFillRegular",
+        "resource": "native-icons/IconPinFillRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderPushpinFill.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderPushpinFill"
+      }
+    },
+    {
+      "native": {
+        "name": "IconTriangleRightFillRegular",
+        "resource": "native-icons/IconTriangleRightFillRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "fill"
+      },
+      "target": {
+        "fill": "svg/QoderTriangleRightFill.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderTriangleRightFill"
+      }
+    },
+    {
+      "native": {
+        "name": "IconProjectAddOutlineRegular",
+        "resource": "native-icons/IconProjectAddOutlineRegular.svg",
+        "sourcePath": "/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderFolderAddLine.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24",
+        "iconId": "QoderFolderAddLine"
+      }
+    }
+  ]
+}

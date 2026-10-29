@@ -21,12 +21,14 @@ import { execFileSync } from 'node:child_process'
 
 // ---------------------------------------------------------------- args
 function parseArgs(argv) {
-  const out = { dryRun: true, force: false, app: '/Applications/DeepSeek Harness.app', pack: 'icon-packs/qoder', out: null }
+  const out = { dryRun: true, force: false, verify: false, mapping: null, app: '/Applications/DeepSeek Harness.app', pack: 'icon-packs/qoder', out: null }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
     if (a === '--apply') out.dryRun = false
     else if (a === '--dry-run') out.dryRun = true
     else if (a === '--force') out.force = true
+    else if (a === '--verify') out.verify = true
+    else if (a === '--mapping') out.mapping = argv[++i]
     else if (a === '--app') out.app = argv[++i]
     else if (a === '--pack') out.pack = argv[++i]
     else if (a === '--out') out.out = argv[++i]
@@ -173,18 +175,34 @@ function planItem(item, files, packDir) {
   const targetD = targetPathD(targetSvg)
   if (!targetD) return { item, ok: false, reason: 'target has no <path d>' }
 
-  // locate file by sourcePath suffix
-  let filePath = null
-  const suffix = String(native.sourcePath || '').replace(/^\/?/, '/')
-  for (const p of files.keys()) if (p === suffix || p.endsWith(suffix) || suffix.endsWith('/' + p.replace(/^\//, ''))) { filePath = p; break }
-  if (!filePath) for (const p of files.keys()) if (p.endsWith('/' + path.basename(native.sourcePath || ''))) { filePath = p; break }
-  if (!filePath) return { item, ok: false, reason: 'source file not found' }
-  const fileData = files.get(filePath).data
-  if (!fileData) return { item, ok: false, reason: 'unpacked/binary file' }
-  const content = fileData.toString('utf8')
-
   const kids = svgChildren(nativeSvg)
   if (kids.length === 0) return { item, ok: false, reason: 'native has no children' }
+
+  const matchesKids = (text) => {
+    for (const kid of kids) {
+      if (kid.type === 'path') { if (!text.includes(kid.d)) return false }
+      else if (kid.type === 'rect') { if (findRectIndices(text, kid.attrs, native.viewBox).length === 0) return false }
+      else if (kid.type === 'circle') { if (!text.includes(`r: "${kid.attrs.r}"`)) return false }
+    }
+    return true
+  }
+  let filePath = null
+  let content = null
+  const consider = (p) => {
+    const rec = files.get(p)
+    if (!rec || !rec.data) return false
+    const text = rec.data.toString('utf8')
+    if (matchesKids(text)) { filePath = p; content = text; return true }
+    return false
+  }
+  const suffix = String(native.sourcePath || '').replace(/^\/?/, '/')
+  const sourceCand = [...files.keys()].find((p) => p === suffix || p.endsWith(suffix) || suffix.endsWith('/' + p.replace(/^\//, '')))
+  const frontendCand = [...files.keys()].find((p) => p.includes('dsh-web-frontend/dist/assets/index') && p.endsWith('.js'))
+  // prefer sourcePath (Local/inline live there), then frontend (shared primitives), then scan all
+  if (sourceCand) consider(sourceCand)
+  if (!content && frontendCand) consider(frontendCand)
+  if (!content) { for (const p of files.keys()) { if (!p.endsWith('.js')) continue; if (consider(p)) break } }
+  if (!content) return { item, ok: false, reason: 'child not found in any bundle' }
   const transform = transformFor(target.viewBox || '0 0 24 24', native.viewBox)
   const replacements = []
   for (let ci = 0; ci < kids.length; ci++) {
@@ -264,14 +282,54 @@ function buildAsar(tree, files, changedMap) {
   return { asar, jsonBuf }
 }
 
+// ---------------------------------------------------------------- verify
+function verifyApp(appPath) {
+  const asarP = path.join(appPath, 'Contents', 'Resources', 'app.asar')
+  const raw = fs.readFileSync(asarP)
+  const b = raw.readUInt32LE(4)
+  const chunk = raw.subarray(8, 8 + b)
+  const jl = chunk.readUInt32LE(4)
+  const jb = chunk.subarray(8, 8 + jl)
+  const tree = JSON.parse(jb.toString('utf8'))
+  const base = 8 + b
+  let bad = 0
+  let checked = 0
+  const walk = (node, prefix) => {
+    for (const [name, c] of Object.entries(node.files || {})) {
+      const p = prefix + '/' + name
+      if (c.files) { walk(c, p); continue }
+      if (c.unpacked || !c.integrity) continue
+      const data = raw.subarray(base + Number(c.offset), base + Number(c.offset) + Number(c.size))
+      checked++
+      if (sha256hex(data) !== c.integrity.hash) bad++
+    }
+  }
+  walk(tree, '')
+  const headerHash = sha256hex(jb)
+  let plistHash = ''
+  try { plistHash = execFileSync('/usr/libexec/PlistBuddy', ['-c', 'Print :ElectronAsarIntegrity:Resources/app.asar:hash', path.join(appPath, 'Contents', 'Info.plist')], { encoding: 'utf8' }).trim() } catch { /* no key */ }
+  let codesignOk = true
+  try { execFileSync('codesign', ['--verify', '--deep', '--strict', appPath], { stdio: 'ignore' }) } catch { codesignOk = false }
+  const headerOk = headerHash === plistHash
+  console.log(`\nverify: ${appPath}`)
+  console.log(`  header hash == plist hash : ${headerOk}`)
+  console.log(`  file integrity            : ${checked - bad}/${checked} ok`)
+  console.log(`  codesign --verify --strict: ${codesignOk}`)
+  const pass = headerOk && bad === 0 && codesignOk
+  console.log(`  RESULT: ${pass ? 'PASS' : 'FAIL'}`)
+  return pass
+}
+
 // ---------------------------------------------------------------- main
 const args = parseArgs(process.argv.slice(2))
 const asarPath = path.join(args.app, 'Contents', 'Resources', 'app.asar')
 const packDir = path.resolve(args.pack)
-const mapping = JSON.parse(fs.readFileSync(path.join(packDir, 'mapping.json'), 'utf8'))
+const mappingFile = args.mapping ? path.resolve(args.mapping) : (fs.existsSync(path.join(packDir, 'mapping.build.json')) ? path.join(packDir, 'mapping.build.json') : path.join(packDir, 'mapping.json'))
+if (args.verify && args.dryRun) { const okVerify = verifyApp(args.out); process.exit(okVerify ? 0 : 1) }
+const mapping = JSON.parse(fs.readFileSync(mappingFile, 'utf8'))
 const asar = readAsar(asarPath)
 console.log(`app:  ${args.app}`)
-console.log(`pack: ${packDir}  (${mapping.items.length} icons)`)
+console.log(`pack: ${packDir}  (${mapping.items.length} icons)  mapping: ${path.basename(mappingFile)}`)
 
 const plans = []
 for (const item of mapping.items) {
@@ -351,6 +409,8 @@ if (entFile) signArgs.push('--entitlements', entFile)
 signArgs.push(args.out)
 execFileSync('codesign', signArgs, { stdio: 'inherit' })
 try { execFileSync('xattr', ['-dr', 'com.apple.quarantine', args.out], { stdio: 'ignore' }) } catch { /* ignore */ }
+
+verifyApp(args.out)
 
 console.log(`\nDone. Patched copy: ${args.out}`)
 console.log('Quit the current app, then open the copy to verify. Original is untouched.')
