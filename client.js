@@ -55,6 +55,8 @@ window.__ModuleLoader__.load({
       layout: 'classic',
       reduceMotion: false,
       hideScrollbars: false,
+      hideBrand: false,
+      hideNewSession: false,
       monitorEnabled: false,
       monitorMode: 'floating',
       monitorAlwaysShow: {},
@@ -71,6 +73,8 @@ window.__ModuleLoader__.load({
         if (merged.layout !== 'inset' && merged.layout !== 'classic') merged.layout = DEFAULTS.layout
         merged.monitorAlwaysShow = (merged.monitorAlwaysShow && typeof merged.monitorAlwaysShow === 'object') ? merged.monitorAlwaysShow : {}
         if (merged.monitorMode !== 'docked' && merged.monitorMode !== 'floating') merged.monitorMode = DEFAULTS.monitorMode
+        merged.hideBrand = Boolean(merged.hideBrand)
+        merged.hideNewSession = Boolean(merged.hideNewSession)
         return merged
       } catch {
         return { ...DEFAULTS }
@@ -113,6 +117,8 @@ window.__ModuleLoader__.load({
       'data-dsh-style-scrollbars',
       'data-dsh-style-layout',
       'data-dsh-style-dark',
+      'data-dsh-style-hide-brand',
+      'data-dsh-style-hide-newsession',
     ]
 
     // 静态规则。布局规则只在 html[data-dsh-style-layout="inset"] 下生效，
@@ -147,6 +153,25 @@ window.__ModuleLoader__.load({
       'margin-left:var(--dsh-style-inset-gap-left);',
       'overflow:hidden;',
       '}',
+      // 打开右侧边栏时：内容区 + 右栏合成**一个大的描边整体**（同一个圆角外框）。
+      //  - 内容区只留左/上/下边，右侧描边交给右栏，两块之间用右栏的左边框当 1px 分割线；
+      //  - 右栏补上右/上/下边 + 右侧圆角，外沿与内容区一同构成一个大圆角框。
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-frame]:not([data-rightbar-collapsed]) [data-dsh-style-main]{',
+      'border-radius:var(--dsh-style-inset-radius) 0 0 var(--dsh-style-inset-radius);',
+      'border-right:0;',
+      '}',
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-frame]:not([data-rightbar-collapsed]) [data-rightbar-col]{',
+      'background:var(--dsw-alias-bg-base);',
+      'border-top:1px solid var(--dsh-style-inset-border);',
+      'border-right:1px solid var(--dsh-style-inset-border);',
+      'border-bottom:1px solid var(--dsh-style-inset-border);',
+      'border-left:1px solid var(--dsh-style-inset-border);',
+      'border-radius:0 var(--dsh-style-inset-radius) var(--dsh-style-inset-radius) 0;',
+      'overflow:hidden;',
+      '}',
+      // 让会话头（标题 / 快捷区 / 右侧工具）与窗口顶栏（红绿灯）垂直对齐：
+      // 内嵌布局顶部多了 4px 间隙，把 header 的顶部内边距抵掉同样的量。
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-main] header[data-window-drag]:not([class*="headerBlank"]){padding-top:calc(10px - var(--dsh-style-inset-gap)) !important;}',
       // 会话区（主内容）不需要可见滚动条：仍可滚动，只是不显示滚动条。
       'html[data-dsh-style-layout="inset"] [data-dsh-style-main]{scrollbar-width:none;}',
       'html[data-dsh-style-layout="inset"] [data-dsh-style-main] *{scrollbar-width:none;}',
@@ -159,6 +184,35 @@ window.__ModuleLoader__.load({
       '}',
       // 底部状态行跟随内容面，不画成一条横带。
       'html[data-dsh-style-layout="inset"] [data-shell-bottom]{background:transparent;}',
+    ].join('')
+
+    // 沉浸式外壳（与布局无关）：
+    //  - 左侧边栏去掉自身底色/渐变（macOS 的 sidebar 渐变一并抹掉），透出底板；
+    //  - 最外层大底板统一成 sidebar-fill（暗色 = #1B1B1C 纯色，浅色 = #F9FAFB），
+    //    让侧栏与底板连成一片、无分割感。
+    const IMMERSIVE_CSS = [
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-frame]{background:var(--dsw-specific-sidebar-fill,#1B1B1C) !important;}',
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar]{background:transparent !important;background-image:none !important;border-right:0 !important;}',
+    ].join('')
+
+    // 顶部窗口控制：折叠 / 后退 / 前进。放在红绿灯右侧（沿用原生 leadingSeat 坐标 left:88 / top:11，
+    // 相对红绿灯约 16px 间距）。原生折叠按钮与占位控制隐藏，统一由这套接管。
+    const TITLEBAR_CSS = [
+      '.dsh-style-tb{position:fixed;top:11px;left:88px;display:flex;align-items:center;gap:2px;z-index:2147483000;-webkit-app-region:no-drag;}',
+      '.dsh-style-tb-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:0;border-radius:7px;background:transparent;color:var(--dsw-alias-label-secondary,#9aa0a6);cursor:pointer;padding:0;transition:background .12s,color .12s;}',
+      '.dsh-style-tb-btn:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover,rgba(128,128,128,.14));color:var(--dsw-alias-label-primary,inherit);}',
+      '.dsh-style-tb-btn:active:not(:disabled){background:var(--dsw-alias-interactive-bg-active,rgba(128,128,128,.2));}',
+      '.dsh-style-tb-btn:disabled{opacity:.3;cursor:default;}',
+      '.dsh-style-tb-btn svg{display:block;}',
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_toggle"]{display:none !important;}',
+      'html[data-dsh-style-enabled="true"] [data-shell-leading]{display:none !important;}',
+    ].join('')
+
+    // 侧边栏模块可见性（品牌 / 新会话）。用 html 属性驱动，纯 CSS 隐藏；隐藏后侧栏是
+    // flex 自动布局，下方内容会自然上移。
+    const SIDEBAR_VIS_CSS = [
+      'html[data-dsh-style-hide-brand="true"] [data-dsh-style-sidebar] [class*="_logoRow"]{display:none !important;}',
+      'html[data-dsh-style-hide-newsession="true"] [data-dsh-style-sidebar] [class*="_newSession"]{display:none !important;}',
     ].join('')
 
     // 模式切换器（通用 / 协作）的样式。与布局无关，启用插件时始终存在。
@@ -273,8 +327,64 @@ window.__ModuleLoader__.load({
       }
     }
 
+    // ---- 顶部窗口控制（折叠 / 后退 / 前进） ----
+    let titlebarEl = null
+    function tbIcon(kind) {
+      if (kind === 'panel') return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2.2" y="3.2" width="11.6" height="9.6" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M6.4 3.4v9.2" stroke="currentColor" stroke-width="1.4"/></svg>'
+      if (kind === 'back') return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M9.8 3.6 5.4 8l4.4 4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6.2 3.6 10.6 8l-4.4 4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    }
+    function nativeToggle() {
+      if (typeof document === 'undefined') return null
+      return document.querySelector('[data-dsh-style-sidebar] [class*="_toggle"]')
+        || document.querySelector('[data-shell-leading] button')
+        || document.querySelector('button[class*="_toggle"]')
+    }
+    function syncTitlebar() {
+      if (!titlebarEl) return
+      const collapsed = Boolean(document.querySelector('[data-sidebar-collapsed]'))
+      const c = titlebarEl.querySelector('[data-act="toggle"]')
+      if (c) c.setAttribute('aria-label', collapsed ? '展开侧边栏' : '收起侧边栏')
+    }
+    function mountTitlebar() {
+      if (typeof document === 'undefined' || !document.body) return
+      if (titlebarEl && document.body.contains(titlebarEl)) { syncTitlebar(); return }
+      const box = document.createElement('div')
+      box.className = 'dsh-style-tb'
+      box.setAttribute('data-dsh-style-titlebar', '')
+      const mk = (act, kind, label) => {
+        const b = document.createElement('button')
+        b.type = 'button'
+        b.className = 'dsh-style-tb-btn'
+        b.dataset.act = act
+        b.setAttribute('aria-label', label)
+        b.title = label
+        b.innerHTML = tbIcon(kind)
+        return b
+      }
+      const toggle = mk('toggle', 'panel', '收起侧边栏')
+      const back = mk('back', 'back', '后退')
+      const fwd = mk('forward', 'forward', '前进')
+      toggle.addEventListener('click', (e) => {
+        e.preventDefault()
+        const t = nativeToggle()
+        if (t) t.click()
+        setTimeout(syncTitlebar, 80)
+      })
+      back.addEventListener('click', (e) => { e.preventDefault(); try { window.history.back() } catch {} })
+      fwd.addEventListener('click', (e) => { e.preventDefault(); try { window.history.forward() } catch {} })
+      box.append(toggle, back, fwd)
+      document.body.appendChild(box)
+      titlebarEl = box
+      syncTitlebar()
+    }
+    function unmountTitlebar() {
+      if (titlebarEl) { try { titlebarEl.remove() } catch {} titlebarEl = null }
+    }
+
     function tagOnce() {
       if (typeof document === 'undefined') return
+      mountTitlebar()
       const frame = frameEl()
       if (!frame) return
       frame.setAttribute('data-dsh-style-frame', '')
@@ -307,7 +417,7 @@ window.__ModuleLoader__.load({
         childList: true,
         subtree: true,
         attributes: true,
-        attributeFilter: ['data-ds-dark-theme'],
+        attributeFilter: ['data-ds-dark-theme', 'data-sidebar-collapsed'],
       })
     }
 
@@ -326,6 +436,7 @@ window.__ModuleLoader__.load({
         for (const attr of STYLE_ATTRS) root.removeAttribute(attr)
         const el = document.querySelector(STYLE_TAG)
         if (el) el.textContent = ''
+        unmountTitlebar()
         stopTagging()
         return
       }
@@ -334,15 +445,18 @@ window.__ModuleLoader__.load({
       root.setAttribute('data-dsh-style-scrollbars', cfg.hideScrollbars ? 'hidden' : 'shown')
       root.setAttribute('data-dsh-style-layout', cfg.layout === 'inset' ? 'inset' : 'classic')
       root.setAttribute('data-dsh-style-dark', isDark() ? 'true' : 'false')
+      root.setAttribute('data-dsh-style-hide-brand', cfg.hideBrand ? 'true' : 'false')
+      root.setAttribute('data-dsh-style-hide-newsession', cfg.hideNewSession ? 'true' : 'false')
       const el = styleTag()
       if (el) {
-        const rules = [BASE_CSS, PILL_CSS, MONITOR_CSS]
+        const rules = [BASE_CSS, IMMERSIVE_CSS, TITLEBAR_CSS, SIDEBAR_VIS_CSS, PILL_CSS, MONITOR_CSS]
         if (cfg.reduceMotion) rules.push(MOTION_CSS)
         if (cfg.hideScrollbars) rules.push(SCROLL_CSS)
         el.textContent = rules.join('\n')
       }
-      if (cfg.layout === 'inset') startTagging()
-      else stopTagging()
+      // 沉浸式外壳在经典/内嵌两种布局下都生效，所以始终打标（经典模式下 BASE_CSS 的
+      // inset 规则不匹配，不会影响原生布局）。
+      startTagging()
     }
 
     function cleanup() {
@@ -351,6 +465,7 @@ window.__ModuleLoader__.load({
       for (const attr of STYLE_ATTRS) root.removeAttribute(attr)
       const el = document.querySelector(STYLE_TAG)
       if (el) el.textContent = ''
+      unmountTitlebar()
       stopTagging()
     }
 
@@ -373,6 +488,13 @@ window.__ModuleLoader__.load({
     }
     const Switch = typeof prim.Switch === 'function' ? prim.Switch : fallbackSwitch
 
+    // 原生 Switch 原语在本版本不渲染 label 文案，这里自己包一行「文字 + 开关」。
+    function SwitchRow({ label, checked, onChange, disabled }) {
+      return h('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', padding: '10px 0' } },
+        h('span', { style: { fontSize: '14px', color: 'var(--dsw-alias-label-primary, inherit)' } }, label),
+        h(Switch, { checked: Boolean(checked), disabled: Boolean(disabled), onChange }))
+    }
+
     function fallbackSegmented(props) {
       return h('div', { style: { display: 'flex', gap: '8px' } },
         (props.options || []).map((option) => h('button', {
@@ -383,6 +505,13 @@ window.__ModuleLoader__.load({
         }, option.label)))
     }
     const SegmentedControl = typeof prim.SegmentedControl === 'function' ? prim.SegmentedControl : fallbackSegmented
+
+    // 同上：原语不渲染 label 文案，这里补一行可见标题。
+    function SegmentedRow({ label, ...props }) {
+      return h('div', { style: { display: 'flex', flexDirection: 'column', gap: '6px' } },
+        label ? h('span', { style: { fontSize: '13px', color: 'var(--dsw-alias-label-secondary, inherit)' } }, label) : null,
+        h(SegmentedControl, props))
+    }
     const Button = typeof prim.Button === 'function' ? prim.Button : null
 
     // ---------------------------------------------------------------------- 界面
@@ -398,7 +527,7 @@ window.__ModuleLoader__.load({
       return h('section', { style: sectionStyle, 'aria-label': '布局' },
         h('h3', { style: sectionTitleStyle }, '布局'),
         h('div', { style: rowStyle },
-          h(SegmentedControl, {
+          h(SegmentedRow, {
             id: 'dsh-style-layout-mode',
             label: '模式',
             value: cfg.layout,
@@ -416,9 +545,16 @@ window.__ModuleLoader__.load({
     function EffectsCard({ cfg, set }) {
       return h('section', { style: sectionStyle, 'aria-label': '效果' },
         h('h3', { style: sectionTitleStyle }, '效果'),
-        h(Switch, { label: '启用样式插件', checked: cfg.enabled, onChange: (value) => set({ enabled: value }) }),
-        h(Switch, { label: '减少动效', checked: cfg.reduceMotion, onChange: (value) => set({ reduceMotion: value }) }),
-        h(Switch, { label: '隐藏滚动条', checked: cfg.hideScrollbars, onChange: (value) => set({ hideScrollbars: value }) }))
+        h(SwitchRow, { label: '启用样式插件', checked: cfg.enabled, onChange: (value) => set({ enabled: value }) }),
+        h(SwitchRow, { label: '减少动效', checked: cfg.reduceMotion, onChange: (value) => set({ reduceMotion: value }) }),
+        h(SwitchRow, { label: '隐藏滚动条', checked: cfg.hideScrollbars, onChange: (value) => set({ hideScrollbars: value }) }))
+    }
+
+    function SidebarCard({ cfg, set }) {
+      return h('section', { style: sectionStyle, 'aria-label': '侧边栏' },
+        h('h3', { style: sectionTitleStyle }, '侧边栏'),
+        h(SwitchRow, { label: '隐藏品牌', checked: cfg.hideBrand, onChange: (value) => set({ hideBrand: value }) }),
+        h(SwitchRow, { label: '隐藏新会话', checked: cfg.hideNewSession, onChange: (value) => set({ hideNewSession: value }) }))
     }
 
     // -------------------------------------------------- 模式切换器（通用 / 协作）
@@ -565,11 +701,11 @@ window.__ModuleLoader__.load({
       const always = cfg.monitorAlwaysShow || {}
       return h('section', { style: sectionStyle, 'aria-label': '任务监控' },
         h('h3', { style: sectionTitleStyle }, '任务监控'),
-        h(Switch, { label: '启用任务监控', checked: Boolean(cfg.monitorEnabled), onChange: (value) => set({ monitorEnabled: value }) }),
+        h(SwitchRow, { label: '启用任务监控', checked: Boolean(cfg.monitorEnabled), onChange: (value) => set({ monitorEnabled: value }) }),
         h('p', { style: hintStyle }, '开启后会在右上角工具栏出现「任务监控」按钮，实时查看当前会话的执行过程。默认关闭，独立于布局与模式切换。'),
         cfg.monitorEnabled
           ? h('div', { style: rowStyle },
-            h(SegmentedControl, {
+            h(SegmentedRow, {
               id: 'dsh-style-monitor-mode',
               label: '展示方式',
               value: cfg.monitorMode,
@@ -579,7 +715,7 @@ window.__ModuleLoader__.load({
             cfg.monitorMode === 'docked' ? h('p', { style: hintStyle }, '停靠模式正在接入，当前仍以浮层显示。') : null,
             h('p', { style: hintStyle }, '默认自动隐藏没有数据的分组；下面可指定"始终显示"某些分组。'),
             h('div', { style: { display: 'flex', flexDirection: 'column' } },
-              SECTION_TOGGLES.map(([key, label]) => h(Switch, {
+              SECTION_TOGGLES.map(([key, label]) => h(SwitchRow, {
                 key,
                 label: '始终显示：' + label,
                 checked: Boolean(always[key]),
@@ -597,6 +733,7 @@ window.__ModuleLoader__.load({
           h('p', { style: introStyle }, '自定义 DeepSeek Harness 客户端的外观。修改会立即生效，并保存在本机。')),
         h(LayoutCard, { cfg, set: store.set }),
         h(EffectsCard, { cfg, set: store.set }),
+        h(SidebarCard, { cfg, set: store.set }),
         h(TaskMonitorCard, { cfg, set: store.set }))
     }
 
@@ -943,6 +1080,7 @@ window.__ModuleLoader__.load({
     exports.AppearanceSection = AppearanceSection
     exports.LayoutCard = LayoutCard
     exports.EffectsCard = EffectsCard
+    exports.SidebarCard = SidebarCard
     exports.__internal = { applyStyles, readSettings, tagOnce }
     return module.exports
   },
