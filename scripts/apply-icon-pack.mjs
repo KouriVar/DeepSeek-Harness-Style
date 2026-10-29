@@ -204,34 +204,76 @@ function planItem(item, files, packDir) {
   if (!content) { for (const p of files.keys()) { if (!p.endsWith('.js')) continue; if (consider(p)) break } }
   if (!content) return { item, ok: false, reason: 'child not found in any bundle' }
   const transform = transformFor(target.viewBox || '0 0 24 24', native.viewBox)
-  const replacements = []
-  for (let ci = 0; ci < kids.length; ci++) {
-    const kid = kids[ci]
-    let idxs
-    if (kid.type === 'path') {
-      idxs = occurrences(content, kid.d)
-      if (idxs.length !== 1) return { item, ok: false, reason: idxs.length === 0 ? 'child not found (path)' : `ambiguous path x${idxs.length}` }
-    } else if (kid.type === 'rect') {
-      idxs = findRectIndices(content, kid.attrs, native.viewBox)
-      if (idxs.length === 0) return { item, ok: false, reason: 'child not found (rect)' }
-      if (idxs.length > 8) return { item, ok: false, reason: `too many rect matches x${idxs.length}` }
-    } else {
-      idxs = occurrences(content, kid.attrs.r ? `r: "${kid.attrs.r}"` : '')
-      if (idxs.length !== 1) return { item, ok: false, reason: 'circle unresolved' }
+  const circleIndices = (attrs) => {
+    const want = { cx: attrs.cx, cy: attrs.cy, r: attrs.r }
+    const out = []
+    for (const m of content.matchAll(/\("circle",\s*\{([^}]*)\}/g)) {
+      const got = Object.fromEntries([...m[1].matchAll(/([a-zA-Z-]+):\s*"([^"]*)"/g)].map((x) => [x[1], x[2]]))
+      if (Object.entries(want).every(([k, v]) => v === undefined || got[k] === v)) out.push(m.index + m[0].indexOf('"circle"'))
     }
+    return out
+  }
+  const indicesOf = (kid) => (kid.type === 'path'
+    ? occurrences(content, kid.d)
+    : kid.type === 'rect'
+      ? findRectIndices(content, kid.attrs, native.viewBox)
+      : circleIndices(kid.attrs))
+  const global = kids.map(indicesOf)
+  const replacements = []
+  // single-child icon: replace every occurrence (same glyph may be used by several components)
+  if (kids.length === 1) {
+    const idxs = global[0]
+    if (idxs.length === 0) return { item, ok: false, reason: `child not found (${kids[0].type})` }
     for (const idx of idxs) {
       const span = findElementSpan(content, idx)
-      if (!span) return { item, ok: false, reason: `cannot delimit element (${kid.type})` }
-      if (ci === 0) {
-        const obj = `{d:"${targetD.replace(/"/g, '\\"')}",fill:"currentColor",stroke:"none",transform:"${transform}"}`
-        replacements.push({ start: span.start, end: span.objEnd + 1, text: `"path",${obj}` })
-      } else if (span.type === 'rect') {
-        replacements.push({ start: span.start, end: span.objEnd + 1, text: '"rect",{width:"0",height:"0",fill:"none",stroke:"none"}' })
-      } else if (span.type === 'circle') {
-        replacements.push({ start: span.start, end: span.objEnd + 1, text: '"circle",{r:"0",fill:"none",stroke:"none"}' })
-      } else {
-        replacements.push({ start: span.start, end: span.objEnd + 1, text: '"path",{d:"",fill:"none",stroke:"none"}' })
+      if (!span) return { item, ok: false, reason: `cannot delimit (${kids[0].type})` }
+      const obj = `{d:"${targetD.replace(/"/g, '\\"')}",fill:"currentColor",stroke:"none",transform:"${transform}"}`
+      replacements.push({ start: span.start, end: span.objEnd + 1, text: `"path",${obj}` })
+    }
+    let patchedOne = content
+    for (const r of replacements.sort((a, b) => b.start - a.start)) patchedOne = patchedOne.slice(0, r.start) + r.text + patchedOne.slice(r.end)
+    return { item, ok: true, filePath, content, patched: patchedOne, kids: kids.length }
+  }
+  let anchorCi = -1
+  let anchorIdx = -1
+  for (let ci = 0; ci < kids.length; ci++) {
+    if (global[ci].length === 1) { anchorCi = ci; anchorIdx = global[ci][0]; if (kids[ci].type === 'path') break }
+  }
+  if (anchorCi < 0) return { item, ok: false, reason: 'no unique anchor child' }
+  // find the enclosing `children:[ ... ]` array around the anchor
+  let arrStart = -1
+  let arrEnd = -1
+  const cIdx = content.lastIndexOf('children:', anchorIdx)
+  if (cIdx >= 0) {
+    const open = content.indexOf('[', cIdx)
+    if (open >= 0 && open < anchorIdx) {
+      let depth = 0
+      let j = open
+      for (; j < content.length; j++) {
+        const ch = content[j]
+        if (ch === '"' || ch === "'") { const q = ch; j++; while (j < content.length && content[j] !== q) { if (content[j] === '\\') j++; j++ } continue }
+        if (ch === '[') depth++
+        else if (ch === ']') { depth--; if (depth === 0) break }
       }
+      if (depth === 0) { arrStart = open; arrEnd = j }
+    }
+  }
+  for (let ci = 0; ci < kids.length; ci++) {
+    const lo = arrStart >= 0 ? arrStart : 0
+    const hi = arrEnd >= 0 ? arrEnd : content.length
+    const idxs = indicesOf(kids[ci]).filter((i) => i >= lo && i <= hi)
+    if (idxs.length === 0) return { item, ok: false, reason: `child not found (${kids[ci].type})` }
+    const span = findElementSpan(content, idxs[0])
+    if (!span) return { item, ok: false, reason: `cannot delimit (${kids[ci].type})` }
+    if (ci === anchorCi) {
+      const obj = `{d:"${targetD.replace(/"/g, '\\"')}",fill:"currentColor",stroke:"none",transform:"${transform}"}`
+      replacements.push({ start: span.start, end: span.objEnd + 1, text: `"path",${obj}` })
+    } else if (span.type === 'rect') {
+      replacements.push({ start: span.start, end: span.objEnd + 1, text: '"rect",{width:"0",height:"0",fill:"none",stroke:"none"}' })
+    } else if (span.type === 'circle') {
+      replacements.push({ start: span.start, end: span.objEnd + 1, text: '"circle",{r:"0",fill:"none",stroke:"none"}' })
+    } else {
+      replacements.push({ start: span.start, end: span.objEnd + 1, text: '"path",{d:"",fill:"none",stroke:"none"}' })
     }
   }
   let patched = content
