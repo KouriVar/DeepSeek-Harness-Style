@@ -42,7 +42,7 @@ assert.equal(typeof exported.apply, 'function', 'exports apply()')
 assert.ok(Array.isArray(exported.inject), 'exports inject[]')
 
 const registrations = []
-let injectedSlot = null
+const injectedSlots = []
 const disposers = []
 const ctx = {
   effect: (fn, _label) => {
@@ -51,7 +51,7 @@ const ctx = {
     return () => { if (typeof dispose === 'function') dispose() }
   },
   slots: {
-    inject: (name, callback) => { injectedSlot = name; return callback() },
+    inject: (name, callback) => { injectedSlots.push(name); return callback() },
     register: (options, component) => {
       registrations.push({ options, component })
       return { dispose() {} }
@@ -60,15 +60,22 @@ const ctx = {
 }
 exported.apply(ctx)
 
-assert.equal(injectedSlot, 'settings.section', 'injects into the native settings.section slot')
-assert.equal(registrations.length, 1, 'registers exactly one settings page')
-assert.equal(registrations[0].options.name, 'settings.section')
-assert.equal(registrations[0].options.id, 'style')
-assert.equal(registrations[0].options.order, 40)
-assert.equal(registrations[0].options.label(), '外观')
-assert.equal(registrations[0].component, exported.AppearanceSection)
+assert.ok(injectedSlots.includes('settings.section'), 'injects into the native settings.section slot')
+assert.ok(injectedSlots.includes('shell.overlay'), 'mounts the mode switcher bridge in shell.overlay')
+assert.equal(registrations.length, 2, 'registers the settings page + the mode switcher bridge')
+const settings = registrations.find((entry) => entry.options.name === 'settings.section')
+const overlay = registrations.find((entry) => entry.options.name === 'shell.overlay')
+assert.ok(settings, 'settings.section registered')
+assert.equal(settings.options.id, 'style')
+assert.equal(settings.options.order, 40)
+assert.equal(settings.options.label(), '外观')
+assert.equal(settings.component, exported.AppearanceSection)
+assert.ok(overlay, 'shell.overlay registered')
+assert.equal(overlay.options.id, 'dsh-style-mode')
+assert.equal(overlay.options.order, 900)
 assert.equal(typeof exported.LayoutCard, 'function', 'exports LayoutCard section')
 assert.equal(typeof exported.EffectsCard, 'function', 'exports EffectsCard section')
 
-console.log('OK  settings.section page registered: id=' + registrations[0].options.id + ' order=' + registrations[0].options.order)
+console.log('OK  settings.section page registered: id=' + settings.options.id + ' order=' + settings.options.order)
+console.log('OK  shell.overlay mode-switcher registered: id=' + overlay.options.id + ' order=' + overlay.options.order)
 console.log('OK  module id=' + def.id + ' inject=' + exported.inject.join(','))
