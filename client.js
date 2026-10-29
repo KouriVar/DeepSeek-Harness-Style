@@ -254,6 +254,15 @@ window.__ModuleLoader__.load({
       '[data-dsh-style-chip-hidden]{display:none !important;}',
     ].join('')
 
+    // 原生工作区浏览器的会话行（dsh-client-ui-workspace）：
+    //  - 行内「时间」移到每行「更多」菜单里，行内不再占位，标题占满整行、左右对称；
+    //  - 行内悬停的「归档 / 置顶」按钮收进「更多」菜单（菜单里本来就有这两项），
+    //    悬停时只留一个「更多」按钮。
+    const WORKSPACE_CSS = [
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="sessionRow"] > [class*="time"]{display:none !important;}',
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="sessionRow"] > [class*="rowActions"] > *:nth-child(n+2){display:none !important;}',
+    ].join('')
+
     // 任务监控：工具栏按钮 + 浮层面板。
     const MONITOR_CSS = [
       '.dsh-style-monitor-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:7px;border:1px solid transparent;background:transparent;color:var(--dsw-alias-label-tertiary,inherit);cursor:pointer;transition:background .15s,color .15s;}',
@@ -505,7 +514,7 @@ window.__ModuleLoader__.load({
       root.setAttribute('data-dsh-style-monitor', cfg.monitorEnabled ? 'true' : 'false')
       const el = styleTag()
       if (el) {
-        const rules = [BASE_CSS, IMMERSIVE_CSS, TITLEBAR_CSS, SIDEBAR_VIS_CSS, HIDE_HEADER_CSS, MONITOR_CSS]
+        const rules = [BASE_CSS, IMMERSIVE_CSS, TITLEBAR_CSS, SIDEBAR_VIS_CSS, HIDE_HEADER_CSS, WORKSPACE_CSS, MONITOR_CSS]
         if (cfg.reduceMotion) rules.push(MOTION_CSS)
         if (cfg.hideScrollbars) rules.push(SCROLL_CSS)
         el.textContent = rules.join('\n')
@@ -705,6 +714,35 @@ window.__ModuleLoader__.load({
         }
       }, [enabled])
       return null
+    }
+
+    // -------------------------------------------------- 会话行「更多」菜单里的时间
+    // 原生会话行的时间挪进每行的「更多」菜单：注册一项只读的菜单行，显示相对时间。
+    function relativeLabel(updatedAt) {
+      let unit = 'now'
+      let n = 0
+      try {
+        const r = prim.relativeTime ? prim.relativeTime(updatedAt, Date.now()) : null
+        if (r) { unit = r.unit; n = r.n }
+      } catch (e) {}
+      const map = { minutes: '分钟', hours: '小时', days: '天', months: '个月', years: '年' }
+      return unit === 'now' ? '刚刚' : (n + (map[unit] || '') + '前')
+    }
+    function SessionTimeMenuItem(props) {
+      const useSessions = props.useSessions
+      const useMenuOpenState = props.useMenuOpenState
+      const updatedAt = (typeof useSessions === 'function')
+        ? useSessions((list) => {
+          const row = list && list.byId ? list.byId[props.sessionId] : null
+          return (row && row.updatedAt) || 0
+        })
+        : 0
+      if (!updatedAt) return null
+      const MB = prim.MenuItemButton
+      if (!MB) return null
+      const Icon = prim.IconClockOutlineRegular
+      const close = () => { try { const pair = useMenuOpenState && useMenuOpenState(); if (pair && typeof pair[1] === 'function') pair[1](false) } catch (e) {} }
+      return h(MB, { icon: Icon ? h(Icon, { size: 14 }) : null, onSelect: close }, '更新于 ' + relativeLabel(updatedAt))
     }
 
     const SECTION_TOGGLES = [
@@ -1115,7 +1153,7 @@ window.__ModuleLoader__.load({
       }), document.body)
     }
 
-    const inject = ['slots']
+    const inject = ['slots', 'sessions']
 
     function apply(ctx) {
       appCtx = ctx
@@ -1132,6 +1170,14 @@ window.__ModuleLoader__.load({
         id: 'dsh-style-botentry',
         order: 900,
       }, BotEntryBridge))
+      // 会话行「更多」菜单：注入一项显示相对时间（原来的行内时间已隐藏）。
+      const sessionsList = (ctx && ctx.sessions && ctx.sessions.list) || null
+      ctx.slots.inject('sidebar.workspaces.session.menu.item', () => ctx.slots.register({
+        name: 'sidebar.workspaces.session.menu.item',
+        id: 'dsh-style-time',
+        order: 50,
+        inject: () => (sessionsList ? { hooks: { sessions: sessionsList } } : {}),
+      }, SessionTimeMenuItem))
       ctx.slots.inject('shell.overlay', () => ctx.slots.register({
         name: 'shell.overlay',
         id: 'dsh-style-monitor-host',
@@ -1151,6 +1197,7 @@ window.__ModuleLoader__.load({
     exports.EffectsCard = EffectsCard
     exports.SidebarCard = SidebarCard
     exports.__internal = { applyStyles, readSettings, tagOnce }
+
     return module.exports
   },
 })
