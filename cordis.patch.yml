@@ -1,0 +1,7 @@
+# Mounts the dsh-style host entry. Its browser half is discovered through the
+# package's dsh.client manifest and ./client export (same pattern as ds-bot).
+# The entry id `style` is also the future settings namespace if this plugin ever
+# moves its values onto the host settings service.
+- insert:
+    - id: style
+      name: dsh-style
