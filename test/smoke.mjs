@@ -30,7 +30,7 @@ const React = {
   useState: (init) => [typeof init === 'function' ? init() : init, () => {}],
   useEffect: () => {},
 }
-const primitives = { Switch: () => null }
+const primitives = { Switch: () => null, SegmentedControl: () => null, Button: () => null }
 
 const exported = def.factory((id) => {
   if (id === 'react') return React
@@ -43,7 +43,13 @@ assert.ok(Array.isArray(exported.inject), 'exports inject[]')
 
 const registrations = []
 let injectedSlot = null
+const disposers = []
 const ctx = {
+  effect: (fn, _label) => {
+    const dispose = fn()
+    disposers.push(dispose)
+    return () => { if (typeof dispose === 'function') dispose() }
+  },
   slots: {
     inject: (name, callback) => { injectedSlot = name; return callback() },
     register: (options, component) => {
@@ -59,8 +65,10 @@ assert.equal(registrations.length, 1, 'registers exactly one settings page')
 assert.equal(registrations[0].options.name, 'settings.section')
 assert.equal(registrations[0].options.id, 'style')
 assert.equal(registrations[0].options.order, 40)
-assert.equal(registrations[0].options.label(), 'Appearance')
+assert.equal(registrations[0].options.label(), '外观')
 assert.equal(registrations[0].component, exported.AppearanceSection)
+assert.equal(typeof exported.LayoutCard, 'function', 'exports LayoutCard section')
+assert.equal(typeof exported.EffectsCard, 'function', 'exports EffectsCard section')
 
 console.log('OK  settings.section page registered: id=' + registrations[0].options.id + ' order=' + registrations[0].options.order)
 console.log('OK  module id=' + def.id + ' inject=' + exported.inject.join(','))
