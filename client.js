@@ -254,19 +254,6 @@ window.__ModuleLoader__.load({
       '[data-dsh-style-chip-hidden]{display:none !important;}',
     ].join('')
 
-    // 模式切换器（通用 / 协作）的样式。与布局无关，启用插件时始终存在。
-    const PILL_CSS = [
-      '[data-dsh-style-modeswitcher]{display:flex;padding:0 12px 0 10px;margin:-12px 0 6px;}',
-      '.dsh-style-pill{display:inline-flex;align-items:center;gap:0;padding:0;border-radius:999px;border:1px solid var(--dsw-alias-border-l2, rgba(255,255,255,.10));background:color-mix(in srgb, var(--dsw-alias-label-primary, #fff) 3.5%, transparent);}',
-      '.dsh-style-pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:28px;padding:0 8px;border:1px solid transparent;border-radius:999px;background:transparent;color:var(--dsw-alias-label-tertiary, inherit);font:inherit;font-size:13px;font-weight:500;line-height:1;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}',
-      '.dsh-style-pill-btn:hover:not(:disabled){color:var(--dsw-alias-label-primary, inherit);background:color-mix(in srgb, var(--dsw-alias-label-primary, #fff) 7%, transparent);}',
-      '.dsh-style-pill-btn.is-active{background:color-mix(in srgb, var(--dsw-alias-state-success-primary, #22c55e) 14%, transparent);border-color:color-mix(in srgb, var(--dsw-alias-state-success-primary, #22c55e) 50%, transparent);color:color-mix(in srgb, var(--dsw-alias-state-success-primary, #22c55e) 82%, #ffffff);}',
-      '.dsh-style-pill-btn:disabled{opacity:.4;cursor:default;}',
-      '.dsh-style-pill-label{white-space:nowrap;}',
-      '[data-sidebar-collapsed] [data-dsh-style-modeswitcher]{display:none;}',
-      '[data-dsh-style-hidden-entry]{display:none !important;}',
-    ].join('')
-
     // 任务监控：工具栏按钮 + 浮层面板。
     const MONITOR_CSS = [
       '.dsh-style-monitor-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:7px;border:1px solid transparent;background:transparent;color:var(--dsw-alias-label-tertiary,inherit);cursor:pointer;transition:background .15s,color .15s;}',
@@ -518,7 +505,7 @@ window.__ModuleLoader__.load({
       root.setAttribute('data-dsh-style-monitor', cfg.monitorEnabled ? 'true' : 'false')
       const el = styleTag()
       if (el) {
-        const rules = [BASE_CSS, IMMERSIVE_CSS, TITLEBAR_CSS, SIDEBAR_VIS_CSS, HIDE_HEADER_CSS, PILL_CSS, MONITOR_CSS]
+        const rules = [BASE_CSS, IMMERSIVE_CSS, TITLEBAR_CSS, SIDEBAR_VIS_CSS, HIDE_HEADER_CSS, MONITOR_CSS]
         if (cfg.reduceMotion) rules.push(MOTION_CSS)
         if (cfg.hideScrollbars) rules.push(SCROLL_CSS)
         el.textContent = rules.join('\n')
@@ -627,108 +614,81 @@ window.__ModuleLoader__.load({
         h(SwitchRow, { label: '隐藏新会话', checked: cfg.hideNewSession, onChange: (value) => set({ hideNewSession: value }) }))
     }
 
-    // -------------------------------------------------- 模式切换器（通用 / 协作）
-    // ds-bot 把「普通对话（agent 面）」与「Halfsignal（bot 面）」做成同一行 panellist 的
-    // 两种标签：'Halfsignal Bot'（当前在通用面）↔ 'Halfsignal Chat'（当前在协作面），
-    // 点该行即在两面间切换。DSH 侧栏没有“顶部插槽”，所以我们在该行所在的导航列表前插入
-    // 自己的容器，用 portal 渲染胶囊，并隐藏原行（底层路由、插件注册、会话数据都不动）。
-    // 切换 = 点击被隐藏的原行，仍走 ds-bot 自己的 surface 切换；状态以原行当前标签为准。
-    function halfsignalRow() {
+    // -------------------------------------------------- 智能体入口（还原原生交互）
+    // 不用自绘胶囊切换了：直接把 ds-bot 原生那一行 panellist 显示出来，只做两件事——
+    //   1) 改文案：'Halfsignal Bot'（当前在对话面，点它去 bot 页）→「智能体」；
+    //      'Halfsignal Chat'（当前在 bot 面，点它回对话）→「通用」。
+    //   2) 把它挪到「插件」这一行下面（直接在 DOM 里挪，简单粗暴）。
+    // 点击仍走 ds-bot 原生逻辑（切换 surface），底层路由 / 插件注册 / 会话数据都不动。
+    function botEntryRow() {
       if (typeof document === 'undefined') return null
+      const marked = document.querySelector('[data-dsh-style-botentry]')
+      if (marked && marked.isConnected) return marked
       for (const el of Array.from(document.querySelectorAll('[class*="panelRow"]'))) {
-        if (/Halfsignal\s+(Bot|Chat)/i.test(el.textContent || '')) return el
+        const txt = (el.textContent || '').trim()
+        if (/Halfsignal\s+(Bot|Chat)/i.test(txt)) return el
+        if (txt === '智能体' || txt === '通用') return el
       }
       return null
     }
-    function modeFromRow(row) {
-      if (!row) return 'general'
-      return /Chat/i.test(row.textContent || '') ? 'collab' : 'general'
+    // 这一行的标签是「目标面」：'Halfsignal Chat' = 当前在 bot 面（点它去对话）；'Halfsignal Bot' = 当前在对话面（点它去 bot）。
+    function botEntryState(row) {
+      if (!row) return null
+      const all = (row.getAttribute('aria-label') || '') + ' ' + (row.textContent || '')
+      if (/Halfsignal\s+Chat/i.test(all)) return 'chat'
+      if (/Halfsignal\s+Bot/i.test(all)) return 'bot'
+      if (all.indexOf('通用') >= 0) return 'chat'
+      if (all.indexOf('智能体') >= 0) return 'bot'
+      return null
     }
-    let pillHost = null
-    function ensurePillHost(row) {
-      if (typeof document === 'undefined') return null
-      const list = row.closest('[class*="panelList"]') || row.parentElement
-      const brandRow = document.querySelector('[class*="logoRow"]')
-      const anchor = brandRow && brandRow.parentElement ? brandRow : list
-      if (!anchor || !anchor.parentElement) return null
-      if (!pillHost) {
-        pillHost = document.createElement('div')
-        pillHost.setAttribute('data-dsh-style-modeswitcher', '')
+    function pluginRowIn(list) {
+      if (!list) return null
+      for (const el of Array.from(list.querySelectorAll('[class*="panelRow"]'))) {
+        const txt = ((el.getAttribute('aria-label') || '') + ' ' + (el.textContent || '')).trim()
+        if (/插件|Plugins/i.test(txt)) return el
       }
-      if (pillHost.parentElement !== anchor.parentElement || pillHost.nextElementSibling !== anchor) {
-        anchor.parentElement.insertBefore(pillHost, anchor)
-      }
-      return pillHost
+      return null
     }
-    function restoreEntryRow() {
+    function styleBotEntry(row) {
+      if (!row) return null
+      row.setAttribute('data-dsh-style-botentry', '')
+      const state = botEntryState(row)
+      const label = state === 'chat' ? '通用' : '智能体'
+      const title = row.querySelector('[class*="panelTitle"]')
+      if (title && (title.textContent || '') !== label) title.textContent = label
+      if (row.getAttribute('aria-label') !== label) row.setAttribute('aria-label', label)
+      const list = row.closest('[class*="panelList"]')
+      const pluginRow = pluginRowIn(list)
+      if (list && pluginRow && pluginRow !== row && pluginRow.nextElementSibling !== row) {
+        list.insertBefore(row, pluginRow.nextElementSibling)
+      }
+      return label
+    }
+    function restoreBotEntry() {
       if (typeof document === 'undefined') return
-      for (const el of Array.from(document.querySelectorAll('[data-dsh-style-hidden-entry]'))) el.removeAttribute('data-dsh-style-hidden-entry')
-    }
-    function removePillHost() {
-      if (pillHost && pillHost.parentElement) pillHost.parentElement.removeChild(pillHost)
-      pillHost = null
-    }
-
-    function ModeSwitcher(props) {
-      const options = [
-        { id: 'general', label: '通用', Icon: IconChat },
-        { id: 'collab', label: '协作', Icon: IconAgent },
-      ]
-      return h('div', { className: 'dsh-style-pill', role: 'tablist', 'aria-label': '模式' },
-        options.map((option) => {
-          const active = props.mode === option.id
-          const disabled = option.id === 'collab' && !props.available
-          const Icon = option.Icon
-          return h('button', {
-            key: option.id,
-            type: 'button',
-            role: 'tab',
-            'aria-selected': active,
-            'aria-label': option.label,
-            title: option.label,
-            disabled,
-            className: 'dsh-style-pill-btn' + (active ? ' is-active' : ''),
-            onClick: () => { if (!disabled) props.onPick(option.id) },
-          }, Icon ? h(Icon, { size: 16 }) : null, active ? h('span', { className: 'dsh-style-pill-label' }, option.label) : null)
-        }))
+      for (const el of Array.from(document.querySelectorAll('[data-dsh-style-botentry]'))) {
+        const title = el.querySelector('[class*="panelTitle"]')
+        const t = ((title && title.textContent) || '').trim()
+        const native = t === '通用' ? 'Halfsignal Chat' : t === '智能体' ? 'Halfsignal Bot' : null
+        if (title && native && title.textContent !== native) title.textContent = native
+        if (native && el.getAttribute('aria-label') !== native) el.setAttribute('aria-label', native)
+        el.removeAttribute('data-dsh-style-botentry')
+      }
     }
 
-    // 常驻组件：挂在 shell.overlay（list 插槽，始终渲染），用 portal 把胶囊画到侧栏。
-    function ModeSwitcherBridge() {
-      const [mode, setMode] = React.useState('general')
-      const [available, setAvailable] = React.useState(false)
-      const [host, setHost] = React.useState(null)
+    // 常驻组件：挂在 shell.overlay（list 插槽，始终渲染）。不自绘任何控件，只负责
+    // 把原生入口行改名、归位；点击照旧交给 ds-bot。
+    function BotEntryBridge() {
       const [enabled, setEnabled] = React.useState(store.get().enabled)
       React.useEffect(() => store.subscribe(() => setEnabled(store.get().enabled)), [])
       React.useEffect(() => {
         if (typeof document === 'undefined') return undefined
         let raf = 0
         const sync = () => {
-          if (!store.get().enabled) {
-            restoreEntryRow()
-            removePillHost()
-            setHost(null)
-            setAvailable(false)
-            setMode('general')
-            return
-          }
-          if (document.querySelector('[data-sidebar-collapsed]')) {
-            restoreEntryRow()
-            setAvailable(false)
-            return
-          }
-          const row = halfsignalRow()
-          if (!row) {
-            setAvailable(false)
-            setMode('general')
-            return
-          }
-          row.setAttribute('data-dsh-style-hidden-entry', '')
-          const nextHost = ensurePillHost(row)
-          setHost((prev) => (prev === nextHost ? prev : nextHost))
-          setAvailable(true)
-          const nextMode = modeFromRow(row)
-          setMode((prev) => (prev === nextMode ? prev : nextMode))
+          if (!store.get().enabled) { restoreBotEntry(); return }
+          const row = botEntryRow()
+          if (!row) return
+          styleBotEntry(row)
         }
         const schedule = () => {
           if (raf) return
@@ -741,22 +701,10 @@ window.__ModuleLoader__.load({
         return () => {
           observer.disconnect()
           if (raf) { if (typeof cancelAnimationFrame === 'function') cancelAnimationFrame(raf) }
-          restoreEntryRow()
-          removePillHost()
+          restoreBotEntry()
         }
       }, [enabled])
-      const onPick = (target) => {
-        const row = halfsignalRow()
-        if (!row) return
-        if (target === modeFromRow(row)) return
-        setMode(target)
-        row.click()
-        const run = () => { const now = halfsignalRow(); if (now) setMode(modeFromRow(now)) }
-        if (typeof requestAnimationFrame === 'function') requestAnimationFrame(run)
-        else setTimeout(run, 16)
-      }
-      if (!enabled || !host || !createPortal) return null
-      return createPortal(h(ModeSwitcher, { mode, available, onPick }), host)
+      return null
     }
 
     const SECTION_TOGGLES = [
@@ -1181,9 +1129,9 @@ window.__ModuleLoader__.load({
       }, AppearanceSection))
       ctx.slots.inject('shell.overlay', () => ctx.slots.register({
         name: 'shell.overlay',
-        id: 'dsh-style-mode',
+        id: 'dsh-style-botentry',
         order: 900,
-      }, ModeSwitcherBridge))
+      }, BotEntryBridge))
       ctx.slots.inject('shell.overlay', () => ctx.slots.register({
         name: 'shell.overlay',
         id: 'dsh-style-monitor-host',
