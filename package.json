@@ -1,7 +1,7 @@
 {
   "name": "dsh-style",
-  "version": "0.0.1",
-  "description": "Client-side appearance customization for DeepSeek Harness: a native Settings page with reversible style toggles.",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness 客户端外观插件：原生「外观」设置页，支持经典/内嵌布局等可逆样式定制。",
   "type": "module",
   "main": "index.js",
   "exports": {
