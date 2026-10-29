@@ -150,7 +150,7 @@ window.__ModuleLoader__.load({
 
     // 模式切换器（通用 / 协作）的样式。与布局无关，启用插件时始终存在。
     const PILL_CSS = [
-      '[data-dsh-style-modeswitcher]{display:flex;padding:2px 12px 4px 4px;margin:0;}',
+      '[data-dsh-style-modeswitcher]{display:flex;padding:0 12px 0 4px;margin:-12px 0 6px;}',
       '.dsh-style-pill{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:999px;border:1px solid var(--dsw-alias-border-l2, rgba(128,128,128,.25));background:color-mix(in srgb, var(--dsw-alias-label-primary, #888) 5%, transparent);}',
       '.dsh-style-pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:30px;padding:0 9px;border:1px solid transparent;border-radius:999px;background:transparent;color:var(--dsw-alias-label-tertiary, inherit);font:inherit;font-size:13px;line-height:1;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}',
       '.dsh-style-pill-btn:hover:not(:disabled){color:var(--dsw-alias-label-primary, inherit);background:color-mix(in srgb, var(--dsw-alias-label-primary, #888) 8%, transparent);}',
