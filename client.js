@@ -57,6 +57,7 @@ window.__ModuleLoader__.load({
       hideScrollbars: false,
       hideBrand: false,
       hideNewSession: false,
+      hideTabs: false,
       monitorEnabled: false,
       monitorMode: 'floating',
       monitorAlwaysShow: {},
@@ -72,9 +73,11 @@ window.__ModuleLoader__.load({
         const merged = { ...DEFAULTS, ...(raw && typeof raw === 'object' ? raw : {}) }
         if (merged.layout !== 'inset' && merged.layout !== 'classic') merged.layout = DEFAULTS.layout
         merged.monitorAlwaysShow = (merged.monitorAlwaysShow && typeof merged.monitorAlwaysShow === 'object') ? merged.monitorAlwaysShow : {}
-        if (merged.monitorMode !== 'docked' && merged.monitorMode !== 'floating') merged.monitorMode = DEFAULTS.monitorMode
+        if (merged.monitorMode === 'docked') merged.monitorMode = 'pinned'
+        if (merged.monitorMode !== 'pinned' && merged.monitorMode !== 'floating') merged.monitorMode = DEFAULTS.monitorMode
         merged.hideBrand = Boolean(merged.hideBrand)
         merged.hideNewSession = Boolean(merged.hideNewSession)
+        merged.hideTabs = Boolean(merged.hideTabs)
         return merged
       } catch {
         return { ...DEFAULTS }
@@ -119,6 +122,8 @@ window.__ModuleLoader__.load({
       'data-dsh-style-dark',
       'data-dsh-style-hide-brand',
       'data-dsh-style-hide-newsession',
+      'data-dsh-style-hide-tabs',
+      'data-dsh-style-monitor',
     ]
 
     // 静态规则。布局规则只在 html[data-dsh-style-layout="inset"] 下生效，
@@ -213,15 +218,44 @@ window.__ModuleLoader__.load({
     const SIDEBAR_VIS_CSS = [
       'html[data-dsh-style-hide-brand="true"] [data-dsh-style-sidebar] [class*="_logoRow"]{display:none !important;}',
       'html[data-dsh-style-hide-newsession="true"] [data-dsh-style-sidebar] [class*="_newSession"]{display:none !important;}',
+      // 隐藏会话标签栏（对话 / 轨迹 / …）：连整行一起收掉，会话区自动变高。
+      'html[data-dsh-style-hide-tabs="true"] div:has(> [data-conversation-tabs]){display:none !important;}',
+      // 标签栏没了，把会话头压到和右栏头一致的高度（38px），标题/图标才能对齐、也不留空白。
+      'html[data-dsh-style-hide-tabs="true"] [data-dsh-style-main] header[data-window-drag]:not([class*="headerBlank"]){min-height:38px !important;height:38px !important;padding-top:0 !important;padding-bottom:0 !important;align-items:center !important;}',
+      // 去掉标题栏 / 右栏头部那条分割线（和 Qoder 一样，无分割线）。
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-main] header[data-window-drag]{border-bottom:0 !important;}',
+      'html[data-dsh-style-enabled="true"] [data-rightbar-col] [class*="_header"]{border-bottom:0 !important;}',
+      // 按 Qoder 实测规格收紧侧栏（它更密更精致）：
+      //  - 列表行：qoder `h-7 px-2 gap-2 text-[13px]/16` → 高 28 / 内距 8 / gap 8 / 字号 13；
+      //  - 分区标题：qoder `h-[18px] pl-2 text-[13px] leading-4 font-medium` → 高 18 / 左 8 / 13px。
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_sectionHeader"]{height:18px !important;padding-left:8px !important;margin-bottom:6px !important;font-size:13px !important;font-weight:500 !important;line-height:16px !important;}',
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_panelRow"]{min-height:28px !important;height:28px !important;padding:0 8px !important;gap:8px !important;font-size:13px !important;line-height:16px !important;}',
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_panelRow"] svg{width:14px !important;height:14px !important;}',
+      // regionArea 原本 margin-left:-4 / margin-right:-12（负右边距让行高亮一直顶到侧栏右边缘，所以显得"很宽"）。
+      // 归零后左右各有 12px 内边距，行高亮两边对称、更窄更精致。
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_regionArea"]{margin-left:0 !important;margin-right:0 !important;}',
+      // 实测：左侧标题文字顶 63px、右侧「开始」/图标顶 74px（截图 2x），右栏低约 11px≈5pt。
+      // 右栏 panel 是 top:0 绝对定位，dock 标签栏自带约 5px 顶部内边距；用 top 偏移补齐，
+      // 不用 transform（避免破坏内部 fixed 定位的 tooltip）。
+      'html[data-dsh-style-enabled="true"] [data-sidebar-right-panel]:not([data-sidebar-right-panel="fullscreen"]){top:-5px !important;}',
+    ].join('')
+
+    // 把「智能体团队 / 子智能体 / 后台任务」三个头部入口从顶栏移到「任务监控」后，
+    // 头部这几处隐藏（仅当任务监控开启，保证信息仍可见）。
+    const HIDE_HEADER_CSS = [
+      'html[data-dsh-style-monitor="true"] [data-team-action]{display:none !important;}',
+      'html[data-dsh-style-monitor="true"] [class*="_switcherRoot"]{display:none !important;}',
+      'html[data-dsh-style-monitor="true"] [class*="_4iHfma_trigger"]{display:none !important;}',
+      '[data-dsh-style-chip-hidden]{display:none !important;}',
     ].join('')
 
     // 模式切换器（通用 / 协作）的样式。与布局无关，启用插件时始终存在。
     const PILL_CSS = [
-      '[data-dsh-style-modeswitcher]{display:flex;padding:0 12px 0 4px;margin:-12px 0 6px;}',
-      '.dsh-style-pill{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:999px;border:1px solid var(--dsw-alias-border-l2, rgba(128,128,128,.25));background:color-mix(in srgb, var(--dsw-alias-label-primary, #888) 5%, transparent);}',
-      '.dsh-style-pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:30px;padding:0 9px;border:1px solid transparent;border-radius:999px;background:transparent;color:var(--dsw-alias-label-tertiary, inherit);font:inherit;font-size:13px;line-height:1;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}',
-      '.dsh-style-pill-btn:hover:not(:disabled){color:var(--dsw-alias-label-primary, inherit);background:color-mix(in srgb, var(--dsw-alias-label-primary, #888) 8%, transparent);}',
-      '.dsh-style-pill-btn.is-active{background:var(--dsw-alias-bg-base, #fff);border-color:var(--dsw-alias-border-l2, rgba(128,128,128,.3));color:var(--dsw-alias-label-primary, inherit);}',
+      '[data-dsh-style-modeswitcher]{display:flex;padding:0 12px 0 10px;margin:-12px 0 6px;}',
+      '.dsh-style-pill{display:inline-flex;align-items:center;gap:0;padding:0;border-radius:999px;border:1px solid var(--dsw-alias-border-l2, rgba(255,255,255,.10));background:color-mix(in srgb, var(--dsw-alias-label-primary, #fff) 3.5%, transparent);}',
+      '.dsh-style-pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:28px;padding:0 8px;border:1px solid transparent;border-radius:999px;background:transparent;color:var(--dsw-alias-label-tertiary, inherit);font:inherit;font-size:13px;font-weight:500;line-height:1;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}',
+      '.dsh-style-pill-btn:hover:not(:disabled){color:var(--dsw-alias-label-primary, inherit);background:color-mix(in srgb, var(--dsw-alias-label-primary, #fff) 7%, transparent);}',
+      '.dsh-style-pill-btn.is-active{background:color-mix(in srgb, var(--dsw-alias-state-success-primary, #22c55e) 14%, transparent);border-color:color-mix(in srgb, var(--dsw-alias-state-success-primary, #22c55e) 50%, transparent);color:color-mix(in srgb, var(--dsw-alias-state-success-primary, #22c55e) 82%, #ffffff);}',
       '.dsh-style-pill-btn:disabled{opacity:.4;cursor:default;}',
       '.dsh-style-pill-label{white-space:nowrap;}',
       '[data-sidebar-collapsed] [data-dsh-style-modeswitcher]{display:none;}',
@@ -233,37 +267,41 @@ window.__ModuleLoader__.load({
       '.dsh-style-monitor-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:7px;border:1px solid transparent;background:transparent;color:var(--dsw-alias-label-tertiary,inherit);cursor:pointer;transition:background .15s,color .15s;}',
       '.dsh-style-monitor-btn:hover{background:var(--dsw-alias-interactive-bg-hover, rgba(128,128,128,.12));color:var(--dsw-alias-label-primary,inherit);}',
       '.dsh-style-monitor-btn[data-active]{background:var(--dsw-alias-interactive-bg-hover, rgba(128,128,128,.16));color:var(--dsw-alias-label-primary,inherit);}',
-      '.dsh-style-monitor-panel{position:fixed;z-index:9999;width:380px;max-width:calc(100vw - 24px);max-height:min(72vh,720px);display:flex;flex-direction:column;border-radius:14px;border:1px solid var(--dsw-alias-border-l2,rgba(128,128,128,.25));background:var(--dsw-alias-bg-base,#fff);box-shadow:var(--dsw-elevation-prominent,0 10px 34px rgba(0,0,0,.18));color:var(--dsw-alias-label-primary,inherit);overflow:hidden;}',
-      '.dsh-style-monitor-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 16px;}',
+      '.dsh-style-monitor-panel{position:fixed;z-index:9999;width:360px;max-width:calc(100vw - 24px);max-height:min(86vh,880px);display:flex;flex-direction:column;border-radius:16px;border:0.5px solid var(--dsw-alias-border-l2,rgba(255,255,255,.10));background:var(--dsw-alias-bg-base,#151517);box-shadow:0 16px 44px rgba(0,0,0,.36);color:var(--dsw-alias-label-primary,inherit);overflow:hidden;}',
+      '.dsh-style-monitor-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 18px 8px;}',
       '.dsh-style-monitor-title{font-size:15px;font-weight:600;letter-spacing:.01em;}',
       '.dsh-style-monitor-headbtns{display:inline-flex;align-items:center;gap:2px;}',
       '.dsh-style-monitor-headbtn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:7px;border:0;background:transparent;color:var(--dsw-alias-label-tertiary,inherit);cursor:pointer;transition:background .15s,color .15s;}',
       '.dsh-style-monitor-headbtn:hover{background:var(--dsw-alias-interactive-bg-hover, rgba(128,128,128,.12));color:var(--dsw-alias-label-primary,inherit);}',
-      '.dsh-style-monitor-body{overflow:auto;padding:0 16px 12px;}',
-      '.dsh-style-monitor-sec{padding:12px 0 4px;}',
-      '.dsh-style-monitor-sec + .dsh-style-monitor-sec{border-top:1px solid var(--dsw-alias-border-l2,rgba(128,128,128,.12));}',
-      '.dsh-style-monitor-sec-head{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:1px 0 6px;cursor:pointer;user-select:none;color:var(--dsw-alias-label-secondary,inherit);}',
+      '.dsh-style-monitor-headbtn[data-pinned]{background:var(--dsw-alias-interactive-bg-hover, rgba(128,128,128,.16));color:var(--dsw-alias-state-business-primary,#4d93f8);}',
+      '.dsh-style-monitor-body{overflow:auto;padding:0 18px 16px;}',
+      '.dsh-style-monitor-sec{padding:16px 0 2px;}',
+      '.dsh-style-monitor-sec:first-child{padding-top:6px;}',
+      '.dsh-style-monitor-sec-head{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:2px 0 8px;cursor:pointer;user-select:none;color:var(--dsw-alias-label-secondary,inherit);}',
       '.dsh-style-monitor-sec-head:hover{color:var(--dsw-alias-label-primary,inherit);}',
-      '.dsh-style-monitor-sec-title{font-size:12.5px;font-weight:500;margin:0;}',
+      '.dsh-style-monitor-sec-title{font-size:12.5px;font-weight:500;letter-spacing:.02em;margin:0;}',
       '.dsh-style-monitor-sec-count{font-size:11.5px;color:var(--dsw-alias-label-tertiary,inherit);}',
       '.dsh-style-monitor-chev{display:inline-flex;transition:transform .15s ease;color:var(--dsw-alias-label-tertiary,inherit);}',
       '.dsh-style-monitor-sec[data-collapsed] .dsh-style-monitor-chev{transform:rotate(-90deg);}',
       '.dsh-style-monitor-empty{font-size:12px;color:var(--dsw-alias-label-tertiary,inherit);margin:0;padding:2px 0 4px;}',
       '.dsh-style-monitor-empty-all{display:flex;flex-direction:column;align-items:center;gap:6px;padding:28px 0;color:var(--dsw-alias-label-tertiary,inherit);font-size:12.5px;}',
-      '.dsh-style-monitor-row{display:flex;align-items:center;gap:8px;min-height:32px;padding:4px 6px;margin:0 -6px;border-radius:8px;font-size:13px;min-width:0;transition:background .12s ease;}',
+      '.dsh-style-monitor-row{display:flex;align-items:center;gap:10px;min-height:38px;padding:6px 8px;margin:0 -8px;border-radius:10px;font-size:13.5px;min-width:0;transition:background .12s ease;}',
       '.dsh-style-monitor-row:hover{background:var(--dsw-alias-interactive-bg-hover, rgba(128,128,128,.08));}',
-      '.dsh-style-monitor-main{display:flex;flex-direction:column;min-width:0;flex:1;gap:1px;}',
-      '.dsh-style-monitor-row-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;line-height:18px;}',
+      '.dsh-style-monitor-main{display:flex;flex-direction:column;min-width:0;flex:1;gap:2px;}',
+      '.dsh-style-monitor-row-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;line-height:19px;}',
       '.dsh-style-monitor-sub{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11.5px;line-height:15px;color:var(--dsw-alias-label-tertiary,inherit);}',
       '.dsh-style-monitor-meta{font-size:11.5px;color:var(--dsw-alias-label-tertiary,inherit);flex:none;white-space:nowrap;}',
-      '.dsh-style-monitor-dot{width:7px;height:7px;border-radius:50%;flex:none;background:var(--dsw-alias-label-tertiary,#999);}',
+      '.dsh-style-monitor-dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--dsw-alias-label-tertiary,#999);}',
       '.dsh-style-monitor-dot[data-s="running"]{background:#1e86ff;}',
       '.dsh-style-monitor-dot[data-s="done"]{background:#00c972;}',
       '.dsh-style-monitor-dot[data-s="error"]{background:#e02135;}',
       '.dsh-style-monitor-dot[data-s="pending"]{background:#b0b0b0;}',
       '.dsh-style-monitor-dot[data-s="cancelled"]{background:#c9a227;}',
+      '.dsh-style-monitor-dot[data-s="failed"]{background:#e02135;}',
+      '.dsh-style-monitor-dot[data-s="inactive"]{background:#8a8f98;}',
+      '.dsh-style-monitor-dot[data-s="provisioning"]{background:#c9a227;}',
       '.dsh-style-monitor-link{color:var(--dsw-alias-state-business-primary,#1e86ff);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;}',
-      '.dsh-style-monitor-more{align-self:flex-start;margin:2px 0 0;padding:5px 0;border:0;background:none;color:var(--dsw-alias-label-tertiary,inherit);font:inherit;font-size:12px;cursor:pointer;}',
+      '.dsh-style-monitor-more{align-self:flex-start;margin:4px 0 0;padding:6px 0;border:0;background:none;color:var(--dsw-alias-label-tertiary,inherit);font:inherit;font-size:12px;cursor:pointer;}',
       '.dsh-style-monitor-more:hover{color:var(--dsw-alias-label-primary,inherit);}',
       '.dsh-style-monitor-foot{font-size:11px;color:var(--dsw-alias-label-tertiary,inherit);opacity:.7;padding:2px 0 2px;}',
     ].join('')
@@ -382,9 +420,33 @@ window.__ModuleLoader__.load({
       if (titlebarEl) { try { titlebarEl.remove() } catch {} titlebarEl = null }
     }
 
+    // 按文案定位顶栏那几个状态入口（哈希类名会随构建变，文案更稳），标记隐藏。
+    function applyChipHiding() {
+      if (typeof document === 'undefined') return
+      for (const el of Array.from(document.querySelectorAll('[data-dsh-style-chip-hidden]'))) el.removeAttribute('data-dsh-style-chip-hidden')
+      if (document.documentElement.getAttribute('data-dsh-style-monitor') !== 'true') return
+      const header = document.querySelector('[data-dsh-style-main] header[data-window-drag]') || document.querySelector('header[data-window-drag]')
+      if (!header) return
+      const patterns = [/^\s*\d+\s*个子智能体/, /^\s*\d+\s*个后台任务/, /^\s*智能体团队\s*$/, /^\s*标准模式\s*$/]
+      const all = Array.from(header.querySelectorAll('*'))
+      const matched = all.filter((el) => {
+        const text = (el.textContent || '').trim()
+        return patterns.some((re) => re.test(text))
+      })
+      const deepest = matched.filter((el) => !matched.some((other) => other !== el && el.contains(other)))
+      for (const el of deepest) {
+        const chip = el.closest('[data-team-action]')
+          || el.closest('[class*="_3j1mRa_root"]')
+          || el.closest('button')
+          || el
+        chip.setAttribute('data-dsh-style-chip-hidden', '')
+      }
+    }
+
     function tagOnce() {
       if (typeof document === 'undefined') return
       mountTitlebar()
+      applyChipHiding()
       const frame = frameEl()
       if (!frame) return
       frame.setAttribute('data-dsh-style-frame', '')
@@ -447,9 +509,11 @@ window.__ModuleLoader__.load({
       root.setAttribute('data-dsh-style-dark', isDark() ? 'true' : 'false')
       root.setAttribute('data-dsh-style-hide-brand', cfg.hideBrand ? 'true' : 'false')
       root.setAttribute('data-dsh-style-hide-newsession', cfg.hideNewSession ? 'true' : 'false')
+      root.setAttribute('data-dsh-style-hide-tabs', cfg.hideTabs ? 'true' : 'false')
+      root.setAttribute('data-dsh-style-monitor', cfg.monitorEnabled ? 'true' : 'false')
       const el = styleTag()
       if (el) {
-        const rules = [BASE_CSS, IMMERSIVE_CSS, TITLEBAR_CSS, SIDEBAR_VIS_CSS, PILL_CSS, MONITOR_CSS]
+        const rules = [BASE_CSS, IMMERSIVE_CSS, TITLEBAR_CSS, SIDEBAR_VIS_CSS, HIDE_HEADER_CSS, PILL_CSS, MONITOR_CSS]
         if (cfg.reduceMotion) rules.push(MOTION_CSS)
         if (cfg.hideScrollbars) rules.push(SCROLL_CSS)
         el.textContent = rules.join('\n')
@@ -547,7 +611,8 @@ window.__ModuleLoader__.load({
         h('h3', { style: sectionTitleStyle }, '效果'),
         h(SwitchRow, { label: '启用样式插件', checked: cfg.enabled, onChange: (value) => set({ enabled: value }) }),
         h(SwitchRow, { label: '减少动效', checked: cfg.reduceMotion, onChange: (value) => set({ reduceMotion: value }) }),
-        h(SwitchRow, { label: '隐藏滚动条', checked: cfg.hideScrollbars, onChange: (value) => set({ hideScrollbars: value }) }))
+        h(SwitchRow, { label: '隐藏滚动条', checked: cfg.hideScrollbars, onChange: (value) => set({ hideScrollbars: value }) }),
+        h(SwitchRow, { label: '隐藏会话标签栏（对话/轨迹）', checked: cfg.hideTabs, onChange: (value) => set({ hideTabs: value }) }))
     }
 
     function SidebarCard({ cfg, set }) {
@@ -690,6 +755,7 @@ window.__ModuleLoader__.load({
     }
 
     const SECTION_TOGGLES = [
+      ['team', '团队成员'],
       ['progress', '执行进度'],
       ['subagents', '子智能体'],
       ['tools', 'Skills 与 MCP'],
@@ -709,10 +775,12 @@ window.__ModuleLoader__.load({
               id: 'dsh-style-monitor-mode',
               label: '展示方式',
               value: cfg.monitorMode,
-              options: [{ value: 'floating', label: '浮层' }, { value: 'docked', label: '停靠' }],
+              options: [{ value: 'floating', label: '悬浮' }, { value: 'pinned', label: '固定' }],
               onChange: (value) => set({ monitorMode: value }),
             }),
-            cfg.monitorMode === 'docked' ? h('p', { style: hintStyle }, '停靠模式正在接入，当前仍以浮层显示。') : null,
+            h('p', { style: hintStyle }, cfg.monitorMode === 'pinned'
+              ? '固定：面板常驻，点外部不会关闭；点工具栏按钮或面板上的图钉可收起。'
+              : '悬浮：点面板外部自动收起。'),
             h('p', { style: hintStyle }, '默认自动隐藏没有数据的分组；下面可指定"始终显示"某些分组。'),
             h('div', { style: { display: 'flex', flexDirection: 'column' } },
               SECTION_TOGGLES.map(([key, label]) => h(SwitchRow, {
@@ -750,7 +818,7 @@ window.__ModuleLoader__.load({
     })()
 
     function monitorStatusLabel(status) {
-      return { pending: '等待', running: '进行中', done: '已完成', error: '失败', cancelled: '已取消' }[status] || status || ''
+      return { pending: '等待', running: '进行中', done: '已完成', error: '失败', cancelled: '已取消', inactive: '未运行', provisioning: '准备中', active: '运行中', failed: '失败' }[status] || status || ''
     }
     function normalizeTodoStatus(value) {
       if (value === 'completed' || value === 'done') return 'done'
@@ -802,7 +870,7 @@ window.__ModuleLoader__.load({
       return Array.from(found.values())
     }
     function buildMonitorData(ctx, sessionId) {
-      const data = { progress: [], subagents: [], tools: [], jobs: [], artifacts: [], web: [] }
+      const data = { progress: [], subagents: [], tools: [], jobs: [], artifacts: [], web: [], team: [] }
       if (!ctx) return data
       try {
         const sessions = ctx.get('sessions')
@@ -851,6 +919,30 @@ window.__ModuleLoader__.load({
         const rows = snapshot && snapshot.rows ? (snapshot.rows[sessionId] || snapshot.rows[String(sessionId)]) : undefined
         if (Array.isArray(rows)) data.jobs = rows
       } catch { /* 降级为空 */ }
+      // 智能体团队成员：读 sessions 投影里的 agentTeam（与头部「智能体团队」同一数据源）。
+      try {
+        const sessions = ctx.get('sessions')
+        const snap = sessions && (typeof sessions.getSnapshot === 'function' ? sessions.getSnapshot() : (sessions.state || sessions.snapshot))
+        const proj = snap && snap.projectionsBySession
+        if (proj) {
+          const byId = snap.byId || {}
+          let entry = proj[sessionId] || proj[String(sessionId)]
+          let team = entry && entry.values && entry.values.agentTeam
+          if (!team) {
+            for (const key of Object.keys(proj)) {
+              const t2 = proj[key] && proj[key].values && proj[key].values.agentTeam
+              if (t2 && Array.isArray(t2.members)) { team = t2; break }
+            }
+          }
+          if (team && Array.isArray(team.members)) {
+            data.team = team.members.map((m) => {
+              const running = byId[m.id] && byId[m.id].running
+              const status = m.phase === 'active' ? (running === true ? 'running' : 'inactive') : (m.phase || 'inactive')
+              return { name: m.name || m.id || '(成员)', status, current: Boolean(m.id === sessionId) }
+            })
+          }
+        }
+      } catch { /* 降级为空 */ }
       return data
     }
 
@@ -897,7 +989,7 @@ window.__ModuleLoader__.load({
       return { name: parts[parts.length - 1] || String(path || ''), dir: parts.slice(0, -1).join('/') }
     }
 
-    function TaskMonitorPanel({ cfg, data, onClose, panelRef, panelStyle }) {
+    function TaskMonitorPanel({ cfg, data, onClose, monitorMode, onTogglePin, panelRef, panelStyle }) {
       const always = cfg.monitorAlwaysShow || {}
       const [collapsed, setCollapsed] = React.useState({})
       const [showAllFiles, setShowAllFiles] = React.useState(false)
@@ -911,6 +1003,9 @@ window.__ModuleLoader__.load({
       const files = aggregateArtifacts(data.artifacts)
       const shownFiles = showAllFiles ? files : files.slice(0, 5)
       const groups = [
+        { key: 'team', title: '团队成员', has: data.team.length > 0,
+          body: () => (data.team.length === 0 ? h('p', { className: 'dsh-style-monitor-empty' }, '暂无团队成员')
+            : data.team.map((item, index) => statusRow(index, item.status, item.name + (item.current ? '（当前会话）' : ''), null, monitorStatusLabel(item.status)))) },
         { key: 'progress', title: '执行进度', has: data.progress.length > 0,
           body: () => (data.progress.length === 0 ? h('p', { className: 'dsh-style-monitor-empty' }, '暂无任务计划')
             : data.progress.map((item, index) => statusRow(index, item.status, item.title || '(未命名)', null, monitorStatusLabel(item.status)))) },
@@ -949,7 +1044,19 @@ window.__ModuleLoader__.load({
         h('div', { className: 'dsh-style-monitor-head' },
           h('span', { className: 'dsh-style-monitor-title' }, '任务监控'),
           h('div', { className: 'dsh-style-monitor-headbtns' },
-            h('button', { type: 'button', className: 'dsh-style-monitor-headbtn', title: '关闭', 'aria-label': '关闭', onClick: onClose }, IconClose ? h(IconClose, { size: 16 }) : '×'))),
+            h('button', {
+              type: 'button',
+              className: 'dsh-style-monitor-headbtn',
+              'data-pinned': monitorMode === 'pinned' || undefined,
+              title: monitorMode === 'pinned' ? '取消固定' : '固定面板',
+              'aria-label': monitorMode === 'pinned' ? '取消固定' : '固定面板',
+              'aria-pressed': monitorMode === 'pinned',
+              onClick: onTogglePin,
+            }, h('svg', { width: 16, height: 16, viewBox: '0 0 16 16', fill: 'none' },
+              h('path', {
+                d: 'M10.1 1.9l4 4-1 .9-.9-.3-2 2 .4 2.3-1.1 1.1-2.5-2.5-3.3 3.3-.9-.9 3.3-3.3L3.6 6l1.1-1.1 2.3.4 2-2-.3-.9.9-1z',
+                fill: 'currentColor', stroke: 'currentColor', strokeWidth: 0.5, strokeLinejoin: 'round',
+              }))))),
         h('div', { className: 'dsh-style-monitor-body' },
           visible.length === 0
             ? h('div', { className: 'dsh-style-monitor-empty-all' },
@@ -972,7 +1079,7 @@ window.__ModuleLoader__.load({
     function MonitorHost() {
       const [ui, setUi] = React.useState(monitorUi.get())
       const [cfg, setCfg] = React.useState(store.get)
-      const [data, setData] = React.useState({ progress: [], subagents: [], tools: [], jobs: [], artifacts: [], web: [] })
+      const [data, setData] = React.useState({ progress: [], subagents: [], tools: [], jobs: [], artifacts: [], web: [], team: [] })
       const panelRef = React.useRef(null)
       React.useEffect(() => monitorUi.subscribe(() => setUi(monitorUi.get())), [])
       React.useEffect(() => store.subscribe(() => setCfg(store.get())), [])
@@ -985,6 +1092,7 @@ window.__ModuleLoader__.load({
       React.useEffect(() => {
         if (!ui.open || typeof document === 'undefined') return undefined
         const onPointerDown = (event) => {
+          if (store.get().monitorMode === 'pinned') return
           const panel = panelRef.current
           const button = monitorUi.get().buttonEl
           const target = event.target
@@ -1043,7 +1151,15 @@ window.__ModuleLoader__.load({
       const panelStyle = anchor
         ? { top: Math.round(Math.max(8, anchor.top + 8)) + 'px', right: Math.round(Math.max(8, anchor.right)) + 'px' }
         : { top: '56px', right: '24px' }
-      return createPortal(h(TaskMonitorPanel, { cfg, data, onClose: () => monitorUi.set({ open: false }), panelRef, panelStyle }), document.body)
+      return createPortal(h(TaskMonitorPanel, {
+        cfg,
+        data,
+        monitorMode: cfg.monitorMode,
+        onTogglePin: () => store.set({ monitorMode: store.get().monitorMode === 'pinned' ? 'floating' : 'pinned' }),
+        onClose: () => monitorUi.set({ open: false }),
+        panelRef,
+        panelStyle,
+      }), document.body)
     }
 
     const inject = ['slots']
