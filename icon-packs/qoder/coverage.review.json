@@ -1,0 +1,1067 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-29T11:21:04.795Z",
+  "revision": 438,
+  "usageTotal": 700,
+  "confirmedUsagePositions": 328,
+  "nativeTotal": 153,
+  "mapped": 70,
+  "unambiguousMapped": 70,
+  "targetSvgCount": 53,
+  "missing": [
+    "native-icons/inline-328f465a3e4f096f.svg",
+    "native-icons/inline-8340395884a5769e.svg",
+    "native-icons/IconGaugeOutlineRegular.svg",
+    "native-icons/IconApiOutlineRegular.svg",
+    "native-icons/IconContextInjectionOutlineRegular.svg",
+    "native-icons/IconCodeOutlineRegular.svg",
+    "native-icons/IconPlanOutlineRegular.svg",
+    "native-icons/IconAgentPresetOutlineRegular.svg",
+    "native-icons/IconThinkOutlineRegular.svg",
+    "native-icons/IconSparkleRegular.svg",
+    "native-icons/IconGlobeOutlineRegular.svg",
+    "native-icons/IconDatabaseOutlineRegular.svg",
+    "native-icons/IconQueueOutlineRegular.svg",
+    "native-icons/IconDislikeFillRegular.svg",
+    "native-icons/IconLikeFillRegular.svg",
+    "native-icons/inline-a27544b3ca2d4d7e.svg",
+    "native-icons/IconInspectOutlineRegular.svg",
+    "native-icons/IconCordisPluginOutlineRegular.svg",
+    "native-icons/IconGoalOutlineRegular.svg",
+    "native-icons/IconUsersOutlineRegular.svg",
+    "native-icons/inline-ba0a3309036f6996.svg",
+    "native-icons/inline-f0b169ee11b542ab.svg",
+    "native-icons/inline-f39385ffa024f81f.svg",
+    "native-icons/IconWrapLinesOutlineRegular.svg",
+    "native-icons/IconListPenOutlineRegular.svg",
+    "native-icons/IconDeliverDocRegular.svg",
+    "native-icons/IconCompareSplitOutlineRegular.svg",
+    "native-icons/IconNowrapFillRegular.svg",
+    "native-icons/IconWrapFillRegular.svg",
+    "native-icons/inline-bd19df8c07cf1456.svg",
+    "native-icons/inline-95bd7b30ff9709bf.svg",
+    "native-icons/inline-aba659b99e177cc0.svg",
+    "native-icons/inline-a6c15ca8c86b8506.svg",
+    "native-icons/inline-e38fcdc33fae29d6.svg",
+    "native-icons/inline-8a146b2c31480533.svg",
+    "native-icons/inline-46984a0c02cedcbb.svg",
+    "native-icons/inline-a6b47f78ca979566.svg",
+    "native-icons/inline-a9fbac38f4713e6b.svg",
+    "native-icons/IconCheckCircleOutlineRegular.svg",
+    "native-icons/IconDataOutlineRegular.svg",
+    "native-icons/IconInfoOutlineRegular.svg",
+    "native-icons/IconSkillOutlineRegular.svg",
+    "native-icons/IconDarkOutlineMedium.svg",
+    "native-icons/IconFollowsystemOutlineMedium.svg",
+    "native-icons/IconLightOutlineMedium.svg",
+    "native-icons/inline-30885ad9481b2d7d.svg",
+    "native-icons/inline-e9869693070b0307.svg",
+    "native-icons/inline-e02aef573cf912ca.svg",
+    "native-icons/inline-84eae659c3c4024c.svg",
+    "native-icons/inline-a28d79636d48790e.svg",
+    "native-icons/inline-3edbd760bdeda8c1.svg",
+    "native-icons/inline-cbbc07c93929465d.svg",
+    "native-icons/inline-1f29278dbfaabfcf.svg",
+    "native-icons/inline-145e9f284af72d34.svg",
+    "native-icons/inline-3fc5c9c2be9b9e57.svg",
+    "native-icons/inline-cfd9d05bddba11d8.svg",
+    "native-icons/inline-a3e1391a6e070804.svg",
+    "native-icons/inline-49c11e8709538607.svg",
+    "native-icons/inline-711628af270cf62d.svg",
+    "native-icons/inline-fa5fb56a86e5b4e5.svg",
+    "native-icons/inline-77d1fd8e24481e41.svg",
+    "native-icons/inline-ba78087e15ea47a2.svg",
+    "native-icons/IconCheckCircleFillRegular.svg",
+    "native-icons/IconSlidersTwoOutlineRegular.svg",
+    "native-icons/inline-75008f7afab9c1c5.svg",
+    "native-icons/inline-7bd73398eb119c8d.svg",
+    "native-icons/inline-28d4ced6232a9b10.svg",
+    "native-icons/IconAgentPresetOutlineMedium.svg",
+    "native-icons/IconDataOutlineMedium.svg",
+    "native-icons/IconPersonalizationOutlineMedium.svg",
+    "native-icons/IconWarningTriangleOutlineRegular.svg",
+    "native-icons/inline-c826e50764d4983a.svg",
+    "native-icons/inline-8c84c140599b43cc.svg",
+    "native-icons/inline-3eaf559d9bea5dc7.svg",
+    "native-icons/inline-ce0a49ee1d0e4804.svg",
+    "native-icons/IconAppsAddOutlineRegular.svg",
+    "native-icons/IconNewChatOutlineMedium.svg",
+    "native-icons/inline-960270609de21aaa.svg",
+    "native-icons/inline-f87ea10afd5ba959.svg",
+    "native-icons/IconArchiveCheckOutlineRegular.svg",
+    "native-icons/IconChevronsUpDownOutlineRegular.svg",
+    "native-icons/IconFlatListOutlineRegular.svg",
+    "native-icons/IconWorkspaceTreeOutlineRegular.svg"
+  ],
+  "unsupportedDynamic": [
+    "Dynamic-file-card-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-record-attachments-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-context-injection-row-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+    "Dynamic-pending-steering-bubble-message-icon-actions",
+    "Dynamic-pending-submission-bubble-message-icon-actions",
+    "Dynamic-turn-tail-node-view-message-icon-actions",
+    "Dynamic-turn-trigger-node-view-trigger-icon",
+    "Dynamic-user-content-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-user-message-node-view-message-icon-actions",
+    "Dynamic-queue-file-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-reference-chip-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+    "Dynamic-shortcut-reference-shortcut-icon",
+    "Dynamic-entry-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-files-title-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-render-row-double-check-icon",
+    "Dynamic-changed-files-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-presented-file-card-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-menu-view-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+    "Dynamic-menu-view-item-icon",
+    "Dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-auto-review-regular",
+    "Dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-full-access-regular",
+    "Dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-read-only-regular",
+    "Dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-workspace-write-regular",
+    "Dynamic-plan-cards-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-plan-title-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-task-detail-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+    "Dynamic-appearance-row-icon",
+    "Dynamic-about-page-star-line-icon",
+    "Dynamic-account-launcher-icon",
+    "Dynamic-account-launcher-gear-icon",
+    "Dynamic-agent-menu-icon",
+    "Dynamic-attachments-ui-file-type-icon",
+    "Dynamic-automation-off-clock-icon",
+    "Dynamic-bot-settings-form-pencil-icon",
+    "Dynamic-bot-settings-form-chevron-right-icon",
+    "Dynamic-bots-page-chevron-right-icon",
+    "Dynamic-browser-cards-favicon",
+    "Dynamic-browser-cards-globe-icon",
+    "Dynamic-browser-view-back-icon",
+    "Dynamic-browser-view-forward-icon",
+    "Dynamic-browser-view-import-icon",
+    "Dynamic-command-palette-gear-icon",
+    "Dynamic-composer-plus-chats-icon",
+    "Dynamic-composer-plus-clock-icon",
+    "Dynamic-composer-plus-paperclip-icon",
+    "Dynamic-composer-voice-wave-icon",
+    "Dynamic-connect-plugins-plug-icon",
+    "Dynamic-context-menu-icon",
+    "Dynamic-copy-button-check-icon",
+    "Dynamic-copy-button-copy-icon",
+    "Dynamic-create-bot-chevron-left-icon",
+    "Dynamic-custom-form-key-icon",
+    "Dynamic-custom-form-check-icon",
+    "Dynamic-details-drawer-gear-icon",
+    "Dynamic-details-drawer-chevron-left-icon",
+    "Dynamic-details-drawer-terminal-icon",
+    "Dynamic-details-drawer-globe-icon",
+    "Dynamic-details-drawer-wave-icon",
+    "Dynamic-effort-rows-check-icon",
+    "Dynamic-entry-row-trash-icon",
+    "Dynamic-favicon-globe-icon",
+    "Dynamic-folder-menu-chevron-left-icon",
+    "Dynamic-folder-menu-chevron-right-icon",
+    "Dynamic-folder-menu-folder-icon",
+    "Dynamic-folder-menu-pencil-icon",
+    "Dynamic-glyph-box-icon2",
+    "Dynamic-group-replies-chevron-right-icon",
+    "Dynamic-group-settings-form-chevron-right-icon",
+    "Dynamic-groups-page-chevron-right-icon",
+    "Dynamic-import-menu-window-icon",
+    "Dynamic-import-menu-file-icon",
+    "Dynamic-item-icon",
+    "Dynamic-key-editor-check-icon",
+    "Dynamic-key-editor-key-icon",
+    "Dynamic-known-form-key-icon",
+    "Dynamic-memory-card-chevron-right-icon",
+    "Dynamic-memory-dialog-chevron-left-icon",
+    "Dynamic-memory-dialog-dots-icon",
+    "Dynamic-memory-event-memory-icon",
+    "Dynamic-memory-row-chevron-right-icon",
+    "Dynamic-memory-row-memory-icon",
+    "Dynamic-message-tools-smile-icon",
+    "Dynamic-message-tools-check-icon",
+    "Dynamic-message-tools-dots-icon",
+    "Dynamic-message-tools-reply-icon",
+    "Dynamic-model-choice-dock-sliders-icon",
+    "Dynamic-model-key-card-key-icon",
+    "Dynamic-model-menu-sliders-icon",
+    "Dynamic-model-rows-check-icon",
+    "Dynamic-month-chevron-right-icon",
+    "Dynamic-month-chevron-left-icon",
+    "Dynamic-options-input-check-icon",
+    "Dynamic-panel-strip-favicon",
+    "Dynamic-panel-strip-close-icon2",
+    "Dynamic-panel-strip-plus-tab-icon",
+    "Dynamic-provider-row-trash-icon",
+    "Dynamic-question-view-check-icon",
+    "Dynamic-reply-check-icon",
+    "Dynamic-schedule-summary-clock-icon",
+    "Dynamic-scope-editor-check-icon",
+    "Dynamic-secret-card-key-icon",
+    "Dynamic-secret-card-warn-icon",
+    "Dynamic-secret-head-lock-icon",
+    "Dynamic-secret-row-key-icon",
+    "Dynamic-secret-row-trash-icon",
+    "Dynamic-secret-tool-cell-key-icon",
+    "Dynamic-settings-dialog-chevron-left-icon",
+    "Dynamic-settings-dialog-sliders-icon",
+    "Dynamic-settings-dialog-page-icons-key",
+    "Dynamic-settled-options-check-icon",
+    "Dynamic-settled-question-check-icon",
+    "Dynamic-settled-secret-check-icon",
+    "Dynamic-summary-memory-icon",
+    "Dynamic-tabs-icon2",
+    "Dynamic-task-row-trash-icon",
+    "Dynamic-tick-check-icon",
+    "Dynamic-update-button-cloud-download-icon",
+    "Dynamic-value-editor-check-icon",
+    "Dynamic-view-menu-list-copy-icon",
+    "Dynamic-view-menu-list-download-icon",
+    "Dynamic-view-menu-list-table-icon",
+    "Dynamic-view-menu-dots-icon",
+    "Dynamic-widget-callout-info-icon",
+    "Dynamic-widget-sources-link-icon",
+    "Dynamic-you-avatar-gear-icon",
+    "Dynamic-mode-switcher-icon",
+    "Dynamic-confirm-dialog-market-icon",
+    "Dynamic-entry-card-market-icon",
+    "Dynamic-entry-detail-market-icon",
+    "Dynamic-account-menu-logout-icon",
+    "Dynamic-purpose-card-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-browser-body-sandbox-policy-icon",
+    "Dynamic-office-body-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-text-preview-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-text-title-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-entry-box-icon",
+    "Dynamic-open-target-button-application-icon"
+  ],
+  "unresolvedUsagePositions": 163,
+  "unresolved": [
+    {
+      "semanticId": "dsh.composer.attachment.file-card.default.dynamic-file-card-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-file-card-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.composer.trajectory.record-attachments.default.dynamic-record-attachments-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-record-attachments-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.chat.context-injection-row.default.dynamic-context-injection-row-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+      "name": "Dynamic-context-injection-row-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.chat.pending-steering-bubble.actions.dynamic-pending-steering-bubble-message-icon-actions",
+      "name": "Dynamic-pending-steering-bubble-message-icon-actions",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.chat.pending-submission-bubble.actions.dynamic-pending-submission-bubble-message-icon-actions",
+      "name": "Dynamic-pending-submission-bubble-message-icon-actions",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.chat.running-whale-tail.default.inline-svg-running-whale-tail",
+      "name": "InlineSvg-running-whale-tail",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.chat.turn-tail-node-view.default.dynamic-turn-tail-node-view-message-icon-actions",
+      "name": "Dynamic-turn-tail-node-view-message-icon-actions",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.chat.turn-trigger-node-view.default.dynamic-turn-trigger-node-view-trigger-icon",
+      "name": "Dynamic-turn-trigger-node-view-trigger-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.chat.user-content.attachment-file-name.dynamic-user-content-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-user-content-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.chat.user-message-node-view.actions.dynamic-user-message-node-view-message-icon-actions",
+      "name": "Dynamic-user-message-node-view-message-icon-actions",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.conversation.context-meter.t-context-aria-percent-reading.inline-svg-context-meter",
+      "name": "InlineSvg-context-meter",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.conversation.hero-fish.default.inline-svg-hero-fish",
+      "name": "InlineSvg-hero-fish",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.conversation.queue-file.default.dynamic-queue-file-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-queue-file-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.conversation.reference-chip.default.dynamic-reference-chip-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+      "name": "Dynamic-reference-chip-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.conversation.shortcuts.shortcut-reference.default.dynamic-shortcut-reference-shortcut-icon",
+      "name": "Dynamic-shortcut-reference-shortcut-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.file-explorer.sidebar-files.entry.default.dynamic-entry-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-entry-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.file-explorer.sidebar-files.files-title.default.dynamic-files-title-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-files-title-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.cordis.render-row.t-action-approve-plugin.dynamic-render-row-double-check-icon",
+      "name": "Dynamic-render-row-double-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.deliverables.changed-files.default.dynamic-changed-files-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-changed-files-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.deliverables.presented-file-card.default.dynamic-presented-file-card-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-presented-file-card-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.dsh-experimental-client-ui-voice-input.waveform.label.inline-svg-waveform",
+      "name": "InlineSvg-waveform",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.dsh-web-frontend.brand-wordmark.default.inline-svg-brand-wordmark",
+      "name": "InlineSvg-brand-wordmark",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.dsh-web-frontend.fish-logo.default.inline-svg-fish-logo",
+      "name": "InlineSvg-fish-logo",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.dsh-web-frontend.plugin-artwork-search.default.inline-svg-plugin-artwork-search",
+      "name": "InlineSvg-plugin-artwork-search",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.input-trigger.menu-view.default.dynamic-menu-view-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+      "name": "Dynamic-menu-view-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.input-trigger.menu-view.default.dynamic-menu-view-item-icon",
+      "name": "Dynamic-menu-view-item-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.permission-presets.module.default.dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-auto-review-regular",
+      "name": "Dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-auto-review-regular",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.permission-presets.module.default.dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-full-access-regular",
+      "name": "Dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-full-access-regular",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.permission-presets.module.default.dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-read-only-regular",
+      "name": "Dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-read-only-regular",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.permission-presets.module.default.dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-workspace-write-regular",
+      "name": "Dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-workspace-write-regular",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.plan.plan-cards.default.dynamic-plan-cards-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-plan-cards-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.plan.plan-title.default.dynamic-plan-title-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-plan-title-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.schedule.task-detail.default.dynamic-task-detail-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+      "name": "Dynamic-task-detail-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.secret-mask.eye-glyph.default.inline-svg-eye-glyph",
+      "name": "InlineSvg-eye-glyph",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.shortcuts.shortcut-icon.default.inline-svg-shortcut-icon",
+      "name": "InlineSvg-shortcut-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.other.theme.appearance-row.default.dynamic-appearance-row-icon",
+      "name": "Dynamic-appearance-row-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.about-page.t-star-ds-bot-on-git-hub-stars-null-t-star-ds-bot-on-git-hub-t-star-ds-bot-on-git-hub-t-count-stars-count-stars.dynamic-about-page-star-line-icon",
+      "name": "Dynamic-about-page-star-line-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.account-launcher.default.dynamic-account-launcher-icon",
+      "name": "Dynamic-account-launcher-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.account-launcher.t-settings.dynamic-account-launcher-gear-icon",
+      "name": "Dynamic-account-launcher-gear-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.agent-menu.default.dynamic-agent-menu-icon",
+      "name": "Dynamic-agent-menu-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.attachments.file-name.dynamic-attachments-ui-file-type-icon",
+      "name": "Dynamic-attachments-ui-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.automation-off.default.dynamic-automation-off-clock-icon",
+      "name": "Dynamic-automation-off-clock-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.bot-mark.default.inline-svg-bot-mark",
+      "name": "InlineSvg-bot-mark",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.bot-settings-form.t-edit-bot-avatar.dynamic-bot-settings-form-pencil-icon",
+      "name": "Dynamic-bot-settings-form-pencil-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.bot-settings-form.t-manage.dynamic-bot-settings-form-chevron-right-icon",
+      "name": "Dynamic-bot-settings-form-chevron-right-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.bots-page.default.dynamic-bots-page-chevron-right-icon",
+      "name": "Dynamic-bots-page-chevron-right-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.browser-cards.default.dynamic-browser-cards-favicon",
+      "name": "Dynamic-browser-cards-favicon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.browser-cards.t-open-title-title-label-page-url.dynamic-browser-cards-globe-icon",
+      "name": "Dynamic-browser-cards-globe-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.browser-icon.default.inline-svg-browser-icon",
+      "name": "InlineSvg-browser-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.browser-view.t-back-t-name-s-browser-name-bot-name.dynamic-browser-view-back-icon",
+      "name": "Dynamic-browser-view-back-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.browser-view.t-forward-t-name-s-browser-name-bot-name.dynamic-browser-view-forward-icon",
+      "name": "Dynamic-browser-view-forward-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.browser-view.t-import-cookies-t-name-s-browser-name-bot-name.dynamic-browser-view-import-icon",
+      "name": "Dynamic-browser-view-import-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.cloud-download-icon.default.inline-svg-cloud-download-icon",
+      "name": "InlineSvg-cloud-download-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.command-palette.default.dynamic-command-palette-gear-icon",
+      "name": "Dynamic-command-palette-gear-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.composer-plus.t-add.dynamic-composer-plus-chats-icon",
+      "name": "Dynamic-composer-plus-chats-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.composer-plus.t-add.dynamic-composer-plus-clock-icon",
+      "name": "Dynamic-composer-plus-clock-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.composer-plus.t-add.dynamic-composer-plus-paperclip-icon",
+      "name": "Dynamic-composer-plus-paperclip-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.composer-voice.t-start-voice-chat-t-voice-chat.dynamic-composer-voice-wave-icon",
+      "name": "Dynamic-composer-voice-wave-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.connect-plugins.default.dynamic-connect-plugins-plug-icon",
+      "name": "Dynamic-connect-plugins-plug-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.context-menu.default.dynamic-context-menu-icon",
+      "name": "Dynamic-context-menu-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.copy-button.copied-t-copied-t-copy.dynamic-copy-button-check-icon",
+      "name": "Dynamic-copy-button-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.copy-button.copied-t-copied-t-copy.dynamic-copy-button-copy-icon",
+      "name": "Dynamic-copy-button-copy-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.create-bot.t-back-to-new-chat-t-create-bot.dynamic-create-bot-chevron-left-icon",
+      "name": "Dynamic-create-bot-chevron-left-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.custom-form.default.dynamic-custom-form-key-icon",
+      "name": "Dynamic-custom-form-key-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.custom-form.model-name-model-name-model-id-model-name-void-0.dynamic-custom-form-check-icon",
+      "name": "Dynamic-custom-form-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.details-drawer.bot-t-edit-bot-t-group-settings.dynamic-details-drawer-gear-icon",
+      "name": "Dynamic-details-drawer-gear-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.details-drawer.t-back-to-details.dynamic-details-drawer-chevron-left-icon",
+      "name": "Dynamic-details-drawer-chevron-left-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.details-drawer.t-new-terminal.dynamic-details-drawer-terminal-icon",
+      "name": "Dynamic-details-drawer-terminal-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.details-drawer.t-open-browser-t-open-this-bot-s-browser.dynamic-details-drawer-globe-icon",
+      "name": "Dynamic-details-drawer-globe-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.details-drawer.t-start-voice-chat-t-voice-chat.dynamic-details-drawer-wave-icon",
+      "name": "Dynamic-details-drawer-wave-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.effort-rows.default.dynamic-effort-rows-check-icon",
+      "name": "Dynamic-effort-rows-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.entry-row.confirming-t-click-again-to-remove-t-remove-from-memory-confirming-void-0-t-remove-from-memory.dynamic-entry-row-trash-icon",
+      "name": "Dynamic-entry-row-trash-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.favicon.default.dynamic-favicon-globe-icon",
+      "name": "Dynamic-favicon-globe-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.favicon.default.image-favicon",
+      "name": "Image-favicon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.folder-menu.default.dynamic-folder-menu-chevron-left-icon",
+      "name": "Dynamic-folder-menu-chevron-left-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.folder-menu.default.dynamic-folder-menu-chevron-right-icon",
+      "name": "Dynamic-folder-menu-chevron-right-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.folder-menu.default.dynamic-folder-menu-folder-icon",
+      "name": "Dynamic-folder-menu-folder-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.folder-menu.default.dynamic-folder-menu-pencil-icon",
+      "name": "Dynamic-folder-menu-pencil-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.folder-menu.parent-path.dynamic-folder-menu-folder-icon",
+      "name": "Dynamic-folder-menu-folder-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.glyph-box.default.dynamic-glyph-box-icon2",
+      "name": "Dynamic-glyph-box-icon2",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.group-replies.default.dynamic-group-replies-chevron-right-icon",
+      "name": "Dynamic-group-replies-chevron-right-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.group-settings-form.t-manage.dynamic-group-settings-form-chevron-right-icon",
+      "name": "Dynamic-group-settings-form-chevron-right-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.groups-page.default.dynamic-groups-page-chevron-right-icon",
+      "name": "Dynamic-groups-page-chevron-right-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.import-menu.default.dynamic-import-menu-window-icon",
+      "name": "Dynamic-import-menu-window-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.import-menu.t-import-cookies.dynamic-import-menu-file-icon",
+      "name": "Dynamic-import-menu-file-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.item.default.dynamic-item-icon",
+      "name": "Dynamic-item-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.key-editor.default.dynamic-key-editor-check-icon",
+      "name": "Dynamic-key-editor-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.key-editor.default.dynamic-key-editor-key-icon",
+      "name": "Dynamic-key-editor-key-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.known-form.default.dynamic-known-form-key-icon",
+      "name": "Dynamic-known-form-key-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.line-icon.default.inline-svg-line-icon",
+      "name": "InlineSvg-line-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.memory-card.t-manage-name-s-memory-name-bot-name-t-memory.dynamic-memory-card-chevron-right-icon",
+      "name": "Dynamic-memory-card-chevron-right-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.memory-dialog.t-back-to-the-summary-t-name-s-memory-name-owner-name.dynamic-memory-dialog-chevron-left-icon",
+      "name": "Dynamic-memory-dialog-chevron-left-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.memory-dialog.t-memory-options-t-name-s-memory-name-owner-name.dynamic-memory-dialog-dots-icon",
+      "name": "Dynamic-memory-dialog-dots-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.memory-event.result.dynamic-memory-event-memory-icon",
+      "name": "Dynamic-memory-event-memory-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.memory-row.t-manage-name-s-memory-name-owner-name.dynamic-memory-row-chevron-right-icon",
+      "name": "Dynamic-memory-row-chevron-right-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.memory-row.t-manage-name-s-memory-name-owner-name.dynamic-memory-row-memory-icon",
+      "name": "Dynamic-memory-row-memory-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.message-tools.t-add-reaction.dynamic-message-tools-smile-icon",
+      "name": "Dynamic-message-tools-smile-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.message-tools.t-more-message-actions-t-more.dynamic-message-tools-check-icon",
+      "name": "Dynamic-message-tools-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.message-tools.t-more-message-actions-t-more.dynamic-message-tools-dots-icon",
+      "name": "Dynamic-message-tools-dots-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.message-tools.t-reply.dynamic-message-tools-reply-icon",
+      "name": "Dynamic-message-tools-reply-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.model-choice-dock.default.dynamic-model-choice-dock-sliders-icon",
+      "name": "Dynamic-model-choice-dock-sliders-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.model-key-card.label.dynamic-model-key-card-key-icon",
+      "name": "Dynamic-model-key-card-key-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.model-menu.t-model-for-name-name-bot-name.dynamic-model-menu-sliders-icon",
+      "name": "Dynamic-model-menu-sliders-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.model-rows.model-ref.dynamic-model-rows-check-icon",
+      "name": "Dynamic-model-rows-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.month.t-next-month.dynamic-month-chevron-right-icon",
+      "name": "Dynamic-month-chevron-right-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.month.t-previous-month.dynamic-month-chevron-left-icon",
+      "name": "Dynamic-month-chevron-left-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.options-input.t-selected.dynamic-options-input-check-icon",
+      "name": "Dynamic-options-input-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.panel-strip.page-url-t-new-tab.dynamic-panel-strip-favicon",
+      "name": "Dynamic-panel-strip-favicon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.panel-strip.t-close-panel-t-panel-tabs.dynamic-panel-strip-close-icon2",
+      "name": "Dynamic-panel-strip-close-icon2",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.panel-strip.t-new-tab-t-panel-tabs.dynamic-panel-strip-plus-tab-icon",
+      "name": "Dynamic-panel-strip-plus-tab-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.profile.default.inline-svg-profile",
+      "name": "InlineSvg-profile",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.provider-row.default.dynamic-provider-row-trash-icon",
+      "name": "Dynamic-provider-row-trash-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.question-view.t-selected.dynamic-question-view-check-icon",
+      "name": "Dynamic-question-view-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.reply.default.dynamic-reply-check-icon",
+      "name": "Dynamic-reply-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.schedule-summary.default.dynamic-schedule-summary-clock-icon",
+      "name": "Dynamic-schedule-summary-clock-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.scope-editor.default.dynamic-scope-editor-check-icon",
+      "name": "Dynamic-scope-editor-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.secret-card.default.dynamic-secret-card-key-icon",
+      "name": "Dynamic-secret-card-key-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.secret-card.default.dynamic-secret-card-warn-icon",
+      "name": "Dynamic-secret-card-warn-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.secret-head.default.dynamic-secret-head-lock-icon",
+      "name": "Dynamic-secret-head-lock-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.secret-row.default.dynamic-secret-row-key-icon",
+      "name": "Dynamic-secret-row-key-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.secret-row.default.dynamic-secret-row-trash-icon",
+      "name": "Dynamic-secret-row-trash-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.secret-tool-cell.default.dynamic-secret-tool-cell-key-icon",
+      "name": "Dynamic-secret-tool-cell-key-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.settings-dialog.back.dynamic-settings-dialog-chevron-left-icon",
+      "name": "Dynamic-settings-dialog-chevron-left-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.settings-dialog.t-models-providers-and-the-rest-of-deep-seek-harness-t-settings-pages-t-ds-bot-settings.dynamic-settings-dialog-sliders-icon",
+      "name": "Dynamic-settings-dialog-sliders-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.settings-dialog.t-settings-pages.dynamic-settings-dialog-page-icons-key",
+      "name": "Dynamic-settings-dialog-page-icons-key",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.settled-options.t-selected.dynamic-settled-options-check-icon",
+      "name": "Dynamic-settled-options-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.settled-question.t-selected.dynamic-settled-question-check-icon",
+      "name": "Dynamic-settled-question-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.settled-secret.t-done-text.dynamic-settled-secret-check-icon",
+      "name": "Dynamic-settled-secret-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.shape-ring.default.inline-svg-shape-ring",
+      "name": "InlineSvg-shape-ring",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.summary.default.dynamic-summary-memory-icon",
+      "name": "Dynamic-summary-memory-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.tabs.default.dynamic-tabs-icon2",
+      "name": "Dynamic-tabs-icon2",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.task-row.confirming-t-click-again-to-delete-t-delete-task-confirming-void-0-t-delete-task.dynamic-task-row-trash-icon",
+      "name": "Dynamic-task-row-trash-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.tick.default.dynamic-tick-check-icon",
+      "name": "Dynamic-tick-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.update-button.label.dynamic-update-button-cloud-download-icon",
+      "name": "Dynamic-update-button-cloud-download-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.value-editor.default.dynamic-value-editor-check-icon",
+      "name": "Dynamic-value-editor-check-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.view-menu-list.default.dynamic-view-menu-list-copy-icon",
+      "name": "Dynamic-view-menu-list-copy-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.view-menu-list.default.dynamic-view-menu-list-download-icon",
+      "name": "Dynamic-view-menu-list-download-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.view-menu-list.default.dynamic-view-menu-list-table-icon",
+      "name": "Dynamic-view-menu-list-table-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.view-menu.t-chart-options.dynamic-view-menu-dots-icon",
+      "name": "Dynamic-view-menu-dots-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.wave-icon.default.inline-svg-wave-icon",
+      "name": "InlineSvg-wave-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.widget-callout.default.dynamic-widget-callout-info-icon",
+      "name": "Dynamic-widget-callout-info-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.widget-chart.default.inline-svg-widget-chart",
+      "name": "InlineSvg-widget-chart",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.widget-sources.item-url-t-sources.dynamic-widget-sources-link-icon",
+      "name": "Dynamic-widget-sources-link-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.ds-bot.you-avatar.default.dynamic-you-avatar-gear-icon",
+      "name": "Dynamic-you-avatar-gear-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.dsh-plugin-mobile-gateway.device-panel.tr.image-device-panel",
+      "name": "Image-device-panel",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.plugin-ui.dsh-style.mode-switcher.option-label.dynamic-mode-switcher-icon",
+      "name": "Dynamic-mode-switcher-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.settings.plugin-market.confirm-dialog.default.dynamic-confirm-dialog-market-icon",
+      "name": "Dynamic-confirm-dialog-market-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.settings.plugin-market.entry-card.default.dynamic-entry-card-market-icon",
+      "name": "Dynamic-entry-card-market-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.settings.plugin-market.entry-detail.default.dynamic-entry-detail-market-icon",
+      "name": "Dynamic-entry-detail-market-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.settings.plugin-market.market-icon.default.image-market-icon",
+      "name": "Image-market-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.settings.settings-account.account-menu.default.dynamic-account-menu-logout-icon",
+      "name": "Dynamic-account-menu-logout-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.settings.settings-account.onboarding-process-step.default.image-onboarding-process-step",
+      "name": "Image-onboarding-process-step",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.settings.settings-account.purpose-card.default.dynamic-purpose-card-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-purpose-card-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.settings.settings-models.api-key-input.t-revealed-key-hide-key-reveal.inline-svg-api-key-input",
+      "name": "InlineSvg-api-key-input",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.sidebar.sidebar-browser.browser-body.t-sandboxed-sandbox-disable-sandbox-enable.dynamic-browser-body-sandbox-policy-icon",
+      "name": "Dynamic-browser-body-sandbox-policy-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.sidebar.sidebar-browser.sandbox-policy-icon.default.inline-svg-sandbox-policy-icon",
+      "name": "InlineSvg-sandbox-policy-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.sidebar.sidebar-documentpreview.office-body.default.dynamic-office-body-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-office-body-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.sidebar.sidebar-documentpreview.text-preview.default.dynamic-text-preview-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-text-preview-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.sidebar.sidebar-documentpreview.text-title.default.dynamic-text-title-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "name": "Dynamic-text-title-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.sidebar.sidebar-right.entry-box.default.dynamic-entry-box-icon",
+      "name": "Dynamic-entry-box-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.toolbar.open-in-app.application-icon.default.image-application-icon",
+      "name": "Image-application-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.toolbar.open-in-app.open-target-button.default.dynamic-open-target-button-application-icon",
+      "name": "Dynamic-open-target-button-application-icon",
+      "resolution": "needs-inspection"
+    },
+    {
+      "semanticId": "dsh.workspace.workspace.view-options-menu.items.archive-off",
+      "name": "IconArchiveOffOutlineRegular",
+      "resolution": "needs-inspection"
+    }
+  ],
+  "conflicts": [],
+  "warnings": [
+    {
+      "resource": "native-icons/inline-28d4ced6232a9b10.svg",
+      "reason": "复杂内容或外部引用，补丁器应检查或跳过。"
+    }
+  ],
+  "notes": [
+    "mapped 按唯一原生资源计数；confirmedUsagePositions 按语义使用位置计数。",
+    "审阅态选择原样保留；同一原生资源选择不同目标时由 converter/report 列为冲突并跳过，不能任取一条。",
+    "原生素材包含所有当前可解析资源；动态与其他未解析引用未伪造 SVG，保留原生回退。",
+    "SVG 保留原始几何和实际 fill/stroke 属性；Line 名称不等于 stroke 渲染。",
+    "素材校验不代表补丁定位成功；尚未执行补丁器 dry-run、apply 或重签。"
+  ]
+}

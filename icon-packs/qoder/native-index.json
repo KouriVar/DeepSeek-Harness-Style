@@ -1,0 +1,2897 @@
+{
+  "schemaVersion": 1,
+  "resources": [
+    {
+      "resource": "native-icons/IconChevronLeftOutlineRegular.svg",
+      "sha256": "16cfc189a184483b2fd7011b4b16d128967f422a1f4b49d5f2960bcd9b4d2ec3",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconChevronLeftOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.composer.attachment.attachment-rail.labels-scroll-left.chevron-left",
+        "dsh.composer.user-questions.question-flow.t-nav-prev.chevron-left",
+        "dsh.other.schedule.date-picker.t-timing-prev-month.chevron-left",
+        "dsh.settings.settings-account.platform-overlay.default.chevron-left",
+        "dsh.sidebar.sidebar-browser.browser-body.t-back.chevron-left"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-attachment/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-browser/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconChevronRightOutlineRegular.svg",
+      "sha256": "bb8aa1dc8d2338a745f0ea0e9e9fded0d72f142ff96cc11fc5de0ad658ec793c",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconChevronRightOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.composer.attachment.attachment-rail.labels-scroll-right.chevron-right",
+        "dsh.composer.user-questions.question-flow.t-nav-next.chevron-right",
+        "dsh.conversation.chat.compaction-item.default.chevron-right",
+        "dsh.conversation.tool.detail-item.default.chevron-right",
+        "dsh.conversation.tool.tool-details.default.chevron-right",
+        "dsh.conversation.trajectory.markdown-record-content.default.chevron-right",
+        "dsh.conversation.trajectory.overview-section.default.chevron-right",
+        "dsh.conversation.trajectory.source-blocks.t-block-open-summary-index-index-1-t-block-open-summary-title.chevron-right",
+        "dsh.conversation.trajectory.tool-catalog.default.chevron-right",
+        "dsh.conversation.trajectory.trajectory-table.default.chevron-right",
+        "dsh.other.input-trigger.menu-view.default.chevron-right",
+        "dsh.other.input-trigger.menu-view.t-drill-aria.chevron-right",
+        "dsh.other.model-selection.model-select.default.chevron-right",
+        "dsh.other.plan.plan-review-open.t-preview-open.chevron-right",
+        "dsh.other.schedule.date-picker.t-timing-next-month.chevron-right",
+        "dsh.other.schedule.task-detail.default.chevron-right",
+        "dsh.other.user-questions.question-reply-bubble.default.chevron-right",
+        "dsh.other.workflow-run.phase-section.readable-phase-phase-phase-t.chevron-right",
+        "dsh.settings.plugin-manager.render-group.default.chevron-right",
+        "dsh.settings.plugin-manager.rows-section.t-configure-row-name-title.chevron-right",
+        "dsh.settings.settings-models.model-row.t-model-advanced-string-position-t-model-advanced.chevron-right",
+        "dsh.sidebar.sidebar-browser.browser-body.t-forward.chevron-right",
+        "dsh.toolbar.subagent.catalog-rows.t-is-expanded-branch-collapse-branch-expand-label.chevron-right",
+        "dsh.toolbar.subagent.catalog-rows.t-open-sidebar-aria-label.chevron-right",
+        "dsh.toolbar.workflow-run.run-header.t-run-title-name.chevron-right",
+        "dsh.workspace.directory-picker-browse.directory-browser.default.chevron-right",
+        "dsh.workspace.directory-picker-browse.level-column.default.chevron-right"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-attachment/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-input-trigger/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-model-selection/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plan/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workflow-run/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-models/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-browser/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-subagent/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-directory-picker-browse/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconCloseFillRegular.svg",
+      "sha256": "d8ee10fcd11788ac80ed34e021259ce388f47adef604c8d015709a8fd0fcca8b",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconCloseFillRegular"
+      ],
+      "semanticIds": [
+        "dsh.composer.attachment.composer-attachments.t-image-remove-name-attachment-file-name.close",
+        "dsh.composer.attachment.file-card.labels-remove.close",
+        "dsh.other.model-selection.model-select.t-search-clear.close",
+        "dsh.workspace.workspace.workspace-browser.t-search-clear.close"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-attachment/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-model-selection/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconLoadingOutlineRegular.svg",
+      "sha256": "e570960da826989238eebb3c584dd31d59a6797607900bd799697d5382401b56",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconLoadingOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.composer.attachment.message-image.default.loading",
+        "dsh.other.dsh-experimental-client-ui-cot-translation.translation-body.t-translating.loading",
+        "dsh.settings.settings-account.sign-in-dialog.waiting-t-waiting-void-0.loading",
+        "dsh.settings.settings-general.desktop-update-indicator.default.loading"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-attachment/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-experimental-client-ui-cot-translation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-general/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconRefreshOutlineRegular.svg",
+      "sha256": "6ccf1d847da2cd9e44d131f3dc50292ad9b7c0ef9787a9a71c00a2eee8acb3d0",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconRefreshOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.composer.attachment.message-image.default.refresh",
+        "dsh.conversation.shortcuts.shortcut-reference.default.refresh",
+        "dsh.file-explorer.sidebar-files.files-body.t-reload.refresh",
+        "dsh.other.dsh-web-frontend.connection-indicator.default.refresh",
+        "dsh.settings.plugin-manager.package-detail.t-update-label-name-title.refresh",
+        "dsh.settings.plugin-manager.plugin-manager-page.default.refresh",
+        "dsh.settings.plugin-market.browser.t-refresh.refresh",
+        "dsh.sidebar.sidebar-browser.browser-body.t-reload.refresh",
+        "dsh.sidebar.sidebar-documentpreview.text-preview.default.refresh",
+        "dsh.sidebar.sidebar-documentpreview.text-preview.t-reload.refresh",
+        "dsh.toolbar.subagent.catalog-rows.default.refresh"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-attachment/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-shortcuts/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-files/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-market/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-browser/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-documentpreview/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-subagent/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-328f465a3e4f096f.svg",
+      "sha256": "328f465a3e4f096fb73bae752b4a9c527b23f81881066a1b6a68cbf5e75f4d77",
+      "viewBox": "0 0 115 84",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-upload-disabled-illustration-328f465a"
+      ],
+      "semanticIds": [
+        "dsh.composer.attachment.upload-disabled-illustration.default.inline-svg-upload-disabled-illustration-328f465a"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-attachment/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-8340395884a5769e.svg",
+      "sha256": "8340395884a5769e4fae235ff7d99ab611ebcdb55bcb68a7bc5a338ce7078cad",
+      "viewBox": "0 0 115 84",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-upload-illustration-83403958"
+      ],
+      "semanticIds": [
+        "dsh.composer.attachment.upload-illustration.default.inline-svg-upload-illustration-83403958"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-attachment/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconWarningOutlineRegular.svg",
+      "sha256": "4fbdc8cb4aae111b2c7b0995bb74df988f9d16acce0930868ec38a3ec0a47dd6",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconWarningOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.composer.conversation.input-bar.default.warning",
+        "dsh.conversation.chat.quota-notice-host.fallback.warning",
+        "dsh.conversation.message-feedback.feedback-dialog.default.warning",
+        "dsh.other.agent-preset.agent-preset-seat.default.warning",
+        "dsh.other.dsh-web-frontend.risk-confirmation.default.warning",
+        "dsh.other.model-selection.model-select.default.warning",
+        "dsh.other.schedule.catalog-feedback.default.warning",
+        "dsh.other.schedule.delivery-history.default.warning",
+        "dsh.other.schedule.schedule-delete-toast.default.warning",
+        "dsh.settings.plugin-manager.install-dialog.default.warning",
+        "dsh.settings.plugin-manager.plugin-manager-page.default.warning",
+        "dsh.settings.plugin-manager.plugin-refresh-toast.default.warning",
+        "dsh.settings.plugin-market.confirm-dialog.default.warning",
+        "dsh.settings.plugin-market.entry-detail.default.warning",
+        "dsh.settings.plugin-market.sources-dialog.default.warning",
+        "dsh.settings.settings-account.account-quota-notice.default.warning",
+        "dsh.toolbar.open-in-app.use-open-failure-toast.default.warning",
+        "dsh.workspace.workspace.workspace-toast.default.warning"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-message-feedback/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-agent-preset/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-model-selection/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-market/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-open-in-app/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-e32ac3bb2e4556da.svg",
+      "sha256": "e32ac3bb2e4556dae23d8e229822d77cfc1fe5c85ee97b733daec90a06db48e1",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-input-bar-send"
+      ],
+      "semanticIds": [
+        "dsh.composer.conversation.input-bar.primary-label.inline-svg-input-bar-send"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-064ce14930f81b0c.svg",
+      "sha256": "064ce14930f81b0c54967089945cfac744ac242d7aa68284c48be990da6bd01e",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-input-bar-stop",
+        "InlineSvg-input-bar-064ce149"
+      ],
+      "semanticIds": [
+        "dsh.composer.conversation.input-bar.primary-label.inline-svg-input-bar-stop",
+        "dsh.composer.conversation.input-bar.t-input-stop.inline-svg-input-bar-064ce149"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconPlusOutlineMedium.svg",
+      "sha256": "c78443c0db96b2a96d312a8ede545fa43b57dd3759e4258606dc5d154d9f6db2",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconPlusOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.composer.conversation.input-bar.t-input-commands.plus"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconPaperclipOutlineRegular.svg",
+      "sha256": "2452f42af37112746fe471ad4c55e838f532756baac3ba5671ab320343b462aa",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconPaperclipOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.composer.conversation.module.default.paperclip"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconCheckOutlineRegular.svg",
+      "sha256": "a51318daa5f577f6e2fb0d29a0583841601e3b536daa7fd01e61f38c57730608",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconCheckOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.composer.user-questions.question-flow.default.check",
+        "dsh.conversation.chat.message-icon-actions.copied-t-copied-t-copy.check",
+        "dsh.conversation.conversation.queue-dock.t-queue-save.check",
+        "dsh.conversation.tool.detail-item.default.check",
+        "dsh.conversation.trajectory.inspector-copy-button.title.check",
+        "dsh.other.commands.render-option.default.check",
+        "dsh.other.cordis.double-check-icon.default.check",
+        "dsh.other.cordis.render-row.t-action-approve-once.check",
+        "dsh.other.dsh-web-frontend.connection-indicator.default.check",
+        "dsh.other.dsh-web-frontend.menu.default.check",
+        "dsh.other.dsh-web-frontend.state-dot.default.check",
+        "dsh.other.entry-customization.entry-menu-content.default.check",
+        "dsh.other.goal.goal-bar.t-action-save.check",
+        "dsh.other.model-selection.model-select.default.check",
+        "dsh.other.schedule.render-entry.default.check",
+        "dsh.other.user-questions.question-reply-bubble.copied-t-copied-t-copy.check",
+        "dsh.settings.settings-account.purpose-card.default.check",
+        "dsh.workspace.directory-picker-browse.directory-browser.default.check"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-commands/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-cordis/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-entry-customization/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-goal/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-model-selection/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-directory-picker-browse/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconEditOutlineRegular.svg",
+      "sha256": "fa6b839aeae8fd38fb926ef5775a6541e01152fab826e4f29dc7f42c8e23ccf5",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconEditOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.composer.user-questions.question-flow.default.edit",
+        "dsh.conversation.chat.process-icons.edit.edit",
+        "dsh.conversation.chat.process-icons.write.edit",
+        "dsh.conversation.conversation.queue-dock.t-queue-edit-t-queue-sending.edit",
+        "dsh.conversation.conversation.queue-dock.t-queue-edit-text-null-t-queue-edit-unsupported-void-0.edit",
+        "dsh.conversation.tool.file-mutation-icon.default.edit",
+        "dsh.conversation.tool.variant-icons.edit.edit",
+        "dsh.conversation.tool.variant-icons.write.edit",
+        "dsh.other.goal.goal-bar.t-action-edit.edit",
+        "dsh.other.user-questions.plan-review-panel.default.edit",
+        "dsh.workspace.directory-picker-browse.directory-browser.t-browser-edit-path.edit",
+        "dsh.workspace.workspace.project-row-item.default.edit",
+        "dsh.workspace.workspace.rename-session-menu-item.default.edit"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-goal/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-directory-picker-browse/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconChevronDownOutlineRegular.svg",
+      "sha256": "24d26a1a6cf759b2ac6fd5ee005c3fb9cb70914fad8dd0ab05084083b0232c0e",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconChevronDownOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.composer.user-questions.question-flow.t-minimized-nav-maximize-nav-minimize.chevron-down",
+        "dsh.conversation.chat.chat-view.t-chat-to-bottom.chevron-down",
+        "dsh.conversation.chat.compaction-item.default.chevron-down",
+        "dsh.conversation.chat.turn-process-node-view.default.chevron-down",
+        "dsh.conversation.chat.turn-trigger-node-view.default.chevron-down",
+        "dsh.conversation.conversation.queue-dock.default.chevron-down",
+        "dsh.conversation.conversation.todo-panel.default.chevron-down",
+        "dsh.conversation.tool.bash-row.default.chevron-down",
+        "dsh.other.agent-preset.agent-preset-seat.typeof-state-error-object-state-error-reason-state-error-t-seat-hint.chevron-down",
+        "dsh.other.deliverables.changed-files.default.chevron-down",
+        "dsh.other.deliverables.deliverables.default.chevron-down",
+        "dsh.other.deliverables.review-tab.t-review-select-file-file-display.chevron-down",
+        "dsh.other.dsh-client-locale.language-row.default.chevron-down",
+        "dsh.other.dsh-experimental-client-ui-agent-team.task-card.default.chevron-down",
+        "dsh.other.dsh-experimental-client-ui-voice-input.preparation-card.default.chevron-down",
+        "dsh.other.dsh-web-frontend.disclosure-row.default.chevron-down",
+        "dsh.other.jobs.job-item.default.chevron-down",
+        "dsh.other.jobs.job-list-action.count-label.chevron-down",
+        "dsh.other.jobs.job-list-action.default.chevron-down",
+        "dsh.other.model-selection.model-select.default.chevron-down",
+        "dsh.other.permission-presets.permission-row.default.chevron-down",
+        "dsh.other.permission-presets.permission-select.default.chevron-down",
+        "dsh.other.schedule.cron-rows.default.chevron-down",
+        "dsh.other.schedule.cron-stepper.decrease-label.chevron-down",
+        "dsh.other.schedule.rule-card.default.chevron-down",
+        "dsh.other.schedule.rule-card.t-timing-interval-decrease.chevron-down",
+        "dsh.other.schedule.saved-prompt.default.chevron-down",
+        "dsh.other.skill.disclosure-leading.default.chevron-down",
+        "dsh.other.theme.font-size-row.t-font-size-more.chevron-down",
+        "dsh.other.theme.font-size-row.t-font-size-role-decrease.chevron-down",
+        "dsh.other.user-questions.question-reply-bubble.default.chevron-down",
+        "dsh.settings.chat.preference-row.default.chevron-down",
+        "dsh.settings.conversation.enter-behavior-row.default.chevron-down",
+        "dsh.settings.plugin-manager.add-plugin-menu.t-choose-add-method-anchor.chevron-down",
+        "dsh.settings.plugin-manager.detail-top.crumb-label.chevron-down",
+        "dsh.settings.plugin-manager.install-dialog.default.chevron-down",
+        "dsh.settings.plugin-market.browser.default.chevron-down",
+        "dsh.settings.plugin-market.browser.t-market-menu-market.chevron-down",
+        "dsh.settings.plugin-market.entry-detail.default.chevron-down",
+        "dsh.settings.settings-models.model-row.t-model-advanced-string-position-t-model-advanced.chevron-down",
+        "dsh.settings.settings-plugin-inventory.plugin-card.default.chevron-down",
+        "dsh.settings.settings-plugin-inventory.plugin-inventory-settings-tab.default.chevron-down",
+        "dsh.settings.settings-plugin-inventory.plugin-inventory-settings-tab.t-switcher-label.chevron-down",
+        "dsh.sidebar.sidebar-documentpreview.zoom-controls.labels-menu.chevron-down",
+        "dsh.sidebar.sidebar-terminal.terminal-guide.t-shell-anchor.chevron-down",
+        "dsh.task-monitor.dsh-style.task-monitor-panel.default.chevron-down",
+        "dsh.toolbar.chat.process-group-header.default.chevron-down",
+        "dsh.toolbar.open-in-app.open-target-button.t-path-more.chevron-down",
+        "dsh.toolbar.subagent.catalog-dropdown.default.chevron-down",
+        "dsh.workspace.conversation.workspace-chip.t-hero-choose-workspace.chevron-down"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-agent-preset/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-deliverables/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-locale/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-experimental-client-ui-agent-team/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-experimental-client-ui-voice-input/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-jobs/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-model-selection/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-permission-presets/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-skill/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-theme/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-market/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-models/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-plugin-inventory/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-documentpreview/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-terminal/lib/client.js",
+        "client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-open-in-app/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-subagent/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconChevronUpOutlineRegular.svg",
+      "sha256": "ae099ce5417fcd476466ee8521b38b904d37ef70daf192076bebd50825e3bfe2",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconChevronUpOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.composer.user-questions.question-flow.t-minimized-nav-maximize-nav-minimize.chevron-up",
+        "dsh.conversation.conversation.queue-dock.default.chevron-up",
+        "dsh.conversation.conversation.todo-panel.default.chevron-up",
+        "dsh.conversation.tool.bash-row.default.chevron-up",
+        "dsh.other.deliverables.changed-files.default.chevron-up",
+        "dsh.other.deliverables.deliverables.default.chevron-up",
+        "dsh.other.dsh-web-frontend.disclosure-row.default.chevron-up",
+        "dsh.other.schedule.cron-stepper.increase-label.chevron-up",
+        "dsh.other.schedule.rule-card.t-timing-interval-increase.chevron-up",
+        "dsh.other.schedule.saved-prompt.default.chevron-up",
+        "dsh.other.theme.font-size-row.t-font-size-role-increase.chevron-up",
+        "dsh.toolbar.chat.process-group-header.default.chevron-up"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-deliverables/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-theme/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconCloseOutlineRegular.svg",
+      "sha256": "5f125fe6d617de163a0e1acfac8384d2febbe67f5903168c133cd8af0d5f692a",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconCloseOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.composer.user-questions.question-flow.t-pending-dismissal-hide-nav-close-nav-cancel.close",
+        "dsh.conversation.conversation.queue-dock.t-queue-cancel-edit.close",
+        "dsh.conversation.shortcuts.shortcut-reference.t-clear-search.close",
+        "dsh.conversation.shortcuts.shortcut-reference.t-close.close",
+        "dsh.other.agent-preset.preset-guide-dialog.t-close.close",
+        "dsh.other.cordis.render-row.t-action-decline.close",
+        "dsh.other.dsh-experimental-client-ui-voice-input.voice-input.t-pending-discard-cancel.close",
+        "dsh.other.dsh-web-frontend.image-lightbox.r-close.close",
+        "dsh.other.dsh-web-frontend.modal.i.close",
+        "dsh.other.goal.goal-bar.t-action-cancel.close",
+        "dsh.other.schedule.task-detail.t-detail-close.close",
+        "dsh.other.schedule.task-manager-page.t-search-clear.close",
+        "dsh.settings.settings-account.notice-card.close-label.close",
+        "dsh.settings.settings-account.onboarding-confirmation.t-close.close",
+        "dsh.settings.settings-account.sign-in-dialog.t-close.close",
+        "dsh.settings.settings-account.sign-out-dialog.t-close.close",
+        "dsh.settings.settings-general.settings-panel.default.close",
+        "dsh.sidebar.sidebar-documentpreview.font-notice.t-close-details.close",
+        "dsh.task-monitor.dsh-style.task-monitor-panel.default.close"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-shortcuts/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-agent-preset/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-cordis/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-experimental-client-ui-voice-input/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-goal/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-general/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-documentpreview/lib/client.js",
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconGaugeOutlineRegular.svg",
+      "sha256": "dadfedb927b4085ba89177e61e130c2802c12e621a0feb433f2e3b4a8a86bf8d",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconGaugeOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.activity-pill.default.gauge"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconApiOutlineRegular.svg",
+      "sha256": "8cb7c9e351c6b730757852b39ef3738bbe236b22f6cf5cfc73d968770bab1f57",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconApiOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.command-icon.default.api",
+        "dsh.conversation.chat.compaction-item.default.api",
+        "dsh.conversation.chat.process-icons.commands.api",
+        "dsh.conversation.tool.bash-icon.default.api",
+        "dsh.conversation.tool.variant-icons.bash.api"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconContextInjectionOutlineRegular.svg",
+      "sha256": "9d61c230239b9b286ae56ef4b7759428d828b8b912082e309a8d55918383466e",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconContextInjectionOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.context-injection-row.default.context-injection"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconBrowseOutlineRegular.svg",
+      "sha256": "7d92b108b45a70e73ece863bf9ae9b979a0189c9c9ae42860c2c453ba1463f8c",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconBrowseOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.context-injection-row.single-void-0-t-single-type-tool-addition-message-tool-added-message-tool-removed-name-single-tool-name-t-tool-blocks-void-0-message-tools-updated-producer-role-recall-message-c.browse",
+        "dsh.conversation.chat.process-icons.read-image.browse",
+        "dsh.conversation.chat.process-icons.read.browse",
+        "dsh.conversation.chat.process-icons.web-fetch.browse",
+        "dsh.conversation.chat.system-prompt-row.t-update-message-system-prompt-update-message-system-prompt.browse",
+        "dsh.conversation.tool.read-family-row.t-model-title-key.browse",
+        "dsh.conversation.tool.variant-icons.read.browse",
+        "dsh.conversation.tool.web-row.default.browse",
+        "dsh.other.agent-preset.agent-preset-section.t-view-display-name.browse"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-agent-preset/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconCopyOutlineRegular.svg",
+      "sha256": "41c0340b2675d7609dfc2bc9d8e6666d612ba5a455f153949b9e4078bc37958d",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconCopyOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.message-icon-actions.copied-t-copied-t-copy.copy",
+        "dsh.conversation.trajectory.inspector-copy-button.title.copy",
+        "dsh.other.user-questions.question-reply-bubble.copied-t-copied-t-copy.copy",
+        "dsh.workspace.workspace.session-id-menu-item.default.copy"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-user-questions/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconBranchOutlineRegular.svg",
+      "sha256": "cd4bf1f11826d4e1f3c8f4b5e36da56e00a6447f99af1179838920e5f31ff5ce",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconBranchOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.message-icon-actions.t-message-branch.branch",
+        "dsh.conversation.tool.detail-icon.default.branch",
+        "dsh.workspace.workspace.fork-session-menu-item.default.branch"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconCodeOutlineRegular.svg",
+      "sha256": "583b8297af63ae52e473574dbf47ed2b8c5162f4af4c6d659fa0449bb55e330b",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconCodeOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.process-icons.code.code",
+        "dsh.conversation.tool.detail-icon.default.code",
+        "dsh.conversation.tool.variant-icons.code.code",
+        "dsh.conversation.trajectory.record-list-text.default.code",
+        "dsh.other.cordis.cordis-define-row.props-t-row-define-title.code",
+        "dsh.other.cordis.cordis-run-row.props-t-row-run-title.code",
+        "dsh.other.cordis.started-cordis-define-row.t-row-define-title.code",
+        "dsh.other.cordis.started-cordis-run-row.default.code"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-cordis/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconPlanOutlineRegular.svg",
+      "sha256": "f1f172a57e2830df966494b602c882f6ef7207f8d6cc11f51f21cfef7dbacdc4",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconPlanOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.process-icons.plan.plan",
+        "dsh.other.plan.plan-chip.default.plan"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plan/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconQuestionOutlineRegular.svg",
+      "sha256": "d38e6143d2677c0788d28cd256a7bf51352c7b031ed9d3378b44257d1109285c",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconQuestionOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.process-icons.questions.question",
+        "dsh.conversation.tool.ask-question-row.t-model-title-key.question",
+        "dsh.conversation.tool.question-tool-row.default.question",
+        "dsh.conversation.tool.question-tool-row.t-ask-row-title.question"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconSearchOutlineRegular.svg",
+      "sha256": "4b0bf93cf4d7d1d2a21dcd7b65aa44ae4fc9856433019b9fe291244f0a544e69",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconSearchOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.process-icons.search.search",
+        "dsh.conversation.tool.detail-icon.default.search",
+        "dsh.conversation.tool.search-row.t-tool-name-grep-search-title-keys-grep-tool-name-glob-search-title-keys-glob-model-title-key.search",
+        "dsh.conversation.tool.variant-icons.search.search",
+        "dsh.other.schedule.task-manager-page.t-search-label.search",
+        "dsh.plugin-ui.ds-bot.team-sidebar.t-search.search",
+        "dsh.settings.plugin-market.browser.t-search.search",
+        "dsh.settings.settings-plugin-inventory.plugin-inventory-settings-tab.default.search",
+        "dsh.toolbar.trajectory.trajectory-toolbar.default.search",
+        "dsh.workspace.workspace.workspace-browser.t-search-sessions-aria.search"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-market/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-plugin-inventory/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconAgentPresetOutlineRegular.svg",
+      "sha256": "fd3f64e3b4c6d5ed8ee56477c1903fdccf2674a2cd1c460bb6228ad5aa56b79c",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconAgentPresetOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.process-icons.subagents.agent-preset",
+        "dsh.conversation.tool.detail-icon.default.agent-preset",
+        "dsh.other.agent-preset.agent-preset-label.text-description-t-header-hint.agent-preset",
+        "dsh.other.agent-preset.agent-preset-seat.typeof-state-error-object-state-error-reason-state-error-t-seat-hint.agent-preset",
+        "dsh.other.agent-preset.create-plugin-menu-item.default.agent-preset",
+        "dsh.plugin-ui.ds-bot.bot-panel-icon.default.agent-preset",
+        "dsh.plugin-ui.ds-bot.native-bot-details.t-view-conversation-details.agent-preset",
+        "dsh.plugin-ui.dsh-style.mode-switcher.icon.agent-preset"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-agent-preset/lib/client.js",
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconThinkOutlineRegular.svg",
+      "sha256": "d0fda9b8d3cbd22d29425d4febde1fa6a9ccc7410721f039f56fe712b55ef0cb",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconThinkOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.process-icons.thinking.think",
+        "dsh.conversation.chat.think-icon.default.think"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconSparkleRegular.svg",
+      "sha256": "ea5c5417066f4f4fe409076a6057d47d4cf585bc5874c7871d98ae721a1f3816",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconSparkleRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.process-icons.tools.sparkle",
+        "dsh.conversation.tool.variant-icons.others.sparkle",
+        "dsh.conversation.trajectory.kind-icon.message.sparkle"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconGlobeOutlineRegular.svg",
+      "sha256": "6ff79530422ff84284d1365e3a3cbfb5aec91d1215f5508f17964c285740abb6",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconGlobeOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.process-icons.web-search.globe",
+        "dsh.conversation.tool.web-row.default.globe",
+        "dsh.sidebar.sidebar-browser.browser-title.default.globe"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-browser/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconDatabaseOutlineRegular.svg",
+      "sha256": "f8646615aaf4609b691055db80b9f80cb4832c90d4fcf68e63ff0ee08baaf0ae",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconDatabaseOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.chat.turn-usage-panel.default.database",
+        "dsh.conversation.chat.usage-pill.default.database"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconQueueOutlineRegular.svg",
+      "sha256": "be6755dc31d7cc4422fbe0b263b9f29e542af653062f49e19adfbe38adc94b24",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconQueueOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.conversation.queue-dock.default.queue",
+        "dsh.workspace.workspace.empty-sessions.default.queue",
+        "dsh.workspace.workspace.view-options-menu.items.queue"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconTrashOutlineRegular.svg",
+      "sha256": "86a61ca8fd2c231c8b8c3057b8c15b7e23c5d659e63ec90cc7d143a5206403aa",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconTrashOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.conversation.queue-dock.t-queue-remove-t-queue-sending.trash",
+        "dsh.conversation.conversation.queue-dock.t-queue-remove.trash",
+        "dsh.other.cordis.cordis-action-row.props-t-remove-row-remove-title-row-stop-title.trash",
+        "dsh.other.cordis.render-row.t-action-remove.trash",
+        "dsh.other.cordis.started-cordis-action-row.default.trash",
+        "dsh.other.goal.goal-bar.t-action-clear.trash",
+        "dsh.other.schedule.schedule-catalog-action.t-delete-label-title-task-name-record-t-deleting-includes-record-id-delete-pending-delete-action.trash",
+        "dsh.other.schedule.task-detail.default.trash",
+        "dsh.settings.plugin-manager.package-detail.t-uninstall-label-name-title.trash",
+        "dsh.settings.plugin-market.sources-dialog.t-remove-source-named-url-index-url.trash",
+        "dsh.settings.settings-models.model-reasoning-efforts.t-model-reasoning-remove-level-t-model-reasoning-remove.trash",
+        "dsh.settings.settings-models.model-row.t-remove-model-string-position-t-remove-model.trash",
+        "dsh.workspace.workspace.project-row-item.default.trash"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-cordis/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-goal/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-market/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-models/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconSendOutlineRegular.svg",
+      "sha256": "fd823be8082a6daeea725dd7223465644c4657d55a8015ef6fcb18015e0f6a29",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconSendOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.conversation.queue-dock.t-queue-steer-running-void-0-t-queue-steer-unavailable.send",
+        "dsh.conversation.conversation.queue-dock.t-queue-steer-t-queue-sending.send"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconChecklistOutlineRegular.svg",
+      "sha256": "8aa91d3473d915763c784c3358645b8c6d6b1738c85917a89930f8f758a94d06",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconChecklistOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.conversation.todo-panel.default.checklist",
+        "dsh.conversation.tool.detail-icon.default.checklist",
+        "dsh.conversation.tool.todo-row.t-model-title-key.checklist",
+        "dsh.task-monitor.dsh-style.monitor-button.default.checklist"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconEllipsisOutlineRegular.svg",
+      "sha256": "1153081ad2901a9e7c29c539c3156c6266984bec9654326f7aae10cc8d51e595",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "IconEllipsisOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.conversation.views-more-menu.label.ellipsis",
+        "dsh.other.schedule.task-detail.t-detail-more-anchor.ellipsis",
+        "dsh.toolbar.dsh-session-log-export.session-log-download-header-action.t-header-more-anchor.ellipsis",
+        "dsh.workspace.workspace.project-row-item.t-actions-workspace-aria-name-label-anchor.ellipsis",
+        "dsh.workspace.workspace.session-node-item.t-actions-session-aria-name-title-anchor.ellipsis"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-session-log-export/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconDislikeFillRegular.svg",
+      "sha256": "8ea657d71d8d3e9929f298fe55e5183cd3dcdb8b364e6718e2bed0ddd6a962f7",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconDislikeFillRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.message-feedback.message-feedback-actions.dislike-label.dislike"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-message-feedback/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconLikeFillRegular.svg",
+      "sha256": "6e5aeb3d677de7e6f54eeb99c8174ad02e7738c24813ae0dd3b1b1ed4b42a553",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconLikeFillRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.message-feedback.message-feedback-actions.like-label.like"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-message-feedback/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-a27544b3ca2d4d7e.svg",
+      "sha256": "a27544b3ca2d4d7e945000a7af58d56a11dddb5910a2770a98aa6e787dd9cf0d",
+      "viewBox": "0 0 14 14",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-shortcut-reference-a27544b3"
+      ],
+      "semanticIds": [
+        "dsh.conversation.shortcuts.shortcut-reference.t-search.inline-svg-shortcut-reference-a27544b3"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-shortcuts/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconInspectOutlineRegular.svg",
+      "sha256": "2c4a731740e9efb0963d719023ac9306607217dc5c70afa5e0e6db824a210bb5",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconInspectOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.tool.bash-row.default.inspect",
+        "dsh.conversation.tool.question-tool-row.default.inspect",
+        "dsh.conversation.tool.tool-row.default.inspect",
+        "dsh.other.cordis.started-cordis-action-row.t-action-inspect.inspect",
+        "dsh.other.cordis.started-cordis-define-row.default.inspect",
+        "dsh.other.cordis.started-cordis-run-row.t-action-inspect.inspect",
+        "dsh.other.deliverables.review-tab.t-review-open-file-aria-name-file-display.inspect",
+        "dsh.other.skill.started-skill-row.default.inspect"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-cordis/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-deliverables/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-skill/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconClockOutlineRegular.svg",
+      "sha256": "3b9f36211d2fcd01e94d1a3d458243532ed428b7df4731b53f1c6d4223cd42d6",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconClockOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.tool.detail-icon.default.clock",
+        "dsh.other.schedule.cron-rows.t-timing-time.clock",
+        "dsh.other.schedule.delivery-history.default.clock",
+        "dsh.other.schedule.delivery-history.t-delivery-label.clock",
+        "dsh.other.schedule.rule-card.t-timing-time.clock",
+        "dsh.other.schedule.schedule-catalog-action.trigger-label.clock",
+        "dsh.other.schedule.schedule-create-card.default.clock",
+        "dsh.other.schedule.schedule-task-tab-title.default.clock",
+        "dsh.other.schedule.schedule-task-tab.default.clock",
+        "dsh.other.schedule.session-schedule-hover.default.clock",
+        "dsh.other.schedule.session-schedule-mark.default.clock",
+        "dsh.other.schedule.task-manager-icon.default.clock",
+        "dsh.other.schedule.task-manager-page.default.clock",
+        "dsh.other.schedule.task-manager-page.task-name-record.clock",
+        "dsh.workspace.workspace.view-options-menu.items.clock"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconCordisPluginOutlineRegular.svg",
+      "sha256": "6181901bab7a1e15ebb47dc971e998476ef30e4c932edd5f71dff15391deeef8",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconCordisPluginOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.tool.detail-icon.default.cordis-plugin",
+        "dsh.other.cordis.cordis-panel.t-panel-plugins-aria.cordis-plugin"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-cordis/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconGoalOutlineRegular.svg",
+      "sha256": "bf5250053b076f70e35e57e8d370a94d5b436da3a0c5ca0530660296400be4a2",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconGoalOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.tool.detail-icon.default.goal",
+        "dsh.other.goal.goal-bar.default.goal"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-goal/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconUsersOutlineRegular.svg",
+      "sha256": "19e5997a560cccd6e43cf7170490849fc67491409d36fc005dde699b88422bf5",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconUsersOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.tool.detail-icon.default.users",
+        "dsh.other.dsh-experimental-client-ui-agent-team.team-action.t-trigger.users"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-experimental-client-ui-agent-team/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconPlayOutlineRegular.svg",
+      "sha256": "183f82799cc4ad5ece1bc38bd2115190cdb4b7442968bfebd53e43f0479f6892",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconPlayOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.tool.detail-item.default.play",
+        "dsh.file-explorer.sidebar-files.files-body.t-auto-refresh-t-state-auto-refresh-auto-refresh-disable-auto-refresh-enable.play",
+        "dsh.other.cordis.render-row.t-action-run.play",
+        "dsh.other.goal.goal-bar.t-action-resume.play",
+        "dsh.sidebar.sidebar-documentpreview.text-preview.t-auto-refresh.play"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-tool/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-files/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-cordis/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-goal/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-documentpreview/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-ba0a3309036f6996.svg",
+      "sha256": "ba0a3309036f699689d466970c2b667001683ff1e4160a432cacda0523e82594",
+      "viewBox": "0 0 24 24",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-assistant-tool-calls-ba0a3309",
+        "Local-ToolGlyph",
+        "InlineSvg-tool-glyph-ba0a3309"
+      ],
+      "semanticIds": [
+        "dsh.conversation.trajectory.assistant-tool-calls.t-block-open-summary-title.inline-svg-assistant-tool-calls-ba0a3309",
+        "dsh.conversation.trajectory.tool-catalog.default.local-tool-glyph",
+        "dsh.conversation.trajectory.tool-glyph.default.inline-svg-tool-glyph-ba0a3309"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-f0b169ee11b542ab.svg",
+      "sha256": "f0b169ee11b542abdc1a3c4fe3c80858c298251dbf9746ab3b3af3918599288b",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-compacted-icon-f0b169ee",
+        "Local-CompactedIcon"
+      ],
+      "semanticIds": [
+        "dsh.conversation.trajectory.compacted-icon.default.inline-svg-compacted-icon-f0b169ee",
+        "dsh.conversation.trajectory.kind-icon.compacted.local-compacted-icon"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-f2e92c472dd5c453.svg",
+      "sha256": "f2e92c472dd5c453fcf7c049be4ed543ca008c47ec4fd2d52488d534b5ab678f",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-information-icon-f2e92c47",
+        "Local-InformationIcon"
+      ],
+      "semanticIds": [
+        "dsh.conversation.trajectory.information-icon.default.inline-svg-information-icon-f2e92c47",
+        "dsh.conversation.trajectory.kind-icon.context.local-information-icon"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-5c049ad8071d53e7.svg",
+      "sha256": "5c049ad8071d53e73556e7e8552f512241c12584e01de0d1742f9b9f351e851b",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "Local-ToolWrenchIcon",
+        "InlineSvg-tool-wrench-icon-5c049ad8"
+      ],
+      "semanticIds": [
+        "dsh.conversation.trajectory.kind-icon.subtool.local-tool-wrench-icon",
+        "dsh.conversation.trajectory.kind-icon.tool.local-tool-wrench-icon",
+        "dsh.conversation.trajectory.tool-wrench-icon.default.inline-svg-tool-wrench-icon-5c049ad8"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconSettingsOutlineRegular.svg",
+      "sha256": "f391af760238980c0954438f32f2ac317dce6f831179345716675b081c41fa84",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconSettingsOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.trajectory.kind-icon.system.settings"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconUserOutlineRegular.svg",
+      "sha256": "7116c2d977619805eac2f19206ea795ada1eb760bba0414c528e782e11e007d5",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconUserOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.trajectory.kind-icon.user.user",
+        "dsh.other.dsh-experimental-client-ui-agent-team.team-member-row.default.user"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-experimental-client-ui-agent-team/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-f39385ffa024f81f.svg",
+      "sha256": "f39385ffa024f81f731464bb551947158cb636fddde79774d9ef26fcf40d71d3",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-program-input-f39385ff"
+      ],
+      "semanticIds": [
+        "dsh.conversation.trajectory.program-input.t-code-original-json.inline-svg-program-input-f39385ff"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconWrapLinesOutlineRegular.svg",
+      "sha256": "42f8acf32f0df124263891d94edb5a69d832557b936fabe6147f14fd8153da76",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconWrapLinesOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.conversation.trajectory.program-input.t-record-wrap-lines.wrap-lines"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconFolderCloseRegular.svg",
+      "sha256": "f2c230c1c5e757c95a12c6f9942c4cfd96b0f75ba479eab21daa2cc54d92bc4c",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconFolderCloseRegular"
+      ],
+      "semanticIds": [
+        "dsh.file-explorer.sidebar-files.entry.default.folder-close",
+        "dsh.workspace.conversation.workspace-chip.default.folder-close",
+        "dsh.workspace.directory-picker-browse.level-column.default.folder-close",
+        "dsh.workspace.workspace.project-row-item.default.folder-close",
+        "dsh.workspace.workspace.view-options-menu.items.folder-close",
+        "dsh.workspace.workspace.workspace-pick-flow.default.folder-close"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-files/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-directory-picker-browse/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconFolderOpenRegular.svg",
+      "sha256": "932ac9145918ec92959afebfddf88f2ca0a1335a865f8f0a1a9526764a1d8619",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "IconFolderOpenRegular"
+      ],
+      "semanticIds": [
+        "dsh.file-explorer.sidebar-files.entry.default.folder-open",
+        "dsh.workspace.conversation.workspace-chip.default.folder-open",
+        "dsh.workspace.directory-picker-browse.level-column.default.folder-open",
+        "dsh.workspace.workspace.project-row-item.default.folder-open"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-files/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-directory-picker-browse/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconPauseOutlineRegular.svg",
+      "sha256": "feb17d91d3eda17a287fe53294aecdf3959cf0a11bd3455d46b34a91dc5922e1",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconPauseOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.file-explorer.sidebar-files.files-body.t-auto-refresh-t-state-auto-refresh-auto-refresh-disable-auto-refresh-enable.pause",
+        "dsh.other.goal.goal-bar.t-action-pause.pause",
+        "dsh.sidebar.sidebar-documentpreview.text-preview.t-auto-refresh.pause"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-files/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-goal/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-documentpreview/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconPlusOutlineRegular.svg",
+      "sha256": "3ef44b6f98093219769428d45dcba647f944d96140d397c046be70eda856153b",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconPlusOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.agent-preset.agent-preset-section.default.plus",
+        "dsh.other.entry-customization.entry-menu-content.default.plus",
+        "dsh.other.schedule.task-manager-page.default.plus",
+        "dsh.settings.plugin-manager.add-plugin-menu.default.plus",
+        "dsh.settings.plugin-manager.plugin-manager-page.default.plus",
+        "dsh.settings.plugin-market.discover-section.default.plus",
+        "dsh.settings.plugin-market.sources-dialog.default.plus",
+        "dsh.settings.settings-models.deep-seek-models-editor.default.plus",
+        "dsh.settings.settings-models.loaded.default.plus",
+        "dsh.settings.settings-models.model-list-editor.default.plus",
+        "dsh.settings.settings-models.model-reasoning-efforts.default.plus",
+        "dsh.sidebar.sidebar-documentpreview.zoom-controls.labels-into.plus",
+        "dsh.workspace.directory-picker-browse.directory-browser.default.plus",
+        "dsh.workspace.workspace.workspace-pick-flow.default.plus"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-agent-preset/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-entry-customization/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-market/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-models/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-documentpreview/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-directory-picker-browse/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconListPenOutlineRegular.svg",
+      "sha256": "f1f172a57e2830df966494b602c882f6ef7207f8d6cc11f51f21cfef7dbacdc4",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconListPenOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.agent-preset.guide-usage.default.list-pen"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-agent-preset/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconStopFillRegular.svg",
+      "sha256": "4a372669bc4ac2fc97229abbf9c6aefd43e79ea1c750d72004fe6fba6f45b7d3",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "IconStopFillRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.cordis.cordis-action-row.props-t-remove-row-remove-title-row-stop-title.stop",
+        "dsh.other.cordis.render-row.t-action-stop.stop",
+        "dsh.other.cordis.started-cordis-action-row.default.stop",
+        "dsh.other.dsh-experimental-client-ui-voice-input.voice-input.t-stop.stop",
+        "dsh.other.jobs.job-item.kill-title.stop"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-cordis/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-experimental-client-ui-voice-input/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-jobs/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconDeliverDocRegular.svg",
+      "sha256": "392e35cef6dc94199ce23a2b94d9aa6548c4a70141fbdb1bdc0086ed20e51c16",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconDeliverDocRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.deliverables.preparing-present-row.t-row-title.deliver-doc",
+        "dsh.other.deliverables.started-present-row.t-row-title.deliver-doc"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-deliverables/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconCompareSplitOutlineRegular.svg",
+      "sha256": "101e8e5cc4238b648d4392f12104ee66151c6aa256ef7c31e8cc3aa796bd7d0f",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconCompareSplitOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.deliverables.review-tab.t-review-split-aria.compare-split"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-deliverables/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconNowrapFillRegular.svg",
+      "sha256": "080d5d70ec5706f30c54f5b361bc44a9fa0f15470ef83e92cb35f70f7e91ca89",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "IconNowrapFillRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.deliverables.review-tab.t-review-wrap-aria.nowrap",
+        "dsh.sidebar.sidebar-documentpreview.text-preview.t-wrap-aria.nowrap"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-deliverables/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-documentpreview/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconWrapFillRegular.svg",
+      "sha256": "fd0e9d27785eca526f8f65b9da79de80680a0fe2c8d87d0f88fc9c7d85fc4921",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "IconWrapFillRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.deliverables.review-tab.t-review-wrap-aria.wrap",
+        "dsh.sidebar.sidebar-documentpreview.text-preview.t-wrap-aria.wrap"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-deliverables/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-documentpreview/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconMicrophoneOutlineRegular.svg",
+      "sha256": "a48ea055af5038c22d01a3ad03432f67fb1f4ebaed3463c100238835289c6f95",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconMicrophoneOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.dsh-experimental-client-ui-voice-input.voice-input.t-retry-recording.microphone",
+        "dsh.other.dsh-experimental-client-ui-voice-input.voice-input.t-usable-start-setup-prompt-trigger.microphone"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-experimental-client-ui-voice-input/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-bd19df8c07cf1456.svg",
+      "sha256": "bd19df8c07cf145689ba17c14e6d1f9f1bf34c10cbe7d9bab1421f132cc7e3f2",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-session-inspector-view-bd19df8c"
+      ],
+      "semanticIds": [
+        "dsh.other.dsh-experimental-session-inspector.session-inspector-view.props-t-picker-pick-props-t-picking-picker-cancel-picker-pick.inline-svg-session-inspector-view-bd19df8c"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-experimental-session-inspector/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-95bd7b30ff9709bf.svg",
+      "sha256": "95bd7b30ff9709bf273d0c146426e01d9fefdac1581cfddc4e402d7e98ef3396",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-type-filter-95bd7b30"
+      ],
+      "semanticIds": [
+        "dsh.other.dsh-experimental-session-inspector.type-filter.t-filter-title-value-t-filter-title-t-filter-title-value.inline-svg-type-filter-95bd7b30"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-experimental-session-inspector/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-aba659b99e177cc0.svg",
+      "sha256": "aba659b99e177cc0f5c5f590dce2b152c5beeafdc0706b9781581c0221068288",
+      "viewBox": "0 0 36 36",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-guide-artwork-browser-aba659b9"
+      ],
+      "semanticIds": [
+        "dsh.other.dsh-web-frontend.guide-artwork-browser.default.inline-svg-guide-artwork-browser-aba659b9"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-a6c15ca8c86b8506.svg",
+      "sha256": "a6c15ca8c86b8506a5b42b3fe54cac5ad4c423485f816f484d33a834ea7487e6",
+      "viewBox": "0 0 36 36",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-guide-artwork-files-a6c15ca8"
+      ],
+      "semanticIds": [
+        "dsh.other.dsh-web-frontend.guide-artwork-files.default.inline-svg-guide-artwork-files-a6c15ca8"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-e38fcdc33fae29d6.svg",
+      "sha256": "e38fcdc33fae29d640242379f2f4199a85e3b655d2194dbd671cd2cc1e991681",
+      "viewBox": "0 0 36 36",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-plugin-artwork-default-e38fcdc3"
+      ],
+      "semanticIds": [
+        "dsh.other.dsh-web-frontend.plugin-artwork-default.default.inline-svg-plugin-artwork-default-e38fcdc3"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-8a146b2c31480533.svg",
+      "sha256": "8a146b2c31480533407fc75cf00c45a61e0d9f28a5782fbecbd8c477a25c83e0",
+      "viewBox": "0 0 36 36",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-plugin-artwork-loop-8a146b2c"
+      ],
+      "semanticIds": [
+        "dsh.other.dsh-web-frontend.plugin-artwork-loop.default.inline-svg-plugin-artwork-loop-8a146b2c"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-46984a0c02cedcbb.svg",
+      "sha256": "46984a0c02cedcbbc3bc85ef0392750f8260527d609c258950bf91451aa4fe6d",
+      "viewBox": "0 0 36 36",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-plugin-artwork-subagent-46984a0c"
+      ],
+      "semanticIds": [
+        "dsh.other.dsh-web-frontend.plugin-artwork-subagent.default.inline-svg-plugin-artwork-subagent-46984a0c"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-a6b47f78ca979566.svg",
+      "sha256": "a6b47f78ca979566a1c10f84f9707e0386270c6d981e9a251e8570e09885c80c",
+      "viewBox": "0 0 36 36",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-plugin-artwork-terminal-a6b47f78"
+      ],
+      "semanticIds": [
+        "dsh.other.dsh-web-frontend.plugin-artwork-terminal.default.inline-svg-plugin-artwork-terminal-a6b47f78"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-a9fbac38f4713e6b.svg",
+      "sha256": "a9fbac38f4713e6b7a0f7123339dae03c88010ecca933dae40e1db2e3b57e3cd",
+      "viewBox": "0 0 24 24",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-state-dot-a9fbac38"
+      ],
+      "semanticIds": [
+        "dsh.other.dsh-web-frontend.state-dot.default.inline-svg-state-dot-a9fbac38"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconCheckCircleOutlineRegular.svg",
+      "sha256": "514d0e73b3939eb64dc6cfad44297565031144e5c8507e8027e5cd710ec863f5",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "IconCheckCircleOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.dsh-web-frontend.toast.default.check-circle"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconPluginPinwheelOutlineRegular.svg",
+      "sha256": "178bf4b93b5a33db35d5a8267f043e43a6c5d46c90625f5dba005ff59a8231ac",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconPluginPinwheelOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.entry-customization.entry-menu-content.default.plugin-pinwheel",
+        "dsh.settings.plugin-manager.plugins-panel-icon.default.plugin-pinwheel"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-entry-customization/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconDataOutlineRegular.svg",
+      "sha256": "8821d0c3e7a5169a41031d4e0d2a1a468825cab90c547c03b0a8ade48b46c22d",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconDataOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.model-selection.model-select.trigger-aria-trigger-label.data",
+        "dsh.other.model-selection.module.default.data"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-model-selection/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconCloseCircleFillRegular.svg",
+      "sha256": "e5b0ed1c5d79356102a1e58ac2c339e0bea7214b95e2c7a056699f6279b7909a",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "IconCloseCircleFillRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.plan.plan-chip.default.close-circle"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plan/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconInfoOutlineRegular.svg",
+      "sha256": "f1c6629d764321ff3dc7df24668569438f91ea95f4ec6e216c247e8cbb4e4595",
+      "viewBox": "0 0 14 14",
+      "mode": "fill",
+      "names": [
+        "IconInfoOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.schedule.delivery-history.t-delivery-retention.info",
+        "dsh.settings.dsh-web-frontend.settings-value-field.e-help-label.info",
+        "dsh.settings.plugin-manager.plugin-manager-page.t-info-label.info"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-7ade7472128103d4.svg",
+      "sha256": "7ade7472128103d400a385473d907f235fb8b2a2da09b133a9d8773829a76270",
+      "viewBox": "0 0 14 14",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-icon-calendar-outline-regular-7ade7472",
+        "Local-IconCalendarOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.schedule.icon-calendar-outline-regular.default.inline-svg-icon-calendar-outline-regular-7ade7472",
+        "dsh.other.schedule.rule-card.t-timing-date.local-icon-calendar"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconSkillOutlineRegular.svg",
+      "sha256": "70ce3fe86aab2df43fff71929e43ce6e60167a84229377d60a7ce427d8245dc0",
+      "viewBox": "0 0 17 17",
+      "mode": "stroke",
+      "names": [
+        "IconSkillOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.other.skill.disclosure-leading.default.skill",
+        "dsh.other.skill.skill-row.default.skill"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-skill/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconDarkOutlineMedium.svg",
+      "sha256": "a311c3f4d88e0034a89be64500faf23a253268a1133e2763eeff1105d6fcd5de",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconDarkOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.other.theme.cubes.icon.dark"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-theme/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconFollowsystemOutlineMedium.svg",
+      "sha256": "f695d02d467b594fac1bc5680c7090cb18bb064d999093c36dc2a21adc7d7418",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconFollowsystemOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.other.theme.cubes.icon.followsystem"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-theme/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconLightOutlineMedium.svg",
+      "sha256": "422907312224f0442b417b37a8ea5bfb21d73d45d87c7b8fa188feeacef7ba35",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconLightOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.other.theme.cubes.icon.light"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-theme/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-30885ad9481b2d7d.svg",
+      "sha256": "30885ad9481b2d7d83068d371c7c76ee4de09b94e4b0354acff63826f0466218",
+      "viewBox": "0 0 10 10",
+      "mode": "fill",
+      "names": [
+        "Local-StarIcon",
+        "InlineSvg-star-icon-30885ad9"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.admin-star.t-admin.local-star-icon",
+        "dsh.plugin-ui.ds-bot.bot-avatar.t-admin.local-star-icon",
+        "dsh.plugin-ui.ds-bot.star-icon.default.inline-svg-star-icon-30885ad9"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-e9869693070b0307.svg",
+      "sha256": "e9869693070b0307c7d7d64711a5146cb61ee2ee3ff35163a2db879bf102da88",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "Local-PlusIcon",
+        "InlineSvg-plus-icon-e9869693"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.agent-row.default.local-plus-icon",
+        "dsh.plugin-ui.ds-bot.bot-schedules.default.local-plus-icon",
+        "dsh.plugin-ui.ds-bot.bots-page.default.local-plus-icon",
+        "dsh.plugin-ui.ds-bot.browser-cards.default.local-plus-icon",
+        "dsh.plugin-ui.ds-bot.command-palette.default.local-plus-icon",
+        "dsh.plugin-ui.ds-bot.composer-plus.t-add.local-plus-icon",
+        "dsh.plugin-ui.ds-bot.group-settings-form.t-members-count-count-members-length.local-plus-icon",
+        "dsh.plugin-ui.ds-bot.groups-page.roster-bots-length-2-t-a-group-chat-needs-at-least-two-bots-void-0.local-plus-icon",
+        "dsh.plugin-ui.ds-bot.new-chat.default.local-plus-icon",
+        "dsh.plugin-ui.ds-bot.new-chat.mode-search-t-search-t-new-chat.local-plus-icon",
+        "dsh.plugin-ui.ds-bot.plus-icon.default.inline-svg-plus-icon-e9869693",
+        "dsh.plugin-ui.ds-bot.schedules-page.default.local-plus-icon",
+        "dsh.plugin-ui.ds-bot.team-sidebar.t-new.local-plus-icon"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-f39c92b9019097f4.svg",
+      "sha256": "f39c92b9019097f4566629306e08f3b17370faab5cf7cc6545dd91d5e108adf4",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-arrow-up-icon-f39c92b9",
+        "Local-ArrowUpIcon"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.arrow-up-icon.default.inline-svg-arrow-up-icon-f39c92b9",
+        "dsh.plugin-ui.ds-bot.memory-dialog.t-send.local-arrow-up-icon",
+        "dsh.plugin-ui.ds-bot.new-chat.t-send-message-mode-search-t-search-t-new-chat.local-arrow-up-icon"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-e02aef573cf912ca.svg",
+      "sha256": "e02aef573cf912cad34ee8f0675e2d692ce6f1937bfcf0b02335d7a292bbef7b",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-caret-e02aef57"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.caret.default.inline-svg-caret-e02aef57"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconNewChatOutlineRegular.svg",
+      "sha256": "de607bfa71c4362047bce86685744f735bcfba9abfd4ec8fbe097f72fa607bfd",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconNewChatOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.chat-panel-icon.default.new-chat",
+        "dsh.plugin-ui.dsh-style.mode-switcher.icon.new-chat",
+        "dsh.sidebar.sidebar.header-leading-controls.t-session-new-label.new-chat",
+        "dsh.workspace.workspace.project-row-item.t-actions-new-session-aria-name-label.new-chat"
+      ],
+      "sourcePaths": [
+        "client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-920df716013ab7f6.svg",
+      "sha256": "920df716013ab7f65b9ae08a189509000839a1e07012f3bb626e443d88925de4",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-chevron-left-icon-920df716"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.chevron-left-icon.default.inline-svg-chevron-left-icon-920df716"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-bd602b744a5c283d.svg",
+      "sha256": "bd602b744a5c283d915fb9005d4fcff8747e48b2d726cd75f6af58270a307ba8",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-chevron-right-icon-bd602b74"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.chevron-right-icon.default.inline-svg-chevron-right-icon-bd602b74"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-19eceaf2c4f635b6.svg",
+      "sha256": "19eceaf2c4f635b6e4cad06f5f528e28d109788c98d092d95591549ca7870af6",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-close-icon-19eceaf2",
+        "Local-CloseIcon"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.close-icon.default.inline-svg-close-icon-19eceaf2",
+        "dsh.plugin-ui.ds-bot.command-palette.t-clear-search-t-search.local-close-icon",
+        "dsh.plugin-ui.ds-bot.create-bot.t-close-t-create-bot.local-close-icon",
+        "dsh.plugin-ui.ds-bot.details-drawer.t-close-details.local-close-icon",
+        "dsh.plugin-ui.ds-bot.error-toast.t-dismiss.local-close-icon",
+        "dsh.plugin-ui.ds-bot.memory-dialog.t-close-memory-t-name-s-memory-name-owner-name.local-close-icon",
+        "dsh.plugin-ui.ds-bot.question-view.t-dismiss-question-t-dismiss.local-close-icon",
+        "dsh.plugin-ui.ds-bot.reply.default.local-close-icon",
+        "dsh.plugin-ui.ds-bot.reply.t-dismiss.local-close-icon",
+        "dsh.plugin-ui.ds-bot.secret-head.t-cancel-the-request-t-cancel.local-close-icon",
+        "dsh.plugin-ui.ds-bot.settings-dialog.t-close-settings-t-ds-bot-settings.local-close-icon",
+        "dsh.plugin-ui.ds-bot.voice-mode.t-end-voice-chat.local-close-icon",
+        "dsh.plugin-ui.ds-bot.widget-card.t-dismiss-view-t-dismiss.local-close-icon"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-84eae659c3c4024c.svg",
+      "sha256": "84eae659c3c4024cf1dabdaa4c8b574379ac8c9776f31e53938fdc6b07191f2e",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "Local-PeopleIcon",
+        "InlineSvg-people-icon-84eae659"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.command-palette.default.local-people-icon",
+        "dsh.plugin-ui.ds-bot.new-chat.default.local-people-icon",
+        "dsh.plugin-ui.ds-bot.people-icon.default.inline-svg-people-icon-84eae659"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-b5f3938b8f568174.svg",
+      "sha256": "b5f3938b8f568174655caa58f5230c39f4a41dcd8a95a6e10754f44695e72e4b",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "Local-SearchIcon",
+        "InlineSvg-search-icon-b5f3938b"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.command-palette.t-results.local-search-icon",
+        "dsh.plugin-ui.ds-bot.command-palette.t-search.local-search-icon",
+        "dsh.plugin-ui.ds-bot.search-icon.default.inline-svg-search-icon-b5f3938b",
+        "dsh.plugin-ui.ds-bot.team-sidebar.t-search.local-search-icon"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-a28d79636d48790e.svg",
+      "sha256": "a28d79636d48790ee87e54c57c22e4eda8efc81c506d85434324bd197c38a97f",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "Local-MicIcon",
+        "InlineSvg-mic-icon-a28d7963"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.composer-voice.dictation-listening-t-stop-dictation-t-dictate.local-mic-icon",
+        "dsh.plugin-ui.ds-bot.mic-icon.default.inline-svg-mic-icon-a28d7963",
+        "dsh.plugin-ui.ds-bot.voice-mode.phase-paused-t-resume-listening-t-pause.local-mic-icon"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-2452aef7b808cc02.svg",
+      "sha256": "2452aef7b808cc02452dcb0cfe5dec93cb7a28691f31ad32038ed903c42d5910",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "Local-ShareIcon",
+        "InlineSvg-share-icon-2452aef7"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.details-drawer.copied-t-copied-conversation-t-share-conversation-copied-t-copied-t-copy-conversation-as-markdown.local-share-icon",
+        "dsh.plugin-ui.ds-bot.share-icon.default.inline-svg-share-icon-2452aef7"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-3edbd760bdeda8c1.svg",
+      "sha256": "3edbd760bdeda8c18ffb5b4e3e7a27665978405181f52d67d9659c58f49ce41d",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-feedback-icon-3edbd760"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.feedback-icon.default.inline-svg-feedback-icon-3edbd760"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-cbbc07c93929465d.svg",
+      "sha256": "cbbc07c93929465dcc0e3998646e7afbf7522e30e3c6b7e28d9a6f63dee9db0a",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-git-hub-mark-cbbc07c9"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.git-hub-mark.default.inline-svg-git-hub-mark-cbbc07c9"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-51615f150d1b9455.svg",
+      "sha256": "51615f150d1b9455d853ff8c1812b5a47eb29dfe2403a21424b2627f424b4801",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-key-icon-51615f15"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.key-icon.default.inline-svg-key-icon-51615f15"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-78f645ecd31af97a.svg",
+      "sha256": "78f645ecd31af97a2fe117f5c871b9fdf02f644d690271ad3bb003eb02c66f74",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-link-icon-78f645ec"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.link-icon.default.inline-svg-link-icon-78f645ec"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-6de5eefcac95822c.svg",
+      "sha256": "6de5eefcac95822c85fe34a6e42e717f3eb4c728e33ba55a5ae0a3b6e3259b44",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-lock-icon-6de5eefc"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.lock-icon.default.inline-svg-lock-icon-6de5eefc"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-1f29278dbfaabfcf.svg",
+      "sha256": "1f29278dbfaabfcf79a0039d6c43d1254583cc1d2fea05d2a26c6d19d6123ed8",
+      "viewBox": "0 0 20 20",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-main-star-1f29278d"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.main-star.default.inline-svg-main-star-1f29278d"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-145e9f284af72d34.svg",
+      "sha256": "145e9f284af72d3406849b3198862fbc76399ee8f5e4426957c6f0128b1d7d0c",
+      "viewBox": "0 0 20 20",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-pin-mark-icon-145e9f28",
+        "Local-PinMarkIcon"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.pin-mark-icon.default.inline-svg-pin-mark-icon-145e9f28",
+        "dsh.plugin-ui.ds-bot.pin-mark.default.local-pin-mark-icon"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-3fc5c9c2be9b9e57.svg",
+      "sha256": "3fc5c9c2be9b9e574a9a3181488f97850b582b262b1fd23dfeca6c43f88b7c82",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-sidebar-icon-3fc5c9c2",
+        "Local-SidebarIcon"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.sidebar-icon.default.inline-svg-sidebar-icon-3fc5c9c2",
+        "dsh.plugin-ui.ds-bot.team-sidebar.t-collapse-sidebar.local-sidebar-icon"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-cfd9d05bddba11d8.svg",
+      "sha256": "cfd9d05bddba11d88c21abb7ce4da8b0aa597c1eb1fa2657bfb6131905327002",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-table-icon-cfd9d05b"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.table-icon.default.inline-svg-table-icon-cfd9d05b"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-a3e1391a6e070804.svg",
+      "sha256": "a3e1391a6e070804e6e0ebc56b663e15d35d0dbb07384d0f0f708d9b40517f22",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-warn-icon-a3e1391a"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.warn-icon.default.inline-svg-warn-icon-a3e1391a"
+      ],
+      "sourcePaths": [
+        "client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-49c11e8709538607.svg",
+      "sha256": "49c11e870953860714afe9d21aeabfb2a59e575dbb8e101e23f9add3762c746d",
+      "viewBox": "0 0 24 24",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-device-panel-49c11e87"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.dsh-plugin-mobile-gateway.device-panel.tr-tr.inline-svg-device-panel-49c11e87"
+      ],
+      "sourcePaths": [
+        "profile/node_modules/dsh-plugin-mobile-gateway/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-711628af270cf62d.svg",
+      "sha256": "711628af270cf62dd149442a83c37bb303957442708e46cb8db5330010490f36",
+      "viewBox": "0 0 24 24",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-device-panel-711628af"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.dsh-plugin-mobile-gateway.device-panel.tr.inline-svg-device-panel-711628af"
+      ],
+      "sourcePaths": [
+        "profile/node_modules/dsh-plugin-mobile-gateway/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-fa5fb56a86e5b4e5.svg",
+      "sha256": "fa5fb56a86e5b4e5658674ea65cc7a04b32d43b439dfb9cda25cb094536c7b2d",
+      "viewBox": "0 0 24 24",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-footer-button-fa5fb56a"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.dsh-plugin-mobile-gateway.footer-button.default.inline-svg-footer-button-fa5fb56a"
+      ],
+      "sourcePaths": [
+        "profile/node_modules/dsh-plugin-mobile-gateway/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-77d1fd8e24481e41.svg",
+      "sha256": "77d1fd8e24481e41c992feffafbcf32ef943caaf262bf41e4d3a4ea8155b7ec4",
+      "viewBox": "0 0 24 24",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-gateway-select-77d1fd8e"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.dsh-plugin-mobile-gateway.gateway-select.default.inline-svg-gateway-select-77d1fd8e"
+      ],
+      "sourcePaths": [
+        "profile/node_modules/dsh-plugin-mobile-gateway/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-ba78087e15ea47a2.svg",
+      "sha256": "ba78087e15ea47a2c872693b93aa0293b2384b278aee3690c7d0bf1c2db6793c",
+      "viewBox": "0 0 24 24",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-gateway-select-ba78087e"
+      ],
+      "semanticIds": [
+        "dsh.plugin-ui.dsh-plugin-mobile-gateway.gateway-select.default.inline-svg-gateway-select-ba78087e"
+      ],
+      "sourcePaths": [
+        "profile/node_modules/dsh-plugin-mobile-gateway/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconDownloadOutlineRegular.svg",
+      "sha256": "236da4e4071cc4c2916a60f18f89359976c8d6b623a7904144e26bc2f2c07aa9",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconDownloadOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.settings.plugin-manager.add-plugin-menu.default.download",
+        "dsh.settings.settings-general.desktop-update-indicator.default.download",
+        "dsh.toolbar.dsh-session-log-export.session-log-download-header-action.items.download"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-general/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-session-log-export/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconCheckCircleFillRegular.svg",
+      "sha256": "7762163eed2b3a41f80360c6d4f5288176ea562815c51a7f3bb80ed916570a6c",
+      "viewBox": "0 0 36 36",
+      "mode": "fill",
+      "names": [
+        "IconCheckCircleFillRegular"
+      ],
+      "semanticIds": [
+        "dsh.settings.plugin-manager.install-dialog.default.check-circle"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconCloseOutlineMedium.svg",
+      "sha256": "2a674cbe7040f5e047d8cef11d15bf081913a49e09ffef81f81d2f90dff2b716",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconCloseOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.settings.plugin-manager.install-dialog.t-cancellable-install-close-cancels-close.close"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconChevronLeftOutlineMedium.svg",
+      "sha256": "48439900a16f6a973d8c5ffe72845299237bfa6b80359836ddddcd2b985168b6",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconChevronLeftOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.settings.plugin-manager.install-dialog.t-install-confirmed-void-0-cancel-pending-install-cancel-and-edit-install-edit-aria.chevron-left",
+        "dsh.settings.plugin-manager.plugin-manager-page.t-back-to-list.chevron-left"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-manager/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconSlidersTwoOutlineRegular.svg",
+      "sha256": "602ef1148e75f0f90d663bd0dcb408f2753645ca98d87c4f391235ed7fc9b39e",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconSlidersTwoOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.settings.plugin-market.browser.anchor.sliders-two",
+        "dsh.settings.plugin-market.browser.footer.sliders-two",
+        "dsh.workspace.workspace.view-options-menu.t-view-options-label.sliders-two"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-plugin-market/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconUserOutlineMedium.svg",
+      "sha256": "95d6cb193782e3d0e85aec366483703dbd3d961408b46faef2f999359541d964",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconUserOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.settings.settings-account.account-avatar.default.user",
+        "dsh.settings.settings-account.account-menu.default.user",
+        "dsh.settings.settings-general.nav-icon.default.user"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-general/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconEllipsisOutlineMedium.svg",
+      "sha256": "323601f1b5ae66d2e854f2ecaeb111188f35516ea716e8530b442685feffef60",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "IconEllipsisOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.settings.settings-account.account-menu.default.ellipsis"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconPaperPlaneOutlineMedium.svg",
+      "sha256": "1af6f9d86c9bcdd9c7e3f1bd6b05687d310f446c83b359cebd653ca90a63cd80",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconPaperPlaneOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.settings.settings-account.account-menu.items.paper-plane"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconSettingsOutlineMedium.svg",
+      "sha256": "0a61249b509a296027f50894af98b1fa024f5a99b005911a81c4eab254ea61b1",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconSettingsOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.settings.settings-account.account-menu.items.settings",
+        "dsh.settings.settings-general.nav-icon.default.settings",
+        "dsh.settings.settings-general.trigger-content.default.settings"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-general/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconRightUpOutlineRegular.svg",
+      "sha256": "dda37c2885a7fc901d41b0c03ea8c40e2dce5ae295d28b91f39d700d1a0ab9c1",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconRightUpOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.settings.settings-account.account-section.default.right-up",
+        "dsh.sidebar.sidebar-browser.browser-body.t-external.right-up",
+        "dsh.toolbar.open-in-app.application-icon.default.right-up"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-browser/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-open-in-app/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-75008f7afab9c1c5.svg",
+      "sha256": "75008f7afab9c1c5820b381a367240ffa1cb01e7afaff1bf3e3cd7816b9fd9a3",
+      "viewBox": "0 0 14 14",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-logout-icon-75008f7a"
+      ],
+      "semanticIds": [
+        "dsh.settings.settings-account.logout-icon.default.inline-svg-logout-icon-75008f7a"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-7bd73398eb119c8d.svg",
+      "sha256": "7bd73398eb119c8d2c60bb5b567570b814e6ad97fb3d917dfd1c615c4d06dfc3",
+      "viewBox": "0 0 14 14",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-notice-card-7bd73398"
+      ],
+      "semanticIds": [
+        "dsh.settings.settings-account.notice-card.default.inline-svg-notice-card-7bd73398"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-28d4ced6232a9b10.svg",
+      "sha256": "28d4ced6232a9b1010f7d01da2bd474564557d692e7e3b88bb4061fe240f3b54",
+      "viewBox": "0 0 19 22",
+      "mode": "fill",
+      "names": [
+        "CssSvg-spinner"
+      ],
+      "semanticIds": [
+        "dsh.settings.settings-account.platform-overlay.class-name.css-svg-spinner"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-account/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconAgentPresetOutlineMedium.svg",
+      "sha256": "3e0a787a6ca71e0aab1e3395656f77e6db244d980400d40f07f899f4785efbd8",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconAgentPresetOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.settings.settings-general.nav-icon.default.agent-preset"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-general/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconArchiveOutlineMedium.svg",
+      "sha256": "6df05e2d85f1b00f7338eea8298c4c8b01132cb5194915c20060cae5ac9871ea",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconArchiveOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.settings.settings-general.nav-icon.default.archive"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-general/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconDataOutlineMedium.svg",
+      "sha256": "b6873d62afa55da753f1a027fe2a0c630484606b7394e1fc16b44c1d9febfbc1",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconDataOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.settings.settings-general.nav-icon.default.data"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-general/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconPersonalizationOutlineMedium.svg",
+      "sha256": "767746f420ff030171b385996fbd4b6ed9fb2c0dafc3dfb471d3019c46df6d81",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconPersonalizationOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.settings.settings-general.nav-icon.default.personalization"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-settings-general/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconLinkOutlineRegular.svg",
+      "sha256": "4f88aa73efd420fd2dc4890b940620836a985f04d8abc038f65e24aef51ff4e9",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconLinkOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.sidebar.sidebar-browser.browser-body.t-go.link"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-browser/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconWarningTriangleOutlineRegular.svg",
+      "sha256": "fcac5641576447b7dc28dd5ddaa9694f76d121618a73166c6f292ee0f389334f",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconWarningTriangleOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.sidebar.sidebar-documentpreview.font-notice.label.warning-triangle"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-documentpreview/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-c826e50764d4983a.svg",
+      "sha256": "c826e50764d4983a944ec7867e14b30ddf84b7d0e60065760b4012cc245edca3",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-zoom-controls-c826e507"
+      ],
+      "semanticIds": [
+        "dsh.sidebar.sidebar-documentpreview.zoom-controls.labels-out.inline-svg-zoom-controls-c826e507"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-documentpreview/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-954e24725760da6b.svg",
+      "sha256": "954e24725760da6bf6086842fc82b6c52f2ca3be5431f3b657343c631445e72c",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-compass-glyph-954e2472",
+        "Local-CompassGlyph"
+      ],
+      "semanticIds": [
+        "dsh.sidebar.sidebar-right.compass-glyph.default.inline-svg-compass-glyph-954e2472",
+        "dsh.sidebar.sidebar-right.guide-title.default.local-compass-glyph",
+        "dsh.sidebar.sidebar-right.shipped-guide.default.local-compass-glyph"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-right/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-8c84c140599b43cc.svg",
+      "sha256": "8c84c140599b43cc9b92fc21f8f03329f9617e9e0570bbc62f896066bcad4f70",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-cube-glyph-8c84c140"
+      ],
+      "semanticIds": [
+        "dsh.sidebar.sidebar-right.cube-glyph.default.inline-svg-cube-glyph-8c84c140"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-right/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-a6f1a168ccb97b84.svg",
+      "sha256": "a6f1a168ccb97b84caa27d6a1accf6884fc4e730c673613de0c33a28381437bb",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-exit-fullscreen-glyph-a6f1a168",
+        "Local-ExitFullscreenGlyph"
+      ],
+      "semanticIds": [
+        "dsh.sidebar.sidebar-right.exit-fullscreen-glyph.default.inline-svg-exit-fullscreen-glyph-a6f1a168",
+        "dsh.sidebar.sidebar-right.panel-chrome.mode-label.local-exit-fullscreen-glyph"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-right/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconPanelLeftOutlineRegular.svg",
+      "sha256": "b8b2cad2db7d36b378bad2ce45447da03d0dfab266e551fbe7591e4e27f4ad17",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconPanelLeftOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.sidebar.sidebar-right.expand-button.t-chrome-expand-aria.panel-left",
+        "dsh.sidebar.sidebar-right.panel-chrome.t-chrome-collapse-aria.panel-left",
+        "dsh.sidebar.sidebar.header-leading-controls.t-toggle-open.panel-left",
+        "dsh.sidebar.sidebar.sidebar-root.toggle-label.panel-left"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-right/lib/client.js",
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-3eaf559d9bea5dc7.svg",
+      "sha256": "3eaf559d9bea5dc7276c98266e448c3f9b353cee19ee005220dd5550a20062b9",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-fullscreen-glyph-3eaf559d",
+        "Local-FullscreenGlyph"
+      ],
+      "semanticIds": [
+        "dsh.sidebar.sidebar-right.fullscreen-glyph.default.inline-svg-fullscreen-glyph-3eaf559d",
+        "dsh.sidebar.sidebar-right.panel-chrome.mode-label.local-fullscreen-glyph"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-right/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-ce0a49ee1d0e4804.svg",
+      "sha256": "ce0a49ee1d0e480492bdb2cdd1c93407b02e316729137cf79785b7557b56183c",
+      "viewBox": "0 0 22 22",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-guide-more-icon-ce0a49ee",
+        "Local-GuideMoreIcon"
+      ],
+      "semanticIds": [
+        "dsh.sidebar.sidebar-right.guide-more-icon.default.inline-svg-guide-more-icon-ce0a49ee",
+        "dsh.sidebar.sidebar-right.guide-more-menu.default.local-guide-more-icon"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-right/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-9f72f4ce24fce7ee.svg",
+      "sha256": "9f72f4ce24fce7ee566f98b4f763ab547697947a101bbd0e84c56556e9b2b10a",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "InlineSvg-terminal-icon-9f72f4ce",
+        "Local-TerminalIcon"
+      ],
+      "semanticIds": [
+        "dsh.sidebar.sidebar-terminal.terminal-icon.default.inline-svg-terminal-icon-9f72f4ce",
+        "dsh.sidebar.sidebar-terminal.terminal-title.default.local-terminal-icon"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar-terminal/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconAppsAddOutlineRegular.svg",
+      "sha256": "0d713f50b7b7d14bc735169ee04eda2569d73a9f25912542cc1f5387ad1eca31",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconAppsAddOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.sidebar.sidebar.panel-more-menu.default.apps-add"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconNewChatOutlineMedium.svg",
+      "sha256": "30ab490f27f051fcc2d87457be4cc9e19442c70c15a547c313f59ccbd4276940",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconNewChatOutlineMedium"
+      ],
+      "semanticIds": [
+        "dsh.sidebar.sidebar.sidebar-root.default.new-chat"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconPaperPlaneOutlineRegular.svg",
+      "sha256": "34c8258c8f4fcef0bd1aa1250cbfc7b0c78a9941d3925c5ab75c1de235ce62b9",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconPaperPlaneOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.toolbar.dsh-session-log-export.session-log-download-header-action.default.paper-plane"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-session-log-export/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconFolderOpenOutlineRegular.svg",
+      "sha256": "b2a745a1a827350122cc759745eb1cd1b04ea7be71d8b3f5e855ebca35762283",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconFolderOpenOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.toolbar.open-in-app.open-target-button.default.folder-open"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-open-in-app/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-960270609de21aaa.svg",
+      "sha256": "960270609de21aaae4a402aa96741c9d9dda0c7aa08e5853f46c3e56d289c771",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "Local-SubagentSwitcherIcon",
+        "InlineSvg-subagent-switcher-icon-96027060"
+      ],
+      "semanticIds": [
+        "dsh.toolbar.subagent.catalog-dropdown.default.local-subagent-switcher-icon",
+        "dsh.toolbar.subagent.subagent-switcher-icon.default.inline-svg-subagent-switcher-icon-96027060"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-subagent/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/inline-f87ea10afd5ba959.svg",
+      "sha256": "f87ea10afd5ba959ac6a114dd286e712d6062da38555dbd66db82bf2d46a8233",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "InlineSvg-trajectory-toolbar-f87ea10a"
+      ],
+      "semanticIds": [
+        "dsh.toolbar.trajectory.trajectory-toolbar.t-toolbar-use-actual-duration-actual-duration-t-toolbar-use-equal-width-t-toolbar-use-actual-duration.inline-svg-trajectory-toolbar-f87ea10a"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-trajectory/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconArchiveOutlineRegular.svg",
+      "sha256": "1cfea1d932e7cb30dea2f84919768625710ade42015121c0c029913b621a729a",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconArchiveOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.workspace.workspace.archive-session-menu-item.default.archive",
+        "dsh.workspace.workspace.archive-session-row-button.t-archived-menu-unarchive-session-menu-archive-session.archive",
+        "dsh.workspace.workspace.empty-sessions.default.archive",
+        "dsh.workspace.workspace.session-hover-content.default.archive"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconUnarchiveOutlineRegular.svg",
+      "sha256": "0fa427a64c8e4066f2fc16857a04a8dee6355daf64ff79d2cfcbfb83e1af10a1",
+      "viewBox": "0 0 20 20",
+      "mode": "stroke",
+      "names": [
+        "IconUnarchiveOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.workspace.workspace.archive-session-menu-item.default.unarchive",
+        "dsh.workspace.workspace.archive-session-row-button.t-archived-menu-unarchive-session-menu-archive-session.unarchive",
+        "dsh.workspace.workspace.search-result-item.t-menu-unarchive-session.unarchive"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconPinFillRegular.svg",
+      "sha256": "2844a64418386f69eefe4d63771b1abf154e0c08180ac465588e1ac9996e960a",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconPinFillRegular"
+      ],
+      "semanticIds": [
+        "dsh.workspace.workspace.pin-session-menu-item.default.pin",
+        "dsh.workspace.workspace.pin-session-row-button.t-pinned-menu-unpin-session-menu-pin-session.pin",
+        "dsh.workspace.workspace.pinned-indicator.label.pin"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconTriangleRightFillRegular.svg",
+      "sha256": "eabf35c118af2ea3ae8902ce43ecd4a873f9cdc0840216d9fdc44b072f1a051c",
+      "viewBox": "0 0 16 16",
+      "mode": "fill",
+      "names": [
+        "IconTriangleRightFillRegular"
+      ],
+      "semanticIds": [
+        "dsh.workspace.workspace.project-row-item.default.triangle-right"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconArchiveCheckOutlineRegular.svg",
+      "sha256": "11f958912bbbbdce34a1f88c7a93c629107d56067a77c2c41195e96b48866703",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconArchiveCheckOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.workspace.workspace.view-options-menu.items.archive-check"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconChevronsUpDownOutlineRegular.svg",
+      "sha256": "bc0a893fe3830c69dc3a3ee28c5a74f7822f5d5a575670b706ffa0f75311c5c5",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconChevronsUpDownOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.workspace.workspace.view-options-menu.items.chevrons-up-down"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconFlatListOutlineRegular.svg",
+      "sha256": "5227498cddcdc95e9803ebaf80672b862dd33fe5365e1de66f64c51f70abcd29",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconFlatListOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.workspace.workspace.view-options-menu.items.flat-list"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconWorkspaceTreeOutlineRegular.svg",
+      "sha256": "03118d55805619281deda7903618a3dd027599e3c19d9664879d000c74a1b70b",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconWorkspaceTreeOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.workspace.workspace.view-options-menu.items.workspace-tree"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    },
+    {
+      "resource": "native-icons/IconProjectAddOutlineRegular.svg",
+      "sha256": "32ac65057305224a05835c2f771741f84039c7cd22a7648f5b61c93e4448bf68",
+      "viewBox": "0 0 16 16",
+      "mode": "stroke",
+      "names": [
+        "IconProjectAddOutlineRegular"
+      ],
+      "semanticIds": [
+        "dsh.workspace.workspace.workspace-browser.t-workspace-add.project-add"
+      ],
+      "sourcePaths": [
+        "app.asar!/dsh/node_modules/@deepseek-ai/dsh-client-ui-workspace/lib/client.js"
+      ]
+    }
+  ]
+}

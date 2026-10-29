@@ -1,0 +1,1679 @@
+{
+  "schemaVersion": 1,
+  "revision": 438,
+  "sourceMapping": "dsh-icon-mapping.json",
+  "mappingSha256": "e7f9df9d2054dbf5c11fe5e21aa822245161dc0b864b0b134dd5abfffc7e5e54",
+  "sourcePathConvention": "app.asar!/… 或 profile/node_modules/…；不含本机绝对目录。",
+  "nativeCount": 153,
+  "targetCount": 53,
+  "targets": [
+    {
+      "resource": "svg/QoderArrowLeftSLine.svg",
+      "iconId": "qoder-local:QoderArrowLeftSLine",
+      "sha256": "4ffdd1d952c5ffb4b89bdcfdc48879203f3c1a415d08786be17db9c5b7bbf1c3",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderArrowRightSLine.svg",
+      "iconId": "qoder-local:QoderArrowRightSLine",
+      "sha256": "0f8918c4b7a72c3a1aaf490534d5e77deeb1ba8b4be6ccea736b4946c71cc5cf",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderCloseLine.svg",
+      "iconId": "qoder-local:QoderCloseLine",
+      "sha256": "e90f972261db8904dc2ee17a8e70c8081619028fed7dbb0f974182f92ff12422",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderLoadingLine.svg",
+      "iconId": "qoder-local:QoderLoadingLine",
+      "sha256": "7a3d66461a1aae100205bcb148e21639cddbde3434fb859ebe54c7f1b8e12a45",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderRefreshLine.svg",
+      "iconId": "qoder-local:QoderRefreshLine",
+      "sha256": "a9179b9fb6f482f8340995161e5a9abdc303a6f70436ed041dfa6725adf74a5e",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderWarningLine.svg",
+      "iconId": "qoder-local:QoderWarningLine",
+      "sha256": "56db7326a962be34f9defb1605ffc69ac671fefec815f968759f9895ce1de0b6",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderArrowUpLine.svg",
+      "iconId": "qoder-local:QoderArrowUpLine",
+      "sha256": "0ec3a3e73e4e95b33752b36e128239a0853362f34c764ac065f2f33ff87e802d",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderStopFill.svg",
+      "iconId": "qoder-local:QoderStopFill",
+      "sha256": "5e24728b60355296cbf9ff914d20710b95d3fc8dceb027c63ec7bf8f4d9e270d",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderAddLine.svg",
+      "iconId": "qoder-local:QoderAddLine",
+      "sha256": "ede2fd837d341e4e4c5dbc45c38d6ad205d32e6c66ef9ac4a4a848e26a46e573",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderAttachmentLine.svg",
+      "iconId": "qoder-local:QoderAttachmentLine",
+      "sha256": "d77888466469b797856261579fec3f04578a48ab7e24f02bf64dd759c41b051f",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderCheckLine.svg",
+      "iconId": "qoder-local:QoderCheckLine",
+      "sha256": "01f18063fc895136fadf1d8812d24c461cca0a5ab9abdc7e5b672ed299bcb2b2",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderEditBoxLine.svg",
+      "iconId": "qoder-local:QoderEditBoxLine",
+      "sha256": "a405d05069408c873707f947377d808ce8478cb646364d1432ad16a445dee3a5",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderArrowDownSLine.svg",
+      "iconId": "qoder-local:QoderArrowDownSLine",
+      "sha256": "d1bfbe5a08974166b3a5977119c5b1bcae90e61dc5e946d0a8911383d1f02d2b",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderArrowUpSLine.svg",
+      "iconId": "qoder-local:QoderArrowUpSLine",
+      "sha256": "5f0b398862be581522a19ae0d2e7f6a37cbbfd4f86351e05119a3ef42c793eb3",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderFileList2Line.svg",
+      "iconId": "qoder-local:QoderFileList2Line",
+      "sha256": "5c66f65b0d2e4e8efbe4d761314872f3d5302f2a4992317681183960fbcc1525",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderFileCopyLine.svg",
+      "iconId": "qoder-local:QoderFileCopyLine",
+      "sha256": "ce49b01a54383a458dc20356ad10b7d83fb1b516adbe78a2af9fa0ac2fd88ac7",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderGitBranchLine.svg",
+      "iconId": "qoder-local:QoderGitBranchLine",
+      "sha256": "a2379410e7bf25eaee1a611ae40501e523f026083439ef6b60196276729b6bc1",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderQuestionLine.svg",
+      "iconId": "qoder-local:QoderQuestionLine",
+      "sha256": "3c473cc0c5331735c6a8bcfd5d70d5c46f9d9e58cd1154906880c7a661d2c9b2",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderSearchLine.svg",
+      "iconId": "qoder-local:QoderSearchLine",
+      "sha256": "499ee53cc382e89b84b3bb37efe1de2ceb03322a52c1333ff0e01d00177c1c54",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderDeleteBin5Line.svg",
+      "iconId": "qoder-local:QoderDeleteBin5Line",
+      "sha256": "a2d5a6c9ffb49308da4e72899aa985176c178d8fcaff70960b61b0b2459d38c4",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderListCheck2.svg",
+      "iconId": "qoder-local:QoderListCheck2",
+      "sha256": "ebc5a38516ec28347d7e3719b85b0b6b1edd12132e1e27dd8158756b4972b3a8",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderMoreLine.svg",
+      "iconId": "qoder-local:QoderMoreLine",
+      "sha256": "dccf0898be9cdaaceefebd45d91ec30051776cd27f79c37c59499d7fa293dc82",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderTimeLine.svg",
+      "iconId": "qoder-local:QoderTimeLine",
+      "sha256": "869974edd500e7d9d9104c70a56f1bbef35a74da439a4afd015cc1029df98825",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderPlayCircleLine.svg",
+      "iconId": "qoder-local:QoderPlayCircleLine",
+      "sha256": "565af508ecffdd9dbc036384225d9f9055ba89e5c21d033c60b41424b9a69e74",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderInformationLine.svg",
+      "iconId": "qoder-local:QoderInformationLine",
+      "sha256": "2edaf6a80d1b95a48dfb5461de6c6ee9737c9af4ab23207d3221861ae582fea1",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderWrenchLine.svg",
+      "iconId": "qoder-local:QoderWrenchLine",
+      "sha256": "b02e5455fcbced2c82b0754a77d52d210079733035d269a47fd30599744a801a",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderSettings3Line.svg",
+      "iconId": "qoder-local:QoderSettings3Line",
+      "sha256": "8fc2f059bb270f6e3bfd340d25a16790cc2709dbb62ae2f38f928e9f88a4e064",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderUserLine.svg",
+      "iconId": "qoder-local:QoderUserLine",
+      "sha256": "d36b546501dceee17b0eb833e3cabbeb5b735f6a01c8012f6287bafde60ea8be",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderFolderLine.svg",
+      "iconId": "qoder-local:QoderFolderLine",
+      "sha256": "f716180e3274fbdd401cb7ad1e243128ec46824291689a61d6b668b76fdbbad4",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderFolderOpenLine.svg",
+      "iconId": "qoder-local:QoderFolderOpenLine",
+      "sha256": "c66973e14bd9aad42cc5ee507b0a24a629e8f832fac503dbbb1ff1c0d3796731",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderPauseCircleLine.svg",
+      "iconId": "qoder-local:QoderPauseCircleLine",
+      "sha256": "75746551d6fc07e19529fadb791e88b7ed2270b5238cea23421bd12817393679",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderMicLine.svg",
+      "iconId": "qoder-local:QoderMicLine",
+      "sha256": "f19b90dc998d231c5439964a223f4b5d732087782b88fd4d02a551b510ceb50c",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderCloseCircleFill.svg",
+      "iconId": "qoder-local:QoderCloseCircleFill",
+      "sha256": "24f416354afeed8d66916925fa33ab3bda83fa3b55197fb71f797208819a8b1a",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderCalendarScheduleLine.svg",
+      "iconId": "qoder-local:QoderCalendarScheduleLine",
+      "sha256": "5a4ba26de298f73ed7b520b28046d244ec71c859654a99437d3213bcae631455",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderShareBoxLine.svg",
+      "iconId": "qoder-local:QoderShareBoxLine",
+      "sha256": "9dc856a927839525991da3a1eb85913faadbebfc40f93657f738d9f58e569837",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderKeyLine.svg",
+      "iconId": "qoder-local:QoderKeyLine",
+      "sha256": "197354f49a0d05c864b7a8615b64f119f8829d13b57ec9adda83ad1ba3598964",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderLinkM.svg",
+      "iconId": "qoder-local:QoderLinkM",
+      "sha256": "9da32a35a0f26afeebb7b3283f2b9c3869e02e06869c8172174612a7296322ca",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderLockLine.svg",
+      "iconId": "qoder-local:QoderLockLine",
+      "sha256": "69e1e242061481c3b50ccfac08bbfbbb1156697fdab8531b79ccc6ff588929d0",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderDownloadLine.svg",
+      "iconId": "qoder-local:QoderDownloadLine",
+      "sha256": "10dc6e7c93a22c3535296c0490746c56ee136ee7e94e2bb4029e721e38d53af8",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderPuzzleLine.svg",
+      "iconId": "qoder-local:QoderPuzzleLine",
+      "sha256": "91ab55fff716fb6a558cfcb26d8aa5de0668b5842918a997d6e46c18bf444484",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderSendPlaneLine.svg",
+      "iconId": "qoder-local:QoderSendPlaneLine",
+      "sha256": "f55783390c1e2bb85b5ef15bdf33600c63126dede17e0f5f81b6d89bb1f7f127",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderArrowRightUpLongLine.svg",
+      "iconId": "qoder-local:QoderArrowRightUpLongLine",
+      "sha256": "e771ebf15ae1a4fb27eabfe6fe3d21a48e3e254eed79debe0ca2ae9ed5df3393",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderArchiveLine.svg",
+      "iconId": "qoder-local:QoderArchiveLine",
+      "sha256": "86543511c10c896d68a9065dc724e4fb9dc200436ec63c524a77f98f57821a4c",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderLink.svg",
+      "iconId": "qoder-local:QoderLink",
+      "sha256": "b5b720c3efe4d16ef681ae1882c1669f5f7108275e329e27fc223cf83c18ae30",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderCompassLine.svg",
+      "iconId": "qoder-local:QoderCompassLine",
+      "sha256": "396e493e41da3437373c800146e035cb16510f0672ddbc71adea2b6dc6ff2582",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderFullscreenExitLine.svg",
+      "iconId": "qoder-local:QoderFullscreenExitLine",
+      "sha256": "41384960911dcc63250ba71263c4706f73a31f976e428ee32b893f9c76a81eb4",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderLayoutLeftLine.svg",
+      "iconId": "qoder-local:QoderLayoutLeftLine",
+      "sha256": "8e226a36cf64b0879ed4392e5cde738342b581c424eb56c27f5c494d918f5a64",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderTerminalLine.svg",
+      "iconId": "qoder-local:QoderTerminalLine",
+      "sha256": "6b27870b0bda6018fdb2feb0b3b47359ab04622ca49934de05a495b3437ee9f7",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderChatNewLine.svg",
+      "iconId": "qoder-local:QoderChatNewLine",
+      "sha256": "8d8e55e0ec7c696c748ee245e76aeeefd694c5c6f3602dadbc09726cf366de8b",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderInboxUnarchiveLine.svg",
+      "iconId": "qoder-local:QoderInboxUnarchiveLine",
+      "sha256": "2244395f2307d6a52df16ed08984555625b3703a265a9f2caa691892ae10c76a",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderPushpinFill.svg",
+      "iconId": "qoder-local:QoderPushpinFill",
+      "sha256": "6133a97f6fe63371f3325e90552dcbf3c9cd33e6ccb3acc6746a5f769dc8ea87",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderTriangleRightFill.svg",
+      "iconId": "qoder-local:QoderTriangleRightFill",
+      "sha256": "ccce8d648fbe8cd6f29c16b1ec8234e34e5b1772cc28cb813d3f1418be4e1f2e",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    },
+    {
+      "resource": "svg/QoderFolderAddLine.svg",
+      "iconId": "qoder-local:QoderFolderAddLine",
+      "sha256": "49abcfd7c284d9abc6487a557e817a415bbec94db6736b89f628af555dac1928",
+      "viewBox": "0 0 24 24",
+      "geometryStyle": "filled-path",
+      "currentColor": true,
+      "fills": [
+        "currentColor"
+      ],
+      "strokes": []
+    }
+  ],
+  "files": [
+    {
+      "resource": "native-icons/IconChevronLeftOutlineRegular.svg",
+      "sha256": "16cfc189a184483b2fd7011b4b16d128967f422a1f4b49d5f2960bcd9b4d2ec3",
+      "bytes": 252
+    },
+    {
+      "resource": "native-icons/IconChevronRightOutlineRegular.svg",
+      "sha256": "bb8aa1dc8d2338a745f0ea0e9e9fded0d72f142ff96cc11fc5de0ad658ec793c",
+      "bytes": 250
+    },
+    {
+      "resource": "native-icons/IconCloseFillRegular.svg",
+      "sha256": "d8ee10fcd11788ac80ed34e021259ce388f47adef604c8d015709a8fd0fcca8b",
+      "bytes": 253
+    },
+    {
+      "resource": "native-icons/IconLoadingOutlineRegular.svg",
+      "sha256": "e570960da826989238eebb3c584dd31d59a6797607900bd799697d5382401b56",
+      "bytes": 566
+    },
+    {
+      "resource": "native-icons/IconRefreshOutlineRegular.svg",
+      "sha256": "6ccf1d847da2cd9e44d131f3dc50292ad9b7c0ef9787a9a71c00a2eee8acb3d0",
+      "bytes": 666
+    },
+    {
+      "resource": "native-icons/inline-328f465a3e4f096f.svg",
+      "sha256": "328f465a3e4f096fb73bae752b4a9c527b23f81881066a1b6a68cbf5e75f4d77",
+      "bytes": 1793
+    },
+    {
+      "resource": "native-icons/inline-8340395884a5769e.svg",
+      "sha256": "8340395884a5769e4fae235ff7d99ab611ebcdb55bcb68a7bc5a338ce7078cad",
+      "bytes": 1499
+    },
+    {
+      "resource": "native-icons/IconWarningOutlineRegular.svg",
+      "sha256": "4fbdc8cb4aae111b2c7b0995bb74df988f9d16acce0930868ec38a3ec0a47dd6",
+      "bytes": 425
+    },
+    {
+      "resource": "native-icons/inline-e32ac3bb2e4556da.svg",
+      "sha256": "e32ac3bb2e4556dae23d8e229822d77cfc1fe5c85ee97b733daec90a06db48e1",
+      "bytes": 505
+    },
+    {
+      "resource": "native-icons/inline-064ce14930f81b0c.svg",
+      "sha256": "064ce14930f81b0c54967089945cfac744ac242d7aa68284c48be990da6bd01e",
+      "bytes": 183
+    },
+    {
+      "resource": "native-icons/IconPlusOutlineMedium.svg",
+      "sha256": "c78443c0db96b2a96d312a8ede545fa43b57dd3759e4258606dc5d154d9f6db2",
+      "bytes": 233
+    },
+    {
+      "resource": "native-icons/IconPaperclipOutlineRegular.svg",
+      "sha256": "2452f42af37112746fe471ad4c55e838f532756baac3ba5671ab320343b462aa",
+      "bytes": 689
+    },
+    {
+      "resource": "native-icons/IconCheckOutlineRegular.svg",
+      "sha256": "a51318daa5f577f6e2fb0d29a0583841601e3b536daa7fd01e61f38c57730608",
+      "bytes": 258
+    },
+    {
+      "resource": "native-icons/IconEditOutlineRegular.svg",
+      "sha256": "fa6b839aeae8fd38fb926ef5775a6541e01152fab826e4f29dc7f42c8e23ccf5",
+      "bytes": 630
+    },
+    {
+      "resource": "native-icons/IconChevronDownOutlineRegular.svg",
+      "sha256": "24d26a1a6cf759b2ac6fd5ee005c3fb9cb70914fad8dd0ab05084083b0232c0e",
+      "bytes": 250
+    },
+    {
+      "resource": "native-icons/IconChevronUpOutlineRegular.svg",
+      "sha256": "ae099ce5417fcd476466ee8521b38b904d37ef70daf192076bebd50825e3bfe2",
+      "bytes": 252
+    },
+    {
+      "resource": "native-icons/IconCloseOutlineRegular.svg",
+      "sha256": "5f125fe6d617de163a0e1acfac8384d2febbe67f5903168c133cd8af0d5f692a",
+      "bytes": 253
+    },
+    {
+      "resource": "native-icons/IconGaugeOutlineRegular.svg",
+      "sha256": "dadfedb927b4085ba89177e61e130c2802c12e621a0feb433f2e3b4a8a86bf8d",
+      "bytes": 808
+    },
+    {
+      "resource": "native-icons/IconApiOutlineRegular.svg",
+      "sha256": "8cb7c9e351c6b730757852b39ef3738bbe236b22f6cf5cfc73d968770bab1f57",
+      "bytes": 238
+    },
+    {
+      "resource": "native-icons/IconContextInjectionOutlineRegular.svg",
+      "sha256": "9d61c230239b9b286ae56ef4b7759428d828b8b912082e309a8d55918383466e",
+      "bytes": 693
+    },
+    {
+      "resource": "native-icons/IconBrowseOutlineRegular.svg",
+      "sha256": "7d92b108b45a70e73ece863bf9ae9b979a0189c9c9ae42860c2c453ba1463f8c",
+      "bytes": 703
+    },
+    {
+      "resource": "native-icons/IconCopyOutlineRegular.svg",
+      "sha256": "41c0340b2675d7609dfc2bc9d8e6666d612ba5a455f153949b9e4078bc37958d",
+      "bytes": 622
+    },
+    {
+      "resource": "native-icons/IconBranchOutlineRegular.svg",
+      "sha256": "cd4bf1f11826d4e1f3c8f4b5e36da56e00a6447f99af1179838920e5f31ff5ce",
+      "bytes": 734
+    },
+    {
+      "resource": "native-icons/IconCodeOutlineRegular.svg",
+      "sha256": "583b8297af63ae52e473574dbf47ed2b8c5162f4af4c6d659fa0449bb55e330b",
+      "bytes": 388
+    },
+    {
+      "resource": "native-icons/IconPlanOutlineRegular.svg",
+      "sha256": "f1f172a57e2830df966494b602c882f6ef7207f8d6cc11f51f21cfef7dbacdc4",
+      "bytes": 1493
+    },
+    {
+      "resource": "native-icons/IconQuestionOutlineRegular.svg",
+      "sha256": "d38e6143d2677c0788d28cd256a7bf51352c7b031ed9d3378b44257d1109285c",
+      "bytes": 831
+    },
+    {
+      "resource": "native-icons/IconSearchOutlineRegular.svg",
+      "sha256": "4b0bf93cf4d7d1d2a21dcd7b65aa44ae4fc9856433019b9fe291244f0a544e69",
+      "bytes": 456
+    },
+    {
+      "resource": "native-icons/IconAgentPresetOutlineRegular.svg",
+      "sha256": "fd3f64e3b4c6d5ed8ee56477c1903fdccf2674a2cd1c460bb6228ad5aa56b79c",
+      "bytes": 1905
+    },
+    {
+      "resource": "native-icons/IconThinkOutlineRegular.svg",
+      "sha256": "d0fda9b8d3cbd22d29425d4febde1fa6a9ccc7410721f039f56fe712b55ef0cb",
+      "bytes": 870
+    },
+    {
+      "resource": "native-icons/IconSparkleRegular.svg",
+      "sha256": "ea5c5417066f4f4fe409076a6057d47d4cf585bc5874c7871d98ae721a1f3816",
+      "bytes": 795
+    },
+    {
+      "resource": "native-icons/IconGlobeOutlineRegular.svg",
+      "sha256": "6ff79530422ff84284d1365e3a3cbfb5aec91d1215f5508f17964c285740abb6",
+      "bytes": 769
+    },
+    {
+      "resource": "native-icons/IconDatabaseOutlineRegular.svg",
+      "sha256": "f8646615aaf4609b691055db80b9f80cb4832c90d4fcf68e63ff0ee08baaf0ae",
+      "bytes": 1310
+    },
+    {
+      "resource": "native-icons/IconQueueOutlineRegular.svg",
+      "sha256": "be6755dc31d7cc4422fbe0b263b9f29e542af653062f49e19adfbe38adc94b24",
+      "bytes": 759
+    },
+    {
+      "resource": "native-icons/IconTrashOutlineRegular.svg",
+      "sha256": "86a61ca8fd2c231c8b8c3057b8c15b7e23c5d659e63ec90cc7d143a5206403aa",
+      "bytes": 888
+    },
+    {
+      "resource": "native-icons/IconSendOutlineRegular.svg",
+      "sha256": "fd823be8082a6daeea725dd7223465644c4657d55a8015ef6fcb18015e0f6a29",
+      "bytes": 452
+    },
+    {
+      "resource": "native-icons/IconChecklistOutlineRegular.svg",
+      "sha256": "8aa91d3473d915763c784c3358645b8c6d6b1738c85917a89930f8f758a94d06",
+      "bytes": 600
+    },
+    {
+      "resource": "native-icons/IconEllipsisOutlineRegular.svg",
+      "sha256": "1153081ad2901a9e7c29c539c3156c6266984bec9654326f7aae10cc8d51e595",
+      "bytes": 563
+    },
+    {
+      "resource": "native-icons/IconDislikeFillRegular.svg",
+      "sha256": "8ea657d71d8d3e9929f298fe55e5183cd3dcdb8b364e6718e2bed0ddd6a962f7",
+      "bytes": 746
+    },
+    {
+      "resource": "native-icons/IconLikeFillRegular.svg",
+      "sha256": "6e5aeb3d677de7e6f54eeb99c8174ad02e7738c24813ae0dd3b1b1ed4b42a553",
+      "bytes": 714
+    },
+    {
+      "resource": "native-icons/inline-a27544b3ca2d4d7e.svg",
+      "sha256": "a27544b3ca2d4d7e945000a7af58d56a11dddb5910a2770a98aa6e787dd9cf0d",
+      "bytes": 693
+    },
+    {
+      "resource": "native-icons/IconInspectOutlineRegular.svg",
+      "sha256": "2c4a731740e9efb0963d719023ac9306607217dc5c70afa5e0e6db824a210bb5",
+      "bytes": 479
+    },
+    {
+      "resource": "native-icons/IconClockOutlineRegular.svg",
+      "sha256": "3b9f36211d2fcd01e94d1a3d458243532ed428b7df4731b53f1c6d4223cd42d6",
+      "bytes": 346
+    },
+    {
+      "resource": "native-icons/IconCordisPluginOutlineRegular.svg",
+      "sha256": "6181901bab7a1e15ebb47dc971e998476ef30e4c932edd5f71dff15391deeef8",
+      "bytes": 874
+    },
+    {
+      "resource": "native-icons/IconGoalOutlineRegular.svg",
+      "sha256": "bf5250053b076f70e35e57e8d370a94d5b436da3a0c5ca0530660296400be4a2",
+      "bytes": 1480
+    },
+    {
+      "resource": "native-icons/IconUsersOutlineRegular.svg",
+      "sha256": "19e5997a560cccd6e43cf7170490849fc67491409d36fc005dde699b88422bf5",
+      "bytes": 607
+    },
+    {
+      "resource": "native-icons/IconPlayOutlineRegular.svg",
+      "sha256": "183f82799cc4ad5ece1bc38bd2115190cdb4b7442968bfebd53e43f0479f6892",
+      "bytes": 560
+    },
+    {
+      "resource": "native-icons/inline-ba0a3309036f6996.svg",
+      "sha256": "ba0a3309036f699689d466970c2b667001683ff1e4160a432cacda0523e82594",
+      "bytes": 367
+    },
+    {
+      "resource": "native-icons/inline-f0b169ee11b542ab.svg",
+      "sha256": "f0b169ee11b542abdc1a3c4fe3c80858c298251dbf9746ab3b3af3918599288b",
+      "bytes": 443
+    },
+    {
+      "resource": "native-icons/inline-f2e92c472dd5c453.svg",
+      "sha256": "f2e92c472dd5c453fcf7c049be4ed543ca008c47ec4fd2d52488d534b5ab678f",
+      "bytes": 375
+    },
+    {
+      "resource": "native-icons/inline-5c049ad8071d53e7.svg",
+      "sha256": "5c049ad8071d53e73556e7e8552f512241c12584e01de0d1742f9b9f351e851b",
+      "bytes": 364
+    },
+    {
+      "resource": "native-icons/IconSettingsOutlineRegular.svg",
+      "sha256": "f391af760238980c0954438f32f2ac317dce6f831179345716675b081c41fa84",
+      "bytes": 2352
+    },
+    {
+      "resource": "native-icons/IconUserOutlineRegular.svg",
+      "sha256": "7116c2d977619805eac2f19206ea795ada1eb760bba0414c528e782e11e007d5",
+      "bytes": 433
+    },
+    {
+      "resource": "native-icons/inline-f39385ffa024f81f.svg",
+      "sha256": "f39385ffa024f81f731464bb551947158cb636fddde79774d9ef26fcf40d71d3",
+      "bytes": 382
+    },
+    {
+      "resource": "native-icons/IconWrapLinesOutlineRegular.svg",
+      "sha256": "42f8acf32f0df124263891d94edb5a69d832557b936fabe6147f14fd8153da76",
+      "bytes": 626
+    },
+    {
+      "resource": "native-icons/IconFolderCloseRegular.svg",
+      "sha256": "f2c230c1c5e757c95a12c6f9942c4cfd96b0f75ba479eab21daa2cc54d92bc4c",
+      "bytes": 604
+    },
+    {
+      "resource": "native-icons/IconFolderOpenRegular.svg",
+      "sha256": "932ac9145918ec92959afebfddf88f2ca0a1335a865f8f0a1a9526764a1d8619",
+      "bytes": 1701
+    },
+    {
+      "resource": "native-icons/IconPauseOutlineRegular.svg",
+      "sha256": "feb17d91d3eda17a287fe53294aecdf3959cf0a11bd3455d46b34a91dc5922e1",
+      "bytes": 409
+    },
+    {
+      "resource": "native-icons/IconPlusOutlineRegular.svg",
+      "sha256": "3ef44b6f98093219769428d45dcba647f944d96140d397c046be70eda856153b",
+      "bytes": 231
+    },
+    {
+      "resource": "native-icons/IconListPenOutlineRegular.svg",
+      "sha256": "f1f172a57e2830df966494b602c882f6ef7207f8d6cc11f51f21cfef7dbacdc4",
+      "bytes": 1493
+    },
+    {
+      "resource": "native-icons/IconStopFillRegular.svg",
+      "sha256": "4a372669bc4ac2fc97229abbf9c6aefd43e79ea1c750d72004fe6fba6f45b7d3",
+      "bytes": 339
+    },
+    {
+      "resource": "native-icons/IconDeliverDocRegular.svg",
+      "sha256": "392e35cef6dc94199ce23a2b94d9aa6548c4a70141fbdb1bdc0086ed20e51c16",
+      "bytes": 861
+    },
+    {
+      "resource": "native-icons/IconCompareSplitOutlineRegular.svg",
+      "sha256": "101e8e5cc4238b648d4392f12104ee66151c6aa256ef7c31e8cc3aa796bd7d0f",
+      "bytes": 519
+    },
+    {
+      "resource": "native-icons/IconNowrapFillRegular.svg",
+      "sha256": "080d5d70ec5706f30c54f5b361bc44a9fa0f15470ef83e92cb35f70f7e91ca89",
+      "bytes": 438
+    },
+    {
+      "resource": "native-icons/IconWrapFillRegular.svg",
+      "sha256": "fd0e9d27785eca526f8f65b9da79de80680a0fe2c8d87d0f88fc9c7d85fc4921",
+      "bytes": 570
+    },
+    {
+      "resource": "native-icons/IconMicrophoneOutlineRegular.svg",
+      "sha256": "a48ea055af5038c22d01a3ad03432f67fb1f4ebaed3463c100238835289c6f95",
+      "bytes": 287
+    },
+    {
+      "resource": "native-icons/inline-bd19df8c07cf1456.svg",
+      "sha256": "bd19df8c07cf145689ba17c14e6d1f9f1bf34c10cbe7d9bab1421f132cc7e3f2",
+      "bytes": 244
+    },
+    {
+      "resource": "native-icons/inline-95bd7b30ff9709bf.svg",
+      "sha256": "95bd7b30ff9709bf273d0c146426e01d9fefdac1581cfddc4e402d7e98ef3396",
+      "bytes": 208
+    },
+    {
+      "resource": "native-icons/inline-aba659b99e177cc0.svg",
+      "sha256": "aba659b99e177cc0f5c5f590dce2b152c5beeafdc0706b9781581c0221068288",
+      "bytes": 782
+    },
+    {
+      "resource": "native-icons/inline-a6c15ca8c86b8506.svg",
+      "sha256": "a6c15ca8c86b8506a5b42b3fe54cac5ad4c423485f816f484d33a834ea7487e6",
+      "bytes": 790
+    },
+    {
+      "resource": "native-icons/inline-e38fcdc33fae29d6.svg",
+      "sha256": "e38fcdc33fae29d640242379f2f4199a85e3b655d2194dbd671cd2cc1e991681",
+      "bytes": 1437
+    },
+    {
+      "resource": "native-icons/inline-8a146b2c31480533.svg",
+      "sha256": "8a146b2c31480533407fc75cf00c45a61e0d9f28a5782fbecbd8c477a25c83e0",
+      "bytes": 878
+    },
+    {
+      "resource": "native-icons/inline-46984a0c02cedcbb.svg",
+      "sha256": "46984a0c02cedcbbc3bc85ef0392750f8260527d609c258950bf91451aa4fe6d",
+      "bytes": 694
+    },
+    {
+      "resource": "native-icons/inline-a6b47f78ca979566.svg",
+      "sha256": "a6b47f78ca979566a1c10f84f9707e0386270c6d981e9a251e8570e09885c80c",
+      "bytes": 311
+    },
+    {
+      "resource": "native-icons/inline-a9fbac38f4713e6b.svg",
+      "sha256": "a9fbac38f4713e6b7a0f7123339dae03c88010ecca933dae40e1db2e3b57e3cd",
+      "bytes": 218
+    },
+    {
+      "resource": "native-icons/IconCheckCircleOutlineRegular.svg",
+      "sha256": "514d0e73b3939eb64dc6cfad44297565031144e5c8507e8027e5cd710ec863f5",
+      "bytes": 1168
+    },
+    {
+      "resource": "native-icons/IconPluginPinwheelOutlineRegular.svg",
+      "sha256": "178bf4b93b5a33db35d5a8267f043e43a6c5d46c90625f5dba005ff59a8231ac",
+      "bytes": 738
+    },
+    {
+      "resource": "native-icons/IconDataOutlineRegular.svg",
+      "sha256": "8821d0c3e7a5169a41031d4e0d2a1a468825cab90c547c03b0a8ade48b46c22d",
+      "bytes": 3682
+    },
+    {
+      "resource": "native-icons/IconCloseCircleFillRegular.svg",
+      "sha256": "e5b0ed1c5d79356102a1e58ac2c339e0bea7214b95e2c7a056699f6279b7909a",
+      "bytes": 383
+    },
+    {
+      "resource": "native-icons/IconInfoOutlineRegular.svg",
+      "sha256": "f1c6629d764321ff3dc7df24668569438f91ea95f4ec6e216c247e8cbb4e4595",
+      "bytes": 765
+    },
+    {
+      "resource": "native-icons/inline-7ade7472128103d4.svg",
+      "sha256": "7ade7472128103d400a385473d907f235fb8b2a2da09b133a9d8773829a76270",
+      "bytes": 339
+    },
+    {
+      "resource": "native-icons/IconSkillOutlineRegular.svg",
+      "sha256": "70ce3fe86aab2df43fff71929e43ce6e60167a84229377d60a7ce427d8245dc0",
+      "bytes": 930
+    },
+    {
+      "resource": "native-icons/IconDarkOutlineMedium.svg",
+      "sha256": "a311c3f4d88e0034a89be64500faf23a253268a1133e2763eeff1105d6fcd5de",
+      "bytes": 862
+    },
+    {
+      "resource": "native-icons/IconFollowsystemOutlineMedium.svg",
+      "sha256": "f695d02d467b594fac1bc5680c7090cb18bb064d999093c36dc2a21adc7d7418",
+      "bytes": 393
+    },
+    {
+      "resource": "native-icons/IconLightOutlineMedium.svg",
+      "sha256": "422907312224f0442b417b37a8ea5bfb21d73d45d87c7b8fa188feeacef7ba35",
+      "bytes": 908
+    },
+    {
+      "resource": "native-icons/inline-30885ad9481b2d7d.svg",
+      "sha256": "30885ad9481b2d7d83068d371c7c76ee4de09b94e4b0354acff63826f0466218",
+      "bytes": 199
+    },
+    {
+      "resource": "native-icons/inline-e9869693070b0307.svg",
+      "sha256": "e9869693070b0307c7d7d64711a5146cb61ee2ee3ff35163a2db879bf102da88",
+      "bytes": 210
+    },
+    {
+      "resource": "native-icons/inline-f39c92b9019097f4.svg",
+      "sha256": "f39c92b9019097f4566629306e08f3b17370faab5cf7cc6545dd91d5e108adf4",
+      "bytes": 246
+    },
+    {
+      "resource": "native-icons/inline-e02aef573cf912ca.svg",
+      "sha256": "e02aef573cf912cad34ee8f0675e2d692ce6f1937bfcf0b02335d7a292bbef7b",
+      "bytes": 270
+    },
+    {
+      "resource": "native-icons/IconNewChatOutlineRegular.svg",
+      "sha256": "de607bfa71c4362047bce86685744f735bcfba9abfd4ec8fbe097f72fa607bfd",
+      "bytes": 759
+    },
+    {
+      "resource": "native-icons/inline-920df716013ab7f6.svg",
+      "sha256": "920df716013ab7f65b9ae08a189509000839a1e07012f3bb626e443d88925de4",
+      "bytes": 248
+    },
+    {
+      "resource": "native-icons/inline-bd602b744a5c283d.svg",
+      "sha256": "bd602b744a5c283d915fb9005d4fcff8747e48b2d726cd75f6af58270a307ba8",
+      "bytes": 249
+    },
+    {
+      "resource": "native-icons/inline-19eceaf2c4f635b6.svg",
+      "sha256": "19eceaf2c4f635b6e4cad06f5f528e28d109788c98d092d95591549ca7870af6",
+      "bytes": 210
+    },
+    {
+      "resource": "native-icons/inline-84eae659c3c4024c.svg",
+      "sha256": "84eae659c3c4024cf1dabdaa4c8b574379ac8c9776f31e53938fdc6b07191f2e",
+      "bytes": 354
+    },
+    {
+      "resource": "native-icons/inline-b5f3938b8f568174.svg",
+      "sha256": "b5f3938b8f568174655caa58f5230c39f4a41dcd8a95a6e10754f44695e72e4b",
+      "bytes": 296
+    },
+    {
+      "resource": "native-icons/inline-a28d79636d48790e.svg",
+      "sha256": "a28d79636d48790ee87e54c57c22e4eda8efc81c506d85434324bd197c38a97f",
+      "bytes": 329
+    },
+    {
+      "resource": "native-icons/inline-2452aef7b808cc02.svg",
+      "sha256": "2452aef7b808cc02452dcb0cfe5dec93cb7a28691f31ad32038ed903c42d5910",
+      "bytes": 314
+    },
+    {
+      "resource": "native-icons/inline-3edbd760bdeda8c1.svg",
+      "sha256": "3edbd760bdeda8c18ffb5b4e3e7a27665978405181f52d67d9659c58f49ce41d",
+      "bytes": 350
+    },
+    {
+      "resource": "native-icons/inline-cbbc07c93929465d.svg",
+      "sha256": "cbbc07c93929465dcc0e3998646e7afbf7522e30e3c6b7e28d9a6f63dee9db0a",
+      "bytes": 714
+    },
+    {
+      "resource": "native-icons/inline-51615f150d1b9455.svg",
+      "sha256": "51615f150d1b9455d853ff8c1812b5a47eb29dfe2403a21424b2627f424b4801",
+      "bytes": 317
+    },
+    {
+      "resource": "native-icons/inline-78f645ecd31af97a.svg",
+      "sha256": "78f645ecd31af97a2fe117f5c871b9fdf02f644d690271ad3bb003eb02c66f74",
+      "bytes": 361
+    },
+    {
+      "resource": "native-icons/inline-6de5eefcac95822c.svg",
+      "sha256": "6de5eefcac95822c85fe34a6e42e717f3eb4c728e33ba55a5ae0a3b6e3259b44",
+      "bytes": 310
+    },
+    {
+      "resource": "native-icons/inline-1f29278dbfaabfcf.svg",
+      "sha256": "1f29278dbfaabfcf79a0039d6c43d1254583cc1d2fea05d2a26c6d19d6123ed8",
+      "bytes": 219
+    },
+    {
+      "resource": "native-icons/inline-145e9f284af72d34.svg",
+      "sha256": "145e9f284af72d3406849b3198862fbc76399ee8f5e4426957c6f0128b1d7d0c",
+      "bytes": 360
+    },
+    {
+      "resource": "native-icons/inline-3fc5c9c2be9b9e57.svg",
+      "sha256": "3fc5c9c2be9b9e574a9a3181488f97850b582b262b1fd23dfeca6c43f88b7c82",
+      "bytes": 243
+    },
+    {
+      "resource": "native-icons/inline-cfd9d05bddba11d8.svg",
+      "sha256": "cfd9d05bddba11d88c21abb7ce4da8b0aa597c1eb1fa2657bfb6131905327002",
+      "bytes": 365
+    },
+    {
+      "resource": "native-icons/inline-a3e1391a6e070804.svg",
+      "sha256": "a3e1391a6e070804e6e0ebc56b663e15d35d0dbb07384d0f0f708d9b40517f22",
+      "bytes": 284
+    },
+    {
+      "resource": "native-icons/inline-49c11e8709538607.svg",
+      "sha256": "49c11e870953860714afe9d21aeabfb2a59e575dbb8e101e23f9add3762c746d",
+      "bytes": 222
+    },
+    {
+      "resource": "native-icons/inline-711628af270cf62d.svg",
+      "sha256": "711628af270cf62dd149442a83c37bb303957442708e46cb8db5330010490f36",
+      "bytes": 609
+    },
+    {
+      "resource": "native-icons/inline-fa5fb56a86e5b4e5.svg",
+      "sha256": "fa5fb56a86e5b4e5658674ea65cc7a04b32d43b439dfb9cda25cb094536c7b2d",
+      "bytes": 291
+    },
+    {
+      "resource": "native-icons/inline-77d1fd8e24481e41.svg",
+      "sha256": "77d1fd8e24481e41c992feffafbcf32ef943caaf262bf41e4d3a4ea8155b7ec4",
+      "bytes": 240
+    },
+    {
+      "resource": "native-icons/inline-ba78087e15ea47a2.svg",
+      "sha256": "ba78087e15ea47a2c872693b93aa0293b2384b278aee3690c7d0bf1c2db6793c",
+      "bytes": 238
+    },
+    {
+      "resource": "native-icons/IconDownloadOutlineRegular.svg",
+      "sha256": "236da4e4071cc4c2916a60f18f89359976c8d6b623a7904144e26bc2f2c07aa9",
+      "bytes": 521
+    },
+    {
+      "resource": "native-icons/IconCheckCircleFillRegular.svg",
+      "sha256": "7762163eed2b3a41f80360c6d4f5288176ea562815c51a7f3bb80ed916570a6c",
+      "bytes": 1217
+    },
+    {
+      "resource": "native-icons/IconCloseOutlineMedium.svg",
+      "sha256": "2a674cbe7040f5e047d8cef11d15bf081913a49e09ffef81f81d2f90dff2b716",
+      "bytes": 255
+    },
+    {
+      "resource": "native-icons/IconChevronLeftOutlineMedium.svg",
+      "sha256": "48439900a16f6a973d8c5ffe72845299237bfa6b80359836ddddcd2b985168b6",
+      "bytes": 254
+    },
+    {
+      "resource": "native-icons/IconSlidersTwoOutlineRegular.svg",
+      "sha256": "602ef1148e75f0f90d663bd0dcb408f2753645ca98d87c4f391235ed7fc9b39e",
+      "bytes": 319
+    },
+    {
+      "resource": "native-icons/IconUserOutlineMedium.svg",
+      "sha256": "95d6cb193782e3d0e85aec366483703dbd3d961408b46faef2f999359541d964",
+      "bytes": 435
+    },
+    {
+      "resource": "native-icons/IconEllipsisOutlineMedium.svg",
+      "sha256": "323601f1b5ae66d2e854f2ecaeb111188f35516ea716e8530b442685feffef60",
+      "bytes": 565
+    },
+    {
+      "resource": "native-icons/IconPaperPlaneOutlineMedium.svg",
+      "sha256": "1af6f9d86c9bcdd9c7e3f1bd6b05687d310f446c83b359cebd653ca90a63cd80",
+      "bytes": 589
+    },
+    {
+      "resource": "native-icons/IconSettingsOutlineMedium.svg",
+      "sha256": "0a61249b509a296027f50894af98b1fa024f5a99b005911a81c4eab254ea61b1",
+      "bytes": 2354
+    },
+    {
+      "resource": "native-icons/IconRightUpOutlineRegular.svg",
+      "sha256": "dda37c2885a7fc901d41b0c03ea8c40e2dce5ae295d28b91f39d700d1a0ab9c1",
+      "bytes": 407
+    },
+    {
+      "resource": "native-icons/inline-75008f7afab9c1c5.svg",
+      "sha256": "75008f7afab9c1c5820b381a367240ffa1cb01e7afaff1bf3e3cd7816b9fd9a3",
+      "bytes": 1733
+    },
+    {
+      "resource": "native-icons/inline-7bd73398eb119c8d.svg",
+      "sha256": "7bd73398eb119c8d2c60bb5b567570b814e6ad97fb3d917dfd1c615c4d06dfc3",
+      "bytes": 459
+    },
+    {
+      "resource": "native-icons/inline-28d4ced6232a9b10.svg",
+      "sha256": "28d4ced6232a9b1010f7d01da2bd474564557d692e7e3b88bb4061fe240f3b54",
+      "bytes": 2628
+    },
+    {
+      "resource": "native-icons/IconAgentPresetOutlineMedium.svg",
+      "sha256": "3e0a787a6ca71e0aab1e3395656f77e6db244d980400d40f07f899f4785efbd8",
+      "bytes": 1907
+    },
+    {
+      "resource": "native-icons/IconArchiveOutlineMedium.svg",
+      "sha256": "6df05e2d85f1b00f7338eea8298c4c8b01132cb5194915c20060cae5ac9871ea",
+      "bytes": 618
+    },
+    {
+      "resource": "native-icons/IconDataOutlineMedium.svg",
+      "sha256": "b6873d62afa55da753f1a027fe2a0c630484606b7394e1fc16b44c1d9febfbc1",
+      "bytes": 3684
+    },
+    {
+      "resource": "native-icons/IconPersonalizationOutlineMedium.svg",
+      "sha256": "767746f420ff030171b385996fbd4b6ed9fb2c0dafc3dfb471d3019c46df6d81",
+      "bytes": 1288
+    },
+    {
+      "resource": "native-icons/IconLinkOutlineRegular.svg",
+      "sha256": "4f88aa73efd420fd2dc4890b940620836a985f04d8abc038f65e24aef51ff4e9",
+      "bytes": 1071
+    },
+    {
+      "resource": "native-icons/IconWarningTriangleOutlineRegular.svg",
+      "sha256": "fcac5641576447b7dc28dd5ddaa9694f76d121618a73166c6f292ee0f389334f",
+      "bytes": 380
+    },
+    {
+      "resource": "native-icons/inline-c826e50764d4983a.svg",
+      "sha256": "c826e50764d4983a944ec7867e14b30ddf84b7d0e60065760b4012cc245edca3",
+      "bytes": 186
+    },
+    {
+      "resource": "native-icons/inline-954e24725760da6b.svg",
+      "sha256": "954e24725760da6bf6086842fc82b6c52f2ca3be5431f3b657343c631445e72c",
+      "bytes": 387
+    },
+    {
+      "resource": "native-icons/inline-8c84c140599b43cc.svg",
+      "sha256": "8c84c140599b43cc9b92fc21f8f03329f9617e9e0570bbc62f896066bcad4f70",
+      "bytes": 422
+    },
+    {
+      "resource": "native-icons/inline-a6f1a168ccb97b84.svg",
+      "sha256": "a6f1a168ccb97b84caa27d6a1accf6884fc4e730c673613de0c33a28381437bb",
+      "bytes": 372
+    },
+    {
+      "resource": "native-icons/IconPanelLeftOutlineRegular.svg",
+      "sha256": "b8b2cad2db7d36b378bad2ce45447da03d0dfab266e551fbe7591e4e27f4ad17",
+      "bytes": 394
+    },
+    {
+      "resource": "native-icons/inline-3eaf559d9bea5dc7.svg",
+      "sha256": "3eaf559d9bea5dc7276c98266e448c3f9b353cee19ee005220dd5550a20062b9",
+      "bytes": 798
+    },
+    {
+      "resource": "native-icons/inline-ce0a49ee1d0e4804.svg",
+      "sha256": "ce0a49ee1d0e480492bdb2cdd1c93407b02e316729137cf79785b7557b56183c",
+      "bytes": 1049
+    },
+    {
+      "resource": "native-icons/inline-9f72f4ce24fce7ee.svg",
+      "sha256": "9f72f4ce24fce7ee566f98b4f763ab547697947a101bbd0e84c56556e9b2b10a",
+      "bytes": 221
+    },
+    {
+      "resource": "native-icons/IconAppsAddOutlineRegular.svg",
+      "sha256": "0d713f50b7b7d14bc735169ee04eda2569d73a9f25912542cc1f5387ad1eca31",
+      "bytes": 344
+    },
+    {
+      "resource": "native-icons/IconNewChatOutlineMedium.svg",
+      "sha256": "30ab490f27f051fcc2d87457be4cc9e19442c70c15a547c313f59ccbd4276940",
+      "bytes": 761
+    },
+    {
+      "resource": "native-icons/IconPaperPlaneOutlineRegular.svg",
+      "sha256": "34c8258c8f4fcef0bd1aa1250cbfc7b0c78a9941d3925c5ab75c1de235ce62b9",
+      "bytes": 587
+    },
+    {
+      "resource": "native-icons/IconFolderOpenOutlineRegular.svg",
+      "sha256": "b2a745a1a827350122cc759745eb1cd1b04ea7be71d8b3f5e855ebca35762283",
+      "bytes": 784
+    },
+    {
+      "resource": "native-icons/inline-960270609de21aaa.svg",
+      "sha256": "960270609de21aaae4a402aa96741c9d9dda0c7aa08e5853f46c3e56d289c771",
+      "bytes": 610
+    },
+    {
+      "resource": "native-icons/inline-f87ea10afd5ba959.svg",
+      "sha256": "f87ea10afd5ba959ac6a114dd286e712d6062da38555dbd66db82bf2d46a8233",
+      "bytes": 196
+    },
+    {
+      "resource": "native-icons/IconArchiveOutlineRegular.svg",
+      "sha256": "1cfea1d932e7cb30dea2f84919768625710ade42015121c0c029913b621a729a",
+      "bytes": 616
+    },
+    {
+      "resource": "native-icons/IconUnarchiveOutlineRegular.svg",
+      "sha256": "0fa427a64c8e4066f2fc16857a04a8dee6355daf64ff79d2cfcbfb83e1af10a1",
+      "bytes": 2144
+    },
+    {
+      "resource": "native-icons/IconPinFillRegular.svg",
+      "sha256": "2844a64418386f69eefe4d63771b1abf154e0c08180ac465588e1ac9996e960a",
+      "bytes": 562
+    },
+    {
+      "resource": "native-icons/IconTriangleRightFillRegular.svg",
+      "sha256": "eabf35c118af2ea3ae8902ce43ecd4a873f9cdc0840216d9fdc44b072f1a051c",
+      "bytes": 744
+    },
+    {
+      "resource": "native-icons/IconArchiveCheckOutlineRegular.svg",
+      "sha256": "11f958912bbbbdce34a1f88c7a93c629107d56067a77c2c41195e96b48866703",
+      "bytes": 359
+    },
+    {
+      "resource": "native-icons/IconChevronsUpDownOutlineRegular.svg",
+      "sha256": "bc0a893fe3830c69dc3a3ee28c5a74f7822f5d5a575670b706ffa0f75311c5c5",
+      "bytes": 251
+    },
+    {
+      "resource": "native-icons/IconFlatListOutlineRegular.svg",
+      "sha256": "5227498cddcdc95e9803ebaf80672b862dd33fe5365e1de66f64c51f70abcd29",
+      "bytes": 247
+    },
+    {
+      "resource": "native-icons/IconWorkspaceTreeOutlineRegular.svg",
+      "sha256": "03118d55805619281deda7903618a3dd027599e3c19d9664879d000c74a1b70b",
+      "bytes": 405
+    },
+    {
+      "resource": "native-icons/IconProjectAddOutlineRegular.svg",
+      "sha256": "32ac65057305224a05835c2f771741f84039c7cd22a7648f5b61c93e4448bf68",
+      "bytes": 870
+    },
+    {
+      "resource": "svg/QoderArrowLeftSLine.svg",
+      "sha256": "4ffdd1d952c5ffb4b89bdcfdc48879203f3c1a415d08786be17db9c5b7bbf1c3",
+      "bytes": 233
+    },
+    {
+      "resource": "svg/QoderArrowRightSLine.svg",
+      "sha256": "0f8918c4b7a72c3a1aaf490534d5e77deeb1ba8b4be6ccea736b4946c71cc5cf",
+      "bytes": 241
+    },
+    {
+      "resource": "svg/QoderCloseLine.svg",
+      "sha256": "e90f972261db8904dc2ee17a8e70c8081619028fed7dbb0f974182f92ff12422",
+      "bytes": 337
+    },
+    {
+      "resource": "svg/QoderLoadingLine.svg",
+      "sha256": "7a3d66461a1aae100205bcb148e21639cddbde3434fb859ebe54c7f1b8e12a45",
+      "bytes": 944
+    },
+    {
+      "resource": "svg/QoderRefreshLine.svg",
+      "sha256": "a9179b9fb6f482f8340995161e5a9abdc303a6f70436ed041dfa6725adf74a5e",
+      "bytes": 548
+    },
+    {
+      "resource": "svg/QoderWarningLine.svg",
+      "sha256": "56db7326a962be34f9defb1605ffc69ac671fefec815f968759f9895ce1de0b6",
+      "bytes": 1229
+    },
+    {
+      "resource": "svg/QoderArrowUpLine.svg",
+      "sha256": "0ec3a3e73e4e95b33752b36e128239a0853362f34c764ac065f2f33ff87e802d",
+      "bytes": 254
+    },
+    {
+      "resource": "svg/QoderStopFill.svg",
+      "sha256": "5e24728b60355296cbf9ff914d20710b95d3fc8dceb027c63ec7bf8f4d9e270d",
+      "bytes": 247
+    },
+    {
+      "resource": "svg/QoderAddLine.svg",
+      "sha256": "ede2fd837d341e4e4c5dbc45c38d6ad205d32e6c66ef9ac4a4a848e26a46e573",
+      "bytes": 169
+    },
+    {
+      "resource": "svg/QoderAttachmentLine.svg",
+      "sha256": "d77888466469b797856261579fec3f04578a48ab7e24f02bf64dd759c41b051f",
+      "bytes": 503
+    },
+    {
+      "resource": "svg/QoderCheckLine.svg",
+      "sha256": "01f18063fc895136fadf1d8812d24c461cca0a5ab9abdc7e5b672ed299bcb2b2",
+      "bytes": 238
+    },
+    {
+      "resource": "svg/QoderEditBoxLine.svg",
+      "sha256": "a405d05069408c873707f947377d808ce8478cb646364d1432ad16a445dee3a5",
+      "bytes": 424
+    },
+    {
+      "resource": "svg/QoderArrowDownSLine.svg",
+      "sha256": "d1bfbe5a08974166b3a5977119c5b1bcae90e61dc5e946d0a8911383d1f02d2b",
+      "bytes": 240
+    },
+    {
+      "resource": "svg/QoderArrowUpSLine.svg",
+      "sha256": "5f0b398862be581522a19ae0d2e7f6a37cbbfd4f86351e05119a3ef42c793eb3",
+      "bytes": 232
+    },
+    {
+      "resource": "svg/QoderFileList2Line.svg",
+      "sha256": "5c66f65b0d2e4e8efbe4d761314872f3d5302f2a4992317681183960fbcc1525",
+      "bytes": 314
+    },
+    {
+      "resource": "svg/QoderFileCopyLine.svg",
+      "sha256": "ce49b01a54383a458dc20356ad10b7d83fb1b516adbe78a2af9fa0ac2fd88ac7",
+      "bytes": 488
+    },
+    {
+      "resource": "svg/QoderGitBranchLine.svg",
+      "sha256": "a2379410e7bf25eaee1a611ae40501e523f026083439ef6b60196276729b6bc1",
+      "bytes": 999
+    },
+    {
+      "resource": "svg/QoderQuestionLine.svg",
+      "sha256": "3c473cc0c5331735c6a8bcfd5d70d5c46f9d9e58cd1154906880c7a661d2c9b2",
+      "bytes": 658
+    },
+    {
+      "resource": "svg/QoderSearchLine.svg",
+      "sha256": "499ee53cc382e89b84b3bb37efe1de2ceb03322a52c1333ff0e01d00177c1c54",
+      "bytes": 513
+    },
+    {
+      "resource": "svg/QoderDeleteBin5Line.svg",
+      "sha256": "a2d5a6c9ffb49308da4e72899aa985176c178d8fcaff70960b61b0b2459d38c4",
+      "bytes": 337
+    },
+    {
+      "resource": "svg/QoderListCheck2.svg",
+      "sha256": "ebc5a38516ec28347d7e3719b85b0b6b1edd12132e1e27dd8158756b4972b3a8",
+      "bytes": 258
+    },
+    {
+      "resource": "svg/QoderMoreLine.svg",
+      "sha256": "dccf0898be9cdaaceefebd45d91ec30051776cd27f79c37c59499d7fa293dc82",
+      "bytes": 514
+    },
+    {
+      "resource": "svg/QoderTimeLine.svg",
+      "sha256": "869974edd500e7d9d9104c70a56f1bbef35a74da439a4afd015cc1029df98825",
+      "bytes": 378
+    },
+    {
+      "resource": "svg/QoderPlayCircleLine.svg",
+      "sha256": "565af508ecffdd9dbc036384225d9f9055ba89e5c21d033c60b41424b9a69e74",
+      "bytes": 679
+    },
+    {
+      "resource": "svg/QoderInformationLine.svg",
+      "sha256": "2edaf6a80d1b95a48dfb5461de6c6ee9737c9af4ab23207d3221861ae582fea1",
+      "bytes": 389
+    },
+    {
+      "resource": "svg/QoderWrenchLine.svg",
+      "sha256": "b02e5455fcbced2c82b0754a77d52d210079733035d269a47fd30599744a801a",
+      "bytes": 1336
+    },
+    {
+      "resource": "svg/QoderSettings3Line.svg",
+      "sha256": "8fc2f059bb270f6e3bfd340d25a16790cc2709dbb62ae2f38f928e9f88a4e064",
+      "bytes": 2466
+    },
+    {
+      "resource": "svg/QoderUserLine.svg",
+      "sha256": "d36b546501dceee17b0eb833e3cabbeb5b735f6a01c8012f6287bafde60ea8be",
+      "bytes": 436
+    },
+    {
+      "resource": "svg/QoderFolderLine.svg",
+      "sha256": "f716180e3274fbdd401cb7ad1e243128ec46824291689a61d6b668b76fdbbad4",
+      "bytes": 304
+    },
+    {
+      "resource": "svg/QoderFolderOpenLine.svg",
+      "sha256": "c66973e14bd9aad42cc5ee507b0a24a629e8f832fac503dbbb1ff1c0d3796731",
+      "bytes": 385
+    },
+    {
+      "resource": "svg/QoderPauseCircleLine.svg",
+      "sha256": "75746551d6fc07e19529fadb791e88b7ed2270b5238cea23421bd12817393679",
+      "bytes": 386
+    },
+    {
+      "resource": "svg/QoderMicLine.svg",
+      "sha256": "f19b90dc998d231c5439964a223f4b5d732087782b88fd4d02a551b510ceb50c",
+      "bytes": 670
+    },
+    {
+      "resource": "svg/QoderCloseCircleFill.svg",
+      "sha256": "24f416354afeed8d66916925fa33ab3bda83fa3b55197fb71f797208819a8b1a",
+      "bytes": 425
+    },
+    {
+      "resource": "svg/QoderCalendarScheduleLine.svg",
+      "sha256": "5a4ba26de298f73ed7b520b28046d244ec71c859654a99437d3213bcae631455",
+      "bytes": 572
+    },
+    {
+      "resource": "svg/QoderShareBoxLine.svg",
+      "sha256": "9dc856a927839525991da3a1eb85913faadbebfc40f93657f738d9f58e569837",
+      "bytes": 303
+    },
+    {
+      "resource": "svg/QoderKeyLine.svg",
+      "sha256": "197354f49a0d05c864b7a8615b64f119f8829d13b57ec9adda83ad1ba3598964",
+      "bytes": 398
+    },
+    {
+      "resource": "svg/QoderLinkM.svg",
+      "sha256": "9da32a35a0f26afeebb7b3283f2b9c3869e02e06869c8172174612a7296322ca",
+      "bytes": 803
+    },
+    {
+      "resource": "svg/QoderLockLine.svg",
+      "sha256": "69e1e242061481c3b50ccfac08bbfbbb1156697fdab8531b79ccc6ff588929d0",
+      "bytes": 412
+    },
+    {
+      "resource": "svg/QoderDownloadLine.svg",
+      "sha256": "10dc6e7c93a22c3535296c0490746c56ee136ee7e94e2bb4029e721e38d53af8",
+      "bytes": 249
+    },
+    {
+      "resource": "svg/QoderPuzzleLine.svg",
+      "sha256": "91ab55fff716fb6a558cfcb26d8aa5de0668b5842918a997d6e46c18bf444484",
+      "bytes": 995
+    },
+    {
+      "resource": "svg/QoderSendPlaneLine.svg",
+      "sha256": "f55783390c1e2bb85b5ef15bdf33600c63126dede17e0f5f81b6d89bb1f7f127",
+      "bytes": 423
+    },
+    {
+      "resource": "svg/QoderArrowRightUpLongLine.svg",
+      "sha256": "e771ebf15ae1a4fb27eabfe6fe3d21a48e3e254eed79debe0ca2ae9ed5df3393",
+      "bytes": 272
+    },
+    {
+      "resource": "svg/QoderArchiveLine.svg",
+      "sha256": "86543511c10c896d68a9065dc724e4fb9dc200436ec63c524a77f98f57821a4c",
+      "bytes": 348
+    },
+    {
+      "resource": "svg/QoderLink.svg",
+      "sha256": "b5b720c3efe4d16ef681ae1882c1669f5f7108275e329e27fc223cf83c18ae30",
+      "bytes": 813
+    },
+    {
+      "resource": "svg/QoderCompassLine.svg",
+      "sha256": "396e493e41da3437373c800146e035cb16510f0672ddbc71adea2b6dc6ff2582",
+      "bytes": 402
+    },
+    {
+      "resource": "svg/QoderFullscreenExitLine.svg",
+      "sha256": "41384960911dcc63250ba71263c4706f73a31f976e428ee32b893f9c76a81eb4",
+      "bytes": 212
+    },
+    {
+      "resource": "svg/QoderLayoutLeftLine.svg",
+      "sha256": "8e226a36cf64b0879ed4392e5cde738342b581c424eb56c27f5c494d918f5a64",
+      "bytes": 278
+    },
+    {
+      "resource": "svg/QoderTerminalLine.svg",
+      "sha256": "6b27870b0bda6018fdb2feb0b3b47359ab04622ca49934de05a495b3437ee9f7",
+      "bytes": 259
+    },
+    {
+      "resource": "svg/QoderChatNewLine.svg",
+      "sha256": "8d8e55e0ec7c696c748ee245e76aeeefd694c5c6f3602dadbc09726cf366de8b",
+      "bytes": 277
+    },
+    {
+      "resource": "svg/QoderInboxUnarchiveLine.svg",
+      "sha256": "2244395f2307d6a52df16ed08984555625b3703a265a9f2caa691892ae10c76a",
+      "bytes": 302
+    },
+    {
+      "resource": "svg/QoderPushpinFill.svg",
+      "sha256": "6133a97f6fe63371f3325e90552dcbf3c9cd33e6ccb3acc6746a5f769dc8ea87",
+      "bytes": 396
+    },
+    {
+      "resource": "svg/QoderTriangleRightFill.svg",
+      "sha256": "ccce8d648fbe8cd6f29c16b1ec8234e34e5b1772cc28cb813d3f1418be4e1f2e",
+      "bytes": 869
+    },
+    {
+      "resource": "svg/QoderFolderAddLine.svg",
+      "sha256": "49abcfd7c284d9abc6487a557e817a415bbec94db6736b89f628af555dac1928",
+      "bytes": 345
+    }
+  ]
+}
