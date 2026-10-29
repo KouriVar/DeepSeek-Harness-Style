@@ -1,3 +1,5 @@
 node_modules/
 *.tgz
 .DS_Store
+tools/icon-studio/config.local.json
+tools/icon-studio/.local/

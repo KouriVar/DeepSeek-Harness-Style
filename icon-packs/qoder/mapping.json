@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "kind": "dsh-icon-build-map",
+  "dshVersion": "0.2.1-rc.3",
+  "pack": {
+    "id": "qoder",
+    "version": "0.4.11"
+  },
+  "items": [
+    {
+      "native": {
+        "name": "IconNewChatOutlineRegular",
+        "resource": "native-icons/IconNewChatOutlineRegular.svg",
+        "sourcePath": "dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderChatNewLine.fill.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24"
+      }
+    },
+    {
+      "native": {
+        "name": "IconSearchOutlineRegular",
+        "resource": "native-icons/IconSearchOutlineRegular.svg",
+        "sourcePath": "dsh/node_modules/@deepseek-ai/dsh-web-frontend/dist/assets/index-BXV-oxvX.js",
+        "viewBox": "0 0 16 16",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderSearchLine.fill.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24"
+      }
+    },
+    {
+      "native": {
+        "name": "Local-IconCalendarOutlineRegular",
+        "resource": "native-icons/inline-7ade7472128103d4.svg",
+        "sourcePath": "dsh/node_modules/@deepseek-ai/dsh-client-ui-schedule/lib/client.js",
+        "viewBox": "0 0 14 14",
+        "mode": "stroke"
+      },
+      "target": {
+        "fill": "svg/QoderCalendarScheduleLine.fill.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-input-bar-send",
+        "resource": "native-icons/inline-e32ac3bb2e4556da.svg",
+        "sourcePath": "dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "fill"
+      },
+      "target": {
+        "fill": "svg/QoderArrowUpLine.fill.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24"
+      }
+    },
+    {
+      "native": {
+        "name": "InlineSvg-input-bar-stop",
+        "resource": "native-icons/inline-064ce14930f81b0c.svg",
+        "sourcePath": "dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "viewBox": "0 0 16 16",
+        "mode": "fill"
+      },
+      "target": {
+        "fill": "svg/QoderStopFill.fill.svg",
+        "variant": "fill",
+        "viewBox": "0 0 24 24"
+      }
+    }
+  ]
+}

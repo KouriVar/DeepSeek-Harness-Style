@@ -1,0 +1,7 @@
+{
+  "dshApp": "/Applications/DeepSeek Harness.app",
+  "profile": "/Users/YOUR_USER/.dsh/profiles/desktop",
+  "qoderRoot": "/absolute/path/to/existing/qoder-icons-20261029",
+  "toolchainRoot": "/optional/path/to/project/with/existing/babel-and-sharp",
+  "port": 43184
+}

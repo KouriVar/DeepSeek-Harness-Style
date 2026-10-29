@@ -89,3 +89,11 @@ dsh plugin --profile web add /绝对路径/dsh-style-0.1.0.tgz
 
 包名与模块 id 目前是 `dsh-style`（`client.js` 里的 `id` 必须与包名一致）。想换成别的名字时，
 同步改 `package.json.name`、`client.js` 的 `id`、`cordis.patch.yml` 的 `name`、以及本 README 即可。
+
+## Phase 04 开发工具：图标映射工作台
+
+在项目根目录运行 `npm run icons:studio`，或双击
+`tools/icon-studio/Start Icon Studio.command`。它是与 DSH 运行时解耦的本机工具，
+用于真实图标清单、Qoder 候选对比、人工审核和语义映射 JSON 导出；本阶段不会替换 DSH 图标。
+重建索引用 `npm run icons:index`，验证用 `npm run icons:test`。
+详见 [Icon Mapping Studio 使用说明](./tools/icon-studio/README.md)。

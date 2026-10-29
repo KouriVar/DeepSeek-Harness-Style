@@ -33,5 +33,11 @@
     "bundle": {
       "patch": "./cordis.patch.yml"
     }
+  },
+  "scripts": {
+    "icons:index": "node tools/icon-studio/index.mjs",
+    "icons:studio": "node tools/icon-studio/service.mjs start --open",
+    "icons:test": "node --test tools/icon-studio/test/studio.test.mjs",
+    "icons:stop": "node tools/icon-studio/service.mjs stop"
   }
 }

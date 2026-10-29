@@ -1,0 +1,1068 @@
+{
+  "nativeTotal": 153,
+  "mapped": 5,
+  "scope": "5-icon-approved-pilot",
+  "missing": [
+    "IconChevronLeftOutlineRegular",
+    "IconChevronRightOutlineRegular",
+    "IconCloseFillRegular",
+    "IconLoadingOutlineRegular",
+    "IconRefreshOutlineRegular",
+    "InlineSvg-upload-disabled-illustration-328f465a",
+    "InlineSvg-upload-illustration-83403958",
+    "IconWarningOutlineRegular",
+    "IconPlusOutlineMedium",
+    "IconPaperclipOutlineRegular",
+    "IconCheckOutlineRegular",
+    "IconEditOutlineRegular",
+    "IconChevronDownOutlineRegular",
+    "IconChevronUpOutlineRegular",
+    "IconCloseOutlineRegular",
+    "IconGaugeOutlineRegular",
+    "IconApiOutlineRegular",
+    "IconContextInjectionOutlineRegular",
+    "IconBrowseOutlineRegular",
+    "IconCopyOutlineRegular",
+    "IconBranchOutlineRegular",
+    "IconCodeOutlineRegular",
+    "IconPlanOutlineRegular",
+    "IconQuestionOutlineRegular",
+    "IconAgentPresetOutlineRegular",
+    "IconThinkOutlineRegular",
+    "IconSparkleRegular",
+    "IconGlobeOutlineRegular",
+    "IconDatabaseOutlineRegular",
+    "IconQueueOutlineRegular",
+    "IconTrashOutlineRegular",
+    "IconSendOutlineRegular",
+    "IconChecklistOutlineRegular",
+    "IconEllipsisOutlineRegular",
+    "IconDislikeFillRegular",
+    "IconLikeFillRegular",
+    "InlineSvg-shortcut-reference-a27544b3",
+    "IconInspectOutlineRegular",
+    "IconClockOutlineRegular",
+    "IconCordisPluginOutlineRegular",
+    "IconGoalOutlineRegular",
+    "IconUsersOutlineRegular",
+    "IconPlayOutlineRegular",
+    "InlineSvg-assistant-tool-calls-ba0a3309",
+    "InlineSvg-compacted-icon-f0b169ee",
+    "InlineSvg-information-icon-f2e92c47",
+    "Local-ToolWrenchIcon",
+    "IconSettingsOutlineRegular",
+    "IconUserOutlineRegular",
+    "InlineSvg-program-input-f39385ff",
+    "IconWrapLinesOutlineRegular",
+    "IconFolderCloseRegular",
+    "IconFolderOpenRegular",
+    "IconPauseOutlineRegular",
+    "IconPlusOutlineRegular",
+    "IconListPenOutlineRegular",
+    "IconStopFillRegular",
+    "IconDeliverDocRegular",
+    "IconCompareSplitOutlineRegular",
+    "IconNowrapFillRegular",
+    "IconWrapFillRegular",
+    "IconMicrophoneOutlineRegular",
+    "InlineSvg-session-inspector-view-bd19df8c",
+    "InlineSvg-type-filter-95bd7b30",
+    "InlineSvg-guide-artwork-browser-aba659b9",
+    "InlineSvg-guide-artwork-files-a6c15ca8",
+    "InlineSvg-plugin-artwork-default-e38fcdc3",
+    "InlineSvg-plugin-artwork-loop-8a146b2c",
+    "InlineSvg-plugin-artwork-subagent-46984a0c",
+    "InlineSvg-plugin-artwork-terminal-a6b47f78",
+    "InlineSvg-state-dot-a9fbac38",
+    "IconCheckCircleOutlineRegular",
+    "IconPluginPinwheelOutlineRegular",
+    "IconDataOutlineRegular",
+    "IconCloseCircleFillRegular",
+    "IconInfoOutlineRegular",
+    "IconSkillOutlineRegular",
+    "IconDarkOutlineMedium",
+    "IconFollowsystemOutlineMedium",
+    "IconLightOutlineMedium",
+    "Local-StarIcon",
+    "Local-PlusIcon",
+    "InlineSvg-arrow-up-icon-f39c92b9",
+    "InlineSvg-caret-e02aef57",
+    "InlineSvg-chevron-left-icon-920df716",
+    "InlineSvg-chevron-right-icon-bd602b74",
+    "InlineSvg-close-icon-19eceaf2",
+    "Local-PeopleIcon",
+    "Local-SearchIcon",
+    "Local-MicIcon",
+    "Local-ShareIcon",
+    "InlineSvg-feedback-icon-3edbd760",
+    "InlineSvg-git-hub-mark-cbbc07c9",
+    "InlineSvg-key-icon-51615f15",
+    "InlineSvg-link-icon-78f645ec",
+    "InlineSvg-lock-icon-6de5eefc",
+    "InlineSvg-main-star-1f29278d",
+    "InlineSvg-pin-mark-icon-145e9f28",
+    "InlineSvg-sidebar-icon-3fc5c9c2",
+    "InlineSvg-table-icon-cfd9d05b",
+    "InlineSvg-warn-icon-a3e1391a",
+    "InlineSvg-device-panel-49c11e87",
+    "InlineSvg-device-panel-711628af",
+    "InlineSvg-footer-button-fa5fb56a",
+    "InlineSvg-gateway-select-77d1fd8e",
+    "InlineSvg-gateway-select-ba78087e",
+    "IconDownloadOutlineRegular",
+    "IconCheckCircleFillRegular",
+    "IconCloseOutlineMedium",
+    "IconChevronLeftOutlineMedium",
+    "IconSlidersTwoOutlineRegular",
+    "IconUserOutlineMedium",
+    "IconEllipsisOutlineMedium",
+    "IconPaperPlaneOutlineMedium",
+    "IconSettingsOutlineMedium",
+    "IconRightUpOutlineRegular",
+    "InlineSvg-logout-icon-75008f7a",
+    "InlineSvg-notice-card-7bd73398",
+    "CssSvg-spinner",
+    "IconAgentPresetOutlineMedium",
+    "IconArchiveOutlineMedium",
+    "IconDataOutlineMedium",
+    "IconPersonalizationOutlineMedium",
+    "IconLinkOutlineRegular",
+    "IconWarningTriangleOutlineRegular",
+    "InlineSvg-zoom-controls-c826e507",
+    "InlineSvg-compass-glyph-954e2472",
+    "InlineSvg-cube-glyph-8c84c140",
+    "InlineSvg-exit-fullscreen-glyph-a6f1a168",
+    "IconPanelLeftOutlineRegular",
+    "InlineSvg-fullscreen-glyph-3eaf559d",
+    "InlineSvg-guide-more-icon-ce0a49ee",
+    "InlineSvg-terminal-icon-9f72f4ce",
+    "IconAppsAddOutlineRegular",
+    "IconNewChatOutlineMedium",
+    "IconPaperPlaneOutlineRegular",
+    "IconFolderOpenOutlineRegular",
+    "Local-SubagentSwitcherIcon",
+    "InlineSvg-trajectory-toolbar-f87ea10a",
+    "IconArchiveOutlineRegular",
+    "IconUnarchiveOutlineRegular",
+    "IconPinFillRegular",
+    "IconTriangleRightFillRegular",
+    "IconArchiveCheckOutlineRegular",
+    "IconChevronsUpDownOutlineRegular",
+    "IconFlatListOutlineRegular",
+    "IconWorkspaceTreeOutlineRegular",
+    "IconProjectAddOutlineRegular"
+  ],
+  "missingResources": [
+    {
+      "name": "IconChevronLeftOutlineRegular",
+      "resource": "native-icons/IconChevronLeftOutlineRegular.svg",
+      "usageCount": 5
+    },
+    {
+      "name": "IconChevronRightOutlineRegular",
+      "resource": "native-icons/IconChevronRightOutlineRegular.svg",
+      "usageCount": 27
+    },
+    {
+      "name": "IconCloseFillRegular",
+      "resource": "native-icons/IconCloseFillRegular.svg",
+      "usageCount": 4
+    },
+    {
+      "name": "IconLoadingOutlineRegular",
+      "resource": "native-icons/IconLoadingOutlineRegular.svg",
+      "usageCount": 4
+    },
+    {
+      "name": "IconRefreshOutlineRegular",
+      "resource": "native-icons/IconRefreshOutlineRegular.svg",
+      "usageCount": 11
+    },
+    {
+      "name": "InlineSvg-upload-disabled-illustration-328f465a",
+      "resource": "native-icons/inline-328f465a3e4f096f.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-upload-illustration-83403958",
+      "resource": "native-icons/inline-8340395884a5769e.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconWarningOutlineRegular",
+      "resource": "native-icons/IconWarningOutlineRegular.svg",
+      "usageCount": 18
+    },
+    {
+      "name": "IconPlusOutlineMedium",
+      "resource": "native-icons/IconPlusOutlineMedium.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconPaperclipOutlineRegular",
+      "resource": "native-icons/IconPaperclipOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconCheckOutlineRegular",
+      "resource": "native-icons/IconCheckOutlineRegular.svg",
+      "usageCount": 18
+    },
+    {
+      "name": "IconEditOutlineRegular",
+      "resource": "native-icons/IconEditOutlineRegular.svg",
+      "usageCount": 13
+    },
+    {
+      "name": "IconChevronDownOutlineRegular",
+      "resource": "native-icons/IconChevronDownOutlineRegular.svg",
+      "usageCount": 50
+    },
+    {
+      "name": "IconChevronUpOutlineRegular",
+      "resource": "native-icons/IconChevronUpOutlineRegular.svg",
+      "usageCount": 12
+    },
+    {
+      "name": "IconCloseOutlineRegular",
+      "resource": "native-icons/IconCloseOutlineRegular.svg",
+      "usageCount": 19
+    },
+    {
+      "name": "IconGaugeOutlineRegular",
+      "resource": "native-icons/IconGaugeOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconApiOutlineRegular",
+      "resource": "native-icons/IconApiOutlineRegular.svg",
+      "usageCount": 5
+    },
+    {
+      "name": "IconContextInjectionOutlineRegular",
+      "resource": "native-icons/IconContextInjectionOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconBrowseOutlineRegular",
+      "resource": "native-icons/IconBrowseOutlineRegular.svg",
+      "usageCount": 9
+    },
+    {
+      "name": "IconCopyOutlineRegular",
+      "resource": "native-icons/IconCopyOutlineRegular.svg",
+      "usageCount": 4
+    },
+    {
+      "name": "IconBranchOutlineRegular",
+      "resource": "native-icons/IconBranchOutlineRegular.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconCodeOutlineRegular",
+      "resource": "native-icons/IconCodeOutlineRegular.svg",
+      "usageCount": 8
+    },
+    {
+      "name": "IconPlanOutlineRegular",
+      "resource": "native-icons/IconPlanOutlineRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconQuestionOutlineRegular",
+      "resource": "native-icons/IconQuestionOutlineRegular.svg",
+      "usageCount": 4
+    },
+    {
+      "name": "IconAgentPresetOutlineRegular",
+      "resource": "native-icons/IconAgentPresetOutlineRegular.svg",
+      "usageCount": 8
+    },
+    {
+      "name": "IconThinkOutlineRegular",
+      "resource": "native-icons/IconThinkOutlineRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconSparkleRegular",
+      "resource": "native-icons/IconSparkleRegular.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconGlobeOutlineRegular",
+      "resource": "native-icons/IconGlobeOutlineRegular.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconDatabaseOutlineRegular",
+      "resource": "native-icons/IconDatabaseOutlineRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconQueueOutlineRegular",
+      "resource": "native-icons/IconQueueOutlineRegular.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconTrashOutlineRegular",
+      "resource": "native-icons/IconTrashOutlineRegular.svg",
+      "usageCount": 13
+    },
+    {
+      "name": "IconSendOutlineRegular",
+      "resource": "native-icons/IconSendOutlineRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconChecklistOutlineRegular",
+      "resource": "native-icons/IconChecklistOutlineRegular.svg",
+      "usageCount": 4
+    },
+    {
+      "name": "IconEllipsisOutlineRegular",
+      "resource": "native-icons/IconEllipsisOutlineRegular.svg",
+      "usageCount": 5
+    },
+    {
+      "name": "IconDislikeFillRegular",
+      "resource": "native-icons/IconDislikeFillRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconLikeFillRegular",
+      "resource": "native-icons/IconLikeFillRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-shortcut-reference-a27544b3",
+      "resource": "native-icons/inline-a27544b3ca2d4d7e.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconInspectOutlineRegular",
+      "resource": "native-icons/IconInspectOutlineRegular.svg",
+      "usageCount": 8
+    },
+    {
+      "name": "IconClockOutlineRegular",
+      "resource": "native-icons/IconClockOutlineRegular.svg",
+      "usageCount": 15
+    },
+    {
+      "name": "IconCordisPluginOutlineRegular",
+      "resource": "native-icons/IconCordisPluginOutlineRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconGoalOutlineRegular",
+      "resource": "native-icons/IconGoalOutlineRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconUsersOutlineRegular",
+      "resource": "native-icons/IconUsersOutlineRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconPlayOutlineRegular",
+      "resource": "native-icons/IconPlayOutlineRegular.svg",
+      "usageCount": 5
+    },
+    {
+      "name": "InlineSvg-assistant-tool-calls-ba0a3309",
+      "resource": "native-icons/inline-ba0a3309036f6996.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "InlineSvg-compacted-icon-f0b169ee",
+      "resource": "native-icons/inline-f0b169ee11b542ab.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "InlineSvg-information-icon-f2e92c47",
+      "resource": "native-icons/inline-f2e92c472dd5c453.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "Local-ToolWrenchIcon",
+      "resource": "native-icons/inline-5c049ad8071d53e7.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconSettingsOutlineRegular",
+      "resource": "native-icons/IconSettingsOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconUserOutlineRegular",
+      "resource": "native-icons/IconUserOutlineRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "InlineSvg-program-input-f39385ff",
+      "resource": "native-icons/inline-f39385ffa024f81f.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconWrapLinesOutlineRegular",
+      "resource": "native-icons/IconWrapLinesOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconFolderCloseRegular",
+      "resource": "native-icons/IconFolderCloseRegular.svg",
+      "usageCount": 6
+    },
+    {
+      "name": "IconFolderOpenRegular",
+      "resource": "native-icons/IconFolderOpenRegular.svg",
+      "usageCount": 4
+    },
+    {
+      "name": "IconPauseOutlineRegular",
+      "resource": "native-icons/IconPauseOutlineRegular.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconPlusOutlineRegular",
+      "resource": "native-icons/IconPlusOutlineRegular.svg",
+      "usageCount": 14
+    },
+    {
+      "name": "IconListPenOutlineRegular",
+      "resource": "native-icons/IconListPenOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconStopFillRegular",
+      "resource": "native-icons/IconStopFillRegular.svg",
+      "usageCount": 5
+    },
+    {
+      "name": "IconDeliverDocRegular",
+      "resource": "native-icons/IconDeliverDocRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconCompareSplitOutlineRegular",
+      "resource": "native-icons/IconCompareSplitOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconNowrapFillRegular",
+      "resource": "native-icons/IconNowrapFillRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconWrapFillRegular",
+      "resource": "native-icons/IconWrapFillRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconMicrophoneOutlineRegular",
+      "resource": "native-icons/IconMicrophoneOutlineRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "InlineSvg-session-inspector-view-bd19df8c",
+      "resource": "native-icons/inline-bd19df8c07cf1456.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-type-filter-95bd7b30",
+      "resource": "native-icons/inline-95bd7b30ff9709bf.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-guide-artwork-browser-aba659b9",
+      "resource": "native-icons/inline-aba659b99e177cc0.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-guide-artwork-files-a6c15ca8",
+      "resource": "native-icons/inline-a6c15ca8c86b8506.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-plugin-artwork-default-e38fcdc3",
+      "resource": "native-icons/inline-e38fcdc33fae29d6.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-plugin-artwork-loop-8a146b2c",
+      "resource": "native-icons/inline-8a146b2c31480533.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-plugin-artwork-subagent-46984a0c",
+      "resource": "native-icons/inline-46984a0c02cedcbb.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-plugin-artwork-terminal-a6b47f78",
+      "resource": "native-icons/inline-a6b47f78ca979566.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-state-dot-a9fbac38",
+      "resource": "native-icons/inline-a9fbac38f4713e6b.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconCheckCircleOutlineRegular",
+      "resource": "native-icons/IconCheckCircleOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconPluginPinwheelOutlineRegular",
+      "resource": "native-icons/IconPluginPinwheelOutlineRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconDataOutlineRegular",
+      "resource": "native-icons/IconDataOutlineRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconCloseCircleFillRegular",
+      "resource": "native-icons/IconCloseCircleFillRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconInfoOutlineRegular",
+      "resource": "native-icons/IconInfoOutlineRegular.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconSkillOutlineRegular",
+      "resource": "native-icons/IconSkillOutlineRegular.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconDarkOutlineMedium",
+      "resource": "native-icons/IconDarkOutlineMedium.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconFollowsystemOutlineMedium",
+      "resource": "native-icons/IconFollowsystemOutlineMedium.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconLightOutlineMedium",
+      "resource": "native-icons/IconLightOutlineMedium.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "Local-StarIcon",
+      "resource": "native-icons/inline-30885ad9481b2d7d.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "Local-PlusIcon",
+      "resource": "native-icons/inline-e9869693070b0307.svg",
+      "usageCount": 13
+    },
+    {
+      "name": "InlineSvg-arrow-up-icon-f39c92b9",
+      "resource": "native-icons/inline-f39c92b9019097f4.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "InlineSvg-caret-e02aef57",
+      "resource": "native-icons/inline-e02aef573cf912ca.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-chevron-left-icon-920df716",
+      "resource": "native-icons/inline-920df716013ab7f6.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-chevron-right-icon-bd602b74",
+      "resource": "native-icons/inline-bd602b744a5c283d.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-close-icon-19eceaf2",
+      "resource": "native-icons/inline-19eceaf2c4f635b6.svg",
+      "usageCount": 13
+    },
+    {
+      "name": "Local-PeopleIcon",
+      "resource": "native-icons/inline-84eae659c3c4024c.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "Local-SearchIcon",
+      "resource": "native-icons/inline-b5f3938b8f568174.svg",
+      "usageCount": 4
+    },
+    {
+      "name": "Local-MicIcon",
+      "resource": "native-icons/inline-a28d79636d48790e.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "Local-ShareIcon",
+      "resource": "native-icons/inline-2452aef7b808cc02.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "InlineSvg-feedback-icon-3edbd760",
+      "resource": "native-icons/inline-3edbd760bdeda8c1.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-git-hub-mark-cbbc07c9",
+      "resource": "native-icons/inline-cbbc07c93929465d.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-key-icon-51615f15",
+      "resource": "native-icons/inline-51615f150d1b9455.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-link-icon-78f645ec",
+      "resource": "native-icons/inline-78f645ecd31af97a.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-lock-icon-6de5eefc",
+      "resource": "native-icons/inline-6de5eefcac95822c.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-main-star-1f29278d",
+      "resource": "native-icons/inline-1f29278dbfaabfcf.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-pin-mark-icon-145e9f28",
+      "resource": "native-icons/inline-145e9f284af72d34.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "InlineSvg-sidebar-icon-3fc5c9c2",
+      "resource": "native-icons/inline-3fc5c9c2be9b9e57.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "InlineSvg-table-icon-cfd9d05b",
+      "resource": "native-icons/inline-cfd9d05bddba11d8.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-warn-icon-a3e1391a",
+      "resource": "native-icons/inline-a3e1391a6e070804.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-device-panel-49c11e87",
+      "resource": "native-icons/inline-49c11e8709538607.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-device-panel-711628af",
+      "resource": "native-icons/inline-711628af270cf62d.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-footer-button-fa5fb56a",
+      "resource": "native-icons/inline-fa5fb56a86e5b4e5.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-gateway-select-77d1fd8e",
+      "resource": "native-icons/inline-77d1fd8e24481e41.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-gateway-select-ba78087e",
+      "resource": "native-icons/inline-ba78087e15ea47a2.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconDownloadOutlineRegular",
+      "resource": "native-icons/IconDownloadOutlineRegular.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconCheckCircleFillRegular",
+      "resource": "native-icons/IconCheckCircleFillRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconCloseOutlineMedium",
+      "resource": "native-icons/IconCloseOutlineMedium.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconChevronLeftOutlineMedium",
+      "resource": "native-icons/IconChevronLeftOutlineMedium.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconSlidersTwoOutlineRegular",
+      "resource": "native-icons/IconSlidersTwoOutlineRegular.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconUserOutlineMedium",
+      "resource": "native-icons/IconUserOutlineMedium.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconEllipsisOutlineMedium",
+      "resource": "native-icons/IconEllipsisOutlineMedium.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconPaperPlaneOutlineMedium",
+      "resource": "native-icons/IconPaperPlaneOutlineMedium.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconSettingsOutlineMedium",
+      "resource": "native-icons/IconSettingsOutlineMedium.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconRightUpOutlineRegular",
+      "resource": "native-icons/IconRightUpOutlineRegular.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "InlineSvg-logout-icon-75008f7a",
+      "resource": "native-icons/inline-75008f7afab9c1c5.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-notice-card-7bd73398",
+      "resource": "native-icons/inline-7bd73398eb119c8d.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "CssSvg-spinner",
+      "resource": "native-icons/inline-28d4ced6232a9b10.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconAgentPresetOutlineMedium",
+      "resource": "native-icons/IconAgentPresetOutlineMedium.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconArchiveOutlineMedium",
+      "resource": "native-icons/IconArchiveOutlineMedium.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconDataOutlineMedium",
+      "resource": "native-icons/IconDataOutlineMedium.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconPersonalizationOutlineMedium",
+      "resource": "native-icons/IconPersonalizationOutlineMedium.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconLinkOutlineRegular",
+      "resource": "native-icons/IconLinkOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconWarningTriangleOutlineRegular",
+      "resource": "native-icons/IconWarningTriangleOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-zoom-controls-c826e507",
+      "resource": "native-icons/inline-c826e50764d4983a.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-compass-glyph-954e2472",
+      "resource": "native-icons/inline-954e24725760da6b.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "InlineSvg-cube-glyph-8c84c140",
+      "resource": "native-icons/inline-8c84c140599b43cc.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "InlineSvg-exit-fullscreen-glyph-a6f1a168",
+      "resource": "native-icons/inline-a6f1a168ccb97b84.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconPanelLeftOutlineRegular",
+      "resource": "native-icons/IconPanelLeftOutlineRegular.svg",
+      "usageCount": 4
+    },
+    {
+      "name": "InlineSvg-fullscreen-glyph-3eaf559d",
+      "resource": "native-icons/inline-3eaf559d9bea5dc7.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "InlineSvg-guide-more-icon-ce0a49ee",
+      "resource": "native-icons/inline-ce0a49ee1d0e4804.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "InlineSvg-terminal-icon-9f72f4ce",
+      "resource": "native-icons/inline-9f72f4ce24fce7ee.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "IconAppsAddOutlineRegular",
+      "resource": "native-icons/IconAppsAddOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconNewChatOutlineMedium",
+      "resource": "native-icons/IconNewChatOutlineMedium.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconPaperPlaneOutlineRegular",
+      "resource": "native-icons/IconPaperPlaneOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconFolderOpenOutlineRegular",
+      "resource": "native-icons/IconFolderOpenOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "Local-SubagentSwitcherIcon",
+      "resource": "native-icons/inline-960270609de21aaa.svg",
+      "usageCount": 2
+    },
+    {
+      "name": "InlineSvg-trajectory-toolbar-f87ea10a",
+      "resource": "native-icons/inline-f87ea10afd5ba959.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconArchiveOutlineRegular",
+      "resource": "native-icons/IconArchiveOutlineRegular.svg",
+      "usageCount": 4
+    },
+    {
+      "name": "IconUnarchiveOutlineRegular",
+      "resource": "native-icons/IconUnarchiveOutlineRegular.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconPinFillRegular",
+      "resource": "native-icons/IconPinFillRegular.svg",
+      "usageCount": 3
+    },
+    {
+      "name": "IconTriangleRightFillRegular",
+      "resource": "native-icons/IconTriangleRightFillRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconArchiveCheckOutlineRegular",
+      "resource": "native-icons/IconArchiveCheckOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconChevronsUpDownOutlineRegular",
+      "resource": "native-icons/IconChevronsUpDownOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconFlatListOutlineRegular",
+      "resource": "native-icons/IconFlatListOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconWorkspaceTreeOutlineRegular",
+      "resource": "native-icons/IconWorkspaceTreeOutlineRegular.svg",
+      "usageCount": 1
+    },
+    {
+      "name": "IconProjectAddOutlineRegular",
+      "resource": "native-icons/IconProjectAddOutlineRegular.svg",
+      "usageCount": 1
+    }
+  ],
+  "unsupportedDynamic": [
+    "Dynamic-file-card-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-record-attachments-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-context-injection-row-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+    "Dynamic-pending-steering-bubble-message-icon-actions",
+    "Dynamic-pending-submission-bubble-message-icon-actions",
+    "Dynamic-turn-tail-node-view-message-icon-actions",
+    "Dynamic-turn-trigger-node-view-trigger-icon",
+    "Dynamic-user-content-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-user-message-node-view-message-icon-actions",
+    "Dynamic-queue-file-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-reference-chip-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+    "Dynamic-shortcut-reference-shortcut-icon",
+    "Dynamic-entry-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-files-title-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-render-row-double-check-icon",
+    "Dynamic-changed-files-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-presented-file-card-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-menu-view-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+    "Dynamic-menu-view-item-icon",
+    "Dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-auto-review-regular",
+    "Dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-full-access-regular",
+    "Dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-read-only-regular",
+    "Dynamic-module-deepseek-ai-dsh-client-ui-primitives-permission-icon-workspace-write-regular",
+    "Dynamic-plan-cards-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-plan-title-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-task-detail-deepseek-ai-dsh-client-ui-primitives-reference-icon-regular",
+    "Dynamic-appearance-row-icon",
+    "Dynamic-about-page-star-line-icon",
+    "Dynamic-account-launcher-icon",
+    "Dynamic-account-launcher-gear-icon",
+    "Dynamic-agent-menu-icon",
+    "Dynamic-attachments-ui-file-type-icon",
+    "Dynamic-automation-off-clock-icon",
+    "Dynamic-bot-settings-form-pencil-icon",
+    "Dynamic-bot-settings-form-chevron-right-icon",
+    "Dynamic-bots-page-chevron-right-icon",
+    "Dynamic-browser-cards-favicon",
+    "Dynamic-browser-cards-globe-icon",
+    "Dynamic-browser-view-back-icon",
+    "Dynamic-browser-view-forward-icon",
+    "Dynamic-browser-view-import-icon",
+    "Dynamic-command-palette-gear-icon",
+    "Dynamic-composer-plus-chats-icon",
+    "Dynamic-composer-plus-clock-icon",
+    "Dynamic-composer-plus-paperclip-icon",
+    "Dynamic-composer-voice-wave-icon",
+    "Dynamic-connect-plugins-plug-icon",
+    "Dynamic-context-menu-icon",
+    "Dynamic-copy-button-check-icon",
+    "Dynamic-copy-button-copy-icon",
+    "Dynamic-create-bot-chevron-left-icon",
+    "Dynamic-custom-form-key-icon",
+    "Dynamic-custom-form-check-icon",
+    "Dynamic-details-drawer-gear-icon",
+    "Dynamic-details-drawer-chevron-left-icon",
+    "Dynamic-details-drawer-terminal-icon",
+    "Dynamic-details-drawer-globe-icon",
+    "Dynamic-details-drawer-wave-icon",
+    "Dynamic-effort-rows-check-icon",
+    "Dynamic-entry-row-trash-icon",
+    "Dynamic-favicon-globe-icon",
+    "Dynamic-folder-menu-chevron-left-icon",
+    "Dynamic-folder-menu-chevron-right-icon",
+    "Dynamic-folder-menu-folder-icon",
+    "Dynamic-folder-menu-pencil-icon",
+    "Dynamic-glyph-box-icon2",
+    "Dynamic-group-replies-chevron-right-icon",
+    "Dynamic-group-settings-form-chevron-right-icon",
+    "Dynamic-groups-page-chevron-right-icon",
+    "Dynamic-import-menu-window-icon",
+    "Dynamic-import-menu-file-icon",
+    "Dynamic-item-icon",
+    "Dynamic-key-editor-check-icon",
+    "Dynamic-key-editor-key-icon",
+    "Dynamic-known-form-key-icon",
+    "Dynamic-memory-card-chevron-right-icon",
+    "Dynamic-memory-dialog-chevron-left-icon",
+    "Dynamic-memory-dialog-dots-icon",
+    "Dynamic-memory-event-memory-icon",
+    "Dynamic-memory-row-chevron-right-icon",
+    "Dynamic-memory-row-memory-icon",
+    "Dynamic-message-tools-smile-icon",
+    "Dynamic-message-tools-check-icon",
+    "Dynamic-message-tools-dots-icon",
+    "Dynamic-message-tools-reply-icon",
+    "Dynamic-model-choice-dock-sliders-icon",
+    "Dynamic-model-key-card-key-icon",
+    "Dynamic-model-menu-sliders-icon",
+    "Dynamic-model-rows-check-icon",
+    "Dynamic-month-chevron-right-icon",
+    "Dynamic-month-chevron-left-icon",
+    "Dynamic-options-input-check-icon",
+    "Dynamic-panel-strip-favicon",
+    "Dynamic-panel-strip-close-icon2",
+    "Dynamic-panel-strip-plus-tab-icon",
+    "Dynamic-provider-row-trash-icon",
+    "Dynamic-question-view-check-icon",
+    "Dynamic-reply-check-icon",
+    "Dynamic-schedule-summary-clock-icon",
+    "Dynamic-scope-editor-check-icon",
+    "Dynamic-secret-card-key-icon",
+    "Dynamic-secret-card-warn-icon",
+    "Dynamic-secret-head-lock-icon",
+    "Dynamic-secret-row-key-icon",
+    "Dynamic-secret-row-trash-icon",
+    "Dynamic-secret-tool-cell-key-icon",
+    "Dynamic-settings-dialog-chevron-left-icon",
+    "Dynamic-settings-dialog-sliders-icon",
+    "Dynamic-settings-dialog-page-icons-key",
+    "Dynamic-settled-options-check-icon",
+    "Dynamic-settled-question-check-icon",
+    "Dynamic-settled-secret-check-icon",
+    "Dynamic-summary-memory-icon",
+    "Dynamic-tabs-icon2",
+    "Dynamic-task-row-trash-icon",
+    "Dynamic-tick-check-icon",
+    "Dynamic-update-button-cloud-download-icon",
+    "Dynamic-value-editor-check-icon",
+    "Dynamic-view-menu-list-copy-icon",
+    "Dynamic-view-menu-list-download-icon",
+    "Dynamic-view-menu-list-table-icon",
+    "Dynamic-view-menu-dots-icon",
+    "Dynamic-widget-callout-info-icon",
+    "Dynamic-widget-sources-link-icon",
+    "Dynamic-you-avatar-gear-icon",
+    "Dynamic-mode-switcher-icon",
+    "Dynamic-confirm-dialog-market-icon",
+    "Dynamic-entry-card-market-icon",
+    "Dynamic-entry-detail-market-icon",
+    "Dynamic-account-menu-logout-icon",
+    "Dynamic-purpose-card-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-browser-body-sandbox-policy-icon",
+    "Dynamic-office-body-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-text-preview-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-text-title-deepseek-ai-dsh-client-ui-primitives-file-type-icon",
+    "Dynamic-entry-box-icon",
+    "Dynamic-open-target-button-application-icon"
+  ],
+  "otherUnresolved": [
+    "InlineSvg-running-whale-tail",
+    "InlineSvg-context-meter",
+    "InlineSvg-hero-fish",
+    "InlineSvg-waveform",
+    "InlineSvg-brand-wordmark",
+    "InlineSvg-fish-logo",
+    "InlineSvg-plugin-artwork-search",
+    "InlineSvg-eye-glyph",
+    "InlineSvg-shortcut-icon",
+    "InlineSvg-bot-mark",
+    "InlineSvg-browser-icon",
+    "InlineSvg-cloud-download-icon",
+    "Image-favicon",
+    "InlineSvg-line-icon",
+    "InlineSvg-profile",
+    "InlineSvg-shape-ring",
+    "InlineSvg-wave-icon",
+    "InlineSvg-widget-chart",
+    "Image-device-panel",
+    "Image-market-icon",
+    "Image-onboarding-process-step",
+    "InlineSvg-api-key-input",
+    "InlineSvg-sandbox-policy-icon",
+    "Image-application-icon",
+    "IconArchiveOffOutlineRegular"
+  ],
+  "notes": [
+    "nativeTotal 依据当前 Studio 可解析的唯一 native.resource 计数，不把使用位置或未解析动态引用当作唯一 SVG。",
+    "此小样只携带 5 个已确认目标及其对应原生 SVG，未匹配资源不在包内，保留原生。",
+    "Line/Fill 字形命名与 SVG 实际 fill/stroke 渲染是两个维度；未伪造 stroke 版本。"
+  ]
+}

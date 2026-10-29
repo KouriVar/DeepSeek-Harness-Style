@@ -1,0 +1,85 @@
+{
+  "dshBuildCommit": "be72761ee1a6736ebcdf4f3739363b083ae53c98",
+  "packSourceSha256": "0d50e5a4c05a0510345933b08081a4767bfbf95633c314f6738d4652a213acfc",
+  "items": [
+    {
+      "role": "新建会话",
+      "semanticIds": [
+        "dsh.plugin-ui.ds-bot.chat-panel-icon.default.new-chat",
+        "dsh.plugin-ui.dsh-style.mode-switcher.icon.new-chat",
+        "dsh.sidebar.sidebar.header-leading-controls.t-session-new-label.new-chat",
+        "dsh.workspace.workspace.project-row-item.t-actions-new-session-aria-name-label.new-chat"
+      ],
+      "nativeResource": "native-icons/IconNewChatOutlineRegular.svg",
+      "nativeSha256": "de607bfa71c4362047bce86685744f735bcfba9abfd4ec8fbe097f72fa607bfd",
+      "targetId": "qoder-local:QoderChatNewLine",
+      "targetSha256": "8d8e55e0ec7c696c748ee245e76aeeefd694c5c6f3602dadbc09726cf366de8b",
+      "approvedAt": "2026-10-29T07:00:01.548Z",
+      "appearance": "line",
+      "renderer": "fill"
+    },
+    {
+      "role": "搜索",
+      "semanticIds": [
+        "dsh.conversation.chat.process-icons.search.search",
+        "dsh.conversation.tool.detail-icon.default.search",
+        "dsh.conversation.tool.search-row.t-tool-name-grep-search-title-keys-grep-tool-name-glob-search-title-keys-glob-model-title-key.search",
+        "dsh.conversation.tool.variant-icons.search.search",
+        "dsh.other.schedule.task-manager-page.t-search-label.search",
+        "dsh.plugin-ui.ds-bot.team-sidebar.t-search.search",
+        "dsh.settings.plugin-market.browser.t-search.search",
+        "dsh.settings.settings-plugin-inventory.plugin-inventory-settings-tab.default.search",
+        "dsh.toolbar.trajectory.trajectory-toolbar.default.search",
+        "dsh.workspace.workspace.workspace-browser.t-search-sessions-aria.search"
+      ],
+      "nativeResource": "native-icons/IconSearchOutlineRegular.svg",
+      "nativeSha256": "4b0bf93cf4d7d1d2a21dcd7b65aa44ae4fc9856433019b9fe291244f0a544e69",
+      "targetId": "qoder-local:QoderSearchLine",
+      "targetSha256": "499ee53cc382e89b84b3bb37efe1de2ceb03322a52c1333ff0e01d00177c1c54",
+      "approvedAt": "2026-10-29T07:00:05.439Z",
+      "appearance": "line",
+      "renderer": "fill"
+    },
+    {
+      "role": "自动化任务",
+      "semanticIds": [
+        "dsh.other.schedule.icon-calendar-outline-regular.default.inline-svg-icon-calendar-outline-regular-7ade7472",
+        "dsh.other.schedule.rule-card.t-timing-date.local-icon-calendar"
+      ],
+      "nativeResource": "native-icons/inline-7ade7472128103d4.svg",
+      "nativeSha256": "7ade7472128103d400a385473d907f235fb8b2a2da09b133a9d8773829a76270",
+      "targetId": "qoder-local:QoderCalendarScheduleLine",
+      "targetSha256": "5a4ba26de298f73ed7b520b28046d244ec71c859654a99437d3213bcae631455",
+      "approvedAt": "2026-10-29T07:02:01.641Z",
+      "appearance": "line",
+      "renderer": "fill"
+    },
+    {
+      "role": "发送",
+      "semanticIds": [
+        "dsh.composer.conversation.input-bar.primary-label.inline-svg-input-bar-send"
+      ],
+      "nativeResource": "native-icons/inline-e32ac3bb2e4556da.svg",
+      "nativeSha256": "e32ac3bb2e4556dae23d8e229822d77cfc1fe5c85ee97b733daec90a06db48e1",
+      "targetId": "qoder-local:QoderArrowUpLine",
+      "targetSha256": "0ec3a3e73e4e95b33752b36e128239a0853362f34c764ac065f2f33ff87e802d",
+      "approvedAt": "2026-10-29T07:03:07.788Z",
+      "appearance": "line",
+      "renderer": "fill"
+    },
+    {
+      "role": "停止",
+      "semanticIds": [
+        "dsh.composer.conversation.input-bar.primary-label.inline-svg-input-bar-stop",
+        "dsh.composer.conversation.input-bar.t-input-stop.inline-svg-input-bar-064ce149"
+      ],
+      "nativeResource": "native-icons/inline-064ce14930f81b0c.svg",
+      "nativeSha256": "064ce14930f81b0c54967089945cfac744ac242d7aa68284c48be990da6bd01e",
+      "targetId": "qoder-local:QoderStopFill",
+      "targetSha256": "5e24728b60355296cbf9ff914d20710b95d3fc8dceb027c63ec7bf8f4d9e270d",
+      "approvedAt": "2026-10-29T07:03:14.660Z",
+      "appearance": "solid",
+      "renderer": "fill"
+    }
+  ]
+}

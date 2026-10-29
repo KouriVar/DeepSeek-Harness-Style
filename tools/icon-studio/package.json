@@ -1,0 +1,17 @@
+{
+  "name": "dsh-icon-mapping-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "index": "node index.mjs",
+    "start": "node service.mjs start --open",
+    "test": "node --test test/studio.test.mjs",
+    "stop": "node service.mjs stop"
+  },
+  "dependencies": {
+    "@babel/parser": "7.29.8",
+    "@babel/traverse": "7.29.8",
+    "sharp": "0.34.3"
+  }
+}
