@@ -21,11 +21,12 @@ import { execFileSync } from 'node:child_process'
 
 // ---------------------------------------------------------------- args
 function parseArgs(argv) {
-  const out = { dryRun: true, app: '/Applications/DeepSeek Harness.app', pack: 'icon-packs/qoder', out: null }
+  const out = { dryRun: true, force: false, app: '/Applications/DeepSeek Harness.app', pack: 'icon-packs/qoder', out: null }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
     if (a === '--apply') out.dryRun = false
     else if (a === '--dry-run') out.dryRun = true
+    else if (a === '--force') out.force = true
     else if (a === '--app') out.app = argv[++i]
     else if (a === '--pack') out.pack = argv[++i]
     else if (a === '--out') out.out = argv[++i]
@@ -319,7 +320,12 @@ const { asar: newAsar, jsonBuf } = buildAsar(asar.tree, asar.files, changedBuffe
 console.log(`built new app.asar: ${(newAsar.length / 1048576).toFixed(1)} MB, header hash ${sha256hex(jsonBuf).slice(0, 12)}…`)
 
 // copy app (clone on APFS if possible), write asar, update plist, re-sign
-if (fs.existsSync(args.out)) { console.error(`out exists: ${args.out}`); process.exit(2) }
+if (fs.existsSync(args.out)) {
+  const safe = args.out !== args.app && args.out.endsWith('.app') && !args.out.includes('/Applications/DeepSeek Harness.app')
+  if (!args.force || !safe) { console.error(`out exists: ${args.out} (use --force to replace a .app copy)`); process.exit(2) }
+  console.log(`--force: removing ${args.out}`)
+  fs.rmSync(args.out, { recursive: true, force: true })
+}
 fs.mkdirSync(path.dirname(args.out), { recursive: true })
 console.log(`copying ${args.app} -> ${args.out} …`)
 try { execFileSync('cp', ['-Rc', args.app, args.out], { stdio: 'inherit' }) }

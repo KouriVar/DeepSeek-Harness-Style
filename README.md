@@ -97,3 +97,21 @@ dsh plugin --profile web add /绝对路径/dsh-style-0.1.0.tgz
 用于真实图标清单、Qoder 候选对比、人工审核和语义映射 JSON 导出；本阶段不会替换 DSH 图标。
 重建索引用 `npm run icons:index`，验证用 `npm run icons:test`。
 详见 [Icon Mapping Studio 使用说明](./tools/icon-studio/README.md)。
+
+## 图标替换（Icon System · 预览）
+不改 DSH 源码，用图标包替换原生图标（缺失自动回退原生）：
+
+- 图标包：`icon-packs/qoder/`（`mapping.json` + `svg/` + `native-icons/`）
+- 补丁器：`scripts/apply-icon-pack.mjs`
+
+```sh
+# 1) 只报告将替换哪些图标（不改任何文件）
+node scripts/apply-icon-pack.mjs --dry-run
+
+# 2) 生成改好的 .app 副本（默认 ~/Applications）
+node scripts/apply-icon-pack.mjs --apply --force --out "/Applications/DeepSeek Harness (Qoder Icons).app"
+```
+
+说明：DSH 的 app 启用了 **asar 完整性校验** + Developer ID 签名。补丁器会：按元素定位并替换图标几何 →
+重算被改文件的**分块 SHA256** → 同步 `Info.plist` 的 `ElectronAsarIntegrity` **header 哈希** →
+对副本 **ad-hoc 重签**。原 app 不受影响。
