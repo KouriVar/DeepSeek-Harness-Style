@@ -16,6 +16,7 @@
 - 安装：desktop profile 里 `link:` 指向本目录 + bundles 含 `dsh-style`（`~/.dsh/profiles/desktop/package.json`）。
 - 改 `client.js` 由 `dsh-client-hmr` 自动热重载（改宿主 `index.js` 需重启）。
 - 测试：`node test/smoke.mjs`、`node test/layout.mjs`。备份：`~/.dsh/profiles/desktop/package.json.bak-dshstyle-*`。
+- **2026-10-29 晚 UI 大改（沉浸式外壳 / 标题栏控制 / 任务监控 固定·悬浮·图钉 / 侧栏可见性开关 / Qoder Forest-Dark 侧栏 1:1 等）详见 `docs/plugin-ui-session-2026-10-29.md`；回退：`client.js.bak-20261029-230348` 或 git `af4a40a`。**
 
 ## 2. 图标系统（方案 B：构建期替换 + 缺失回退原生）
 - 图标包：`icon-packs/qoder/`

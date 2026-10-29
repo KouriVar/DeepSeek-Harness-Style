@@ -238,6 +238,11 @@ window.__ModuleLoader__.load({
       // 右栏 panel 是 top:0 绝对定位，dock 标签栏自带约 5px 顶部内边距；用 top 偏移补齐，
       // 不用 transform（避免破坏内部 fixed 定位的 tooltip）。
       'html[data-dsh-style-enabled="true"] [data-sidebar-right-panel]:not([data-sidebar-right-panel="fullscreen"]){top:-5px !important;}',
+      // 账户区底部间距与左侧(12)同步：去掉 footer 各层额外内距，root 底部留 12。
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] > [class*="_root"]{padding-bottom:12px !important;}',
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_footArea"]{padding-bottom:0 !important;margin-bottom:0 !important;}',
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_settingsArea"]{padding-bottom:0 !important;margin-bottom:0 !important;}',
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_triggerRow"]{padding-bottom:0 !important;margin-bottom:0 !important;}',
     ].join('')
 
     // 把「智能体团队 / 子智能体 / 后台任务」三个头部入口从顶栏移到「任务监控」后，
