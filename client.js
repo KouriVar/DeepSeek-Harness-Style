@@ -99,7 +99,7 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-layout="inset"]{',
       '--dsh-style-inset-bg:#e9eaec;',
       '--dsh-style-inset-radius:14px;',
-      '--dsh-style-inset-gap:10px;',
+      '--dsh-style-inset-gap:4px;',
       '--dsh-style-inset-gap-left:6px;',
       '--dsh-style-inset-border:rgba(0,0,0,.07);',
       '}',
@@ -125,6 +125,11 @@ window.__ModuleLoader__.load({
       'margin-left:var(--dsh-style-inset-gap-left);',
       'overflow:hidden;',
       '}',
+      // 会话区（主内容）不需要可见滚动条：仍可滚动，只是不显示滚动条。
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-main]{scrollbar-width:none;}',
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-main] *{scrollbar-width:none;}',
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-main]::-webkit-scrollbar{width:0;height:0;display:none;}',
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-main] *::-webkit-scrollbar{width:0;height:0;display:none;}',
       // Sidebar 留在底板上，不加外部卡片，内部导航不动。
       'html[data-dsh-style-layout="inset"] [data-dsh-style-sidebar]{',
       'background:transparent;',
