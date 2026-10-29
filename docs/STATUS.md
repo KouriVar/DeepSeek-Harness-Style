@@ -30,23 +30,24 @@
     - 常用：`node scripts/apply-icon-pack.mjs --dry-run`
       `node scripts/apply-icon-pack.mjs --apply --force --out "/Applications/DeepSeek Harness (Qoder Icons).app"`
       `node scripts/apply-icon-pack.mjs --verify --out "<app>"`
-- **状态：58/70 唯一图标替换成功，真机已验证**（整机 integrity/签名 PASS）。
-- **剩余 12 个未换（回退原生，需 Studio 重新导出"源码态原生 SVG"）**：
-  `IconBranchOutlineRegular、IconMicrophoneOutlineRegular、IconPinFillRegular、Local-SearchIcon、Local-ShareIcon、InlineSvg-arrow-up-icon、InlineSvg-chevron-left-icon、InlineSvg-chevron-right-icon、InlineSvg-close-icon、InlineSvg-key-icon、InlineSvg-link-icon、InlineSvg-lock-icon`
-  （原因：Studio 导出的原生 SVG 是*渲染态*，与 bundle 中压缩源码的 path 对不上；需从源码态重新导出，或按组件名反查。）
+- **状态：61/70 唯一图标替换成功，副本已验证**（header hash==plist、file integrity 16615/16615、`codesign --verify --strict` PASS；官方 App 未改）。
+  - 相对 58/70 新增 3 个：`IconBranchOutlineRegular`、`IconMicrophoneOutlineRegular`、`IconPinFillRegular`——根因是**补丁器匹配 bug**（圆属性无空格、参数化 rect、fill/outline 共用字形），已修 `scripts/apply-icon-pack.mjs`，未改任何几何。
+- **剩余 9 个未换（回退原生）**：`InlineSvg-arrow-up-icon、InlineSvg-chevron-left-icon、InlineSvg-chevron-right-icon、InlineSvg-close-icon、Local-SearchIcon、Local-ShareIcon、InlineSvg-key-icon、InlineSvg-link-icon、InlineSvg-lock-icon`
+  - 原因不同：这些**不在 app.asar**，属于外部 profile 插件 `ds-bot`（`dsh.plugin-ui.ds-bot.*`，真实 path 在 `~/.dsh/profiles/desktop/node_modules/ds-bot/client.js` → 软链到你自己的 `DeepSeek-Bot/ds-bot`）。补丁器只读写 app.asar，且 ds-bot 是 `~/.dsh` 共享 profile、会连带影响官方 App → 按"不改官方"约束**暂不动，回退原生**（详见 `icon-packs/qoder/remaining.report.md`）。
 
-## 3. 设计 Token（已导入 Figma）
+## 3. 设计 Token（已导入 Figma）✅ 2026-10-29 复核并补齐
 - 提取：`scripts/extract-tokens.mjs`（读 `dsh-client-ui-theme` 的 `--dsw-*`，静态色板+明暗 alias 解析）→ `design/tokens/dsh-tokens.json`。
-  - 共 384 个 `--dsw-*`；输出 190 色（含 100 `alias/*` 语义色）+ 6 radius；其余为字体/渐变/计算值（`dsh-tokens.skipped.json`）。
+  - 共 384 个 `--dsw-*`；输出 190 色（100 `alias/*` 语义色 + 77 `static/*` + 13 其他）+ 6 radius；其余为字体/渐变/计算值（`dsh-tokens.skipped.json`）。
 - Figma 文件：**DeepSeek Desktop App**，fileKey `3RSG2PjWlV5KTTlhPSY9dC`。
-  - 已建集合 **`DSH Tokens`**（id `VariableCollectionId:1:4`），modes：`Light`(`1:2`) / `Dark`(`1:3`)。
-  - 已导入 **106 个变量**（100 语义色 alias/* 的 Light+Dark + 6 radius）——0 失败。
-- **待办**：用户说自己又新建了「mode 1 / mode 2（浅色 / 深色）」—**新会话先 `figma_get_variables` 查当前 collections/modes 的真实名称与 modeId**，再把 token 按用户指定的 mode 导入（不要假设仍叫 Light/Dark）。另：static 色板 77 个、字体 182 个（需生成 Figma **Text Styles**）尚未导。
+  - **`DSH Tokens`**（`VariableCollectionId:1:4`）真实 modes：**`Light`(`1:2`) / `Dark`(`1:3`)** —— 复核：用户说的「Mode 1/2」其实属于另一个空集合 `Collection`(`1:2`)；DSH Tokens 仍叫 Light/Dark。
+  - **106 变量逐项比对 = 0 mismatch**（浅→`1:2`、深→`1:3`，已与 JSON 完全一致，未新建/改写）。
+  - 新增 **`DSH Static`**（`VariableCollectionId:1:171`，单 mode）：**77 个 static 色板**，0 失败。
+  - 新增 **30 个 Figma Text Styles**（`DSH/*`，SF Pro / Menlo），由 181 个字体 token 归一。
+  - 复核报告：`docs/figma-tokens-report.md`。
 
 ## 4. 下一步计划（用户方向）
-- 用户是 UI 设计师，计划：**Figma 出稿 → fork 原版 DSH 源码 → 新分支改 UI**。
-- 建议顺序：①先做「构建可行性 spike」（clone `deepseek-harness`、装依赖、起 dev 构建）验证能否本地构建 Electron app；②定 Tokens 为单一事实源（Figma Variables ↔ 代码 `--dsw-*`）；③组件级改造尽量新增文件/主题层，减少与 upstream 冲突；④分支 `feat/ui-redesign`，remote `origin=自己的`、`upstream=官方`。
-- 图标系统（方案 B/补丁器）可作为过渡；fork 后可直接把 Qoder 图标编进构建。
+- **2026-10-29 用户决定：暂缓「fork 源码 / 构建 Electron」路线**（本机整机对外带宽被限 ~30KB/s，317MB 仓库完整 clone 需数小时，不划算）；也暂不处理 ds-bot 的 9 个图标。**当前专注：继续在现有 dsh-style 插件里改 style**（`client.js`，走 `dsh-client-hmr` 热重载，无需重启）。
+- 历史建议（保留备查）：Figma 出稿 → fork → 新分支改 UI；Tokens 为单一事实源（Figma Variables ↔ 代码 `--dsw-*`）；组件改造尽量新增文件/主题层减少冲突；分支 `feat/ui-redesign`，`origin=自己的`、`upstream=官方`。若日后要构建，见 `docs/fork-build-spike.md`（如有）。
 
 ## 5. 命令速查
 ```sh
