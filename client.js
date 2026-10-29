@@ -98,7 +98,7 @@ window.__ModuleLoader__.load({
     const BASE_CSS = [
       'html[data-dsh-style-layout="inset"]{',
       '--dsh-style-inset-bg:#e9eaec;',
-      '--dsh-style-inset-radius:14px;',
+      '--dsh-style-inset-radius:20px;',
       '--dsh-style-inset-gap:4px;',
       '--dsh-style-inset-gap-left:6px;',
       '--dsh-style-inset-border:rgba(0,0,0,.07);',
