@@ -17,7 +17,7 @@ pack: /Users/halfsignal/Documents/配置目录/软件目录/默认文件-DeepSee
   OK   IconCloseOutlineRegular  ->  svg/QoderCloseLine.svg  (2 child ren, index-BXV-oxvX.js)
   OK   IconBrowseOutlineRegular  ->  svg/QoderFileList2Line.svg  (3 child ren, index-BXV-oxvX.js)
   OK   IconCopyOutlineRegular  ->  svg/QoderFileCopyLine.svg  (2 child ren, index-BXV-oxvX.js)
-  SKIP IconBranchOutlineRegular  (child not found in any bundle)
+  OK   IconBranchOutlineRegular  ->  svg/QoderGitBranchLine.svg  (4 child ren, index-BXV-oxvX.js)
   OK   IconQuestionOutlineRegular  ->  svg/QoderQuestionLine.svg  (3 child ren, index-BXV-oxvX.js)
   OK   IconSearchOutlineRegular  ->  svg/QoderSearchLine.svg  (2 child ren, index-BXV-oxvX.js)
   OK   IconTrashOutlineRegular  ->  svg/QoderDeleteBin5Line.svg  (5 child ren, index-BXV-oxvX.js)
@@ -35,7 +35,7 @@ pack: /Users/halfsignal/Documents/配置目录/软件目录/默认文件-DeepSee
   OK   IconPauseOutlineRegular  ->  svg/QoderPauseCircleLine.svg  (3 child ren, index-BXV-oxvX.js)
   OK   IconPlusOutlineRegular  ->  svg/QoderAddLine.svg  (2 child ren, index-BXV-oxvX.js)
   OK   IconStopFillRegular  ->  svg/QoderStopFill.svg  (1 child ren, index-BXV-oxvX.js)
-  SKIP IconMicrophoneOutlineRegular  (child not found in any bundle)
+  OK   IconMicrophoneOutlineRegular  ->  svg/QoderMicLine.svg  (2 child ren, index-BXV-oxvX.js)
   OK   IconCloseCircleFillRegular  ->  svg/QoderCloseCircleFill.svg  (1 child ren, index-BXV-oxvX.js)
   OK   Local-IconCalendarOutlineRegular  ->  svg/QoderCalendarScheduleLine.svg  (3 child ren, client.js)
   SKIP InlineSvg-arrow-up-icon-f39c92b9  (child not found in any bundle)
@@ -67,9 +67,9 @@ pack: /Users/halfsignal/Documents/配置目录/软件目录/默认文件-DeepSee
   OK   IconFolderOpenOutlineRegular  ->  svg/QoderFolderOpenLine.svg  (2 child ren, index-BXV-oxvX.js)
   OK   IconArchiveOutlineRegular  ->  svg/QoderArchiveLine.svg  (3 child ren, index-BXV-oxvX.js)
   OK   IconUnarchiveOutlineRegular  ->  svg/QoderInboxUnarchiveLine.svg  (2 child ren, index-BXV-oxvX.js)
-  SKIP IconPinFillRegular  (no unique anchor child)
+  OK   IconPinFillRegular  ->  svg/QoderPushpinFill.svg  (2 child ren, index-BXV-oxvX.js)
   OK   IconTriangleRightFillRegular  ->  svg/QoderTriangleRightFill.svg  (1 child ren, index-BXV-oxvX.js)
   OK   IconProjectAddOutlineRegular  ->  svg/QoderFolderAddLine.svg  (3 child ren, index-BXV-oxvX.js)
-resolved 58/70
+resolved 61/70
 
 [dry-run] no files changed. Re-run with --apply to build the .app copy.

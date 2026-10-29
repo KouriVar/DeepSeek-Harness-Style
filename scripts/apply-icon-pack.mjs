@@ -76,7 +76,10 @@ function svgChildren(svg) {
   const kids = []
   for (const m of svg.matchAll(/<path\b([^>]*?)\/?>/g)) {
     const d = /d="([^"]+)"/.exec(m[1])
-    if (d) kids.push({ type: 'path', d: d[1] })
+    if (d) {
+      const attrs = Object.fromEntries([...m[1].matchAll(/([a-zA-Z-]+)="([^"]*)"/g)].map((x) => [x[1], x[2]]))
+      kids.push({ type: 'path', d: d[1], attrs })
+    }
   }
   for (const m of svg.matchAll(/<rect\b([^>]*?)\/?>/g)) {
     const attrs = Object.fromEntries([...m[1].matchAll(/([a-zA-Z-]+)="([^"]*)"/g)].map((x) => [x[1], x[2]]))
@@ -157,6 +160,33 @@ function findRectIndices(content, attrs, nativeViewBox) {
   return out
 }
 
+// Find all occurrences of a circle by cx/cy/r attribute match.
+function circleElementIndices(content, attrs) {
+  const want = { cx: attrs.cx, cy: attrs.cy, r: attrs.r }
+  const out = []
+  for (const m of content.matchAll(/\("circle",\s*\{([^}]*)\}/g)) {
+    const got = Object.fromEntries([...m[1].matchAll(/([a-zA-Z-]+):\s*"([^"]*)"/g)].map((x) => [x[1], x[2]]))
+    if (Object.entries(want).every(([k, v]) => v === undefined || got[k] === v)) out.push(m.index + m[0].indexOf('"circle"'))
+  }
+  return out
+}
+function hasCircle(content, attrs) { return circleElementIndices(content, attrs).length > 0 }
+
+// Find every JSX element span of a given type within [lo, hi] (used as a
+// fallback when a sibling is expressed parametrically and can't be matched
+// by literal attribute values).
+function elementSpansInRange(content, type, lo, hi) {
+  const re = new RegExp('"' + type + '"\\s*,\\s*\\{', 'g')
+  const out = []
+  let m
+  while ((m = re.exec(content))) {
+    if (m.index < lo || m.index > hi) continue
+    const span = findElementSpan(content, m.index)
+    if (span) out.push(span)
+  }
+  return out
+}
+
 function occurrences(content, needle) {
   const out = []
   if (!needle) return out
@@ -179,10 +209,17 @@ function planItem(item, files, packDir) {
   if (kids.length === 0) return { item, ok: false, reason: 'native has no children' }
 
   const matchesKids = (text) => {
+    // Path data is a strong, byte-exact signature. When present, match on paths
+    // only: non-path siblings may be expressed parametrically in the bundle
+    // (e.g. rect driven by strokeWidth) and are located later within the array.
+    const pathKids = kids.filter((k) => k.type === 'path')
+    if (pathKids.length > 0) {
+      for (const kid of pathKids) if (!text.includes(kid.d)) return false
+      return true
+    }
     for (const kid of kids) {
-      if (kid.type === 'path') { if (!text.includes(kid.d)) return false }
-      else if (kid.type === 'rect') { if (findRectIndices(text, kid.attrs, native.viewBox).length === 0) return false }
-      else if (kid.type === 'circle') { if (!text.includes(`r: "${kid.attrs.r}"`)) return false }
+      if (kid.type === 'rect') { if (findRectIndices(text, kid.attrs, native.viewBox).length === 0) return false }
+      else if (kid.type === 'circle') { if (!hasCircle(text, kid.attrs)) return false }
     }
     return true
   }
@@ -204,20 +241,26 @@ function planItem(item, files, packDir) {
   if (!content) { for (const p of files.keys()) { if (!p.endsWith('.js')) continue; if (consider(p)) break } }
   if (!content) return { item, ok: false, reason: 'child not found in any bundle' }
   const transform = transformFor(target.viewBox || '0 0 24 24', native.viewBox)
-  const circleIndices = (attrs) => {
-    const want = { cx: attrs.cx, cy: attrs.cy, r: attrs.r }
-    const out = []
-    for (const m of content.matchAll(/\("circle",\s*\{([^}]*)\}/g)) {
-      const got = Object.fromEntries([...m[1].matchAll(/([a-zA-Z-]+):\s*"([^"]*)"/g)].map((x) => [x[1], x[2]]))
-      if (Object.entries(want).every(([k, v]) => v === undefined || got[k] === v)) out.push(m.index + m[0].indexOf('"circle"'))
+  const pathIndices = (kid) => {
+    let idxs = occurrences(content, kid.d)
+    // A glyph may be shared by several components (e.g. outline + fill variants
+    // with identical geometry). When the native path itself is filled, prefer
+    // the occurrences whose element actually carries fill:"currentColor" so we
+    // only rewrite the matching variant, never its unfilled sibling.
+    if (kids.length > 1 && idxs.length > 1 && kid.attrs && kid.attrs.fill === 'currentColor') {
+      const filled = idxs.filter((i) => {
+        const span = findElementSpan(content, i)
+        return span && /\bfill\s*:\s*"currentColor"/.test(content.slice(span.start, span.objEnd))
+      })
+      if (filled.length) idxs = filled
     }
-    return out
+    return idxs
   }
   const indicesOf = (kid) => (kid.type === 'path'
-    ? occurrences(content, kid.d)
+    ? pathIndices(kid)
     : kid.type === 'rect'
       ? findRectIndices(content, kid.attrs, native.viewBox)
-      : circleIndices(kid.attrs))
+      : circleElementIndices(content, kid.attrs))
   const global = kids.map(indicesOf)
   const replacements = []
   // single-child icon: replace every occurrence (same glyph may be used by several components)
@@ -262,9 +305,15 @@ function planItem(item, files, packDir) {
     const lo = arrStart >= 0 ? arrStart : 0
     const hi = arrEnd >= 0 ? arrEnd : content.length
     const idxs = indicesOf(kids[ci]).filter((i) => i >= lo && i <= hi)
-    if (idxs.length === 0) return { item, ok: false, reason: `child not found (${kids[ci].type})` }
-    const span = findElementSpan(content, idxs[0])
-    if (!span) return { item, ok: false, reason: `cannot delimit (${kids[ci].type})` }
+    let span = idxs.length ? findElementSpan(content, idxs[0]) : null
+    if (!span && arrStart >= 0) {
+      // Fallback: a sibling expressed parametrically (e.g. a rect sized from
+      // strokeWidth) has no literal attribute match. Locate it by position
+      // inside the icon's own children array and neutralize it there.
+      const siblings = elementSpansInRange(content, kids[ci].type, lo, hi)
+      if (siblings.length) span = siblings[0]
+    }
+    if (!span) return { item, ok: false, reason: `child not found (${kids[ci].type})` }
     if (ci === anchorCi) {
       const obj = `{d:"${targetD.replace(/"/g, '\\"')}",fill:"currentColor",stroke:"none",transform:"${transform}"}`
       replacements.push({ start: span.start, end: span.objEnd + 1, text: `"path",${obj}` })
