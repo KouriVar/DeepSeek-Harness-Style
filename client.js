@@ -44,10 +44,20 @@ window.__ModuleLoader__.load({
     const createPortal = typeof ReactDOM.createPortal === 'function' ? ReactDOM.createPortal : null
     const IconChat = prim.IconNewChatOutlineRegular
     const IconAgent = prim.IconAgentPresetOutlineRegular
+    const IconChecklist = prim.IconChecklistOutlineRegular
+    const IconClose = prim.IconCloseOutlineRegular
 
     // ------------------------------------------------------------------ 配置
     const STORE_KEY = 'dsh-style:settings'
-    const DEFAULTS = { enabled: true, layout: 'classic', reduceMotion: false, hideScrollbars: false }
+    const DEFAULTS = {
+      enabled: true,
+      layout: 'classic',
+      reduceMotion: false,
+      hideScrollbars: false,
+      monitorEnabled: false,
+      monitorMode: 'floating',
+      monitorSections: { progress: true, subagents: true, tools: true, jobs: true, artifacts: true, web: true },
+    }
     const LAYOUT_OPTIONS = [
       { value: 'classic', label: '经典' },
       { value: 'inset', label: '内嵌' },
@@ -58,6 +68,8 @@ window.__ModuleLoader__.load({
         const raw = JSON.parse(localStorage.getItem(STORE_KEY) || 'null')
         const merged = { ...DEFAULTS, ...(raw && typeof raw === 'object' ? raw : {}) }
         if (merged.layout !== 'inset' && merged.layout !== 'classic') merged.layout = DEFAULTS.layout
+        merged.monitorSections = { ...DEFAULTS.monitorSections, ...(merged.monitorSections && typeof merged.monitorSections === 'object' ? merged.monitorSections : {}) }
+        if (merged.monitorMode !== 'docked' && merged.monitorMode !== 'floating') merged.monitorMode = DEFAULTS.monitorMode
         return merged
       } catch {
         return { ...DEFAULTS }
@@ -159,6 +171,32 @@ window.__ModuleLoader__.load({
       '.dsh-style-pill-label{white-space:nowrap;}',
       '[data-sidebar-collapsed] [data-dsh-style-modeswitcher]{display:none;}',
       '[data-dsh-style-hidden-entry]{display:none !important;}',
+    ].join('')
+
+    // 任务监控：工具栏按钮 + 浮层面板。
+    const MONITOR_CSS = [
+      '.dsh-style-monitor-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--dsw-alias-label-tertiary,inherit);cursor:pointer;transition:background .15s,color .15s;}',
+      '.dsh-style-monitor-btn:hover{background:var(--dsw-alias-interactive-bg-hover, rgba(128,128,128,.12));color:var(--dsw-alias-label-primary,inherit);}',
+      '.dsh-style-monitor-btn[data-active]{background:var(--dsw-alias-interactive-bg-hover, rgba(128,128,128,.16));color:var(--dsw-alias-label-primary,inherit);}',
+      '.dsh-style-monitor-panel{position:fixed;z-index:9999;top:56px;right:24px;width:380px;max-width:calc(100vw - 32px);max-height:min(70vh,720px);display:flex;flex-direction:column;border-radius:14px;border:1px solid var(--dsw-alias-border-l2,rgba(128,128,128,.25));background:var(--dsw-alias-bg-base,#fff);box-shadow:var(--dsw-elevation-prominent,0 8px 30px rgba(0,0,0,.16));color:var(--dsw-alias-label-primary,inherit);overflow:hidden;}',
+      '.dsh-style-monitor-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;border-bottom:1px solid var(--dsw-alias-border-l2,rgba(128,128,128,.16));}',
+      '.dsh-style-monitor-title{font-size:14px;font-weight:600;}',
+      '.dsh-style-monitor-headbtn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:7px;border:0;background:transparent;color:var(--dsw-alias-label-tertiary,inherit);cursor:pointer;}',
+      '.dsh-style-monitor-headbtn:hover{background:var(--dsw-alias-interactive-bg-hover, rgba(128,128,128,.12));color:var(--dsw-alias-label-primary,inherit);}',
+      '.dsh-style-monitor-body{overflow:auto;padding:6px 14px 14px;}',
+      '.dsh-style-monitor-sec{padding:10px 0 4px;}',
+      '.dsh-style-monitor-sec-title{font-size:12px;font-weight:600;color:var(--dsw-alias-label-secondary,inherit);margin:0 0 6px;}',
+      '.dsh-style-monitor-empty{font-size:12px;color:var(--dsw-alias-label-tertiary,inherit);opacity:.8;margin:0;}',
+      '.dsh-style-monitor-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:12.5px;min-width:0;}',
+      '.dsh-style-monitor-row-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}',
+      '.dsh-style-monitor-meta{font-size:11.5px;color:var(--dsw-alias-label-tertiary,inherit);flex:none;}',
+      '.dsh-style-monitor-dot{width:7px;height:7px;border-radius:50%;flex:none;background:var(--dsw-alias-label-tertiary,#999);}',
+      '.dsh-style-monitor-dot[data-s="running"]{background:#1e86ff;}',
+      '.dsh-style-monitor-dot[data-s="done"]{background:#00c972;}',
+      '.dsh-style-monitor-dot[data-s="error"]{background:#e02135;}',
+      '.dsh-style-monitor-dot[data-s="pending"]{background:#b0b0b0;}',
+      '.dsh-style-monitor-dot[data-s="cancelled"]{background:#c9a227;}',
+      '.dsh-style-monitor-link{color:var(--dsw-alias-state-business-primary,#1e86ff);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}',
     ].join('')
 
     const MOTION_CSS = [
@@ -283,7 +321,7 @@ window.__ModuleLoader__.load({
       root.setAttribute('data-dsh-style-dark', isDark() ? 'true' : 'false')
       const el = styleTag()
       if (el) {
-        const rules = [BASE_CSS, PILL_CSS]
+        const rules = [BASE_CSS, PILL_CSS, MONITOR_CSS]
         if (cfg.reduceMotion) rules.push(MOTION_CSS)
         if (cfg.hideScrollbars) rules.push(SCROLL_CSS)
         el.textContent = rules.join('\n')
@@ -303,6 +341,7 @@ window.__ModuleLoader__.load({
 
     // ------------------------------------------------------------------- store
     const store = createStore(readSettings())
+    let appCtx = null
 
     // 仅在未来版本不再导出某原语时兜底。
     function fallbackSwitch(props) {
@@ -499,6 +538,40 @@ window.__ModuleLoader__.load({
       return createPortal(h(ModeSwitcher, { mode, available, onPick }), host)
     }
 
+    const SECTION_TOGGLES = [
+      ['progress', '执行进度'],
+      ['subagents', '子智能体'],
+      ['tools', 'Skills 与 MCP'],
+      ['jobs', '后台任务'],
+      ['artifacts', '文件产出'],
+      ['web', '网页查阅'],
+    ]
+    function TaskMonitorCard({ cfg, set }) {
+      const sections = cfg.monitorSections || {}
+      return h('section', { style: sectionStyle, 'aria-label': '任务监控' },
+        h('h3', { style: sectionTitleStyle }, '任务监控'),
+        h(Switch, { label: '启用任务监控', checked: Boolean(cfg.monitorEnabled), onChange: (value) => set({ monitorEnabled: value }) }),
+        h('p', { style: hintStyle }, '开启后会在右上角工具栏出现「任务监控」按钮，实时查看当前会话的执行过程。默认关闭，独立于布局与模式切换。'),
+        cfg.monitorEnabled
+          ? h('div', { style: rowStyle },
+            h(SegmentedControl, {
+              id: 'dsh-style-monitor-mode',
+              label: '展示方式',
+              value: cfg.monitorMode,
+              options: [{ value: 'floating', label: '浮层' }, { value: 'docked', label: '停靠' }],
+              onChange: (value) => set({ monitorMode: value }),
+            }),
+            cfg.monitorMode === 'docked' ? h('p', { style: hintStyle }, '停靠模式正在接入，当前仍以浮层显示。') : null,
+            h('div', { style: { display: 'flex', flexDirection: 'column' } },
+              SECTION_TOGGLES.map(([key, label]) => h(Switch, {
+                key,
+                label: '显示：' + label,
+                checked: sections[key] !== false,
+                onChange: (value) => set({ monitorSections: { ...sections, [key]: value } }),
+              }))))
+          : null)
+    }
+
     function AppearanceSection() {
       const [cfg, setCfg] = React.useState(store.get)
       React.useEffect(() => store.subscribe(() => setCfg(store.get())), [])
@@ -507,12 +580,234 @@ window.__ModuleLoader__.load({
           h('h2', { style: headingStyle }, '外观'),
           h('p', { style: introStyle }, '自定义 DeepSeek Harness 客户端的外观。修改会立即生效，并保存在本机。')),
         h(LayoutCard, { cfg, set: store.set }),
-        h(EffectsCard, { cfg, set: store.set }))
+        h(EffectsCard, { cfg, set: store.set }),
+        h(TaskMonitorCard, { cfg, set: store.set }))
+    }
+
+    // -------------------------------------------------- 任务监控（Task Monitor）
+    // 只读真实数据：会话时间线的工具调用 + ctx.jobs。默认关闭；启用后注册右上角按钮与浮层。
+    const monitorUi = (() => {
+      let state = { open: false, sessionId: null }
+      const listeners = new Set()
+      return {
+        get: () => state,
+        set: (patch) => { state = { ...state, ...patch }; for (const listener of listeners) listener() },
+        subscribe: (listener) => { listeners.add(listener); return () => listeners.delete(listener) },
+      }
+    })()
+
+    function monitorStatusLabel(status) {
+      return { pending: '等待', running: '进行中', done: '已完成', error: '失败', cancelled: '已取消' }[status] || status || ''
+    }
+    function normalizeTodoStatus(value) {
+      if (value === 'completed' || value === 'done') return 'done'
+      if (value === 'in_progress' || value === 'running') return 'running'
+      if (value === 'cancelled' || value === 'canceled') return 'cancelled'
+      return 'pending'
+    }
+    function jobDotStatus(status) {
+      if (status === 'running' || status === 'stopping') return 'running'
+      if (status === 'failed' || status === 'error' || status === 'killed') return 'error'
+      return 'done'
+    }
+    function hostOf(url) {
+      try { return new URL(url).hostname.replace(/^www\./, '') } catch { return url }
+    }
+    function parseCallArgs(call) {
+      try {
+        const parsed = JSON.parse(call.argsRaw || '')
+        return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {}
+      } catch { return {} }
+    }
+    function callStatus(call) {
+      if (call.kind === 'tool-result') return call.isError ? 'error' : 'done'
+      return 'running'
+    }
+    // 深度遍历 chat 快照，按结构特征收集工具调用节点（对嵌套细节容错），按 callId 合并 call/result。
+    function collectToolCalls(snapshot) {
+      const found = new Map()
+      const seen = new Set()
+      const visit = (value, depth) => {
+        if (value === null || typeof value !== 'object' || depth > 10) return
+        if (seen.has(value)) return
+        seen.add(value)
+        if (typeof Map !== 'undefined' && value instanceof Map) { for (const child of value.values()) visit(child, depth + 1); return }
+        if (Array.isArray(value)) { for (const child of value) visit(child, depth + 1); return }
+        const looksLikeCall = typeof value.name === 'string' && (
+          value.argsRaw !== undefined || value.content !== undefined || value.kind === 'tool-call' || value.kind === 'tool-result'
+        )
+        if (looksLikeCall) {
+          const id = String(value.callId || value.id || value.key || '')
+          if (id) found.set(id, { ...(found.get(id) || {}), ...value })
+        }
+        for (const key of Object.keys(value)) {
+          if (key === 'parent' || key === 'ctx' || key === 'store' || key === 'state') continue
+          visit(value[key], depth + 1)
+        }
+      }
+      visit(snapshot, 0)
+      return Array.from(found.values())
+    }
+    function buildMonitorData(ctx, sessionId) {
+      const data = { progress: [], subagents: [], tools: [], jobs: [], artifacts: [], web: [] }
+      if (!ctx) return data
+      try {
+        const sessions = ctx.get('sessions')
+        const uiConversation = ctx.get('uiConversation')
+        const binding = sessions && sessions.binding ? sessions.binding(sessionId) : undefined
+        const conversation = binding !== undefined && uiConversation && uiConversation.binding ? uiConversation.binding(binding) : undefined
+        const chat = conversation && conversation.target ? conversation.target('chat').getSnapshot() : undefined
+        const calls = collectToolCalls(chat)
+        const aggregate = new Map()
+        for (const call of calls) {
+          const name = String(call.name || '')
+          if (!name) continue
+          const status = callStatus(call)
+          const args = parseCallArgs(call)
+          if (name === 'todo_write' || name === 'todo') {
+            const todos = Array.isArray(args.todos) ? args.todos : []
+            for (const item of todos) {
+              const title = String(item.content || item.text || item.title || '').trim()
+              if (title) data.progress.push({ title: title.slice(0, 120), status: normalizeTodoStatus(item.status) })
+            }
+          } else if (/^subagent/i.test(name)) {
+            const title = String(args.task || args.prompt || args.description || '').trim()
+            data.subagents.push({ name, title: title.slice(0, 120), status })
+          } else if (name === 'web_search' || name === 'web_fetch') {
+            const urls = new Set()
+            if (typeof args.url === 'string' && args.url) urls.add(args.url)
+            const text = typeof call.content === 'string' ? call.content : (call.content ? JSON.stringify(call.content) : '')
+            for (const match of (text.match(/https?:\/\/[^\s"'<>)]+/g) || []).slice(0, 6)) urls.add(match)
+            for (const url of urls) data.web.push({ url, status })
+          } else if (name === 'write' || name === 'edit') {
+            const file = args.file_path || args.path || args.filename
+            if (typeof file === 'string' && file) data.artifacts.push({ path: file, kind: name === 'write' ? 'created' : 'modified', status })
+          }
+          const category = name === 'skill' ? 'skill' : (/mcp/i.test(name) ? 'mcp' : 'builtin')
+          const previous = aggregate.get(name) || { name, category, count: 0, status: 'done' }
+          previous.count += 1
+          if (status === 'running') previous.status = 'running'
+          else if (status === 'error' && previous.status !== 'running') previous.status = 'error'
+          aggregate.set(name, previous)
+        }
+        data.tools = Array.from(aggregate.values())
+      } catch { /* 降级为空 */ }
+      try {
+        const jobs = ctx.get('jobs')
+        const snapshot = jobs && jobs.getSnapshot ? jobs.getSnapshot() : undefined
+        const rows = snapshot && snapshot.rows ? (snapshot.rows[sessionId] || snapshot.rows[String(sessionId)]) : undefined
+        if (Array.isArray(rows)) data.jobs = rows
+      } catch { /* 降级为空 */ }
+      return data
+    }
+
+    function MonitorButton({ sessionId }) {
+      const [open, setOpen] = React.useState(monitorUi.get().open && monitorUi.get().sessionId === sessionId)
+      const [enabled, setEnabled] = React.useState(store.get().monitorEnabled)
+      React.useEffect(() => monitorUi.subscribe(() => setOpen(monitorUi.get().open && monitorUi.get().sessionId === sessionId)), [sessionId])
+      React.useEffect(() => store.subscribe(() => setEnabled(store.get().monitorEnabled)), [])
+      if (!enabled) return null
+      return h('button', {
+        type: 'button',
+        className: 'dsh-style-monitor-btn',
+        'data-active': open || undefined,
+        'aria-pressed': open,
+        'aria-label': '打开任务监控',
+        title: '打开任务监控',
+        onClick: () => {
+          const current = monitorUi.get()
+          if (current.open && current.sessionId === sessionId) monitorUi.set({ open: false })
+          else monitorUi.set({ open: true, sessionId })
+        },
+      }, IconChecklist ? h(IconChecklist, { size: 16 }) : '☑')
+    }
+
+    function TaskMonitorPanel({ cfg, data, onClose }) {
+      const sections = cfg.monitorSections || {}
+      const section = (key, title, children) => (sections[key] === false ? null : h('div', { className: 'dsh-style-monitor-sec' },
+        h('h4', { className: 'dsh-style-monitor-sec-title' }, title), children))
+      const empty = (text) => h('p', { className: 'dsh-style-monitor-empty' }, text)
+      const row = (key, status, name, meta, title) => h('div', { className: 'dsh-style-monitor-row', key },
+        h('span', { className: 'dsh-style-monitor-dot', 'data-s': status }),
+        h('span', { className: 'dsh-style-monitor-row-name', title: title || name }, name),
+        meta ? h('span', { className: 'dsh-style-monitor-meta' }, meta) : null)
+      return h('div', { className: 'dsh-style-monitor-panel', role: 'dialog', 'aria-label': '任务监控' },
+        h('div', { className: 'dsh-style-monitor-head' },
+          h('span', { className: 'dsh-style-monitor-title' }, '任务监控'),
+          h('button', { type: 'button', className: 'dsh-style-monitor-headbtn', title: '关闭', 'aria-label': '关闭', onClick: onClose }, IconClose ? h(IconClose, { size: 16 }) : '×')),
+        h('div', { className: 'dsh-style-monitor-body' },
+          section('progress', '执行进度', data.progress.length === 0
+            ? empty('暂无任务计划')
+            : data.progress.map((item, index) => row(index, item.status, item.title || '(未命名)', monitorStatusLabel(item.status)))),
+          section('subagents', '子智能体', data.subagents.length === 0
+            ? empty('暂无子智能体')
+            : data.subagents.map((item, index) => row(index, item.status, item.title || item.name, item.name, item.title))),
+          section('tools', 'Skills 与 MCP', data.tools.length === 0
+            ? empty('暂无技能 / MCP / 工具调用')
+            : data.tools.map((item, index) => row(index, item.status, item.name, (item.category === 'skill' ? '技能' : item.category === 'mcp' ? 'MCP' : '内置') + ' · ' + item.count + ' 次'))),
+          section('jobs', '后台任务', data.jobs.length === 0
+            ? empty('暂无后台任务')
+            : data.jobs.map((job, index) => row(index, jobDotStatus(job.status), job.title || job.id || '(任务)', monitorStatusLabel(jobDotStatus(job.status))))),
+          section('artifacts', '文件产出', data.artifacts.length === 0
+            ? empty('暂无文件产出')
+            : data.artifacts.map((item, index) => row(index, item.status, item.path, item.kind === 'created' ? '新建' : '修改'))),
+          section('web', '网页查阅', data.web.length === 0
+            ? empty('暂无网页查阅')
+            : data.web.map((item, index) => h('div', { className: 'dsh-style-monitor-row', key: index },
+              h('span', { className: 'dsh-style-monitor-dot', 'data-s': item.status }),
+              h('a', { className: 'dsh-style-monitor-link', href: item.url, target: '_blank', rel: 'noreferrer', title: item.url }, hostOf(item.url)))))))
+    }
+
+    function MonitorHost() {
+      const [ui, setUi] = React.useState(monitorUi.get())
+      const [cfg, setCfg] = React.useState(store.get)
+      const [data, setData] = React.useState({ progress: [], subagents: [], tools: [], jobs: [], artifacts: [], web: [] })
+      React.useEffect(() => monitorUi.subscribe(() => setUi(monitorUi.get())), [])
+      React.useEffect(() => store.subscribe(() => setCfg(store.get())), [])
+      const sessionId = ui.sessionId
+      React.useEffect(() => {
+        if (!ui.open || !cfg.monitorEnabled || !sessionId || typeof document === 'undefined') return undefined
+        let raf = 0
+        let lastKey = ''
+        const refresh = () => {
+          const next = buildMonitorData(appCtx, sessionId)
+          const key = JSON.stringify(next)
+          if (key !== lastKey) { lastKey = key; setData(next) }
+        }
+        const schedule = () => {
+          if (raf) return
+          raf = typeof requestAnimationFrame === 'function' ? requestAnimationFrame(() => { raf = 0; refresh() }) : setTimeout(() => { raf = 0; refresh() }, 60)
+        }
+        refresh()
+        let offChat = () => {}
+        let offOpen = () => {}
+        let offJobs = () => {}
+        try {
+          const sessions = appCtx.get('sessions')
+          const uiConversation = appCtx.get('uiConversation')
+          const binding = sessions.binding(sessionId)
+          const conversation = uiConversation.binding(binding)
+          offChat = conversation.target('chat').subscribe(schedule)
+          offOpen = conversation.openTurn.subscribe(schedule)
+        } catch { /* 订阅失败则仅定时刷新 */ }
+        try {
+          const jobs = appCtx.get('jobs')
+          if (jobs && typeof jobs.subscribe === 'function') offJobs = jobs.subscribe(schedule)
+        } catch { /* ignore */ }
+        const timer = setInterval(refresh, 1500)
+        return () => {
+          offChat(); offOpen(); offJobs(); clearInterval(timer)
+          if (raf && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(raf)
+        }
+      }, [ui.open, cfg.monitorEnabled, sessionId])
+      if (!ui.open || !cfg.monitorEnabled || !sessionId || typeof document === 'undefined' || !createPortal) return null
+      return createPortal(h(TaskMonitorPanel, { cfg, data, onClose: () => monitorUi.set({ open: false }) }), document.body)
     }
 
     const inject = ['slots']
 
     function apply(ctx) {
+      appCtx = ctx
       applyStyles(store.get())
       ctx.effect(() => () => cleanup(), 'dsh-style: 释放外观样式')
       ctx.slots.inject('settings.section', () => ctx.slots.register({
@@ -526,6 +821,16 @@ window.__ModuleLoader__.load({
         id: 'dsh-style-mode',
         order: 900,
       }, ModeSwitcherBridge))
+      ctx.slots.inject('shell.overlay', () => ctx.slots.register({
+        name: 'shell.overlay',
+        id: 'dsh-style-monitor-host',
+        order: 901,
+      }, MonitorHost))
+      ctx.slots.inject('conversation.session.header.actions', () => ctx.slots.register({
+        name: 'conversation.session.header.actions',
+        id: 'dsh-style-monitor-btn',
+        order: 10,
+      }, MonitorButton))
     }
 
     exports.apply = apply
