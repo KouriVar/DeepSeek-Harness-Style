@@ -47,6 +47,8 @@ window.__ModuleLoader__.load({
     const IconChecklist = prim.IconChecklistOutlineRegular
     const IconClose = prim.IconCloseOutlineRegular
     const IconChevronDown = prim.IconChevronDownOutlineRegular
+    // 插件别名功能：复用 DSH 原生 Modal 原语（缺失时回退到自绘弹窗）。
+    const PrimitivesModal = typeof prim.Modal === 'function' ? prim.Modal : null
 
     // ------------------------------------------------------------------ 配置
     const STORE_KEY = 'dsh-style:settings'
@@ -62,6 +64,16 @@ window.__ModuleLoader__.load({
       monitorEnabled: true,
       monitorMode: 'floating',
       monitorAlwaysShow: { team: false },
+      // 以前「常开」的功能，现补成可开关（默认开，保持原外观）。
+      immersive: true,
+      titlebarButtons: true,
+      sidebarCompact: true,
+      hovercardInset: true,
+      pageTopSpacing: true,
+      workspaceRowCompact: true,
+      agentEntryMerge: true,
+      // 会话悬浮详情卡背景：跟随系统（浅色浅底 / 深色深底）。
+      hovercardFollowTheme: true,
     }
     const LAYOUT_OPTIONS = [
       { value: 'classic', label: '经典' },
@@ -79,6 +91,15 @@ window.__ModuleLoader__.load({
         merged.hideBrand = Boolean(merged.hideBrand)
         merged.hideNewSession = Boolean(merged.hideNewSession)
         merged.hideTabs = Boolean(merged.hideTabs)
+        // 默认开的新开关：老配置里没有该键时保持 true（用 !== false 而非 Boolean）。
+        merged.immersive = merged.immersive !== false
+        merged.titlebarButtons = merged.titlebarButtons !== false
+        merged.sidebarCompact = merged.sidebarCompact !== false
+        merged.hovercardInset = merged.hovercardInset !== false
+        merged.pageTopSpacing = merged.pageTopSpacing !== false
+        merged.workspaceRowCompact = merged.workspaceRowCompact !== false
+        merged.agentEntryMerge = merged.agentEntryMerge !== false
+        merged.hovercardFollowTheme = merged.hovercardFollowTheme !== false
         return merged
       } catch {
         return { ...DEFAULTS }
@@ -220,7 +241,8 @@ window.__ModuleLoader__.load({
 
     // 侧边栏模块可见性（品牌 / 新会话）。用 html 属性驱动，纯 CSS 隐藏；隐藏后侧栏是
     // flex 自动布局，下方内容会自然上移。
-    const SIDEBAR_VIS_CSS = [
+    // 侧边栏基础可见性（品牌 / 新会话 / 会话标签栏）与头部无分割线（始终启用）。
+    const SIDEBAR_BASE_CSS = [
       'html[data-dsh-style-hide-brand="true"] [data-dsh-style-sidebar] [class*="_logoRow"]{display:none !important;}',
       'html[data-dsh-style-hide-newsession="true"] [data-dsh-style-sidebar] [class*="_newSession"]{display:none !important;}',
       // 隐藏会话标签栏（对话 / 轨迹 / …）：连整行一起收掉，会话区自动变高。
@@ -230,36 +252,31 @@ window.__ModuleLoader__.load({
       // 去掉标题栏 / 右栏头部那条分割线（和 Qoder 一样，无分割线）。
       'html[data-dsh-style-enabled="true"] [data-dsh-style-main] header[data-window-drag]{border-bottom:0 !important;}',
       'html[data-dsh-style-enabled="true"] [data-rightbar-col] [class*="_header"]{border-bottom:0 !important;}',
-      // 按 Qoder 实测规格收紧侧栏（它更密更精致）：
-      //  - 列表行：qoder `h-7 px-2 gap-2 text-[13px]/16` → 高 28 / 内距 8 / gap 8 / 字号 13；
-      //  - 分区标题：qoder `h-[18px] pl-2 text-[13px] leading-4 font-medium` → 高 18 / 左 6 / 13px。
-      //    「工作区」左缘 = root pad 4.75 + region pad 4 + 6 = 14.75，与下方图标槽左缘同一条线。
-      //    右侧图标按钮是 28px，比 18px 的标题行高；原生 sectionHeader / headerActions /
-      //    regionArea 都是 overflow:hidden，hover / active 背景会被裁成 18px。这里放开裁剪。
+    ].join('')
+
+    // 侧栏紧凑（按 Qoder 实测规格收紧：行高/内距/分区标题/footer）——可开关 sidebarCompact。
+    const SIDEBAR_COMPACT_CSS = [
       `${SIDEBAR_EXPANDED} [class*="_sectionHeader"]{height:18px !important;padding-left:6px !important;margin-bottom:6px !important;font-size:13px !important;font-weight:500 !important;line-height:16px !important;overflow:visible !important;}`,
       `${SIDEBAR_EXPANDED} [class*="_headerActions"]{overflow:visible !important;}`,
       `${SIDEBAR_EXPANDED} [class*="_regionArea"]:has([class*="_sectionHeader"]){overflow:visible !important;}`,
-      // 底部账户卡（头像/昵称）：原生 triggerRow 左右各 -2px，会贴到侧栏左边缘；
-      // footArea 从 4.75 开始，补 4px 到 8.75，并从宽度里扣掉，右缘回到 255.25。
+      // 底部账户卡：原生 triggerRow 左右各 -2px，补 left / 扣宽度到 8.75。
       `${SIDEBAR_EXPANDED} [class*="_triggerRow"]{margin-left:var(--dsh-align-footer-inset) !important;margin-right:0 !important;width:calc(100% - var(--dsh-align-footer-inset)) !important;}`,
-      // 插件页 / 带 pageHead 的设置页：pageHead 标题直接贴页面顶（y=5）；
-      // 自动化任务页 pageHeading 有 76px padding + 2px 行偏移，标题 y=83。
-      // 补 78px 顶部 padding，让插件页标题也在 y=83，顶部空白和自动化页一致。
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-main] [class*="_page"]:has(> header[class*="_pageHead"]){padding-top:78px !important;}',
       `${SIDEBAR_EXPANDED} [class*="_panelRow"]{min-height:28px !important;height:28px !important;padding:0 8px !important;gap:8px !important;font-size:13px !important;line-height:16px !important;}`,
       `${SIDEBAR_EXPANDED} [class*="_panelRow"] svg{width:14px !important;height:14px !important;}`,
-      // regionArea 原本 margin-left:-4 / margin-right:-12（负右边距让行高亮一直顶到侧栏右边缘，所以显得"很宽"）。
-      // 归零后左侧从 root pad 起算、右侧保留 12px；行高亮不再顶到右边缘。
+      // regionArea 负边距归零，行高亮不再顶到右边缘。
       `${SIDEBAR_EXPANDED} [class*="_regionArea"]{margin-left:0 !important;margin-right:0 !important;}`,
-      // 实测：左侧标题文字顶 63px、右侧「开始」/图标顶 74px（截图 2x），右栏低约 11px≈5pt。
-      // 右栏 panel 是 top:0 绝对定位，dock 标签栏自带约 5px 顶部内边距；用 top 偏移补齐，
-      // 不用 transform（避免破坏内部 fixed 定位的 tooltip）。
+      // 右栏 dock 标签栏比左/中低约 5px：top 偏移补齐（不用 transform）。
       'html[data-dsh-style-enabled="true"] [data-sidebar-right-panel]:not([data-sidebar-right-panel="fullscreen"]){top:-5px !important;}',
-      // 账户区底部间距与左侧(12)同步：去掉 footer 各层额外内距，root 底部留 12。
+      // 账户区底部间距与左侧 12 同步。
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] > [class*="_root"]{padding-bottom:12px !important;}',
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_footArea"]{padding-bottom:0 !important;margin-bottom:0 !important;}',
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_settingsArea"]{padding-bottom:0 !important;margin-bottom:0 !important;}',
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_triggerRow"]{padding-bottom:0 !important;margin-bottom:0 !important;}',
+    ].join('')
+
+    // 页面顶部留白（插件页标题和自动化页顶部空白一致）——可开关 pageTopSpacing。
+    const PAGE_TOP_CSS = [
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-main] [class*="_page"]:has(> header[class*="_pageHead"]){padding-top:78px !important;}',
     ].join('')
 
     // 把「智能体团队 / 子智能体 / 后台任务」三个头部入口从顶栏移到「任务监控」后，
@@ -318,14 +335,23 @@ window.__ModuleLoader__.load({
       `${SIDEBAR_EXPANDED} [class*="sessionRow"] > [class*="title"]{margin-left:8px !important;margin-right:0 !important;}`,
       // 「展开其余 n 个会话 / 收起」跟随会话标题同一起点（6 + 16 + 8 = 30）。
       `${SIDEBAR_EXPANDED} [class*="sessionOverflowButton"]{padding-left:calc(30px + var(--dsh-workspace-indent, 0px)) !important;}`,
-      // 会话 HoverCard 默认 left = 行右缘 + 8，会压到主内容卡片左侧外。
-      // 0.2.1-rc.5 + 侧栏对称内缩实测：主卡片左缘 270、行右缘 255.25、卡片默认 left 263.25；
-      // 要落在主卡片内并留 8.75px（与侧栏内容左右内缩一致），需再右移 15.5px。
-      // 行右缘与主卡片左缘随侧栏宽度同步移动，所以这个偏移在拖宽侧栏时保持不变。
-      // 卡片宽度从固定 244 改为随内容收缩（上限 244、下限 200），左右 padding 16/16，
-      // 标题不再右侧空一大截；长标题在 244 内换行。
-      // `_card_38jqx_9` 仍是当前 0.2.1-rc.5 HoverCard 卡片的 CSS module 类；升级后如类名变化需重新确认。
+    ].join('')
+
+    // 会话 HoverCard 内缩 —— 可开关 hovercardInset。
+    // `_card_38jqx_9` 是当前构建 HoverCard 卡片的 CSS module 类；升级后如类名变化需重新确认。
+    const HOVERCARD_CSS = [
       'html[data-dsh-style-layout="inset"] body > div[class*="_card_38jqx_9"]{margin-left:15.5px !important;width:fit-content !important;max-width:244px !important;min-width:200px !important;}',
+    ].join('')
+
+    // 会话悬浮详情卡背景「跟随系统」——可开关 hovercardFollowTheme。
+    // 原生把卡片底色写死为 --dsw-hovercard-bg:#2C2C2E（固定深色），所以浅色模式也是黑卡。
+    // 这里仅在浅色模式把它改成主题浅底，并把内部文字改成深色 label；深色模式保持原生。
+    const HOVERCARD_THEME_CSS = [
+      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_38jqx_9"]{--dsw-hovercard-bg:var(--dsw-alias-bg-base) !important;border:.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.1)) !important;}',
+      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_38jqx_9"] [class*="hoverTitle"]{color:var(--dsw-alias-label-primary) !important;}',
+      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_38jqx_9"] [class*="hoverPath"]{color:var(--dsw-alias-label-secondary) !important;}',
+      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_38jqx_9"] [class*="hoverTime"]{color:var(--dsw-alias-label-secondary) !important;}',
+      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_38jqx_9"] [class*="hoverStatus"]{color:var(--dsw-alias-label-tertiary) !important;}',
     ].join('')
 
     // 任务监控：工具栏按钮 + 浮层面板。
@@ -452,6 +478,7 @@ window.__ModuleLoader__.load({
     }
     function mountTitlebar() {
       if (typeof document === 'undefined' || !document.body) return
+      if (store.get().titlebarButtons === false) { unmountTitlebar(); return }
       if (titlebarEl && document.body.contains(titlebarEl)) { syncTitlebar(); return }
       const box = document.createElement('div')
       box.className = 'dsh-style-tb'
@@ -579,11 +606,22 @@ window.__ModuleLoader__.load({
       root.setAttribute('data-dsh-style-monitor', cfg.monitorEnabled ? 'true' : 'false')
       const el = styleTag()
       if (el) {
-        const rules = [BASE_CSS, IMMERSIVE_CSS, TITLEBAR_CSS, SIDEBAR_VIS_CSS, HIDE_HEADER_CSS, WORKSPACE_CSS, ALIGN_CSS, MONITOR_CSS]
+        const rules = [BASE_CSS]
+        if (cfg.immersive !== false) rules.push(IMMERSIVE_CSS)
+        if (cfg.titlebarButtons !== false) rules.push(TITLEBAR_CSS)
+        rules.push(SIDEBAR_BASE_CSS)
+        if (cfg.sidebarCompact !== false) rules.push(ALIGN_CSS, SIDEBAR_COMPACT_CSS)
+        if (cfg.pageTopSpacing !== false) rules.push(PAGE_TOP_CSS)
+        if (cfg.hovercardInset !== false) rules.push(HOVERCARD_CSS)
+        if (cfg.hovercardFollowTheme !== false) rules.push(HOVERCARD_THEME_CSS)
+        rules.push(HIDE_HEADER_CSS)
+        if (cfg.workspaceRowCompact !== false) rules.push(WORKSPACE_CSS)
+        rules.push(MONITOR_CSS)
         if (cfg.reduceMotion) rules.push(MOTION_CSS)
         if (cfg.hideScrollbars) rules.push(SCROLL_CSS)
         el.textContent = rules.join('\n')
       }
+      if (cfg.titlebarButtons === false) unmountTitlebar()
       // 沉浸式外壳在经典/内嵌两种布局下都生效，所以始终打标（经典模式下 BASE_CSS 的
       // inset 规则不匹配，不会影响原生布局）。
       startTagging()
@@ -667,9 +705,11 @@ window.__ModuleLoader__.load({
           h('p', { style: hintStyle }, cfg.layout === 'inset'
             ? '内嵌：把主内容变成柔和底色上的白色圆角卡片，立即生效。'
             : '经典：保持 DeepSeek Harness 原生布局不变。'),
-          Button
-            ? h(Button, { variant: 'secondary', onClick: () => set({ layout: 'classic' }) }, '恢复默认')
-            : h('button', { type: 'button', onClick: () => set({ layout: 'classic' }) }, '恢复默认')))
+          // 恢复默认：包一层 flex 行，避免被纵向容器拉伸成整行宽；仍是原生 secondary 按钮。
+          h('div', { style: { display: 'flex', justifyContent: 'flex-start' } },
+            Button
+              ? h(Button, { variant: 'secondary', onClick: () => set({ layout: 'classic' }) }, '恢复默认')
+              : h('button', { type: 'button', onClick: () => set({ layout: 'classic' }) }, '恢复默认'))))
     }
 
     function EffectsCard({ cfg, set }) {
@@ -686,6 +726,26 @@ window.__ModuleLoader__.load({
         h('h3', { style: sectionTitleStyle }, '侧边栏'),
         h(SwitchRow, { label: '隐藏品牌', checked: cfg.hideBrand, onChange: (value) => set({ hideBrand: value }) }),
         h(SwitchRow, { label: '隐藏新会话', checked: cfg.hideNewSession, onChange: (value) => set({ hideNewSession: value }) }))
+    }
+
+    // 外观细节：这些以前是「常开」的视觉处理，现补成可开关（默认开）。
+    function LookDetailCard({ cfg, set }) {
+      return h('section', { style: sectionStyle, 'aria-label': '外观细节' },
+        h('h3', { style: sectionTitleStyle }, '外观细节'),
+        h(SwitchRow, { label: '沉浸式外壳（侧栏与底板连成一片）', checked: cfg.immersive !== false, onChange: (value) => set({ immersive: value }) }),
+        h(SwitchRow, { label: '侧栏对齐 / 紧凑（红绿灯基准列、行高内距）', checked: cfg.sidebarCompact !== false, onChange: (value) => set({ sidebarCompact: value }) }),
+        h(SwitchRow, { label: '会话卡片（HoverCard）内缩', checked: cfg.hovercardInset !== false, onChange: (value) => set({ hovercardInset: value }) }),
+        h(SwitchRow, { label: '会话详情背景：跟随系统（浅色/深色）', checked: cfg.hovercardFollowTheme !== false, onChange: (value) => set({ hovercardFollowTheme: value }) }),
+        h(SwitchRow, { label: '页面顶部留白对齐', checked: cfg.pageTopSpacing !== false, onChange: (value) => set({ pageTopSpacing: value }) }),
+        h(SwitchRow, { label: '标题栏窗口按钮（折叠 / 后退 / 前进）', checked: cfg.titlebarButtons !== false, onChange: (value) => set({ titlebarButtons: value }) }))
+    }
+
+    // 交互：属于「功能」类的行为开关（默认开）。
+    function InteractionCard({ cfg, set }) {
+      return h('section', { style: sectionStyle, 'aria-label': '交互' },
+        h('h3', { style: sectionTitleStyle }, '交互'),
+        h(SwitchRow, { label: '会话行时间 / 操作收进「更多」', checked: cfg.workspaceRowCompact !== false, onChange: (value) => set({ workspaceRowCompact: value }) }),
+        h(SwitchRow, { label: '「智能体 / 通用」入口改名并归位', checked: cfg.agentEntryMerge !== false, onChange: (value) => set({ agentEntryMerge: value }) }))
     }
 
     // -------------------------------------------------- 智能体入口（还原原生交互）
@@ -753,13 +813,14 @@ window.__ModuleLoader__.load({
     // 常驻组件：挂在 shell.overlay（list 插槽，始终渲染）。不自绘任何控件，只负责
     // 把原生入口行改名、归位；点击照旧交给 ds-bot。
     function BotEntryBridge() {
-      const [enabled, setEnabled] = React.useState(store.get().enabled)
-      React.useEffect(() => store.subscribe(() => setEnabled(store.get().enabled)), [])
+      const [cfg, setCfg] = React.useState(store.get())
+      React.useEffect(() => store.subscribe(() => setCfg(store.get())), [])
       React.useEffect(() => {
         if (typeof document === 'undefined') return undefined
         let raf = 0
         const sync = () => {
-          if (!store.get().enabled) { restoreBotEntry(); return }
+          const current = store.get()
+          if (!current.enabled || current.agentEntryMerge === false) { restoreBotEntry(); return }
           const row = botEntryRow()
           if (!row) return
           styleBotEntry(row)
@@ -777,7 +838,7 @@ window.__ModuleLoader__.load({
           if (raf) { if (typeof cancelAnimationFrame === 'function') cancelAnimationFrame(raf) }
           restoreBotEntry()
         }
-      }, [enabled])
+      }, [cfg.enabled, cfg.agentEntryMerge])
       return null
     }
 
@@ -802,6 +863,7 @@ window.__ModuleLoader__.load({
           return (row && row.updatedAt) || 0
         })
         : 0
+      if (store.get().workspaceRowCompact === false) return null
       if (!updatedAt) return null
       const MB = prim.MenuItemButton
       if (!MB) return null
@@ -854,11 +916,17 @@ window.__ModuleLoader__.load({
       return h('div', { style: pageStyle },
         h('div', null,
           h('h2', { style: headingStyle }, '外观'),
-          h('p', { style: introStyle }, '自定义 DeepSeek Harness 客户端的外观。修改会立即生效，并保存在本机。')),
+          h('p', { style: introStyle }, '自定义 DeepSeek Harness 客户端的外观与行为。修改会立即生效，并保存在本机。')),
+        // ── 外观 ──
         h(LayoutCard, { cfg, set: store.set }),
         h(EffectsCard, { cfg, set: store.set }),
         h(SidebarCard, { cfg, set: store.set }),
-        h(TaskMonitorCard, { cfg, set: store.set }))
+        h(LookDetailCard, { cfg, set: store.set }),
+        // ── 功能 ──
+        h('div', { style: { paddingTop: '16px', borderTop: '0.5px solid var(--dsw-alias-border-l2, rgba(128,128,128,.2))' } },
+          h('h2', { style: headingStyle }, '功能')),
+        h(TaskMonitorCard, { cfg, set: store.set }),
+        h(InteractionCard, { cfg, set: store.set }))
     }
 
     // -------------------------------------------------- 任务监控（Task Monitor）
@@ -1218,12 +1286,358 @@ window.__ModuleLoader__.load({
       }), document.body)
     }
 
+    // ============================================================ 插件别名
+    // 通过插件「稳定 ID」（组合包的包名，如 dsh-context-awareness）建立别名映射，
+    // 保存在 localStorage 的 dsh-style:pluginAliases 中。别名只改变展示标题，
+    // 不触碰插件 manifest / package.json / 插件 ID / 安装目录，也不影响启停、更新、卸载。
+    //
+    // 未安装同名的其他插件不会错误继承别名：映射键是完整包名（唯一稳定 ID），
+    // 不同包名即使显示文案相同也不会命中。
+    const ALIAS_KEY = 'dsh-style:pluginAliases'
+
+    function readAliases() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(ALIAS_KEY) || '{}')
+        const out = {}
+        if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+          for (const key of Object.keys(raw)) {
+            const value = raw[key]
+            if (typeof value === 'string' && value.trim()) out[key] = value
+          }
+        }
+        return out
+      } catch {
+        return {}
+      }
+    }
+
+    const aliasStore = (() => {
+      let state = readAliases()
+      const listeners = new Set()
+      const commit = (next) => {
+        if (JSON.stringify(next) === JSON.stringify(state)) return false
+        state = next
+        try {
+          localStorage.setItem(ALIAS_KEY, JSON.stringify(next))
+        } catch {
+          /* 存储不可用 */
+        }
+        for (const listener of listeners) listener()
+        applyAliasDom()
+        return true
+      }
+      return {
+        get: () => state,
+        getAlias: (id) => state[id] || '',
+        set: (id, value) => {
+          const trimmed = String(value == null ? '' : value).trim()
+          const next = { ...state }
+          if (trimmed) next[id] = trimmed
+          else delete next[id]
+          return commit(next)
+        },
+        remove: (id) => {
+          if (!(id in state)) return false
+          const next = { ...state }
+          delete next[id]
+          return commit(next)
+        },
+        subscribe: (listener) => {
+          listeners.add(listener)
+          return () => listeners.delete(listener)
+        },
+      }
+    })()
+
+    // 别名相关样式（独立 style 标签，不受「启用样式插件」开关影响）。
+    //
+    // 说明：这里不是「新造视觉规范」，而是把 DSH 原生设置页里同一元素的样式规则
+    // 用同一套设计 Token 复刻过来（等价样式引用）：
+    //  - .dsh-style-native-button  ← 与紧邻「卸载」按钮相同的 primitives.Button（outline + sm）基础尺寸
+    //  - .dsh-style-native-input   ← 设置→模型 各输入框的 input 规则
+    // 详情页标题不做额外样式：直接把原 detailTitle 文本替换为别名，继承原标题字号字重。
+    const ALIAS_CSS = [
+      // 页头「编辑别名」按钮：直接沿用紧邻「卸载」按钮的原生尺寸规则
+      // （primitives.Button variant="outline" size="sm" = _button + _sm + _outline）。
+      // 「卸载」的 danger 类只覆盖了 color / border-color / hover 背景色，这三项此处保持中性，
+      // 其余 font / padding / height / radius / border-width 与「卸载」完全一致。
+      '.dsh-style-native-button{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:4px;border:.5px solid var(--dsw-alias-border-l3);border-radius:var(--dsw-radius-sm);height:28px;padding:0 10px;font-size:12px;line-height:18px;color:var(--dsw-alias-label-primary);background:transparent;cursor:pointer;}',
+      '.dsh-style-native-button:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover);}',
+      '.dsh-style-native-button:disabled{cursor:not-allowed;opacity:.4;}',
+      // DSH 原生设置输入框（设置 → 模型）
+      '.dsh-style-native-input{box-sizing:border-box;border:.5px solid var(--dsw-alias-border-l4);border-radius:var(--dsw-radius-md);width:100%;height:32px;font:inherit;background:var(--dsw-specific-input-major,var(--dsw-alias-bg-base));color:var(--dsw-alias-label-primary);padding:0 10px;font-size:14px;line-height:22px;}',
+      '.dsh-style-native-input::placeholder{color:var(--dsw-alias-label-dimmed);}',
+      '.dsh-style-native-input:focus{border-color:var(--dsw-alias-state-business-primary);outline:none;}',
+      // 原生 Modal 弹窗宽度（对齐设置页弹窗 width:min(480px,100%)）
+      '.dsh-style-alias-dialog{width:min(480px,100%);}',
+      // 仅在原生 Modal 原语缺失时的兜底弹窗（正常走原生 Modal，不会用到）
+      '.dsh-style-alias-overlay{position:fixed;inset:0;z-index:2147483600;display:flex;align-items:center;justify-content:center;background:var(--dsw-alias-bg-mask-modal,rgba(0,0,0,.32));}',
+      '.dsh-style-alias-card{width:min(440px,calc(100vw - 48px));border-radius:var(--dsw-radius-xl,14px);background:var(--dsw-alias-bg-base,#fff);box-shadow:var(--dsw-alias-shadow-modal,0 16px 44px rgba(0,0,0,.32));border:0.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.1));padding:20px;}',
+      '.dsh-style-alias-title{margin:0 0 12px;font-size:16px;font-weight:600;line-height:24px;color:var(--dsw-alias-label-primary,inherit);}',
+      '.dsh-style-alias-desc{margin:0 0 16px;font-size:13px;line-height:20px;color:var(--dsw-alias-label-secondary,inherit);}',
+      '.dsh-style-alias-foot{display:flex;justify-content:flex-end;gap:8px;margin-top:20px;}',
+    ].join('')
+
+    function ensureAliasStyle() {
+      if (typeof document === 'undefined') return
+      let el = document.querySelector('style[data-plugin="dsh-style-alias"]')
+      if (!el) {
+        el = document.createElement('style')
+        el.setAttribute('data-plugin', 'dsh-style-alias')
+        document.head.appendChild(el)
+      }
+      if (el.textContent !== ALIAS_CSS) el.textContent = ALIAS_CSS
+    }
+
+    function setBtnText(btn, text) {
+      for (const node of btn.childNodes) {
+        if (node.nodeType === 3) {
+          if (node.nodeValue !== text) node.nodeValue = text
+          return
+        }
+      }
+      btn.textContent = text
+    }
+
+    // 已安装插件列表：有别名时把卡片主标题换成别名，无别名时恢复原值。
+    // 只改文本，不动图标、描述、行高、选中态与点击行为。
+    function applyCardTitles() {
+      const aliases = aliasStore.get()
+      for (const card of document.querySelectorAll('[data-plugin-package]')) {
+        const id = card.getAttribute('data-plugin-package')
+        const btn = card.querySelector('[class*="cardTitle"]') || card.querySelector('button')
+        if (!btn) continue
+        const alias = aliases[id]
+        if (alias) {
+          if (!btn.hasAttribute('data-dsh-style-alias-orig')) btn.setAttribute('data-dsh-style-alias-orig', btn.textContent)
+          if (!btn.hasAttribute('data-dsh-style-alias-active')) btn.setAttribute('data-dsh-style-alias-active', '')
+          setBtnText(btn, alias)
+        } else if (btn.hasAttribute('data-dsh-style-alias-active')) {
+          const original = btn.getAttribute('data-dsh-style-alias-orig')
+          if (original != null) setBtnText(btn, original)
+          btn.removeAttribute('data-dsh-style-alias-active')
+          btn.removeAttribute('data-dsh-style-alias-orig')
+        }
+      }
+    }
+
+    // 详情页：在原标题位置「二选一」显示——有别名就替换原名为别名，没有就显示原名。
+    // 不新增独立别名行，避免出现「别名 / 原名 / 包名」三行并存；
+    // 包名/模块名（如 @deepseek-ai/dsh-experimental-auto-review）那行保持不动，仍可辨认原版身份。
+    // 版本号与标题同排（titleRow），保留不变。
+    function applyDetailTitle() {
+      const aliases = aliasStore.get()
+      for (const root of document.querySelectorAll('[data-plugin-detail]')) {
+        // 清理旧版本可能残留在 .detailTop 里的独立别名行（升级兼容）。
+        const legacy = root.querySelector('[data-dsh-style-alias-line]')
+        if (legacy) legacy.remove()
+        const id = root.getAttribute('data-plugin-detail')
+        const titleEl = root.querySelector('[class*="detailTitle"]')
+        if (!titleEl) continue
+        const alias = aliases[id]
+        if (alias) {
+          if (!titleEl.hasAttribute('data-dsh-style-title-orig')) titleEl.setAttribute('data-dsh-style-title-orig', titleEl.textContent)
+          if (!titleEl.hasAttribute('data-dsh-style-title-active')) titleEl.setAttribute('data-dsh-style-title-active', '')
+          setBtnText(titleEl, alias)
+        } else if (titleEl.hasAttribute('data-dsh-style-title-active')) {
+          const original = titleEl.getAttribute('data-dsh-style-title-orig')
+          if (original != null) setBtnText(titleEl, original)
+          titleEl.removeAttribute('data-dsh-style-title-active')
+          titleEl.removeAttribute('data-dsh-style-title-orig')
+        }
+      }
+    }
+
+    function applyAliasDom() {
+      if (typeof document === 'undefined') return
+      try {
+        applyCardTitles()
+        applyDetailTitle()
+      } catch {
+        /* 忽略瞬时 DOM 变化 */
+      }
+    }
+
+    let aliasObserver = null
+    let aliasTimer = 0
+
+    function scheduleAlias() {
+      if (aliasTimer) return
+      aliasTimer = setTimeout(() => {
+        aliasTimer = 0
+        applyAliasDom()
+      }, 60)
+    }
+
+    // 只在变更落在插件卡片 / 详情页内时才重排，避免聊天流式渲染时反复全量扫描。
+    function aliasMutationsRelevant(mutations) {
+      for (const mutation of mutations) {
+        if (mutation.type === 'characterData') {
+          const parent = mutation.target.parentElement
+          if (parent && parent.closest('[data-plugin-package],[data-plugin-detail]')) return true
+          continue
+        }
+        const target = mutation.target
+        if (target && target.closest && target.closest('[data-plugin-package],[data-plugin-detail]')) return true
+        for (const node of mutation.addedNodes) {
+          if (node.nodeType !== 1) continue
+          if (node.matches && node.matches('[data-plugin-package],[data-plugin-detail]')) return true
+          if (node.querySelector && node.querySelector('[data-plugin-package],[data-plugin-detail]')) return true
+        }
+      }
+      return false
+    }
+
+    function startAliasObserver() {
+      if (typeof document === 'undefined') return
+      ensureAliasStyle()
+      applyAliasDom()
+      if (aliasObserver || typeof MutationObserver === 'undefined') return
+      aliasObserver = new MutationObserver((mutations) => {
+        if (aliasMutationsRelevant(mutations)) scheduleAlias()
+      })
+      // 只观察结构变化（插件页挂载 / 卡片与详情切换 / 列表刷新）；不观察 characterData，
+      // 避免聊天流式输出时对每个 token 做无谓的 ancestor 检查。
+      aliasObserver.observe(document.body, { childList: true, subtree: true })
+    }
+
+    function stopAliasObserver() {
+      if (aliasObserver) {
+        aliasObserver.disconnect()
+        aliasObserver = null
+      }
+      if (aliasTimer) {
+        clearTimeout(aliasTimer)
+        aliasTimer = 0
+      }
+      clearAliasDom()
+    }
+
+    function clearAliasDom() {
+      if (typeof document === 'undefined') return
+      for (const line of document.querySelectorAll('[data-dsh-style-alias-line]')) line.remove()
+      for (const btn of document.querySelectorAll('[data-dsh-style-alias-active]')) {
+        const original = btn.getAttribute('data-dsh-style-alias-orig')
+        if (original != null) setBtnText(btn, original)
+        btn.removeAttribute('data-dsh-style-alias-active')
+        btn.removeAttribute('data-dsh-style-alias-orig')
+      }
+      // 恢复被别名替换的详情页原标题。
+      for (const titleEl of document.querySelectorAll('[data-dsh-style-title-active]')) {
+        const original = titleEl.getAttribute('data-dsh-style-title-orig')
+        if (original != null) setBtnText(titleEl, original)
+        titleEl.removeAttribute('data-dsh-style-title-active')
+        titleEl.removeAttribute('data-dsh-style-title-orig')
+      }
+      const styleEl = document.querySelector('style[data-plugin="dsh-style-alias"]')
+      if (styleEl) styleEl.remove()
+    }
+
+    // 原生设置输入框：DSH 设置页的输入框本身就是一个原生 <input> + CSS 规则，
+    // 这里用同一套 Token 复刻该规则，避免浏览器默认输入框观感。
+    function AliasInput(props) {
+      return h('input', { ...props, type: 'text', className: 'dsh-style-native-input' })
+    }
+
+    function AliasModal({ open, onClose, title, description, footer, children }) {
+      if (PrimitivesModal) {
+        return h(PrimitivesModal, {
+          open,
+          onClose,
+          title,
+          closeLabel: '关闭',
+          description,
+          footer,
+          className: 'dsh-style-alias-dialog',
+        }, children)
+      }
+      if (!open) return null
+      if (typeof document === 'undefined' || !createPortal) return null
+      return createPortal(h('div', {
+        className: 'dsh-style-alias-overlay',
+        onMouseDown: (event) => { if (event.target === event.currentTarget) onClose() },
+      }, h('div', { className: 'dsh-style-alias-card', role: 'dialog', 'aria-label': title },
+        h('h3', { className: 'dsh-style-alias-title' }, title),
+        description ? h('p', { className: 'dsh-style-alias-desc' }, description) : null,
+        children,
+        footer ? h('div', { className: 'dsh-style-alias-foot' }, footer) : null)), document.body)
+    }
+
+    // 详情页页头按钮：仅对「组合包」类型的插件显示，位于页头操作区，
+    // 天然排在原生「卸载」按钮左侧。
+    function PluginAliasAction(props) {
+      const subject = props ? props.subject : null
+      const [aliases, setAliases] = React.useState(aliasStore.get())
+      const [open, setOpen] = React.useState(false)
+      const [draft, setDraft] = React.useState('')
+      React.useEffect(() => aliasStore.subscribe(() => setAliases(aliasStore.get())), [])
+      if (!subject || subject.kind !== 'bundle' || !subject.pkg || !subject.pkg.name) return null
+      const id = subject.pkg.name
+      const current = aliases[id] || ''
+      const openModal = () => {
+        setDraft(current)
+        setOpen(true)
+      }
+      const close = () => setOpen(false)
+      const save = () => {
+        aliasStore.set(id, draft)
+        setOpen(false)
+      }
+      const onKeyDown = (event) => {
+        if (!event) return
+        if (event.key === 'Enter') {
+          event.preventDefault()
+          save()
+        } else if (event.key === 'Escape') {
+          event.preventDefault()
+          close()
+        }
+      }
+      // 页头按钮：复刻 DSH 设置页 secondaryButton（“设置 → 模型 → 编辑”）的样式规则，
+      // 原生 <button> + 同一套设计 Token，视觉与原生按钮一致。
+      const button = h('button', {
+        type: 'button',
+        className: 'dsh-style-native-button',
+        onClick: openModal,
+        'aria-label': current ? '编辑插件别名' : '添加插件别名',
+      }, current ? '编辑别名' : '添加别名')
+      const modal = h(AliasModal, {
+        open,
+        onClose: close,
+        title: '设置插件别名',
+        description: '为当前插件设置自定义显示名称，不影响插件原始名称及运行。',
+        footer: h(React.Fragment, null,
+          Button
+            ? h(Button, { variant: 'outline', onClick: close }, '取消')
+            : h('button', { type: 'button', className: 'dsh-style-native-button', onClick: close }, '取消'),
+          Button
+            ? h(Button, { variant: 'primary', onClick: save }, '保存')
+            : h('button', { type: 'button', className: 'dsh-style-native-button', onClick: save }, '保存')),
+      }, h(AliasInput, {
+        value: draft,
+        onChange: (event) => setDraft(event && event.target ? event.target.value : ''),
+        onKeyDown,
+        placeholder: '输入插件别名',
+        'aria-label': '插件别名',
+        autoFocus: true,
+      }))
+      return h(React.Fragment, null, button, modal)
+    }
+
     const inject = ['slots', 'sessions']
 
     function apply(ctx) {
       appCtx = ctx
       applyStyles(store.get())
+      startAliasObserver()
       ctx.effect(() => () => cleanup(), 'dsh-style: 释放外观样式')
+      ctx.effect(() => () => stopAliasObserver(), 'dsh-style: 释放插件别名')
+      // 插件详情的页头操作区：在原生「卸载」按钮左侧增加「添加别名 / 编辑别名」。
+      ctx.slots.inject('plugins.detail.actions', () => ctx.slots.register({
+        name: 'plugins.detail.actions',
+        id: 'dsh-style-alias',
+        order: 10,
+      }, PluginAliasAction))
       ctx.slots.inject('settings.section', () => ctx.slots.register({
         name: 'settings.section',
         id: 'style',

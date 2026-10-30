@@ -3,3 +3,5 @@ node_modules/
 .DS_Store
 tools/icon-studio/config.local.json
 tools/icon-studio/.local/
+
+client.js.bak-*

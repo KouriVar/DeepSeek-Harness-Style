@@ -108,9 +108,19 @@ HoverCard 的 `_bggy...` 是当前构建的 CSS module 类；DSH 升级后如类
   "hideTabs": true,
   "monitorEnabled": true,
   "monitorMode": "floating",
-  "monitorAlwaysShow": { "team": false }
+  "monitorAlwaysShow": { "team": false },
+  "immersive": true,
+  "titlebarButtons": true,
+  "sidebarCompact": true,
+  "hovercardInset": true,
+  "pageTopSpacing": true,
+  "workspaceRowCompact": true,
+  "agentEntryMerge": true
 }
 ```
+
+设置页分为「外观」（布局 / 效果 / 侧边栏 / 外观细节）与「功能」（任务监控 / 交互）两大类；
+后 7 项即原先常开、现已补成可开关的外观/交互细节，默认都为 `true`（关闭后恢复原生行为）。
 
 ## 10. 代码/规则地图
 
@@ -126,6 +136,19 @@ HoverCard 的 `_bggy...` 是当前构建的 CSS module 类；DSH 升级后如类
 | `WORKSPACE_CSS` | 会话行时间/操作收纳 |
 | `ALIGN_CSS` | 红绿灯基准列、左右内缩、会话标题同列、HoverCard、页顶、底栏账户卡 |
 | `MONITOR_CSS` | 任务监控面板/按钮/状态样式 |
+
+## 10.5 插件别名
+
+| 项 | 说明 |
+|---|---|
+| 入口 | 侧栏「插件」→ 已安装插件详情页；原生「卸载」左侧「添加别名 / 编辑别名」。按钮直接沿用紧邻「卸载」按钮的原生尺寸（`primitives.Button` outline + size sm：28px 高 / 0 10px / 12·18 / radius-sm / .5px），仅颜色中性 |
+| 弹窗 | 复用原生 `Modal`（宽 `min(480px,100%)`）；输入框复刻设置页 `input` 规则（32px、`.5px` border-l4、radius-md）；取消=原生次级按钮、保存=原生主要按钮；清空保存 = 移除 |
+| 详情页展示 | 原标题位置「二选一」：有别名时把 `detailTitle` 文本原位替换为别名（隐藏原名），无别名时显示原名；版本号与标题同排保留，包名/模块名行保留用于辨认原版；不新增额外别名行 |
+| 列表展示 | 卡片主标题显示别名；无别名显示原名；图标 / 描述 / 行高 / 选中态 / 点击不变 |
+| 映射键 | 插件稳定 ID（组合包包名，如 `dsh-context-awareness`） |
+| 持久化 | `localStorage` 键 `dsh-style:pluginAliases`，重启保留 |
+| 实现 | `client.js`：`plugins.detail.actions` 槽注册按钮；DOM 观察器同步列表标题 / 详情别名行（仅插入/移动节点，不使用 absolute/transform/负 margin/缩放） |
+| 边界 | 不改插件 manifest / package.json / ID / 安装目录；不影响启停 / 更新 / 卸载；不同包名不会误继承别名 |
 
 ## 11. 不属于插件运行时
 
