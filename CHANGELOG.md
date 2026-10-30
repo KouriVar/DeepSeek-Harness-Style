@@ -5,6 +5,16 @@
 ## [Unreleased]
 
 ### 新增
+- **首页苹果树邮戳插画（Qoder 新对话动效）**：首页标题上方 174×100 的邮票小卡片，按交接文档 1:1 还原——
+  底板 140×72、树框 64×64、`1666`、`The Apple / Gravity · 1666`、邮戳 52×52 溢出右缘。
+  三张 WebP 素材内联为 data URL（单文件插件无法取相对路径），启动预加载避免首帧闪图。
+  交互：热区整体 `scale(1.03)`／500ms；树区单独 200ms 交叉淡入彩色；说明卡 288px、portal 到 body、
+  `pointer-events:none`、随鼠标 `rotateZ ±8°` + `translateX ±12px` 弹簧跟随（stiffness 120 / damping 16，
+  rAF 积分，`pointermove` 不 setState）；苹果光标由 canvas 画 🍎 生成 dataURL cursor，仅作用于热区。
+  键盘：Tab 聚焦显示说明与彩色树、Esc / blur 关闭；`prefers-reduced-motion` 关闭缩放与摇摆；触屏点击切换。
+  设置新增「首页苹果树邮戳插画」开关，关掉即完全移除。
+
+### 新增
 - **Qoder 风格首页（仅新会话 hero 相位）**：把首页重排成 Qoder 的版式——欢迎块在上、活跃度卡片居中、
   输入卡片沉到页面下部，中间留白由 flex 吸收（`margin-top:auto`），随窗口高度自适应。
   开关：「外观 → Qoder 首页」里的「首页上下分离布局 + 动态欢迎语」「首页活跃度热力图」。

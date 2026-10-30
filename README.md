@@ -32,6 +32,12 @@
   插件页 / 自动化任务页顶部空白一致；会话 HoverCard 缩进到主内容卡片内 `8.75px`。
 - **工作区会话行**：时间、置顶、归档收进「更多」菜单；标题占满整行。
 - **效果开关**：启用样式插件 / 减少动效 / 隐藏滚动条 / 隐藏会话标签栏。
+- **Qoder 风格首页（仅新会话 hero 相位）**：欢迎组贴顶、活跃度热力图居中、输入卡片下沉，
+  欢迎语由工作区/模式两个原生选择器原地句化；全部规则限定在 `[data-phase="hero"]`，正常对话零影响。
+- **苹果树邮戳插画**：首页标题上方的 174×100 小卡片（素材内联）。悬停整体 `scale(1.03)`／500ms，
+  树区 200ms 交叉淡入彩色，说明卡随鼠标做 `rotateZ ±8°`／`translateX ±12px` 弹簧摆动
+  （stiffness 120 / damping 16，`requestAnimationFrame` 积分，`pointermove` 不触发 React 重渲染），
+  热区光标为 canvas 生成的苹果；支持 Tab 聚焦、Esc 关闭与 `prefers-reduced-motion` 降级。
 - **可持久化**：设置保存在 `localStorage`（键 `dsh-style:settings`），重启后恢复。
 - **可逆、无污染**：禁用/卸载时移除全部 `data-dsh-style-*` 属性与样式表，不留全局样式。
 - **修改后重启**：桌面端 HMR 不保证，更新 `client.js` 后请重启 Harness。
