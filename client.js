@@ -462,7 +462,7 @@ window.__ModuleLoader__.load({
       'padding-top:var(--dsh-q-top);padding-bottom:var(--dsh-q-bottom);',
       '}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="input"],',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.composer.bar"] > *{margin-top:150px !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.composer.bar"] > *{margin-top:150px !important;padding-left:0 !important;padding-right:0 !important;}',
 
       // 欢迎块自身不再吃满高度（原生 HeroShell.root 是 height:100%，会把句子行推远）
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"] > :first-child{height:auto !important;flex:0 0 auto !important;margin-top:auto !important;}',
