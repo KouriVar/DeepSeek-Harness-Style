@@ -13,7 +13,7 @@
  *   network   — real upstreams; a failure is reported as WARN, not FAIL
  */
 
-import { enrichEntity, __clearCache, __cacheInfo, __wikidataState } from '../entity-enrich.mjs'
+import { enrichEntity, __clearCache, __cacheInfo, __wikidataState, __internals } from '../entity-enrich.mjs'
 import { proxyImage, isAllowedImageUrl, ALLOWED_HOSTS } from '../entity-image.mjs'
 
 const JSON_ONLY = process.argv.includes('--json')
@@ -307,11 +307,15 @@ async function runImageCase(testCase) {
 
 const enrichCases = [
   { name: 'Codex', type: 'software', expect: 'matched' },
-  { name: 'Figma', type: 'software', expect: 'matched' },
+  // "Figma" is a company/product: GitHub can only offer owner-level matches
+  // (figma/plugin-samples) or third-party repos, so it must land in the
+  // candidate band instead of asserting identity.
+  { name: 'Figma', type: 'software', expect: 'matched', expectMaxConfidence: 0.75 },
   { name: 'Qoder', type: 'software', expect: 'any' },
   { name: 'DSH', type: 'software', expect: 'any' },
   { name: 'react', type: 'package', expect: 'matched' },
   { name: 'deepseek', type: 'any', expect: 'any' },
+  { name: 'Zorblax-9000', type: 'software', expect: 'unmatched' },
   { name: 'zzqx-not-a-real-entity-9241', type: 'software', expect: 'unmatched' },
 ]
 
@@ -326,6 +330,18 @@ async function runEnrichCase(testCase) {
   if (testCase.expect === 'matched') check('matched', result.matched === true, { matched: result.matched, emptyReason: result.emptyReason })
   if (testCase.expect === 'unmatched') check('unmatched', result.matched === false, { matched: result.matched })
   if (testCase.expect === 'unmatched') check('empty-flag', result.empty === true, { empty: result.empty })
+  if (testCase.expectMaxConfidence !== undefined) {
+    check('confidence-capped', result.confidence <= testCase.expectMaxConfidence, {
+      confidence: result.confidence,
+      max: testCase.expectMaxConfidence,
+    })
+  }
+  // The card title must be the query, never an internal artifact id such as
+  // "figma/plugin-samples".
+  check('entity-name-is-query', result.entity?.name === testCase.name, {
+    got: result.entity?.name,
+    want: testCase.name,
+  })
 
   // No-fabrication invariants, applied to every case.
   check('adapters-reported', Array.isArray(result.adapters) && result.adapters.length === 5, {
@@ -454,7 +470,76 @@ async function main() {
     }
   }
 
-  log('\n[5] entity-image.mjs — unit checks')
+  log('\n[5] entity-enrich.mjs — name-match tiering (deterministic, no network)')
+  {
+    const { tierScore, NAME_TIERS } = __internals
+    const tierCases = [
+      {
+        id: 'artifact-name-exact',
+        query: 'react',
+        hit: { name: 'react', matchName: 'react', ownerName: 'facebook' },
+        wantKind: 'name-exact',
+        wantScore: NAME_TIERS.exact,
+      },
+      {
+        id: 'case-hyphen-normalised-exact',
+        query: 'Figma',
+        hit: { name: 'figma', matchName: 'figma', ownerName: 'someone' },
+        wantKind: 'name-exact',
+        wantScore: NAME_TIERS.exact,
+      },
+      {
+        id: 'owner-only-is-not-identity',
+        query: 'Figma',
+        hit: { name: 'figma/plugin-samples', matchName: 'plugin-samples', ownerName: 'figma' },
+        wantKind: 'owner-exact',
+        wantScore: NAME_TIERS.ownerExact,
+      },
+      {
+        id: 'third-party-prefix',
+        query: 'Figma',
+        hit: { name: 'GLips/Figma-Context-MCP', matchName: 'Figma-Context-MCP', ownerName: 'GLips' },
+        wantKind: 'name-prefix',
+        wantScore: NAME_TIERS.namePrefix,
+      },
+      {
+        id: 'owner-suffix-only',
+        query: 'deepseek',
+        hit: { name: 'deepseek-ai/something-else', matchName: 'something-else', ownerName: 'deepseek-ai' },
+        wantKind: 'full-name-contains',
+        wantScore: NAME_TIERS.fullNameContains,
+      },
+      {
+        id: 'description-only-is-weak',
+        query: 'Figma',
+        hit: { name: 'acme/totally-unrelated', matchName: 'totally-unrelated', ownerName: 'acme', summary: 'imports figma files' },
+        wantKind: 'description-only',
+        wantScore: NAME_TIERS.descriptionOnly,
+      },
+    ]
+
+    const tierChecks = []
+    for (const testCase of tierCases) {
+      const got = tierScore(testCase.query, testCase.hit)
+      const pass = got.kind === testCase.wantKind && got.score === testCase.wantScore
+      tierChecks.push({ id: testCase.id, pass, got, want: { kind: testCase.wantKind, score: testCase.wantScore } })
+      log(`  ${pass ? '✓' : '✗'} ${testCase.id.padEnd(30)} ${got.kind} ${got.score}${pass ? '' : ` (want ${testCase.wantKind} ${testCase.wantScore})`}`)
+    }
+    results.tiering = tierChecks
+    // Also prove the ordering the Lead asked for: artifact-name exact (1.0) >
+    // owner exact (0.85) > name prefix (0.72) > contains (0.58) > full-name (0.5).
+    const orderingPass =
+      NAME_TIERS.exact > NAME_TIERS.ownerExact &&
+      NAME_TIERS.ownerExact > NAME_TIERS.namePrefix &&
+      NAME_TIERS.namePrefix > NAME_TIERS.nameContains &&
+      NAME_TIERS.nameContains > NAME_TIERS.fullNameContains &&
+      NAME_TIERS.fullNameContains > NAME_TIERS.descriptionOnly
+    const orderingRecord = { id: 'tier-ordering', pass: orderingPass, NAME_TIERS }
+    results.tiering.push(orderingRecord)
+    log(`  ${orderingPass ? '✓' : '✗'} tier-ordering`)
+  }
+
+  log('\n[6] entity-image.mjs — unit checks')
   {
     const unitChecks = []
     const check = (label, pass, detail) => {
@@ -477,6 +562,7 @@ async function main() {
     ...results.images,
     ...results.enrich,
     ...results.unit.map((u) => ({ status: u.pass ? 'PASS' : 'FAIL' })),
+    ...results.tiering.map((t) => ({ status: t.pass ? 'PASS' : 'FAIL' })),
     ...(results.endToEnd?.status ? [{ status: results.endToEnd.status }] : []),
   ]
   const counts = { pass: 0, warn: 0, fail: 0 }
@@ -492,6 +578,22 @@ async function main() {
     enrichMatched: results.enrich.filter((r) => r.matched).length,
     enrichTotal: results.enrich.length,
     imageRejections: results.images.filter((r) => !r.actual.ok).length,
+    // Compact digest of the cases the Lead asked to see.
+    keyEntities: results.enrich.map((r) => ({
+      query: r.name,
+      matched: r.matched,
+      confidence: r.confidence,
+      title: r.entity.name,
+      artifact: r.meta?.artifact ?? null,
+      artifactSource: r.meta?.artifactSource ?? null,
+      matchKind: r.meta?.matchKind ?? null,
+      ownerLevelOnly: r.meta?.ownerLevelOnly ?? null,
+      summary: String(r.entity.summary ?? '').slice(0, 80),
+      candidateCount: r.candidates.length,
+      emptyReason: r.emptyReason,
+      totalMs: r.totalMs,
+    })),
+    tiering: results.tiering.map((t) => ({ id: t.id, pass: t.pass })),
     wikidataFirstRun: wikidata ? { ok: wikidata.ok, ms: wikidata.ms, error: wikidata.error } : null,
     wikidataCircuitOpen: !results.wikidataState?.open,
     endToEnd: results.endToEnd?.status ?? 'skipped',

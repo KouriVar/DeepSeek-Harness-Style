@@ -671,24 +671,21 @@ function contextMatches(context, hit) {
 }
 
 function scoreHit(hit, { name, type, context, heat }) {
-  const { score: nameScoreValue, ownerExact } = hitNameScore(name, hit)
+  const { score: nameScoreValue, kind } = tierScore(name, hit)
   const reliability = SOURCE_WEIGHT[hit.source] ?? 0.8
-  let score =
+  const score =
     0.6 * nameScoreValue +
     0.22 * (hit.popularity ?? 0) +
     0.1 * reliability +
-    0.08 * typeBonusFor(type, hit.source)
+    0.08 * typeBonusFor(type, hit.source) +
+    // A Chinese-language description is a meaningful "this is the entity you
+    // mean" signal for zh-facing users.
+    (hasCJK(hit.summary) || hasCJK(hit.name) ? 0.02 : 0) +
+    // HN threads only amplify already-plausible candidates.
+    (heat?.available && nameScoreValue >= 0.78 ? 0.03 : 0) +
+    (contextMatches(context, hit) ? 0.04 : 0)
 
-  // An org/owner named exactly after the entity is the canonical home of it.
-  if (ownerExact) score += 0.05
-  // A Chinese-language description is a meaningful "this is the entity you mean"
-  // signal for zh-facing users.
-  if (hasCJK(hit.summary) || hasCJK(hit.name)) score += 0.02
-  // HN threads only amplify already-plausible candidates.
-  if (heat?.available && nameScoreValue >= 0.78) score += 0.03
-  if (contextMatches(context, hit)) score += 0.04
-
-  return { score: clamp01(score), nameScore: nameScoreValue, ownerExact }
+  return { score: clamp01(score), nameScore: nameScoreValue, kind }
 }
 
 /**
@@ -788,6 +785,7 @@ function buildGroups(scored) {
       sources,
       score: primary.score,
       nameScore: primary.nameScore,
+      kind: primary.kind,
       meta: primary.hit.meta ?? null,
       stars,
     }
@@ -874,7 +872,8 @@ export function __wikidataState() {
  * @returns {Promise<object>} EnrichResult
  */
 export async function enrichEntity(input = {}) {
-  const name = String(input.name ?? '').trim()
+  const displayName = String(input.name ?? '').trim()
+  const name = displayName
   const type = input.type == null || String(input.type).trim() === '' ? null : String(input.type).trim()
   const context = input.context == null ? '' : String(input.context)
   const signal = input.signal
@@ -950,8 +949,8 @@ export async function enrichEntity(input = {}) {
 
   const scoringContext = { name, type, context, heat }
   const scored = hits.map((hit) => {
-    const { score, nameScore: ns } = scoreHit(hit, scoringContext)
-    return { hit, score: round3(score), nameScore: round3(ns) }
+    const { score, nameScore: ns, kind } = scoreHit(hit, scoringContext)
+    return { hit, score: round3(score), nameScore: round3(ns), kind }
   })
 
   const merged = buildGroups(scored).sort((a, b) => b.score - a.score)
@@ -984,6 +983,13 @@ export async function enrichEntity(input = {}) {
   const ambiguous = Boolean(runnerUp && top.score - runnerUp.score < 0.05 && runnerUp.key !== top.key)
   if (ambiguous) confidence = Math.min(confidence, 0.74)
 
+  // Owner-level-only match ("figma/plugin-samples" for the query "Figma"): the
+  // artifact is *associated with* the entity, it is not the entity. For a
+  // plausible named entity (>= 4 chars) we therefore refuse to assert identity
+  // and demote the result into the candidate band so the UI offers a switcher.
+  const ownerLevelOnly = WEAK_KINDS.has(top.kind) && normalizeName(name).length >= 4
+  if (ownerLevelOnly) confidence = Math.min(confidence, 0.74)
+
   const matched = confidence >= 0.45
   const candidates = matched
     ? merged
@@ -1000,7 +1006,9 @@ export async function enrichEntity(input = {}) {
     : []
 
   const entity = {
-    name: top.name,
+    // The card is *about the query*, not about whichever artifact won: showing
+    // "figma/plugin-samples" as the entity name is simply the wrong title.
+    name: displayName,
     type: type ?? (top.source === 'wikidata' ? 'entity' : 'software'),
     summary: top.summary || '',
     description: top.description || top.summary || '',
@@ -1021,11 +1029,17 @@ export async function enrichEntity(input = {}) {
     ...(matched ? {} : { empty: true, emptyReason: 'low-confidence' }),
     // Extra diagnostics (ignored by a client that only reads the spec fields).
     meta: {
+      // Which concrete record the card was built from, so nothing is lost by
+      // normalising the title.
+      artifact: top.name,
+      artifactSource: top.source,
+      matchKind: top.kind,
+      ownerLevelOnly,
       sourcesSeen: top.sourcesSeen,
       ambiguity: ambiguous,
       runnerUp: runnerUp ? { name: runnerUp.name, source: runnerUp.source, score: round3(runnerUp.score) } : null,
       stars: top.stars || 0,
-      namedScore: top.nameScore,
+      nameTier: top.nameScore,
     },
   }
 
@@ -1038,10 +1052,14 @@ export const __internals = {
   normalizeName,
   normalizePypiName,
   hitNameScore,
+  tierScore,
+  isRelevant,
   githubRepoFullName,
   buildGroups,
   scoreHit,
   commonsImageUrl,
+  NAME_TIERS,
+  WEAK_KINDS,
   CACHE_TTL_MS,
   WIKIDATA_COOLDOWN_MS,
   DEFAULT_BUDGET_MS,
