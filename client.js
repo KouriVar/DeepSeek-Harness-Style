@@ -3058,37 +3058,6 @@ window.__ModuleLoader__.load({
         id: 'dsh-style-stamp',
         order: -30,
       }, QoderStampCard))
-      // TEMP-LAYOUT-PROBE v3：只认 frame 自己的 grid-template-columns 过渡
-      try {
-        const arm = () => {
-          const frame = document.querySelector('[data-dsh-style-frame]')
-          if (!frame) { setTimeout(arm, 400); return }
-          if (frame.__dshLP3) return
-          frame.__dshLP3 = true
-          frame.addEventListener('transitionrun', (e) => {
-            if (e.target !== frame) return
-            const t0 = performance.now()
-            const rows = []
-            let n = 0
-            const take = () => {
-              const mEl = document.querySelector('[data-dsh-style-main]')
-              const rEl = frame.querySelector(':scope > [data-rightbar-col]')
-              const t = Math.round(performance.now() - t0)
-              rows.push(t + ':' + (mEl ? Math.round(mEl.getBoundingClientRect().width) : -1)
-                + '/' + (rEl ? Math.round(rEl.getBoundingClientRect().width) : -1)
-                + '/k' + (rEl ? rEl.children.length : -1)
-                + '/k' + (rEl ? rEl.children.length : -1)
-                + '/' + e.propertyName.slice(0, 12)
-                + '/[' + getComputedStyle(frame).gridTemplateColumns + ']')
-              n += 1
-              if (n < 6) requestAnimationFrame(take)
-              else document.title = 'LP3 ' + rows.join(' ')
-            }
-            take()
-          }, true)
-        }
-        arm()
-      } catch (error) { /* probe must never break the plugin */ }
 
     }
 

@@ -4,6 +4,19 @@
 
 ## [Unreleased]
 
+### 修复
+- **右侧栏开合改为真正逐帧插值的双向布局动画**。真机逐帧采样定位到两个原因：
+  1. DSH 把 `grid-template-columns` 过渡写在 `[data-animating]` 里，而该属性与列宽变化**同一帧**才被加上；
+     浏览器只在「变化前已存在过渡声明」时启动插值 → 该过渡从未启动，列宽一帧到位（硬切）。
+     对照证据：dsh-style 常驻声明的 `border-*` / `background` 过渡全部正常触发 `transitionrun`。
+  2. 内联轨道 `\${sidebar}px minmax(0|400px,1fr) minmax(0px,\${rightbar}px)` 在开关时中间轨道 min 变化，
+     轨道列表整体不可插值。
+  修复：frame **常驻声明**布局过渡（沿用 300ms / `cubic-bezier(.4,0,.2,1)`，`[data-dragging]`、
+  `[data-rightbar-instant]` 时关闭以保证拖拽与全屏手感）；`normalizeGridColumns()` 把内联值规范成
+  「固定长度 + 1fr + 固定长度」，并用 `style` 的 MutationObserver 在 React 写入的**同帧内**（绘制前）纠正。
+  配套 `data-dsh-rb`（closed/opening/open/closing）保证边框与圆角不在首帧跳变，`closing` 期间右栏
+  `overflow:hidden` 避免面板悬浮叠层。实测：主区 428→422→415→414、右栏 562→568→575→576，逐帧变化。
+
 ### 新增
 - **首页苹果树邮戳插画（Qoder 新对话动效）**：首页标题上方 174×100 的邮票小卡片，按交接文档 1:1 还原——
   底板 140×72、树框 64×64、`1666`、`The Apple / Gravity · 1666`、邮戳 52×52 溢出右缘。
