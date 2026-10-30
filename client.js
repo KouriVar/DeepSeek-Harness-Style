@@ -448,7 +448,7 @@ window.__ModuleLoader__.load({
       '--dsh-q-l3:#7fc79b;',
       '--dsh-q-l4:#4ea876;',
       '--dsh-q-underline:#d7d7d7;',
-      '--dsh-q-underline-offset:7px;',
+      '--dsh-q-underline-gap:0px;',
       '--dsh-q-gap-1:8px;',
       '--dsh-q-gap-2:10px;',
       '--dsh-q-prefix:"在";',
@@ -519,8 +519,16 @@ window.__ModuleLoader__.load({
       'padding:0 !important;margin:0 !important;min-height:0 !important;height:auto !important;',
       'font-size:inherit !important;font-weight:600 !important;line-height:inherit !important;',
       'color:var(--dsh-q-sentence-color) !important;',
-      'text-decoration:underline;text-decoration-color:var(--dsh-q-underline);',
-      'text-decoration-thickness:1px;text-underline-offset:var(--dsh-q-underline-offset);',
+      'text-decoration:none !important;position:relative;',
+      '}',
+      // 下划线用伪元素画，不用 text-decoration：
+      // Chromium 在 text-underline-offset 超过基线下方可用空间时会直接不画（WebKit 不会），
+      // 所以改用一条绝对定位的 1px 线，位置完全可控、两个选择器必然同高。
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="ws"]::after,',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="mode"]::after{',
+      'content:"";position:absolute;left:0;right:0;',
+      'bottom:var(--dsh-q-underline-gap);height:1px;',
+      'background:var(--dsh-q-underline);pointer-events:none;',
       '}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="ws"]:hover,',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="mode"]:hover{',
