@@ -434,8 +434,8 @@ window.__ModuleLoader__.load({
       '--dsh-q-title-size:20px;',
       '--dsh-q-sentence-size:22px;',
       '--dsh-q-sentence-color:#717171;',
-      '--dsh-q-card-gap:26px;',
-      '--dsh-q-top:clamp(24px,17vh,150px);',
+      '--dsh-q-card-gap:28px;',
+      '--dsh-q-top:clamp(24px,6vh,80px);',
       '--dsh-q-bottom:clamp(16px,3vh,40px);',
       '--dsh-q-card-radius:12px;',
       '--dsh-q-card-border:#e7e7e7;',
@@ -450,7 +450,10 @@ window.__ModuleLoader__.load({
       '--dsh-q-suffix:"创造了不起的事物";',
       '}',
 
-      // ① 上下分离：欢迎组贴顶、输入卡片贴底，中间留白由 flex 吸收
+      // ① 列宽：hero 相把内容列钉到 767（Qoder 实测），输入框与热力图共用这一个变量
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"]{--dsh-composer-card-max-width:min(767px, calc(100% - 40px));}',
+
+      // ② 上下分离：组贴在「距输入框 150px」的位置，上方剩余空间由 auto margin 吸收
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-conversation-scroll]{justify-content:flex-start !important;}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-composer-seat]{flex:1 1 auto !important;min-height:0 !important;}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"],',
@@ -459,10 +462,10 @@ window.__ModuleLoader__.load({
       'padding-top:var(--dsh-q-top);padding-bottom:var(--dsh-q-bottom);',
       '}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="input"],',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.composer.bar"] > *{margin-top:auto !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.composer.bar"] > *{margin-top:150px !important;}',
 
       // 欢迎块自身不再吃满高度（原生 HeroShell.root 是 height:100%，会把句子行推远）
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"] > :first-child{height:auto !important;flex:0 0 auto !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"] > :first-child{height:auto !important;flex:0 0 auto !important;margin-top:auto !important;}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] div:has(> [data-slot="conversation.hero.brand.mark"]){gap:0 !important;height:auto !important;flex:0 0 auto !important;}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="headline"] + div{display:none !important;}',
 
@@ -486,6 +489,7 @@ window.__ModuleLoader__.load({
       'display:flex !important;justify-content:center !important;align-items:baseline !important;flex-wrap:wrap !important;',
       'gap:0 !important;margin-top:6px !important;padding:0 !important;',
       'font-size:var(--dsh-q-sentence-size) !important;line-height:1.4 !important;',
+      'font-weight:600 !important;',
       'color:var(--dsh-q-sentence-color) !important;',
       '}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"]::before{content:var(--dsh-q-prefix);margin-right:12px;}',
@@ -499,7 +503,7 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] div:has(> [data-slot="conversation.hero.agentPreset"]) > div > button{',
       'background:transparent !important;border:none !important;box-shadow:none !important;',
       'padding:0 !important;margin:0 !important;min-height:0 !important;height:auto !important;',
-      'font-size:inherit !important;font-weight:400 !important;line-height:inherit !important;',
+      'font-size:inherit !important;font-weight:600 !important;line-height:inherit !important;',
       'color:var(--dsh-q-sentence-color) !important;',
       'text-decoration:underline;text-decoration-color:var(--dsh-q-underline);',
       'text-decoration-thickness:1px;text-underline-offset:3px;',
@@ -517,7 +521,7 @@ window.__ModuleLoader__.load({
 
       // ④ 热力图卡片
       '.dsh-qcard{',
-      'box-sizing:border-box;width:min(calc(100% - 88px),864px);max-width:var(--dsh-composer-card-max-width);align-self:center;',
+      'box-sizing:border-box;width:100%;max-width:var(--dsh-composer-card-max-width);align-self:center;',
       'display:flex;flex-direction:column;',
       'margin-top:var(--dsh-q-card-gap);',
       'padding:19px 20px 20px;',
