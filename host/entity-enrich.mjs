@@ -1047,10 +1047,14 @@ export async function enrichEntity(input = {}) {
   const outranked = prominenceGap > 0.15
   if (outranked) confidence = Math.min(confidence, 0.74)
 
-  const matched = confidence >= 0.45
-  const candidates = matched
-    ? merged
-        .slice(1, 1 + MAX_CANDIDATES)
+  // 产品决策（Phase 1 收尾）：owner 级匹配**只进候选，不生成最终卡**。
+  // 例：查询 "Figma" 时图里那个仓库只是"和 Figma 有关"，不是 Figma 本身；
+  // 宁可给空状态，也不要错配成别的项目。
+  const matched = confidence >= 0.45 && !ownerLevelOnly
+  const candidatePool = ownerLevelOnly ? merged : merged.slice(1)
+  const candidates = (matched || ownerLevelOnly)
+    ? candidatePool
+        .slice(0, MAX_CANDIDATES)
         .filter((c) => c.score >= 0.4)
         .map((c) => ({
           name: c.name,
@@ -1083,7 +1087,7 @@ export async function enrichEntity(input = {}) {
     candidates,
     adapters,
     heat,
-    ...(matched ? {} : { empty: true, emptyReason: 'low-confidence' }),
+    ...(matched ? {} : { empty: true, emptyReason: ownerLevelOnly ? 'owner-level-only' : 'low-confidence' }),
     // Extra diagnostics (ignored by a client that only reads the spec fields).
     meta: {
       // Which concrete record the card was built from, so nothing is lost by

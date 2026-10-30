@@ -196,14 +196,14 @@ window.__ModuleLoader__.load({
       'margin-left:var(--dsh-style-inset-gap-left);',
       'overflow:hidden;',
       '}',
-      // 打开右侧边栏时：内容区 + 右栏合成**一个大的描边整体**（同一个圆角外框）。
-      //  - 内容区只留左/上/下边，右侧描边交给右栏，两块之间用右栏的左边框当 1px 分割线；
-      //  - 右栏补上右/上/下边 + 右侧圆角，外沿与内容区一同构成一个大圆角框。
-      'html[data-dsh-style-layout="inset"] [data-dsh-style-frame]:not([data-rightbar-collapsed]) [data-dsh-style-main]{',
+      // 展开 / 正在展开 / 正在关闭 三种状态都保持"内容区 + 右栏合成一个大圆角框"：
+      // 关闭动画期间若提前切成独立卡片，右栏就会像浮在成品卡片上（原来割裂观感的根因）。
+      // 只有真正收起之后（data-dsh-rb="closed"）才恢复主区完整圆角。
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-frame]:is([data-dsh-rb="open"],[data-dsh-rb="opening"],[data-dsh-rb="closing"]) [data-dsh-style-main]{',
       'border-radius:var(--dsh-style-inset-radius) 0 0 var(--dsh-style-inset-radius);',
-      'border-right:0;',
+      'border-right-color:transparent;',
       '}',
-      'html[data-dsh-style-layout="inset"] [data-dsh-style-frame]:not([data-rightbar-collapsed]) [data-rightbar-col]{',
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-frame]:is([data-dsh-rb="open"],[data-dsh-rb="opening"],[data-dsh-rb="closing"]) [data-rightbar-col]{',
       'background:var(--dsw-alias-bg-base);',
       'border-top:1px solid var(--dsh-style-inset-border);',
       'border-right:1px solid var(--dsh-style-inset-border);',
@@ -211,6 +211,18 @@ window.__ModuleLoader__.load({
       'border-left:1px solid var(--dsh-style-inset-border);',
       'border-radius:0 var(--dsh-style-inset-radius) var(--dsh-style-inset-radius) 0;',
       'overflow:hidden;',
+      '}',
+      // 关闭动画期间把右栏内容裁到列宽里：面板贴在窗口右缘、宽度不变，
+      // 不裁的话它会"悬"在会话区上方，看起来像悬浮叠层。
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-frame][data-dsh-rb="closing"] [data-rightbar-col]{',
+      'overflow:hidden !important;',
+      '}',
+      // 合体↔分离 的边框/圆角切换加同参数过渡，避免动画收尾那一帧跳变。
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-main]{',
+      'transition:border-radius .2s var(--dsh-style-motion-ease,cubic-bezier(.4,0,.2,1)),border-right-color .2s var(--dsh-style-motion-ease,cubic-bezier(.4,0,.2,1));',
+      '}',
+      'html[data-dsh-style-layout="inset"] [data-rightbar-col]{',
+      'transition:border-radius .2s var(--dsh-style-motion-ease,cubic-bezier(.4,0,.2,1)),border-color .2s var(--dsh-style-motion-ease,cubic-bezier(.4,0,.2,1)),background-color .2s var(--dsh-style-motion-ease,cubic-bezier(.4,0,.2,1));',
       '}',
       // 让会话头（标题 / 快捷区 / 右侧工具）与窗口顶栏（红绿灯）垂直对齐：
       // 内嵌布局顶部多了 4px 间隙，把 header 的顶部内边距抵掉同样的量。
@@ -730,6 +742,8 @@ window.__ModuleLoader__.load({
       }
     }
 
+    let rbSettleTimer = 0
+
     function tagOnce() {
       if (typeof document === 'undefined') return
       mountTitlebar()
@@ -743,10 +757,34 @@ window.__ModuleLoader__.load({
       const sidebar = main && main.previousElementSibling
       if (main) main.setAttribute('data-dsh-style-main', '')
       if (sidebar) sidebar.setAttribute('data-dsh-style-sidebar', '')
+      // 右栏布局动画状态机（供 CSS 使用，避免"关闭第一帧就切成最终外观"）：
+      //   closed  = 已收起
+      //   opening = 正在展开（右栏从 0 长出来）
+      //   open    = 完全展开
+      //   closing = 正在关闭（右栏仍有宽度、正在收）→ 视觉上仍按"合体大框"处理
+      // 左侧栏单独开关时 data-animating 也会出现，但右栏宽度是 0，不会误判成 closing。
+      const rbCol = frame.querySelector(':scope > [data-rightbar-col]')
+      const rbCollapsed = frame.hasAttribute('data-rightbar-collapsed')
+      const rbAnimating = frame.hasAttribute('data-animating')
+      const rbWidth = rbCol ? rbCol.getBoundingClientRect().width : 0
+      let rbState = rbCollapsed ? 'closed' : 'open'
+      if (rbAnimating) {
+        if (!rbCollapsed) rbState = 'opening'
+        else if (rbWidth > 1) rbState = 'closing'
+      }
+      const prevRb = frame.getAttribute('data-dsh-rb')
+      if (prevRb !== rbState) frame.setAttribute('data-dsh-rb', rbState)
+      // 动画态兜底：transitionend 之后若没有触发新的 DOM 变更，700ms 后强制重算一次收尾
+      if (rbState === 'opening' || rbState === 'closing') {
+        if (rbSettleTimer) clearTimeout(rbSettleTimer)
+        rbSettleTimer = setTimeout(() => { rbSettleTimer = 0; scheduleTag() }, 700)
+      }
+
       const dark = isDark() ? 'true' : 'false'
       const root = document.documentElement
       if (root.getAttribute('data-dsh-style-dark') !== dark) root.setAttribute('data-dsh-style-dark', dark)
     }
+
 
     function scheduleTag() {
       if (rafPending) return
@@ -767,7 +805,7 @@ window.__ModuleLoader__.load({
         childList: true,
         subtree: true,
         attributes: true,
-        attributeFilter: ['data-ds-dark-theme', 'data-sidebar-collapsed'],
+        attributeFilter: ['data-ds-dark-theme', 'data-sidebar-collapsed', 'data-rightbar-collapsed', 'data-animating'],
       })
     }
 
@@ -1032,7 +1070,7 @@ window.__ModuleLoader__.load({
         }
         sync()
         const observer = new MutationObserver(schedule)
-        observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-sidebar-collapsed'] })
+        observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-sidebar-collapsed', 'data-rightbar-collapsed', 'data-animating'] })
         return () => {
           observer.disconnect()
           if (raf) { if (typeof cancelAnimationFrame === 'function') cancelAnimationFrame(raf) }
@@ -2264,11 +2302,193 @@ window.__ModuleLoader__.load({
       }
     })()
 
-    function entityWidth() {
+    // ---------------------------------------------------------------
+    // 容器级布局：Entity Frame 必须活在「中间会话主容器」里
+    //
+    // 真实 DOM（Phase 2 用 ResizeObserver + DOMRect 实测）：
+    //   [data-dsh-style-main] (centerCol, 与原生右栏同一层)
+    //     └ .root(ConversationRoot, position:relative)   ← 我们的定位容器
+    //         ├ header(38px)                            ← 顶部工具栏，不参与收窄
+    //         └ [data-conversation-content]             ← Chat Frame 区
+    //             └ [data-conversation-scroll]
+    //                 ├ 聊天流根(下方正文)               ← 让出宽度
+    //                 └ [data-composer-seat]
+    //                     ├ [data-composer-card]        ← 让出宽度
+    //                     └ [data-composer-dock]        ← 统计栏，保持全宽
+    //
+    // 因此：面板绝对定位在 .root 内（right:0 → 主容器右缘，永远到不了原生右栏），
+    // top = header 底边，bottom = 输入框卡片底边；只给「聊天流根」和「输入框卡片」
+    // 让出宽度，header 与统计栏完全不动。
+    // ---------------------------------------------------------------
+    const ENTITY_MIN_PANEL = 300
+    const ENTITY_MIN_CHAT = 240
+    const ENTITY_MIN_PANEL_NARROW = 180
+    const ENTITY_IDEAL = 380
+    const ENTITY_MAX_PANEL = 480
+    const ENTITY_GAP = 12
+
+    function entityHostEl() {
+      if (typeof document === 'undefined') return null
+      return document.querySelector('[data-dsh-entity-host]')
+    }
+
+    // 聊天流根：scroll 里除 composerSeat 之外的「有实际盒子」的子树。
+    // 原生结构是 scroll > div[data-slot](display:contents) > 真正的 viewArea，
+    // 所以遇到 display:contents 的插槽出口要往下钻一层，否则 padding 不生效。
+    function entityChatEl() {
+      const scroll = document.querySelector('[data-conversation-scroll]')
+      if (!scroll) return null
+      const pick = (el, depth) => {
+        if (!el || depth > 4) return null
+        if (el.hasAttribute('data-composer-seat')) return null
+        const cs = getComputedStyle(el)
+        if (cs.display !== 'contents' && el.getBoundingClientRect().width > 0) return el
+        for (const child of el.children) {
+          const hit = pick(child, depth + 1)
+          if (hit) return hit
+        }
+        return null
+      }
+      for (const child of scroll.children) {
+        const hit = pick(child, 0)
+        if (hit) return hit
+      }
+      return null
+    }
+
+    function tagEntityLayout() {
+      if (typeof document === 'undefined') return null
+      const main = document.querySelector('[data-dsh-style-main]')
+      if (!main) return null
+      const root = main.querySelector('[data-phase]') || main.firstElementChild
+      const chat = entityChatEl()
+      if (root && !root.hasAttribute('data-dsh-entity-host')) root.setAttribute('data-dsh-entity-host', '')
+      if (chat && !chat.hasAttribute('data-dsh-entity-chat')) chat.setAttribute('data-dsh-entity-chat', '')
+      return { main, root, chat }
+    }
+
+    function untagEntityLayout() {
+      if (typeof document === 'undefined') return
+      for (const el of document.querySelectorAll('[data-dsh-entity-host]')) el.removeAttribute('data-dsh-entity-host')
+      for (const el of document.querySelectorAll('[data-dsh-entity-chat]')) {
+        el.removeAttribute('data-dsh-entity-chat')
+        el.style.removeProperty('padding-right')
+      }
+      for (const el of document.querySelectorAll('[data-composer-card]')) el.style.removeProperty('margin-right')
+    }
+
+    // 计算：可用宽度 → 面板宽度 / 模式 / 上下边界（全部来自真实 DOMRect）
+    function computeEntityLayout() {
+      const tagged = tagEntityLayout()
+      if (!tagged || !tagged.root) return null
+      const { main, root } = tagged
+      const rr = root.getBoundingClientRect()
+      const header = root.querySelector('[data-window-drag]')
+      const hr = header ? header.getBoundingClientRect() : null
+      const card = root.querySelector('[data-composer-card]')
+      const cr = card ? card.getBoundingClientRect() : null
+      const avail = Math.round(rr.width)
+      const top = hr ? Math.max(0, Math.round(hr.bottom - rr.top)) : 38
+      const bottomGap = cr ? Math.max(0, Math.round(rr.bottom - cr.bottom)) : 0
+
+      // 宽度策略（全部基于中间会话容器的实测宽度，不用窗口宽度）：
+      //   1) 常规：380 左右（视口容器 34%），上限 480、下限 300；
+      //   2) 空间不足：收窄面板，但必须同时保证正文 >= 240（不覆盖、不压瘪）；
+      //   3) 极端窄（< 520）：才退化成贴在输入框上方的卡片。
+      let width = Math.min(ENTITY_MAX_PANEL, Math.max(ENTITY_MIN_PANEL, Math.min(ENTITY_IDEAL, Math.round(avail * 0.34))))
+      let mode = 'side'
+      if (avail - width - ENTITY_GAP < ENTITY_MIN_CHAT) {
+        width = Math.max(ENTITY_MIN_PANEL_NARROW, avail - ENTITY_MIN_CHAT - ENTITY_GAP)
+      }
+      if (avail < 520 || width < ENTITY_MIN_PANEL_NARROW) {
+        mode = 'bottom'
+        width = Math.max(240, avail - 24)
+      }
+      return { avail, top, bottomGap, width, mode, rootRect: { x: rr.x, y: rr.y, w: rr.width, h: rr.height }, cardBottom: cr ? cr.bottom : null, headerBottom: hr ? hr.bottom : null }
+    }
+
+    let entityLayoutObserver = null
+    let entityLayoutRaf = 0
+    function applyEntityLayout(open) {
+      if (typeof document === 'undefined') return null
+      const tagged = tagEntityLayout()
+      if (!tagged || !tagged.root) return null
+      const root = document.documentElement
+      const { main, root: hostEl, chat } = tagged
+      if (!open) {
+        root.removeAttribute('data-dsh-style-entity')
+        if (hostEl) hostEl.removeAttribute('data-dsh-entity-open')
+        if (chat) chat.removeAttribute('data-dsh-entity-open')
+        for (const el of document.querySelectorAll('[data-composer-card]')) el.removeAttribute('data-dsh-entity-open')
+        if (hostEl) {
+          hostEl.style.removeProperty('--dsh-entity-w')
+          hostEl.style.removeProperty('--dsh-entity-top')
+          hostEl.style.removeProperty('--dsh-entity-bottom')
+        }
+        return null
+      }
+      const layout = computeEntityLayout()
+      if (!layout) return null
+      // 归一化：先把可能残留的让位标记全清掉，再按当前模式重新决定，
+      // 避免「右栏打开 → 模式切换」时旧 padding 留在别的节点上把正文挤成竖排。
+      for (const el of document.querySelectorAll('[data-dsh-entity-chat]')) el.removeAttribute('data-dsh-entity-open')
+      for (const el of document.querySelectorAll('[data-composer-card]')) el.removeAttribute('data-dsh-entity-open')
+      root.setAttribute('data-dsh-style-entity', 'open')
+      hostEl.setAttribute('data-dsh-entity-open', layout.mode)
+      hostEl.style.setProperty('--dsh-entity-w', layout.width + 'px')
+      hostEl.style.setProperty('--dsh-entity-top', layout.top + 'px')
+      hostEl.style.setProperty('--dsh-entity-bottom', layout.bottomGap + 'px')
+      if (layout.mode === 'side' && chat) {
+        // 自检：让位后正文内容宽度必须仍然可用，否则退化为底部卡片
+        const reserve = layout.width + 20
+        const inner = chat.clientWidth - reserve
+        if (inner >= 180) {
+          chat.setAttribute('data-dsh-entity-open', '')
+          for (const el of document.querySelectorAll('[data-composer-card]')) el.setAttribute('data-dsh-entity-open', '')
+        } else {
+          layout.mode = 'bottom'
+          layout.width = Math.max(240, layout.avail - 24)
+          hostEl.setAttribute('data-dsh-entity-open', 'bottom')
+          hostEl.style.setProperty('--dsh-entity-w', layout.width + 'px')
+        }
+      } else if (layout.mode === 'side') {
+        layout.mode = 'bottom'
+        layout.width = Math.max(240, layout.avail - 24)
+        hostEl.setAttribute('data-dsh-entity-open', 'bottom')
+        hostEl.style.setProperty('--dsh-entity-w', layout.width + 'px')
+      } else {
+        if (chat) chat.removeAttribute('data-dsh-entity-open')
+        for (const el of document.querySelectorAll('[data-composer-card]')) el.removeAttribute('data-dsh-entity-open')
+      }
+      entityUi.set({ width: layout.width })
+      return layout
+    }
+
+    function scheduleEntityLayout() {
+      if (typeof document === 'undefined') return
+      if (entityLayoutRaf) return
+      entityLayoutRaf = requestAnimationFrame(() => {
+        entityLayoutRaf = 0
+        if (entityUi.get().open || entityUi.get().mounted) applyEntityLayout(entityUi.get().open)
+      })
+    }
+
+    function ensureEntityLayoutObserver() {
+      if (typeof document === 'undefined' || entityLayoutObserver) return
       try {
-        const vw = window.innerWidth || 1280
-        return Math.max(320, Math.min(560, Math.round(vw * 0.3)))
-      } catch { return 420 }
+        entityLayoutObserver = new ResizeObserver(() => scheduleEntityLayout())
+        const main = document.querySelector('[data-dsh-style-main]')
+        if (main) entityLayoutObserver.observe(main)
+        const card = document.querySelector('[data-composer-card]')
+        if (card) entityLayoutObserver.observe(card)
+      } catch {}
+      window.addEventListener('resize', scheduleEntityLayout)
+    }
+
+    function stopEntityLayoutObserver() {
+      if (entityLayoutObserver) { try { entityLayoutObserver.disconnect() } catch {} entityLayoutObserver = null }
+      if (typeof window !== 'undefined') window.removeEventListener('resize', scheduleEntityLayout)
+      if (entityLayoutRaf) { try { cancelAnimationFrame(entityLayoutRaf) } catch {} entityLayoutRaf = 0 }
     }
 
     // ---- 客户端缓存的 host 能力探测（host 半未加载时优雅降级） ----
@@ -2401,9 +2621,11 @@ window.__ModuleLoader__.load({
 
     // ---- 面板内容 ----
     async function openEntity(name, type, context) {
-      const width = entityWidth()
-      entityUi.set({ open: true, mounted: true, name, type, status: 'loading', card: null, error: null, width, animKey: entityUi.get().animKey + 1 })
-      applyEntityLayout(true, width)
+      tagEntityLayout()
+      ensureEntityLayoutObserver()
+      const layout = applyEntityLayout(true)
+      const width = layout ? layout.width : 380
+      entityUi.set({ open: true, mounted: true, name, type, status: 'loading', card: null, error: null, width, mode: layout ? layout.mode : 'side', animKey: entityUi.get().animKey + 1 })
       try {
         const res = await fetch('/api/style-entity/enrich', {
           method: 'POST',
@@ -2420,7 +2642,7 @@ window.__ModuleLoader__.load({
 
     function closeEntity() {
       entityUi.set({ open: false, status: 'idle' })
-      applyEntityLayout(false, 0)
+      applyEntityLayout(false)
       // 等滑出动画结束再卸载节点；禁用时 stop() 会立刻 unmountEntity()
       setTimeout(() => { if (!entityUi.get().open) entityUi.set({ mounted: false }) }, 420)
     }
@@ -2429,27 +2651,20 @@ window.__ModuleLoader__.load({
       entityUi.set({ open: false, mounted: false, status: 'idle', card: null })
     }
 
-    function applyEntityLayout(open, width) {
-      if (typeof document === 'undefined') return
-      try {
-        const root = document.documentElement
-        if (open) {
-          root.style.setProperty('--dsh-style-entity-w', width + 'px')
-          root.setAttribute('data-dsh-style-entity', 'open')
-        } else {
-          root.removeAttribute('data-dsh-style-entity')
-        }
-      } catch {}
-    }
-
     const ENTITY_CSS = [
-      'html[data-dsh-style-entity="open"] div:has(> [data-slot="main"]){padding-right:var(--dsh-style-entity-w,420px);transition:padding-right .3s cubic-bezier(.22,1,.36,1);}',
+      // 只让「正文」和「输入框卡片」让位；header 与统计栏不动。
+      '[data-dsh-entity-chat][data-dsh-entity-open]{padding-right:calc(var(--dsh-entity-w,380px) + 20px);transition:padding-right .3s cubic-bezier(.22,1,.36,1);}',
+      '[data-composer-card][data-dsh-entity-open]{margin-right:calc(var(--dsh-entity-w,380px) + 20px);transition:margin-right .3s cubic-bezier(.22,1,.36,1);}',
       'html[data-dsh-style-entity="open"] [data-dsh-entity]{color:inherit;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px;cursor:pointer;border-radius:3px;}',
       'html[data-dsh-style-entity="open"] [data-dsh-entity]:hover{background:rgba(96,165,250,.16);}',
       '[data-dsh-entity]{color:inherit;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px;cursor:pointer;}',
-      '[data-dsh-entity-panel]{position:fixed;top:0;right:0;bottom:0;width:var(--dsh-style-entity-w,420px);z-index:9980;pointer-events:none;display:flex;align-items:flex-end;justify-content:flex-end;}',
+      // 定位容器 = [data-dsh-entity-host]（会话根，position:relative，已是原生样式）
+      // right:0 → 主容器右缘；top/bottom 由实测 DOMRect 写入，不用窗口尺寸。
+      '[data-dsh-entity-panel]{position:absolute;right:0;top:var(--dsh-entity-top,38px);bottom:var(--dsh-entity-bottom,0px);width:var(--dsh-entity-w,380px);box-sizing:border-box;z-index:40;pointer-events:none;display:flex;align-items:flex-end;justify-content:flex-end;padding:0 8px 8px 0;}',
+      // 空间不足时的明确降级：贴在输入框上方，不横向挤压正文与输入框。
+      '[data-dsh-entity-host][data-dsh-entity-open="bottom"] [data-dsh-entity-panel]{left:12px;right:12px;width:auto;top:auto;bottom:calc(var(--dsh-entity-bottom,0px) + 8px);max-height:46%;padding:0;}',
       '[data-dsh-entity-panel][data-open="true"]{pointer-events:auto;}',
-      '[data-dsh-entity-card]{pointer-events:auto;box-sizing:border-box;width:100%;max-height:calc(100% - 56px);margin:0 8px 8px 0;display:flex;flex-direction:column;overflow:hidden;background:var(--dsw-alias-bg-base,#1b1b1f);color:var(--dsw-alias-text-primary,#f5f5f5);border:1px solid var(--dsw-alias-border-l2,rgba(128,128,128,.28));border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.32);transform:translateY(calc(100% + 16px));transition:transform .34s cubic-bezier(.22,1,.36,1);font:13px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;}',
+      '[data-dsh-entity-card]{pointer-events:auto;box-sizing:border-box;width:100%;max-height:100%;margin:0 8px 8px 0;display:flex;flex-direction:column;overflow:hidden;background:var(--dsw-alias-bg-base,#1b1b1f);color:var(--dsw-alias-text-primary,#f5f5f5);border:1px solid var(--dsw-alias-border-l2,rgba(128,128,128,.28));border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.32);transform:translateY(calc(100% + 16px));transition:transform .34s cubic-bezier(.22,1,.36,1);font:13px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;}',
       '[data-dsh-entity-panel][data-open="true"] [data-dsh-entity-card]{transform:translateY(0);}',
       '[data-dsh-entity-head]{display:flex;align-items:flex-start;gap:10px;padding:14px 14px 10px;}',
       '[data-dsh-entity-title]{font-size:16px;font-weight:650;line-height:1.3;word-break:break-word;}',
@@ -2534,10 +2749,24 @@ window.__ModuleLoader__.load({
         ))
     }
 
+    let entityPortalHost = null
     function EntityPanelHost() {
       const state = React.useSyncExternalStore(entityUi.subscribe, entityUi.get, entityUi.get)
+      // 面板必须挂在会话主容器内部（不是 shell.overlay 的视口层）。
+      const [host, setHost] = React.useState(entityHostEl)
+      React.useEffect(() => {
+        if (host) return undefined
+        let alive = true
+        const tick = () => {
+          if (!alive) return
+          const el = entityHostEl()
+          if (el) { entityPortalHost = el; setHost(el) } else { requestAnimationFrame(tick) }
+        }
+        tick()
+        return () => { alive = false }
+      }, [host])
       if (!state.mounted) return null
-      return h('div', { 'data-dsh-entity-panel': '', 'data-open': state.open ? 'true' : 'false' },
+      const panel = h('div', { 'data-dsh-entity-panel': '', 'data-open': state.open ? 'true' : 'false', 'data-mode': state.mode || 'side' },
         h('div', { 'data-dsh-entity-card': '', role: 'dialog', 'aria-label': '实体详情' },
           h('div', { 'data-dsh-entity-head': '' },
             h('div', null,
@@ -2548,6 +2777,11 @@ window.__ModuleLoader__.load({
               onClick: () => closeEntity(),
             }, '×')),
           h(EntityDetailCard, { card: state.card, name: state.name, type: state.type, status: state.status })))
+      const target = host || entityHostEl()
+      if (target && ReactDOM && typeof ReactDOM.createPortal === 'function') {
+        try { return ReactDOM.createPortal(panel, target) } catch {}
+      }
+      return panel
     }
 
     // ---- 运行时：观察 settled 消息 → 识别 → 注入 ----
@@ -2649,6 +2883,8 @@ window.__ModuleLoader__.load({
           if (started) { schedule(); return }
           started = true
           ensureEntityStyle()
+          tagEntityLayout()
+          ensureEntityLayoutObserver()
           try {
             const host = document.querySelector('[data-dsh-style-main]') || document.body
             observer = new MutationObserver((records) => {
@@ -2672,7 +2908,9 @@ window.__ModuleLoader__.load({
           entityPending.clear()
           unwrapEntities()
           unmountEntity()
-          applyEntityLayout(false, 0)
+          applyEntityLayout(false)
+          stopEntityLayoutObserver()
+          untagEntityLayout()
           const style = document.querySelector('style[data-plugin="dsh-style-entity"]')
           if (style) style.remove()
           started = false

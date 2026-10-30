@@ -1,5 +1,24 @@
 # 自动同步（本地 ↔ GitHub）
 
+> ## ⚠️ 当前状态：**已暂停**（2026-10-30，Phase 1 收尾）
+>
+> 为避免"未经确认的自动提交与推送"，两个脚本都改成了**默认关闭、必须显式开启**：
+>
+> - 没有 `.git/autosync-enabled` 时，`scripts/auto-sync.sh` 直接退出（不 add/commit/push）；
+> - 没有该文件时，`scripts/auto-sync-daemon.sh` 打印提示后退出，不进入循环。
+>
+> ```bash
+> # 确认要恢复自动同步时（两步都要做）
+> touch ".git/autosync-enabled"
+> nohup /bin/bash scripts/auto-sync-daemon.sh >/tmp/dshstyle-autosync-daemon.log 2>&1 &
+>
+> # 再次暂停
+> kill "$(cat /tmp/dshstyle-autosync.pid)" 2>/dev/null; rm -f ".git/autosync-enabled"
+> ```
+>
+> 另注：本文件下面提到的 LaunchAgent `ai.deepseek.dshstyle.autosync` **当前并未安装**
+> （`launchctl list` 与 `~/Library/LaunchAgents` 均无），所以不会开机自启。
+
 `dsh-style` 仓库有一个后台守护进程：**每 60 秒**检查一次本地改动，若有改动且已静置 12 秒，
 就自动 `git add -A` → `commit` → `push` 到 `KouriVar/DeepSeek-Harness-Style` 的 `main`。
 

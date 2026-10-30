@@ -1,6 +1,7 @@
 #!/bin/bash
 # dsh-style 自动同步：本地有改动 → 静置后自动 commit + push 到 GitHub；每天一个 tar 备份（保留 7 份）。
-# 由 LaunchAgent ai.deepseek.dshstyle.autosync 每 60s 调用。
+# 默认**暂停**：只有存在 .git/autosync-enabled 时才工作（防止未经确认的自动提交与推送）。
+# 历史上由 LaunchAgent ai.deepseek.dshstyle.autosync 每 60s 调用；该 LaunchAgent 当前未安装。
 set -u
 REPO="/Users/halfsignal/Documents/配置目录/软件目录/默认文件-DeepSeek/dsh-style"
 TARDIR="/Users/halfsignal/Documents/配置目录/软件目录/默认文件-DeepSeek"
@@ -11,6 +12,11 @@ cd "$REPO" || exit 0
 LOG="$REPO/.git/auto-sync.log"
 LOCK="$REPO/.git/auto-sync.lockdir"
 log() { echo "[$(date '+%F %T')] $*" >>"$LOG"; }
+
+# 显式开关（默认关闭）：不存在 .git/autosync-enabled 就什么也不做。
+if [ ! -f "$REPO/.git/autosync-enabled" ]; then
+  exit 0
+fi
 
 # 单实例锁
 if ! mkdir "$LOCK" 2>/dev/null; then exit 0; fi
