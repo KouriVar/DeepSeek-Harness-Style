@@ -265,6 +265,11 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-hide-tabs="true"] div:has(> [data-conversation-tabs]){display:none !important;}',
       // 标签栏没了，把会话头压到和右栏头一致的高度（38px），标题/图标才能对齐、也不留空白。
       'html[data-dsh-style-hide-tabs="true"] [data-dsh-style-main] header[data-window-drag]{min-height:38px !important;height:38px !important;padding-top:0 !important;padding-bottom:0 !important;align-items:center !important;}',
+      // 新会话页（空白 header）右上角只剩 corner 一个按钮，实测它会比会话页更靠左。
+      // 与其去追是哪一层撑开的，直接把 corner 绝对定位钉在 header 右缘，
+      // 偏移量 = 会话页实测值（内嵌间隙 4 + 12 = 16px ≈ 距窗口右缘 17px）。
+      'html[data-dsh-style-enabled="true"] [data-phase="hero"] header[data-window-drag]{position:relative;}',
+      'html[data-dsh-style-enabled="true"] [data-phase="hero"] header[data-window-drag] [data-conversation-header-corner]{position:absolute;top:50%;transform:translateY(-50%);right:calc(var(--dsh-style-inset-gap,4px) + var(--dsh-style-hero-corner-inset,12px));align-items:center;}',
       // 去掉标题栏 / 右栏头部那条分割线（和 Qoder 一样，无分割线）。
       'html[data-dsh-style-enabled="true"] [data-dsh-style-main] header[data-window-drag]{border-bottom:0 !important;}',
       'html[data-dsh-style-enabled="true"] [data-rightbar-col] [class*="_header"]{border-bottom:0 !important;}',
@@ -1298,25 +1303,6 @@ window.__ModuleLoader__.load({
         }
         if (stack) want(stack.querySelector('[data-slot="conversation.composer.bar"] > *'), 'input')
       }
-      // TEMP-DIAG（只在 hero 相位写窗口标题，便于外部读取几何）
-      try {
-        const heroEl = document.querySelector('[data-phase="hero"]')
-        if (heroEl) {
-          const hdr = document.querySelector('[data-dsh-style-main] header[data-window-drag]')
-          const corner = document.querySelector('[data-conversation-header-corner]')
-          const frame = document.querySelector('[data-dsh-style-frame]')
-          const r1 = hdr && hdr.getBoundingClientRect()
-          const r2 = corner && corner.getBoundingClientRect()
-          const f = frame && frame.getBoundingClientRect()
-          document.title = 'HERO|W=' + Math.round(window.innerWidth)
-            + '|hdrR=' + (r1 ? Math.round(r1.right) : 'x')
-            + '|padR=' + (hdr ? getComputedStyle(hdr).paddingRight : 'x')
-            + '|corL=' + (r2 ? Math.round(r2.left) : 'x') + '|corR=' + (r2 ? Math.round(r2.right) : 'x')
-            + '|corMR=' + (corner ? getComputedStyle(corner).marginRight : 'x')
-            + '|frameR=' + (f ? Math.round(f.right) : 'x')
-            + '|rb=' + (frame ? frame.hasAttribute('data-rightbar-collapsed') : 'x')
-        }
-      } catch (e) { /* ignore */ }
       for (const el of Array.from(document.querySelectorAll('[data-dsh-qoder]'))) {
         if (wanted.indexOf(el) === -1) el.removeAttribute('data-dsh-qoder')
       }
