@@ -22,6 +22,14 @@ if [ -n "$(git status --porcelain)" ]; then
   now=$(date +%s)
   if [ -n "${newest:-}" ] && [ $((now - newest)) -lt 12 ]; then exit 0; fi
   git add -A >>"$LOG" 2>&1
+  # 安全保护：若 client.js 有改动，先做语法检查，失败则不提交（避免推送坏版本）。
+  if git diff --cached --name-only | grep -qx 'client.js'; then
+    if ! node --check client.js >>"$LOG" 2>&1; then
+      log "client.js syntax error — skip commit"
+      git reset -q
+      exit 0
+    fi
+  fi
   if git diff --cached --quiet; then
     :
   else
