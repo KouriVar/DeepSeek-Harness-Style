@@ -244,6 +244,8 @@ window.__ModuleLoader__.load({
     // 侧边栏基础可见性（品牌 / 新会话 / 会话标签栏）与头部无分割线（始终启用）。
     const SIDEBAR_BASE_CSS = [
       'html[data-dsh-style-hide-brand="true"] [data-dsh-style-sidebar] [class*="_logoRow"]{display:none !important;}',
+      // 品牌行左缘对齐侧栏其它内容（root 4.75 + logoRow 原生 4 = 8.75，内容左缘 14.75，补 6px）。
+      `${SIDEBAR_EXPANDED} [class*="_logoRow"]{padding-left:10px !important;}`,
       'html[data-dsh-style-hide-newsession="true"] [data-dsh-style-sidebar] [class*="_newSession"]{display:none !important;}',
       // 隐藏会话标签栏（对话 / 轨迹 / …）：连整行一起收掉，会话区自动变高。
       'html[data-dsh-style-hide-tabs="true"] div:has(> [data-conversation-tabs]){display:none !important;}',
