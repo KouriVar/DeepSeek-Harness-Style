@@ -74,6 +74,9 @@ window.__ModuleLoader__.load({
       agentEntryMerge: true,
       // 会话悬浮详情卡背景：跟随系统（浅色浅底 / 深色深底）。
       hovercardFollowTheme: true,
+      // Qoder 风格首页（hero 相位）：布局/欢迎语/热力图。
+      qoderHome: true,
+      homeHeatmap: true,
     }
     const LAYOUT_OPTIONS = [
       { value: 'classic', label: '经典' },
@@ -100,6 +103,8 @@ window.__ModuleLoader__.load({
         merged.workspaceRowCompact = merged.workspaceRowCompact !== false
         merged.agentEntryMerge = merged.agentEntryMerge !== false
         merged.hovercardFollowTheme = merged.hovercardFollowTheme !== false
+        merged.qoderHome = merged.qoderHome !== false
+        merged.homeHeatmap = merged.homeHeatmap !== false
         return merged
       } catch {
         return { ...DEFAULTS }
@@ -146,6 +151,7 @@ window.__ModuleLoader__.load({
       'data-dsh-style-hide-newsession',
       'data-dsh-style-hide-tabs',
       'data-dsh-style-monitor',
+      'data-dsh-style-qoderhome',
     ]
 
     // 侧栏展开态限定：侧栏根节点带 _collapsed 时是收起态（窄窗口 rail / 隐藏），
@@ -416,6 +422,110 @@ window.__ModuleLoader__.load({
       '[data-dsh-style-scrollbars="hidden"] *::-webkit-scrollbar{width:0 !important;height:0 !important;}',
     ].join('')
 
+    // ---------------------------------------------------------- Qoder 首页
+    // 只在 hero 相位（[data-phase="hero"]）生效；进入正常对话后规则全部失配。
+    const QODER_HOME_CSS = [
+      // 尺寸与文案（改这几个变量即可调版式）
+      'html[data-dsh-style-qoderhome="true"]{',
+      '--dsh-q-title-size:30px;',
+      '--dsh-q-title-weight:600;',
+      '--dsh-q-sentence-size:21px;',
+      '--dsh-q-sentence-gap:20px;',
+      '--dsh-q-card-gap:30px;',
+      '--dsh-q-top:clamp(28px,9vh,116px);',
+      '--dsh-q-bottom:clamp(18px,3.2vh,40px);',
+      '--dsh-q-card-radius:14px;',
+      '--dsh-q-card-pad:16px 18px 14px;',
+      '--dsh-q-gap:3px;',
+      '--dsh-q-prefix:"在 ";',
+      '--dsh-q-mid:" · 以 ";',
+      '--dsh-q-suffix:" 创造了不起的事物";',
+      '--dsh-q-border:var(--dsw-alias-border-l3,rgba(0,0,0,.09));',
+      '--dsh-q-empty:var(--dsw-alias-interactive-bg-hover,rgba(0,0,0,.05));',
+      '}',
+
+      // ① 上下分离：内容贴顶、输入卡片贴底，中间留白由 flex 吸收（不是 padding）
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-conversation-scroll]{justify-content:flex-start !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-composer-seat]{flex:1 1 auto !important;min-height:0 !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"]{',
+      'height:100%;box-sizing:border-box;gap:0 !important;',
+      'padding-top:var(--dsh-q-top);padding-bottom:var(--dsh-q-bottom);',
+      '}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="input"]{margin-top:auto !important;}',
+
+      // ② 欢迎区：字号/字重/间距向 Qoder 靠拢；预览版徽标隐藏（Qoder 无）
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="headline"]{',
+      'font-size:var(--dsh-q-title-size) !important;',
+      'line-height:1.22 !important;',
+      'font-weight:var(--dsh-q-title-weight) !important;',
+      'letter-spacing:.005em;gap:14px 12px !important;',
+      '}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="previewbadge"]{display:none !important;}',
+
+      // ③ 动态欢迎语：整行居中，选择器原地变成句中的可点词组
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"]{',
+      'display:flex !important;justify-content:center !important;align-items:baseline !important;',
+      'gap:0 !important;margin-top:var(--dsh-q-sentence-gap) !important;padding:0 !important;',
+      'font-size:var(--dsh-q-sentence-size) !important;line-height:1.45 !important;',
+      'color:var(--dsw-alias-label-tertiary,#8b8b90) !important;',
+      'white-space:nowrap;',
+      '}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"]::before{content:var(--dsh-q-prefix);}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"]::after{content:var(--dsh-q-suffix);}',
+
+      // 工作区 chip / 运行模式 chip：去掉胶囊底色与图标，改成带点划线的词
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="ws"],',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="mode"]{',
+      'background:transparent !important;border:none !important;box-shadow:none !important;',
+      'padding:0 2px !important;margin:0 !important;min-height:0 !important;height:auto !important;',
+      'font-size:inherit !important;font-weight:500 !important;line-height:inherit !important;',
+      'color:var(--dsw-alias-label-secondary,#5f5f63) !important;',
+      'text-decoration:underline dotted;text-decoration-thickness:1px;text-underline-offset:5px;',
+      '}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="ws"]:hover,',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="mode"]:hover{',
+      'color:var(--dsw-alias-label-primary,#1a1a1c) !important;background:transparent !important;',
+      '}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="ws"] > svg:first-child{display:none !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="mode"] > svg:first-child{display:none !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="ws"] > svg,',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="mode"] > svg{width:11px;height:11px;opacity:.75;margin-left:2px;}',
+      // 分隔词直接挂在「模式」按钮前，避免插入原生按钮内部
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.hero.agentPreset"] > *::before{content:var(--dsh-q-mid);}',
+      // 句子行里的其它出口（options）不占位
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"] > [data-dsh-qoder="options"]{margin-left:0 !important;}',
+
+      // ④ 热力图卡片（宽度随列宽，与输入卡片同宽）
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="dock"]{',
+      'margin-top:var(--dsh-q-card-gap) !important;width:100%;',
+      '}',
+      '.dsh-qcard{',
+      'box-sizing:border-box;width:100%;display:flex;flex-direction:column;gap:12px;',
+      'padding:var(--dsh-q-card-pad,16px 18px 14px);',
+      'border:.5px solid var(--dsh-q-border,rgba(0,0,0,.09));',
+      'border-radius:var(--dsh-q-card-radius,14px);',
+      'background:var(--dsw-specific-input-major,var(--dsw-alias-bg-base,#fff));',
+      'color:var(--dsw-alias-label-primary,#1a1a1c);',
+      '}',
+      '.dsh-qcard-head{display:flex;align-items:center;gap:14px;font-size:13px;line-height:18px;}',
+      '.dsh-qtab{border:none;background:transparent;padding:0;margin:0;cursor:pointer;font-size:13px;line-height:18px;font-weight:400;color:var(--dsw-alias-label-tertiary,#9a9aa0);}',
+      '.dsh-qtab[data-active="true"]{font-weight:600;color:var(--dsw-alias-label-primary,#1a1a1c);}',
+      '.dsh-qtab:disabled{cursor:default;opacity:.45;}',
+      '.dsh-qsum{margin-left:auto;font-size:12px;line-height:18px;color:var(--dsw-alias-label-tertiary,#9a9aa0);}',
+      '.dsh-qgrid{display:grid;grid-template-columns:repeat(53,1fr);grid-auto-rows:1fr;gap:var(--dsh-q-gap,3px);}',
+      '.dsh-qcell{position:relative;aspect-ratio:1/1;border-radius:2px;background:var(--dsh-q-empty,rgba(0,0,0,.05));}',
+      '.dsh-qcell[data-level="1"]{background:var(--dsh-q-l1,#c6e7c9);}',
+      '.dsh-qcell[data-level="2"]{background:var(--dsh-q-l2,#93d39a);}',
+      '.dsh-qcell[data-level="3"]{background:var(--dsh-q-l3,#4caf58);}',
+      '.dsh-qcell[data-level="4"]{background:var(--dsh-q-l4,#2e8b3c);}',
+      '.dsh-qcell[data-out="1"]{background:transparent;}',
+      '.dsh-qmonths{display:grid;grid-template-columns:repeat(53,1fr);gap:var(--dsh-q-gap,3px);font-size:11px;line-height:14px;color:var(--dsw-alias-label-tertiary,#9a9aa0);}',
+      '.dsh-qmonths > span{white-space:nowrap;}',
+      '.dsh-qempty{font-size:12px;line-height:18px;color:var(--dsw-alias-label-tertiary,#9a9aa0);}',
+      '.dsh-qtip{position:fixed;z-index:2147483600;pointer-events:none;padding:5px 9px;border-radius:7px;font-size:12px;line-height:16px;white-space:nowrap;background:rgba(24,24,27,.92);color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.18);}',
+      '[data-dsh-style-dark="true"] .dsh-qcard{--dsh-q-border:rgba(255,255,255,.11);--dsh-q-empty:rgba(255,255,255,.07);--dsh-q-l1:#1f4529;--dsh-q-l2:#2c6b37;--dsh-q-l3:#3f9148;--dsh-q-l4:#63c46e;}',
+    ].join('')
+
     function styleTag() {
       if (typeof document === 'undefined') return null
       let el = document.querySelector(STYLE_TAG)
@@ -542,6 +652,7 @@ window.__ModuleLoader__.load({
       if (typeof document === 'undefined') return
       mountTitlebar()
       applyChipHiding()
+      tagQoderHome()
       const frame = frameEl()
       if (!frame) return
       frame.setAttribute('data-dsh-style-frame', '')
@@ -595,6 +706,7 @@ window.__ModuleLoader__.load({
         if (el) el.textContent = ''
         unmountTitlebar()
         stopTagging()
+        tagQoderHome()
         return
       }
       root.setAttribute('data-dsh-style-enabled', 'true')
@@ -606,6 +718,7 @@ window.__ModuleLoader__.load({
       root.setAttribute('data-dsh-style-hide-newsession', cfg.hideNewSession ? 'true' : 'false')
       root.setAttribute('data-dsh-style-hide-tabs', cfg.hideTabs ? 'true' : 'false')
       root.setAttribute('data-dsh-style-monitor', cfg.monitorEnabled ? 'true' : 'false')
+      root.setAttribute('data-dsh-style-qoderhome', cfg.qoderHome !== false ? 'true' : 'false')
       const el = styleTag()
       if (el) {
         const rules = [BASE_CSS]
@@ -619,10 +732,12 @@ window.__ModuleLoader__.load({
         rules.push(HIDE_HEADER_CSS)
         if (cfg.workspaceRowCompact !== false) rules.push(WORKSPACE_CSS)
         rules.push(MONITOR_CSS)
+        if (cfg.qoderHome !== false) rules.push(QODER_HOME_CSS)
         if (cfg.reduceMotion) rules.push(MOTION_CSS)
         if (cfg.hideScrollbars) rules.push(SCROLL_CSS)
         el.textContent = rules.join('\n')
       }
+      if (cfg.qoderHome === false) tagQoderHome()
       if (cfg.titlebarButtons === false) unmountTitlebar()
       // 沉浸式外壳在经典/内嵌两种布局下都生效，所以始终打标（经典模式下 BASE_CSS 的
       // inset 规则不匹配，不会影响原生布局）。
@@ -637,6 +752,7 @@ window.__ModuleLoader__.load({
       if (el) el.textContent = ''
       unmountTitlebar()
       stopTagging()
+      tagQoderHome()
     }
 
     // ------------------------------------------------------------------- store
@@ -912,6 +1028,183 @@ window.__ModuleLoader__.load({
           : null)
     }
 
+    // ------------------------------------------------------- Qoder 首页 · 热力图
+    // 数据来源：ctx.sessions.list（客户端 Cordis service，与侧栏同一份快照）。
+    // 口径：每个会话按 updatedAt（最近一次活动）落到本地日期上计数；blank 会话与
+    // 子智能体会话不计入。不是逐日事件史——卡片会显式标注这一点。
+    const QODER_LEVELS = [1, 3, 6, 10]
+
+    function qoderDayKey(date) {
+      const y = date.getFullYear()
+      const m = String(date.getMonth() + 1).padStart(2, '0')
+      const d = String(date.getDate()).padStart(2, '0')
+      return y + '-' + m + '-' + d
+    }
+
+    function qoderLevelOf(value, thresholds) {
+      if (!(value > 0)) return 0
+      let level = 1
+      for (let i = 0; i < thresholds.length; i += 1) if (value >= thresholds[i]) level = i + 1
+      return Math.min(4, level)
+    }
+
+    function qoderBuildModel(list, mode) {
+      const columns = 53
+      const today = new Date()
+      const end = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+      const endWeekStart = new Date(end)
+      endWeekStart.setDate(end.getDate() - end.getDay())
+      const start = new Date(endWeekStart)
+      start.setDate(start.getDate() - (columns - 1) * 7)
+
+      const byDay = new Map()
+      let rows = 0
+      if (list && list.byId) {
+        for (const id of Object.keys(list.byId)) {
+          const row = list.byId[id]
+          if (!row || row.blank === true) continue
+          if (row.origin === 'subagent' || row.parentId !== undefined) continue
+          const at = Number(row.updatedAt) || 0
+          if (at <= 0) continue
+          rows += 1
+          const key = qoderDayKey(new Date(at))
+          const entry = byDay.get(key) || { sessions: 0, workspaces: [] }
+          entry.sessions += 1
+          if (typeof row.cwd === 'string' && row.cwd !== '' && entry.workspaces.indexOf(row.cwd) === -1) entry.workspaces.push(row.cwd)
+          byDay.set(key, entry)
+        }
+      }
+
+      const valueOf = (entry) => (mode === 'workspaces' ? entry.workspaces.length : entry.sessions)
+      const weeks = []
+      const months = []
+      let total = 0
+      let peak = 0
+      for (let c = 0; c < columns; c += 1) {
+        const week = []
+        for (let r = 0; r < 7; r += 1) {
+          const day = new Date(start)
+          day.setDate(start.getDate() + c * 7 + r)
+          const entry = byDay.get(qoderDayKey(day))
+          const value = entry ? valueOf(entry) : 0
+          const future = day.getTime() > end.getTime()
+          if (!future) {
+            total += value
+            if (value > peak) peak = value
+          }
+          week.push({ date: day, value, future })
+        }
+        weeks.push(week)
+        const firstOfMonth = week.find((cell) => cell.date.getDate() === 1)
+        if (firstOfMonth && !firstOfMonth.future) months.push({ column: c, label: (firstOfMonth.date.getMonth() + 1) + '月' })
+      }
+      return { columns, weeks, months, total, peak, rows }
+    }
+
+    function QoderActivityCard(props) {
+      const useSessions = props.useSessions
+      const sessionId = props.sessionId
+      const [settings, setSettings] = React.useState(store.get)
+      const [mode, setMode] = React.useState('sessions')
+      const [tip, setTip] = React.useState(null)
+      React.useEffect(() => store.subscribe(() => setSettings(store.get())), [])
+      const list = typeof useSessions === 'function' ? useSessions((value) => value) : undefined
+      // 只在「空白会话」= hero 相位显示；进入正常对话后本组件返回 null，不占位。
+      const blank = typeof useSessions === 'function'
+        ? useSessions((value) => Boolean(value && value.byId && sessionId !== void 0 && value.byId[sessionId] && value.byId[sessionId].blank === true))
+        : false
+      const model = React.useMemo(() => qoderBuildModel(list, mode), [list, mode])
+      if (!settings.enabled || settings.homeHeatmap === false || !blank) return null
+
+      const thresholds = model.peak <= 4 ? [1, 2, 3, 4] : QODER_LEVELS
+      const unit = mode === 'workspaces' ? '个工作区' : '个会话'
+      const cells = []
+      for (let r = 0; r < 7; r += 1) {
+        for (let c = 0; c < model.columns; c += 1) {
+          const cell = model.weeks[c][r]
+          const level = qoderLevelOf(cell.value, thresholds)
+          const label = qoderDayKey(cell.date) + ' · ' + cell.value + unit
+          cells.push(h('div', {
+            key: label + '-' + r + '-' + c,
+            className: 'dsh-qcell',
+            'data-level': String(level),
+            'data-out': cell.future ? '1' : undefined,
+            'aria-label': label,
+            onMouseEnter: cell.future ? undefined : (event) => setTip({ x: event.clientX, y: event.clientY, text: label }),
+            onMouseMove: cell.future ? undefined : (event) => setTip({ x: event.clientX, y: event.clientY, text: label }),
+            onMouseLeave: cell.future ? undefined : () => setTip(null),
+          }))
+        }
+      }
+      const monthCells = []
+      for (let c = 0; c < model.columns; c += 1) {
+        const found = model.months.find((item) => item.column === c)
+        monthCells.push(h('span', { key: 'm' + c, style: { gridColumn: String(c + 1) } }, found ? found.label : ''))
+      }
+      const tipNode = tip ? ReactDOM.createPortal(
+        h('div', { className: 'dsh-qtip', style: { left: tip.x + 12 + 'px', top: tip.y - 34 + 'px' } }, tip.text),
+        document.body,
+      ) : null
+
+      return h('section', {
+        className: 'dsh-qcard',
+        'aria-label': '活跃度',
+        title: '按会话「最近活动日」（updatedAt）统计，非逐日事件史',
+      },
+        h('div', { className: 'dsh-qcard-head' },
+          h('button', { className: 'dsh-qtab', type: 'button', 'data-active': String(mode === 'sessions'), onClick: () => setMode('sessions') }, '会话'),
+          h('button', { className: 'dsh-qtab', type: 'button', 'data-active': String(mode === 'workspaces'), onClick: () => setMode('workspaces') }, '工作区'),
+          h('span', { className: 'dsh-qsum' }, model.total > 0 ? '共 ' + model.total + ' · 按最近活动日' : '按最近活动日')),
+        h('div', { className: 'dsh-qgrid' }, cells),
+        h('div', { className: 'dsh-qmonths' }, monthCells),
+        model.total === 0 ? h('p', { className: 'dsh-qempty' }, '还没有可以统计的会话。') : null,
+        tipNode,
+      )
+    }
+
+    // ------------------------------------------------- 首页打标（稳定锚点 → 自己的属性）
+    const QODER_TAGS = ['stack', 'headline', 'previewbadge', 'sentence', 'ws', 'mode', 'options', 'input']
+
+    function tagQoderHome() {
+      if (typeof document === 'undefined') return
+      const enabled = document.documentElement.getAttribute('data-dsh-style-qoderhome') === 'true'
+      const scope = enabled ? document.querySelector('[data-phase="hero"]') : null
+      const wanted = []
+      const want = (el, name) => {
+        if (!el) return
+        wanted.push(el)
+        if (el.getAttribute('data-dsh-qoder') !== name) el.setAttribute('data-dsh-qoder', name)
+      }
+      if (scope) {
+        const stack = scope.querySelector('[class*="composerStack"]')
+        const sentence = scope.querySelector('[class*="heroWorkspaceRow"]')
+        const headline = scope.querySelector('[class*="headline"]')
+        const brandSlot = scope.querySelector('[data-slot="conversation.hero.brand.mark"]')
+        want(stack, 'stack')
+        want(headline || (brandSlot && brandSlot.parentElement), 'headline')
+        want(scope.querySelector('[class*="previewBadge"]'), 'previewbadge')
+        want(sentence, 'sentence')
+        if (sentence) {
+          want(sentence.querySelector(':scope > button'), 'ws')
+          want(sentence.querySelector('[data-slot="conversation.hero.agentPreset"] button'), 'mode')
+          want(sentence.querySelector('[data-slot="conversation.hero.options"]'), 'options')
+        }
+        if (stack) want(stack.querySelector('[data-slot="conversation.composer.bar"] > *'), 'input')
+      }
+      for (const el of Array.from(document.querySelectorAll('[data-dsh-qoder]'))) {
+        if (wanted.indexOf(el) === -1) el.removeAttribute('data-dsh-qoder')
+      }
+      void QODER_TAGS
+    }
+
+    function QoderHomeCard({ cfg, set }) {
+      return h('section', { style: sectionStyle, 'aria-label': 'Qoder 首页' },
+        h('h3', { style: sectionTitleStyle }, 'Qoder 首页'),
+        h(SwitchRow, { label: '首页上下分离布局 + 动态欢迎语', checked: cfg.qoderHome !== false, onChange: (value) => set({ qoderHome: value }) }),
+        h(SwitchRow, { label: '首页活跃度热力图', checked: cfg.homeHeatmap !== false, onChange: (value) => set({ homeHeatmap: value }) }),
+        h('p', { style: hintStyle }, '只作用于新建会话首页（hero 相位）：欢迎区与热力图在上、输入框在下，进入正常对话后自动失效。热力图读真实会话数据，按每个会话的「最近活动日」（updatedAt）计数，不是逐日事件史。'))
+    }
+
     function AppearanceSection() {
       const [cfg, setCfg] = React.useState(store.get)
       React.useEffect(() => store.subscribe(() => setCfg(store.get())), [])
@@ -924,6 +1217,7 @@ window.__ModuleLoader__.load({
         h(EffectsCard, { cfg, set: store.set }),
         h(SidebarCard, { cfg, set: store.set }),
         h(LookDetailCard, { cfg, set: store.set }),
+        h(QoderHomeCard, { cfg, set: store.set }),
         // ── 功能 ──
         h('div', { style: { paddingTop: '16px', borderTop: '0.5px solid var(--dsw-alias-border-l2, rgba(128,128,128,.2))' } },
           h('h2', { style: headingStyle }, '功能')),
@@ -1669,6 +1963,13 @@ window.__ModuleLoader__.load({
         id: 'dsh-style-monitor-btn',
         order: 50,
       }, MonitorButton))
+      // 官方 list slot：渲染在「欢迎语行」与「输入卡片」之间，宽度随首页列宽。
+      // 组件自身在非 hero 相位 / 关闭开关时返回 null，不污染正常对话。
+      ctx.slots.inject('conversation.input.dock', () => ctx.slots.register({
+        name: 'conversation.input.dock',
+        id: 'dsh-style-activity',
+        order: -20,
+      }, QoderActivityCard))
     }
 
     exports.apply = apply
