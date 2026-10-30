@@ -423,22 +423,20 @@ window.__ModuleLoader__.load({
     ].join('')
 
     // ---------------------------------------------------------- Qoder 首页
-    // 只在 hero 相位（[data-phase="hero"]）生效；进入正常对话后规则全部失配。
-    // 数值来自 research/spec/qoder-home-spec.md（2× 截图实测，logical px）。
+    // 只在 hero 相位生效。数值来自 research/spec/qoder-home-spec.md（2× 截图实测，logical px）。
+    // 选择器同时给出两条路：① 运行期打的 data-dsh-qoder 属性；② 用官方 data-slot 锚点 + :has()
+    // 反查父元素。任一条命中即生效，避免某次打标没跑就整块样式失效。
     const QODER_HOME_CSS = [
-      // ---- 版式参数（改这里即可调） ----
+      // ---- 版式参数 ----
       'html[data-dsh-style-qoderhome="true"]{',
       '--dsh-q-title-size:20px;',
-      '--dsh-q-title-weight:700;',
       '--dsh-q-sentence-size:20px;',
       '--dsh-q-sentence-color:#717171;',
-      '--dsh-q-sentence-gap:14px;',
       '--dsh-q-card-gap:26px;',
-      '--dsh-q-top:clamp(48px,32vh,320px);',
+      '--dsh-q-top:clamp(40px,30vh,300px);',
       '--dsh-q-bottom:clamp(16px,3vh,40px);',
       '--dsh-q-card-radius:8px;',
       '--dsh-q-card-border:#e7e7e7;',
-      '--dsh-q-cell-gap:3px;',
       '--dsh-q-empty:#eeeeee;',
       '--dsh-q-l1:#ecf8f1;',
       '--dsh-q-l2:#b5ddc3;',
@@ -450,44 +448,53 @@ window.__ModuleLoader__.load({
       '--dsh-q-suffix:"创造了不起的事物";',
       '}',
 
-      // ① 上下分离：欢迎组贴顶、输入卡片贴底，中间留白由 flex 吸收（不是靠 padding 堆）
+      // ① 上下分离：欢迎组贴顶、输入卡片贴底，中间留白由 flex 吸收
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-conversation-scroll]{justify-content:flex-start !important;}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-composer-seat]{flex:1 1 auto !important;min-height:0 !important;}',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"]{',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"],',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] div:has(> [data-slot="conversation.composer.bar"]){',
       'height:100%;box-sizing:border-box;gap:0 !important;',
       'padding-top:var(--dsh-q-top);padding-bottom:var(--dsh-q-bottom);',
       '}',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="input"]{margin-top:auto !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="input"],',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.composer.bar"] > *{margin-top:auto !important;}',
 
       // 欢迎块自身不再吃满高度（原生 HeroShell.root 是 height:100%，会把句子行推远）
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"] > :first-child{height:auto !important;flex:0 0 auto !important;}',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] div:has(> [data-dsh-qoder="headline"]){gap:0 !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] div:has(> [data-slot="conversation.hero.brand.mark"]){gap:0 !important;height:auto !important;flex:0 0 auto !important;}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="headline"] + div{display:none !important;}',
 
-      // ② 欢迎区：标题与句子同字号，层级只靠字重与颜色（Qoder 的做法）
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="headline"]{',
+      // ② 欢迎区：标题与句子同字号，层级只靠字重与颜色
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="headline"],',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] div:has(> [data-slot="conversation.hero.brand.mark"]){',
       'font-size:var(--dsh-q-title-size) !important;',
       'line-height:1.4 !important;',
-      'font-weight:var(--dsh-q-title-weight) !important;',
-      'letter-spacing:.01em;gap:10px 10px !important;',
+      'font-weight:700 !important;',
+      'letter-spacing:0 !important;',
+      'gap:8px 8px !important;',
       'color:var(--dsw-alias-label-primary,#000) !important;',
       '}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="previewbadge"]{display:none !important;}',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="headline"] svg{width:24px !important;height:24px !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="headline"] svg,',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.hero.brand.mark"] svg{width:22px !important;height:22px !important;}',
 
-      // ③ 动态欢迎语：整行居中，两个原生选择器原地变成句中的可点词组
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"]{',
+      // ③ 动态欢迎语：整行居中，两个原生选择器原地句化
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"],',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] div:has(> [data-slot="conversation.hero.agentPreset"]){',
       'display:flex !important;justify-content:center !important;align-items:baseline !important;flex-wrap:wrap !important;',
-      'gap:0 !important;margin-top:var(--dsh-q-sentence-gap) !important;padding:0 !important;',
+      'gap:0 !important;margin-top:6px !important;padding:0 !important;',
       'font-size:var(--dsh-q-sentence-size) !important;line-height:1.4 !important;',
       'color:var(--dsh-q-sentence-color) !important;',
       '}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"]::before{content:var(--dsh-q-prefix);margin-right:12px;}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"]::after{content:var(--dsh-q-suffix);margin-left:15px;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"] [class*="heroOptions"]{display:none !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"] > [data-slot="conversation.hero.options"]{display:none !important;}',
 
-      // 选择器本体：去掉胶囊底色/图标，变成带下划线的词（下划线 #d7d7d7、offset 3px）
+      // 选择器本体：去掉胶囊底色与图标，变成带下划线的词
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="ws"],',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="mode"]{',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="mode"],',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] div:has(> [data-slot="conversation.hero.agentPreset"]) > div > button{',
       'background:transparent !important;border:none !important;box-shadow:none !important;',
       'padding:0 !important;margin:0 !important;min-height:0 !important;height:auto !important;',
       'font-size:inherit !important;font-weight:400 !important;line-height:inherit !important;',
@@ -503,46 +510,45 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="mode"] > svg:first-child{display:none !important;}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="ws"] > svg,',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="mode"] > svg{width:8px;height:8px;opacity:.85;margin-left:6px;color:var(--dsh-q-sentence-color);}',
-      // 句子行里的 options 出口不占位（原生它有 margin-left:auto，会把句子劈成两半）
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"] [class*="heroOptions"]{display:none !important;}',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"] > [data-slot="conversation.hero.options"]{display:none !important;}',
-      // 「用」挂在模式选择器的锚点容器上（与按钮同级，不进入按钮内部）
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="modeWrap"]{display:inline-flex !important;align-items:baseline !important;}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="modeWrap"]::before{content:var(--dsh-q-mid);margin-left:17px;margin-right:13px;}',
 
-      // ④ 热力图卡片：与输入卡片同宽同列；白底 + 1px 描边，无阴影（Qoder 两张卡都是纯白）
+      // ④ 热力图卡片
       '.dsh-qcard{',
-      'box-sizing:border-box;width:100%;max-width:var(--dsh-composer-card-max-width);align-self:center;display:flex;flex-direction:column;',
+      'box-sizing:border-box;width:100%;max-width:var(--dsh-composer-card-max-width);align-self:center;',
+      'position:relative;display:flex;flex-direction:column;',
       'margin-top:var(--dsh-q-card-gap);',
-      'padding:18px 20px 19px;',
+      'padding:19px 20px 20px;',
       'border:1px solid var(--dsh-q-card-border);',
       'border-radius:var(--dsh-q-card-radius);',
-      'background:transparent;',
-      'color:var(--dsw-alias-label-primary,#000);',
+      'background:transparent;color:var(--dsw-alias-label-primary,#000);',
       'font-size:13px;line-height:1.4;',
       '}',
-      '.dsh-qcard-head{display:flex;align-items:baseline;gap:13.5px;margin:0 0 17px -3px;font-size:13px;line-height:18px;}',
+      '.dsh-qcard-head{display:flex;align-items:baseline;gap:13px;margin:0 0 12px -3px;font-size:13px;line-height:18px;}',
       '.dsh-qtab{border:none;background:transparent;padding:0;margin:0;cursor:pointer;font-family:inherit;font-size:13px;line-height:18px;font-weight:400;color:#969696;}',
       '.dsh-qtab[data-active="true"]{font-weight:500;color:#464646;}',
       '.dsh-qtab[data-active="false"]:hover{color:#6f6f6f;}',
-      '.dsh-qsum{margin-left:auto;font-size:11px;line-height:18px;color:#b0b0b0;white-space:nowrap;}',
-      '.dsh-qgrid{display:grid;grid-template-columns:repeat(53,1fr);grid-auto-rows:1fr;gap:var(--dsh-q-cell-gap);}',
+      '.dsh-qgrid{display:grid;grid-template-columns:repeat(53,1fr);grid-auto-rows:1fr;gap:3px;}',
       '.dsh-qcell{position:relative;aspect-ratio:1/1;border-radius:2px;background:var(--dsh-q-empty);}',
       '.dsh-qcell[data-level="1"]{background:var(--dsh-q-l1);}',
       '.dsh-qcell[data-level="2"]{background:var(--dsh-q-l2);}',
       '.dsh-qcell[data-level="3"]{background:var(--dsh-q-l3);}',
       '.dsh-qcell[data-level="4"]{background:var(--dsh-q-l4);}',
       '.dsh-qcell[data-out="1"]{background:transparent;}',
-      '.dsh-qmonths{display:grid;grid-template-columns:repeat(53,1fr);gap:var(--dsh-q-cell-gap);margin-top:9px;font-size:10px;line-height:14px;color:#8f8f8f;}',
+      '.dsh-qmonths{display:grid;grid-template-columns:repeat(53,1fr);gap:3px;margin-top:7px;font-size:10px;line-height:14px;color:#8f8f8f;}',
       '.dsh-qmonths > span{white-space:nowrap;}',
-      '.dsh-qempty{margin:10px 0 0;font-size:11px;line-height:16px;color:#a8a8a8;}',
+      // 口径注记：贴在月份行右端的空白处，不占额外行，也不挤进表头
+      '.dsh-qsum{position:absolute;right:20px;top:21px;font-size:11px;line-height:18px;font-weight:400;color:#bdbdbd;white-space:nowrap;pointer-events:none;}',
+      '.dsh-qempty{margin:8px 0 0;font-size:11px;line-height:16px;color:#b0b0b0;}',
       '.dsh-qtip{position:fixed;z-index:2147483600;pointer-events:none;padding:4px 8px;border-radius:6px;font-size:12px;line-height:16px;white-space:nowrap;background:rgba(24,24,27,.9);color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.16);}',
 
       // 深色主题
       'html[data-dsh-style-dark="true"]{--dsh-q-sentence-color:#a0a0a4;--dsh-q-card-border:rgba(255,255,255,.12);--dsh-q-empty:rgba(255,255,255,.08);--dsh-q-l1:#1e3a29;--dsh-q-l2:#2b5c3c;--dsh-q-l3:#3f8a56;--dsh-q-l4:#63bd7f;--dsh-q-underline:rgba(255,255,255,.28);}',
       'html[data-dsh-style-dark="true"] .dsh-qtab{color:#8a8a8f;}',
       'html[data-dsh-style-dark="true"] .dsh-qtab[data-active="true"]{color:#e8e8ea;}',
-      'html[data-dsh-style-dark="true"] .dsh-qsum,[data-dsh-style-dark="true"] .dsh-qmonths,[data-dsh-style-dark="true"] .dsh-qempty{color:#7c7c82;}',
+      'html[data-dsh-style-dark="true"] .dsh-qmonths{color:#7c7c82;}',
+      'html[data-dsh-style-dark="true"] .dsh-qsum{color:#5c5c62;}',
+      'html[data-dsh-style-dark="true"] .dsh-qempty{color:#707076;}',
     ].join('')
 
     function styleTag() {
@@ -1173,10 +1179,10 @@ window.__ModuleLoader__.load({
       },
         h('div', { className: 'dsh-qcard-head' },
           h('button', { className: 'dsh-qtab', type: 'button', 'data-active': String(mode === 'sessions'), onClick: () => setMode('sessions') }, '会话'),
-          h('button', { className: 'dsh-qtab', type: 'button', 'data-active': String(mode === 'workspaces'), onClick: () => setMode('workspaces') }, '工作区'),
-          h('span', { className: 'dsh-qsum' }, model.total > 0 ? '共 ' + model.total + ' · 按最近活动日' : '按最近活动日')),
+          h('button', { className: 'dsh-qtab', type: 'button', 'data-active': String(mode === 'workspaces'), onClick: () => setMode('workspaces') }, '工作区')),
         h('div', { className: 'dsh-qgrid' }, cells),
         h('div', { className: 'dsh-qmonths' }, monthCells),
+        h('span', { className: 'dsh-qsum' }, model.total > 0 ? '共 ' + model.total + ' · 按最近活动日' : '按最近活动日'),
         model.total === 0 ? h('p', { className: 'dsh-qempty' }, '还没有可以统计的会话。') : null,
         tipNode,
       )
