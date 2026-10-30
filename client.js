@@ -104,6 +104,7 @@ window.__ModuleLoader__.load({
         merged.agentEntryMerge = merged.agentEntryMerge !== false
         merged.hovercardFollowTheme = merged.hovercardFollowTheme !== false
         merged.qoderHome = merged.qoderHome !== false
+        merged.hideNewSession = false // DEV-ONLY: 便于本次校验，收尾时删除
         merged.homeHeatmap = merged.homeHeatmap !== false
         return merged
       } catch {
@@ -1160,7 +1161,8 @@ window.__ModuleLoader__.load({
         const found = model.months.find((item) => item.column === c)
         monthCells.push(h('span', { key: 'm' + c, style: { gridColumn: String(c + 1) } }, found ? found.label : ''))
       }
-      const tipNode = tip ? ReactDOM.createPortal(
+      const portal = typeof ReactDOM.createPortal === 'function' && typeof document !== 'undefined'
+      const tipNode = tip && portal ? ReactDOM.createPortal(
         h('div', { className: 'dsh-qtip', style: { left: tip.x + 12 + 'px', top: tip.y - 34 + 'px' } }, tip.text),
         document.body,
       ) : null
