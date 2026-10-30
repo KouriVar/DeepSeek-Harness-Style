@@ -265,6 +265,9 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-hide-tabs="true"] div:has(> [data-conversation-tabs]){display:none !important;}',
       // 标签栏没了，把会话头压到和右栏头一致的高度（38px），标题/图标才能对齐、也不留空白。
       'html[data-dsh-style-hide-tabs="true"] [data-dsh-style-main] header[data-window-drag]{min-height:38px !important;height:38px !important;padding-top:0 !important;padding-bottom:0 !important;align-items:center !important;}',
+      // 右上角按钮组：收起右侧栏时，会话头会一直顶到窗口右缘（比展开时少约 8px 呼吸位），
+      // 这里把展开态的内缩量补回来，两种状态视觉位置一致。
+      'html[data-dsh-style-enabled="true"] [data-rightbar-collapsed] [data-dsh-style-main] header[data-window-drag]{padding-right:calc(28px + var(--dsh-style-header-trailing,8px)) !important;}',
       // 去掉标题栏 / 右栏头部那条分割线（和 Qoder 一样，无分割线）。
       'html[data-dsh-style-enabled="true"] [data-dsh-style-main] header[data-window-drag]{border-bottom:0 !important;}',
       'html[data-dsh-style-enabled="true"] [data-rightbar-col] [class*="_header"]{border-bottom:0 !important;}',

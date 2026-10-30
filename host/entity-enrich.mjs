@@ -240,24 +240,82 @@ function nameScore(query, candidate) {
 }
 
 /**
- * The name score for a hit considers its own display name, the repo leaf name
- * and (for GitHub) the owner login — an org named exactly after the entity is a
- * strong "this is the project's home" signal, but weaker than the artifact name.
+ * Layered name-match tiers.
+ *
+ * The *artifact's own name* is the only strong evidence that a record **is** the
+ * thing the user asked about. An owner/org match is weaker: `figma/plugin-samples`
+ * is a sample repo *of* Figma, not Figma itself — treating its owner as a 0.9
+ * match is what produced the wrong `entity.name` in the first integration run.
+ *
+ *   artifact name == query           1.00   react            -> npm react
+ *   artifact name starts with query  0.72   qoder2api-hub    -> query "Qoder"
+ *   artifact name contains query     0.58   figma-to-code    -> query "Figma"
+ *   owner/org == query               0.85   figma/*          -> query "Figma"
+ *   query only inside full_name      0.50   deepseek-ai/*     -> query "deepseek"
+ *   only the description mentions it 0.30   (noise; filtered out)
  */
+const NAME_TIERS = Object.freeze({
+  exact: 1.0,
+  ownerExact: 0.85,
+  namePrefix: 0.72,
+  nameContains: 0.58,
+  fullNameContains: 0.5,
+  descriptionOnly: 0.3,
+  none: 0,
+})
+
+/** Tiers that only prove *association* with the query, never identity. */
+const WEAK_KINDS = new Set(['owner-exact', 'full-name-contains', 'description-only'])
+
+const MIN_FUZZY_LENGTH = 3
+
+/**
+ * Best tier for one hit.
+ * @returns {{ score: number, kind: string }}
+ */
+function tierScore(query, hit) {
+  const qn = normalizeName(query)
+  if (!qn) return { score: NAME_TIERS.none, kind: 'none' }
+
+  const leaf = normalizeName(hit.matchName || hit.name)
+  const owner = hit.ownerName ? normalizeName(hit.ownerName) : ''
+  const full = normalizeName(hit.name)
+  const text = normalizeName(`${hit.summary ?? ''} ${(hit.meta?.topics ?? []).join(' ')}`)
+
+  let best = { score: NAME_TIERS.none, kind: 'none' }
+  const consider = (score, kind) => {
+    if (score > best.score) best = { score, kind }
+  }
+
+  if (leaf && leaf === qn) consider(NAME_TIERS.exact, 'name-exact')
+  if (qn.length >= MIN_FUZZY_LENGTH && leaf.startsWith(qn) && leaf !== qn) {
+    consider(NAME_TIERS.namePrefix, 'name-prefix')
+  }
+  if (qn.length >= MIN_FUZZY_LENGTH && leaf.includes(qn) && !leaf.startsWith(qn)) {
+    consider(NAME_TIERS.nameContains, 'name-contains')
+  }
+  // An org named exactly after the entity is a real "home of" signal, but it
+  // still says nothing about the specific artifact.
+  if (owner && owner === qn) consider(NAME_TIERS.ownerExact, 'owner-exact')
+  // Query appears only in the owner portion (e.g. "deepseek-ai/…" for "deepseek").
+  if (qn.length >= MIN_FUZZY_LENGTH && full.includes(qn) && !leaf.includes(qn) && owner !== qn) {
+    consider(NAME_TIERS.fullNameContains, 'full-name-contains')
+  }
+  if (qn.length >= 4 && text.includes(qn) && best.score === NAME_TIERS.none) {
+    consider(NAME_TIERS.descriptionOnly, 'description-only')
+  }
+
+  return best
+}
+
+/** Backwards-compatible scalar used by the HN relevance test. */
 function hitNameScore(query, hit) {
-  const primary = nameScore(query, hit.matchName || hit.name)
-  const display = nameScore(query, hit.name)
-  const ownerScore = hit.ownerName ? nameScore(query, hit.ownerName) : 0
-  const score = Math.max(primary, display * 0.97, ownerScore * 0.97)
-  // "figma/..." where the org is literally `figma` beats "GLips/Figma-Context-MCP".
-  const ownerExact = ownerScore >= 0.92
-  return { score, ownerExact }
+  return tierScore(query, hit)
 }
 
 /** A hit must be recognisably *about* the query, otherwise it is noise. */
-function isRelevant(query, hit) {
-  const { score, ownerExact } = hitNameScore(query, hit)
-  return score >= 0.5 || ownerExact
+function isRelevant(query, hit, floor = 0.5) {
+  return tierScore(query, hit).score >= floor
 }
 
 async function githubAdapter({ name, signal }) {
