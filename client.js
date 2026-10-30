@@ -591,11 +591,11 @@ window.__ModuleLoader__.load({
       '.dsh-qstamp-year{position:absolute;left:91px;top:20px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:12px;font-weight:500;color:var(--dsw-alias-label-primary,#111);}',
       '.dsh-qstamp-cap{position:absolute;left:91px;top:65px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:6px;line-height:8px;font-weight:400;color:var(--dsw-alias-label-tertiary,#9a9a9a);white-space:nowrap;}',
       '.dsh-qstamp-stamp{position:absolute;left:120px;top:32px;width:52px;height:52px;opacity:.9;pointer-events:none;}',
-      '.dsh-qstamp-tip{position:fixed;z-index:1000;box-sizing:border-box;width:288px;max-width:calc(100vw - 56px);padding:12px;border-radius:8px;border:1px solid var(--dsh-q-card-border);background:var(--dsw-alias-bg-elevated,#fff);box-shadow:0 10px 30px rgba(0,0,0,.14);pointer-events:none;transform-origin:50% 100%;will-change:transform;}',
+      '.dsh-qstamp-tip{position:fixed;z-index:1000;box-sizing:border-box;width:288px;max-width:calc(100vw - 56px);padding:12px;border-radius:8px;border:1px solid var(--dsh-q-card-border);background:var(--dsw-alias-bg-elevated,#fff);box-shadow:0 4px 14px rgba(0,0,0,.08);pointer-events:none;transform-origin:50% 100%;will-change:transform;}',
       '.dsh-qstamp-tip h4{margin:0 0 6px;font-size:12px;line-height:16px;font-weight:600;color:var(--dsw-alias-label-primary,#111);}',
       '.dsh-qstamp-tip p{margin:0;font-size:12px;line-height:18px;color:var(--dsh-q-sentence-color);}',
       'html[data-dsh-style-dark="true"] .dsh-qstamp{filter:brightness(.86) saturate(.92);}',
-      'html[data-dsh-style-dark="true"] .dsh-qstamp-tip{background:#1f1f22;border-color:rgba(255,255,255,.12);box-shadow:0 10px 30px rgba(0,0,0,.55);}',
+      'html[data-dsh-style-dark="true"] .dsh-qstamp-tip{background:#232326;border-color:rgba(255,255,255,.14);box-shadow:0 4px 14px rgba(0,0,0,.22);}',
       '@media (prefers-reduced-motion:reduce){.dsh-qstamp{transition:none;}.dsh-qstamp[data-active="true"]{transform:none;}.dsh-qstamp-img{transition:none;}}',
     ].join('')
 
