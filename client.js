@@ -77,6 +77,7 @@ window.__ModuleLoader__.load({
       // Qoder 风格首页（hero 相位）：布局/欢迎语/热力图。
       qoderHome: true,
       homeHeatmap: true,
+      homeDemoData: true,
     }
     const LAYOUT_OPTIONS = [
       { value: 'classic', label: '经典' },
@@ -105,6 +106,7 @@ window.__ModuleLoader__.load({
         merged.hovercardFollowTheme = merged.hovercardFollowTheme !== false
         merged.qoderHome = merged.qoderHome !== false
         merged.homeHeatmap = merged.homeHeatmap !== false
+        merged.homeDemoData = merged.homeDemoData !== false
         return merged
       } catch {
         return { ...DEFAULTS }
@@ -430,12 +432,12 @@ window.__ModuleLoader__.load({
       // ---- 版式参数 ----
       'html[data-dsh-style-qoderhome="true"]{',
       '--dsh-q-title-size:20px;',
-      '--dsh-q-sentence-size:20px;',
+      '--dsh-q-sentence-size:22px;',
       '--dsh-q-sentence-color:#717171;',
       '--dsh-q-card-gap:26px;',
-      '--dsh-q-top:clamp(40px,30vh,300px);',
+      '--dsh-q-top:clamp(24px,17vh,150px);',
       '--dsh-q-bottom:clamp(16px,3vh,40px);',
-      '--dsh-q-card-radius:8px;',
+      '--dsh-q-card-radius:12px;',
       '--dsh-q-card-border:#e7e7e7;',
       '--dsh-q-empty:#eeeeee;',
       '--dsh-q-l1:#ecf8f1;',
@@ -515,7 +517,7 @@ window.__ModuleLoader__.load({
 
       // ④ 热力图卡片
       '.dsh-qcard{',
-      'box-sizing:border-box;width:100%;max-width:var(--dsh-composer-card-max-width);align-self:center;',
+      'box-sizing:border-box;width:min(calc(100% - 88px),864px);max-width:var(--dsh-composer-card-max-width);align-self:center;',
       'position:relative;display:flex;flex-direction:column;',
       'margin-top:var(--dsh-q-card-gap);',
       'padding:19px 20px 20px;',
@@ -534,7 +536,7 @@ window.__ModuleLoader__.load({
       '.dsh-qcell[data-level="2"]{background:var(--dsh-q-l2);}',
       '.dsh-qcell[data-level="3"]{background:var(--dsh-q-l3);}',
       '.dsh-qcell[data-level="4"]{background:var(--dsh-q-l4);}',
-      '.dsh-qcell[data-out="1"]{background:transparent;}',
+      '.dsh-qcell[data-out="1"]{background:var(--dsh-q-empty);}',
       '.dsh-qmonths{display:grid;grid-template-columns:repeat(53,1fr);gap:3px;margin-top:7px;font-size:10px;line-height:14px;color:#8f8f8f;}',
       '.dsh-qmonths > span{white-space:nowrap;}',
       // 口径注记：贴在月份行右端的空白处，不占额外行，也不挤进表头
@@ -1073,7 +1075,18 @@ window.__ModuleLoader__.load({
       return Math.min(4, level)
     }
 
-    function qoderBuildModel(list, mode) {
+    // 演示数据：确定性哈希，供版式评审用（可在「外观 → Qoder 首页」关闭）。
+    function qoderDemoValue(key) {
+      let h = 2166136261
+      for (let i = 0; i < key.length; i += 1) { h ^= key.charCodeAt(i); h = Math.imul(h, 16777619) }
+      const n = (h >>> 0) % 100
+      if (n < 54) return 0
+      if (n < 78) return 1
+      if (n < 92) return 2
+      return 3
+    }
+
+    function qoderBuildModel(list, mode, demo) {
       const columns = 53
       const today = new Date()
       const end = new Date(today.getFullYear(), today.getMonth(), today.getDate())
@@ -1097,6 +1110,24 @@ window.__ModuleLoader__.load({
           entry.sessions += 1
           if (typeof row.cwd === 'string' && row.cwd !== '' && entry.workspaces.indexOf(row.cwd) === -1) entry.workspaces.push(row.cwd)
           byDay.set(key, entry)
+        }
+      }
+
+      if (demo) {
+        // 「8 月之后」起随机填充：约一半的日子有 1~3 个，形成三种深浅
+        const demoStart = new Date(end.getFullYear(), 7, 1)
+        const cursor = new Date(demoStart)
+        while (cursor.getTime() <= end.getTime()) {
+          const key = qoderDayKey(cursor)
+          if (!byDay.has(key)) {
+            const value = qoderDemoValue(key)
+            if (value > 0) {
+              const workspaces = []
+              for (let i = 0; i < value; i += 1) workspaces.push('demo:' + i)
+              byDay.set(key, { sessions: value, workspaces })
+            }
+          }
+          cursor.setDate(cursor.getDate() + 1)
         }
       }
 
@@ -1138,7 +1169,8 @@ window.__ModuleLoader__.load({
       const blank = typeof useSessions === 'function'
         ? useSessions((value) => Boolean(value && value.byId && sessionId !== void 0 && value.byId[sessionId] && value.byId[sessionId].blank === true))
         : false
-      const model = React.useMemo(() => qoderBuildModel(list, mode), [list, mode])
+      const demo = settings.homeDemoData !== false
+      const model = React.useMemo(() => qoderBuildModel(list, mode, demo), [list, mode, demo])
       if (!settings.enabled || settings.homeHeatmap === false || !blank) return null
 
       const thresholds = model.peak <= 4 ? [1, 2, 3, 4] : QODER_LEVELS
@@ -1182,7 +1214,7 @@ window.__ModuleLoader__.load({
           h('button', { className: 'dsh-qtab', type: 'button', 'data-active': String(mode === 'workspaces'), onClick: () => setMode('workspaces') }, '工作区')),
         h('div', { className: 'dsh-qgrid' }, cells),
         h('div', { className: 'dsh-qmonths' }, monthCells),
-        h('span', { className: 'dsh-qsum' }, model.total > 0 ? '共 ' + model.total + ' · 按最近活动日' : '按最近活动日'),
+        h('span', { className: 'dsh-qsum' }, demo ? '演示数据 · 非真实统计' : (model.total > 0 ? '共 ' + model.total + ' · 按最近活动日' : '按最近活动日')),
         model.total === 0 ? h('p', { className: 'dsh-qempty' }, '还没有可以统计的会话。') : null,
         tipNode,
       )
@@ -1229,6 +1261,7 @@ window.__ModuleLoader__.load({
         h('h3', { style: sectionTitleStyle }, 'Qoder 首页'),
         h(SwitchRow, { label: '首页上下分离布局 + 动态欢迎语', checked: cfg.qoderHome !== false, onChange: (value) => set({ qoderHome: value }) }),
         h(SwitchRow, { label: '首页活跃度热力图', checked: cfg.homeHeatmap !== false, onChange: (value) => set({ homeHeatmap: value }) }),
+        h(SwitchRow, { label: '热力图演示数据（随机填充，非真实统计）', checked: cfg.homeDemoData !== false, onChange: (value) => set({ homeDemoData: value }) }),
         h('p', { style: hintStyle }, '只作用于新建会话首页（hero 相位）：欢迎区与热力图在上、输入框在下，进入正常对话后自动失效。热力图读真实会话数据，按每个会话的「最近活动日」（updatedAt）计数，不是逐日事件史。'))
     }
 
