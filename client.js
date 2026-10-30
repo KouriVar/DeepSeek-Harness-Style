@@ -79,6 +79,8 @@ window.__ModuleLoader__.load({
       homeHeatmap: true,
       homeDemoData: true,
       homeStamp: true,
+      // 实体详情：默认关闭，开启后才会识别并注入可点击实体。
+      entityEnabled: false,
     }
     const LAYOUT_OPTIONS = [
       { value: 'classic', label: '经典' },
@@ -1525,6 +1527,7 @@ window.__ModuleLoader__.load({
         h('div', { style: { paddingTop: '16px', borderTop: '0.5px solid var(--dsw-alias-border-l2, rgba(128,128,128,.2))' } },
           h('h2', { style: headingStyle }, '功能')),
         h(TaskMonitorCard, { cfg, set: store.set }),
+        h(EntityDetailCardSettings, { cfg, set: store.set }),
         h(InteractionCard, { cfg, set: store.set }))
     }
 
@@ -2223,6 +2226,467 @@ window.__ModuleLoader__.load({
       return h(React.Fragment, null, button, modal)
     }
 
+    // ================================================================
+    // 实体详情（Entity Detail）—— 内部模块
+    //
+    // 设计要点（与 Phase 0 验证结论一致）：
+    //  · 识别在 host 半（ctx.llm），client 只负责触发与渲染；
+    //  · 只对已 settled 的 Assistant 消息注入（无 [data-streaming]）；
+    //  · 用 SSE 无关的「签名 + 缓存」保证重复渲染幂等；
+    //  · 面板走原生 shell.overlay（不碰 rightbar）；
+    //  · 分栏靠中栏 padding-right（不是缩窄后仍居中）；
+    //  · 全部副作用可逆：stop() 必须断开/取消/解包/移除。
+    // ================================================================
+    const ENTITY_UI_KEY = 'dsh-style:entity'
+    const ENTITY_SKIP = 'pre, code, a, button, .katex, [data-footnotes], [contenteditable="true"], textarea, input, svg, [data-dsh-entity]'
+    const ENTITY_MAX_PER_MSG = 24
+
+    // ---- 面板状态（不可变快照：useSyncExternalStore 要求引用变化） ----
+    const entityUi = (() => {
+      let state = { open: false, name: null, type: null, status: 'idle', card: null, error: null, width: 420, animKey: 0 }
+      const listeners = new Set()
+      return {
+        get: () => state,
+        set: (patch) => {
+          state = { ...state, ...patch }
+          for (const listener of listeners) { try { listener() } catch {} }
+        },
+        subscribe: (listener) => { listeners.add(listener); return () => listeners.delete(listener) },
+      }
+    })()
+
+    function entityWidth() {
+      try {
+        const vw = window.innerWidth || 1280
+        return Math.max(320, Math.min(560, Math.round(vw * 0.3)))
+      } catch { return 420 }
+    }
+
+    // ---- 客户端缓存的 host 能力探测（host 半未加载时优雅降级） ----
+    let entityHostReady = null
+    async function entityHostProbe() {
+      if (entityHostReady !== null) return entityHostReady
+      try {
+        const res = await fetch('/api/style-entity/ping', { headers: { accept: 'application/json' } })
+        entityHostReady = res.ok
+      } catch { entityHostReady = false }
+      return entityHostReady
+    }
+
+    // ---- 识别结果缓存（同一段文本只请求一次） ----
+    const entityCache = new Map()   // textHash -> { entities: [...], at }
+    const entityPending = new Map() // textHash -> Promise
+    function hashText(text) {
+      let h1 = 5381
+      let h2 = 52711
+      for (let i = 0; i < text.length; i++) {
+        const c = text.charCodeAt(i)
+        h1 = ((h1 * 33) ^ c) >>> 0
+        h2 = ((h2 * 31) ^ c) >>> 0
+      }
+      return h1.toString(36) + h2.toString(36) + ':' + text.length
+    }
+
+    async function extractEntities(text, signal) {
+      const key = hashText(text)
+      const hit = entityCache.get(key)
+      if (hit) return hit.entities
+      if (entityPending.has(key)) return entityPending.get(key)
+      const task = (async () => {
+        try {
+          const res = await fetch('/api/style-entity/extract', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ text }),
+            signal,
+          })
+          if (!res.ok) return []
+          const data = await res.json()
+          const entities = Array.isArray(data && data.entities) ? data.entities.filter((e) => e && e.ok !== false && e.quote) : []
+          entityCache.set(key, { entities, at: Date.now() })
+          if (entityCache.size > 200) entityCache.delete(entityCache.keys().next().value)
+          return entities
+        } catch { return [] } finally { entityPending.delete(key) }
+      })()
+      entityPending.set(key, task)
+      return task
+    }
+
+    // ---- 注入：把实体名包成可点击元素 ----
+    let entityLinks = []
+    function entityRoots() {
+      const out = []
+      const rows = document.querySelectorAll('[data-chat-flow-kind="assistant-step"]')
+      for (const row of rows) {
+        if (row.querySelector('[data-streaming]')) continue
+        for (const md of row.querySelectorAll('[class*="_markdown_"]')) out.push(md)
+      }
+      return out
+    }
+
+    function injectInto(root, entities) {
+      if (!entities || entities.length === 0) return 0
+      const quotes = entities
+        .map((e) => ({ name: String(e.name || e.quote || ''), quote: String(e.quote || e.name || ''), type: String(e.type || '') }))
+        .filter((e) => e.quote.length >= 2)
+        .sort((a, b) => b.quote.length - a.quote.length)
+      if (quotes.length === 0) return 0
+      let added = 0
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT)
+      const targets = []
+      let node
+      while ((node = walker.nextNode())) {
+        const parent = node.parentElement
+        if (!parent) continue
+        if (parent.closest(ENTITY_SKIP)) continue
+        if (!node.nodeValue || !node.nodeValue.trim()) continue
+        targets.push(node)
+      }
+      for (const textNode of targets) {
+        if (added >= ENTITY_MAX_PER_MSG) break
+        const text = textNode.nodeValue
+        let best = null
+        for (const q of quotes) {
+          const at = text.indexOf(q.quote)
+          if (at < 0) continue
+          if (!best || at < best.at || (at === best.at && q.quote.length > best.quote.length)) best = { at, ...q }
+        }
+        if (!best) continue
+        const before = text.slice(0, best.at)
+        const hit = text.slice(best.at, best.at + best.quote.length)
+        const after = text.slice(best.at + best.quote.length)
+        const link = document.createElement('a')
+        link.setAttribute('data-dsh-entity', best.name || hit)
+        link.setAttribute('data-dsh-entity-type', best.type)
+        link.setAttribute('data-dsh-entity-quote', hit)
+        link.setAttribute('role', 'button')
+        link.setAttribute('tabindex', '0')
+        link.textContent = hit
+        const frag = document.createDocumentFragment()
+        if (before) frag.appendChild(document.createTextNode(before))
+        frag.appendChild(link)
+        if (after) frag.appendChild(document.createTextNode(after))
+        textNode.parentNode.replaceChild(frag, textNode)
+        entityLinks.push(link)
+        added++
+      }
+      return added
+    }
+
+    function unwrapEntities() {
+      for (const link of entityLinks) {
+        try {
+          const parent = link.parentNode
+          if (!parent) continue
+          parent.replaceChild(document.createTextNode(link.textContent), link)
+          parent.normalize()
+        } catch {}
+      }
+      entityLinks = []
+      for (const root of document.querySelectorAll('[data-dsh-entity-sig]')) {
+        root.removeAttribute('data-dsh-entity-sig')
+      }
+    }
+
+    // ---- 面板内容 ----
+    async function openEntity(name, type, context) {
+      const width = entityWidth()
+      entityUi.set({ open: true, name, type, status: 'loading', card: null, error: null, width, animKey: entityUi.get().animKey + 1 })
+      applyEntityLayout(true, width)
+      try {
+        const res = await fetch('/api/style-entity/enrich', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ name, type, context: String(context || '').slice(0, 600) }),
+        })
+        if (!res.ok) throw new Error('HTTP ' + res.status)
+        const data = await res.json()
+        entityUi.set({ status: data && data.matched ? 'ready' : 'empty', card: data || null })
+      } catch (error) {
+        entityUi.set({ status: 'empty', error: String((error && error.message) || error) })
+      }
+    }
+
+    function closeEntity() {
+      entityUi.set({ open: false, status: 'idle' })
+      applyEntityLayout(false, 0)
+    }
+
+    function applyEntityLayout(open, width) {
+      try {
+        const root = document.documentElement
+        if (open) {
+          root.style.setProperty('--dsh-style-entity-w', width + 'px')
+          root.setAttribute('data-dsh-style-entity', 'open')
+        } else {
+          root.removeAttribute('data-dsh-style-entity')
+        }
+      } catch {}
+    }
+
+    const ENTITY_CSS = [
+      'html[data-dsh-style-entity="open"] div:has(> [data-slot="main"]){padding-right:var(--dsh-style-entity-w,420px);transition:padding-right .3s cubic-bezier(.22,1,.36,1);}',
+      'html[data-dsh-style-entity="open"] [data-dsh-entity]{color:inherit;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px;cursor:pointer;border-radius:3px;}',
+      'html[data-dsh-style-entity="open"] [data-dsh-entity]:hover{background:rgba(96,165,250,.16);}',
+      '[data-dsh-entity]{color:inherit;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px;cursor:pointer;}',
+      '[data-dsh-entity-panel]{position:fixed;top:0;right:0;bottom:0;width:var(--dsh-style-entity-w,420px);z-index:9980;pointer-events:none;display:flex;align-items:flex-end;justify-content:flex-end;}',
+      '[data-dsh-entity-panel][data-open="true"]{pointer-events:auto;}',
+      '[data-dsh-entity-card]{pointer-events:auto;box-sizing:border-box;width:100%;max-height:calc(100% - 56px);margin:0 8px 8px 0;display:flex;flex-direction:column;overflow:hidden;background:var(--dsw-alias-bg-base,#1b1b1f);color:var(--dsw-alias-text-primary,#f5f5f5);border:1px solid var(--dsw-alias-border-l2,rgba(128,128,128,.28));border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.32);transform:translateY(calc(100% + 16px));transition:transform .34s cubic-bezier(.22,1,.36,1);font:13px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;}',
+      '[data-dsh-entity-panel][data-open="true"] [data-dsh-entity-card]{transform:translateY(0);}',
+      '[data-dsh-entity-head]{display:flex;align-items:flex-start;gap:10px;padding:14px 14px 10px;}',
+      '[data-dsh-entity-title]{font-size:16px;font-weight:650;line-height:1.3;word-break:break-word;}',
+      '[data-dsh-entity-kind]{display:inline-block;margin-top:4px;padding:1px 8px;border-radius:999px;font-size:11px;opacity:.75;border:1px solid var(--dsw-alias-border-l2,rgba(128,128,128,.32));}',
+      '[data-dsh-entity-close]{margin-left:auto;flex:0 0 auto;width:26px;height:26px;border-radius:8px;border:0;background:transparent;color:inherit;cursor:pointer;opacity:.6;font-size:15px;line-height:1;}',
+      '[data-dsh-entity-close]:hover{opacity:1;background:rgba(128,128,128,.16);}',
+      '[data-dsh-entity-body]{padding:0 14px 14px;overflow:auto;}',
+      '[data-dsh-entity-imgwrap]{margin:0 14px 12px;border-radius:12px;overflow:hidden;background:rgba(128,128,128,.12);max-height:180px;display:flex;align-items:center;justify-content:center;}',
+      '[data-dsh-entity-img]{width:100%;height:auto;max-height:180px;object-fit:cover;display:block;}',
+      '[data-dsh-entity-placeholder]{width:100%;height:104px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;opacity:.5;letter-spacing:1px;}',
+      '[data-dsh-entity-summary]{font-size:13.5px;line-height:1.7;white-space:pre-wrap;}',
+      '[data-dsh-entity-section]{margin-top:12px;font-size:12px;opacity:.72;}',
+      '[data-dsh-entity-links]{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}',
+      '[data-dsh-entity-link]{display:inline-block;padding:3px 9px;border-radius:999px;border:1px solid var(--dsw-alias-border-l2,rgba(128,128,128,.3));font-size:12px;color:inherit;text-decoration:none;}',
+      '[data-dsh-entity-link]:hover{background:rgba(128,128,128,.14);}',
+      '[data-dsh-entity] [data-dsh-entity-skeleton]{display:block;}',
+      '[data-dsh-entity-skel]{height:10px;border-radius:6px;background:rgba(128,128,128,.18);margin:8px 0;}',
+      '[data-dsh-entity-empty]{opacity:.66;font-size:12.5px;line-height:1.7;}',
+    ].join('\n')
+
+    function ensureEntityStyle() {
+      let el = document.querySelector('style[data-plugin="dsh-style-entity"]')
+      if (!el) {
+        el = document.createElement('style')
+        el.setAttribute('data-plugin', 'dsh-style-entity')
+        document.head.appendChild(el)
+      }
+      if (el.textContent !== ENTITY_CSS) el.textContent = ENTITY_CSS
+      return el
+    }
+
+    function EntityDetailCard({ card, name, type, status }) {
+      if (status === 'loading') {
+        return h('div', null,
+          h('div', { 'data-dsh-entity-imgwrap': '' }, h('div', { 'data-dsh-entity-placeholder': '' }, (name || '?').slice(0, 2))),
+          h('div', { 'data-dsh-entity-body': '' },
+            h('div', { 'data-dsh-entity-skel': '', style: { width: '70%' } }),
+            h('div', { 'data-dsh-entity-skel': '', style: { width: '92%' } }),
+            h('div', { 'data-dsh-entity-skel': '', style: { width: '85%' } })),
+        )
+      }
+      if (status === 'empty' || !card || !card.matched) {
+        return h('div', { 'data-dsh-entity-body': '' },
+          h('div', { 'data-dsh-entity-imgwrap': '' }, h('div', { 'data-dsh-entity-placeholder': '' }, (name || '?').slice(0, 2))),
+          h('div', { 'data-dsh-entity-empty': '' },
+            '没找到可信的资料。',
+            h('br'),
+            '可用来源：GitHub / npm / PyPI / Hacker News 与 Wikidata。没有匹配到时会保持空状态，不编造内容。'))
+      }
+      const ent = card.entity || {}
+      const links = Array.isArray(ent.links) ? ent.links.filter((l) => l && l.href) : []
+      const sources = Array.isArray(ent.sources) ? ent.sources.filter((s) => s && s.href) : []
+      return h(React.Fragment, null,
+        ent.imageUrl
+          ? h('div', { 'data-dsh-entity-imgwrap': '' },
+              h('img', { 'data-dsh-entity-img': '', src: ent.imageUrl, alt: ent.name || name, loading: 'lazy', referrerPolicy: 'no-referrer' }))
+          : h('div', { 'data-dsh-entity-imgwrap': '' }, h('div', { 'data-dsh-entity-placeholder': '' }, (name || '?').slice(0, 2))),
+        h('div', { 'data-dsh-entity-body': '' },
+          ent.summary ? h('div', { 'data-dsh-entity-summary': '' }, ent.summary) : null,
+          ent.description && ent.description !== ent.summary
+            ? h('div', { 'data-dsh-entity-section': '' }, ent.description)
+            : null,
+          links.length
+            ? h('div', null,
+                h('div', { 'data-dsh-entity-section': '' }, '相关链接'),
+                h('div', { 'data-dsh-entity-links': '' },
+                  links.slice(0, 8).map((l, i) => h('a', {
+                    key: 'l' + i, 'data-dsh-entity-link': '', href: l.href, target: '_blank', rel: 'noopener noreferrer',
+                  }, l.label || l.href))))
+            : null,
+          sources.length
+            ? h('div', { 'data-dsh-entity-section': '' },
+                '来源：',
+                sources.slice(0, 5).map((s, i) => h('a', {
+                  key: 's' + i, href: s.href, target: '_blank', rel: 'noopener noreferrer',
+                  style: { color: 'inherit', marginRight: 8, textDecoration: 'underline', textDecorationStyle: 'dotted' },
+                }, s.label || s.href)))
+            : null,
+          h('div', { 'data-dsh-entity-section': '' },
+            card.confidence != null ? '匹配置信度 ' + Math.round(card.confidence * 100) + '%' : ''),
+        ))
+    }
+
+    function EntityPanelHost() {
+      const state = React.useSyncExternalStore(entityUi.subscribe, entityUi.get, entityUi.get)
+      if (!state.open && state.status === 'idle') {
+        return h('div', { 'data-dsh-entity-panel': '', 'data-open': 'false' })
+      }
+      return h('div', { 'data-dsh-entity-panel': '', 'data-open': state.open ? 'true' : 'false' },
+        h('div', { 'data-dsh-entity-card': '', role: 'dialog', 'aria-label': '实体详情' },
+          h('div', { 'data-dsh-entity-head': '' },
+            h('div', null,
+              h('div', { 'data-dsh-entity-title': '' }, state.name || '实体'),
+              state.type ? h('span', { 'data-dsh-entity-kind': '' }, state.type) : null),
+            h('button', {
+              type: 'button', 'data-dsh-entity-close': '', 'aria-label': '关闭实体详情',
+              onClick: () => closeEntity(),
+            }, '×')),
+          h(EntityDetailCard, { card: state.card, name: state.name, type: state.type, status: state.status })))
+    }
+
+    // ---- 运行时：观察 settled 消息 → 识别 → 注入 ----
+    function createEntityRuntime() {
+      let stopped = true
+      let observer = null
+      let debounce = null
+      let controller = null
+      let started = false
+
+      const shouldHandle = (node) => {
+        if (!(node instanceof Element)) return false
+        if (node.matches('[data-chat-flow-kind]')) return true
+        return node.querySelector('[data-chat-flow-kind]') !== null
+      }
+
+      const relevantMutations = (records) => {
+        for (const record of records) {
+          if (record.type === 'childList') {
+            for (const n of record.addedNodes) if (shouldHandle(n)) return true
+            for (const n of record.removedNodes) if (shouldHandle(n)) return true
+          } else if (record.type === 'attributes') {
+            const t = record.target
+            if (t instanceof Element && (t.hasAttribute('data-streaming') || t.closest('[data-chat-flow-kind]'))) return true
+          }
+        }
+        return false
+      }
+
+      const scan = async () => {
+        if (stopped) return
+        const roots = entityRoots()
+        for (const root of roots) {
+          if (stopped) return
+          const text = (root.textContent || '').trim()
+          if (text.length < 20) continue
+          const sig = hashText(text)
+          const already = root.getAttribute('data-dsh-entity-sig')
+          if (already === sig && root.querySelector('[data-dsh-entity]')) continue
+          if (already === sig && !root.querySelector('[data-dsh-entity]')) {
+            const cached = entityCache.get(sig)
+            if (cached) { injectInto(root, cached.entities); continue }
+          }
+          const cached = entityCache.get(sig)
+          if (cached) {
+            const added = injectInto(root, cached.entities)
+            if (added > 0) root.setAttribute('data-dsh-entity-sig', sig)
+            continue
+          }
+          const hostOk = await entityHostProbe()
+          if (stopped) return
+          if (!hostOk) return
+          controller = controller || new AbortController()
+          const entities = await extractEntities(text, controller.signal)
+          if (stopped) return
+          const added = injectInto(root, entities)
+          root.setAttribute('data-dsh-entity-sig', sig)
+          if (added === 0) { /* 无实体也记签名，避免重复请求 */ }
+        }
+      }
+
+      const schedule = () => {
+        if (stopped || debounce) return
+        const run = () => { debounce = null; scan() }
+        debounce = setTimeout(run, 320)
+      }
+
+      // 点击委托：命中实体 → 打开面板
+      const onClick = (event) => {
+        const target = event.target
+        if (!(target instanceof Element)) return
+        const link = target.closest('[data-dsh-entity]')
+        if (!link) return
+        event.preventDefault()
+        event.stopPropagation()
+        const name = link.getAttribute('data-dsh-entity') || link.textContent || ''
+        const type = link.getAttribute('data-dsh-entity-type') || ''
+        let context = ''
+        try { context = (link.closest('[class*="_markdown_"]') || {}).textContent || '' } catch {}
+        openEntity(name, type, context)
+      }
+
+      const onKey = (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return
+        const target = event.target
+        if (!(target instanceof Element)) return
+        const link = target.closest('[data-dsh-entity]')
+        if (!link) return
+        event.preventDefault()
+        openEntity(link.getAttribute('data-dsh-entity') || '', link.getAttribute('data-dsh-entity-type') || '', '')
+      }
+
+      return {
+        start() {
+          if (!stopped) return
+          stopped = false
+          if (started) { schedule(); return }
+          started = true
+          ensureEntityStyle()
+          try {
+            const host = document.querySelector('[data-dsh-style-main]') || document.body
+            observer = new MutationObserver((records) => {
+              if (relevantMutations(records)) schedule()
+            })
+            observer.observe(host, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-streaming', 'class'] })
+          } catch {}
+          document.addEventListener('click', onClick, false)
+          document.addEventListener('keydown', onKey, false)
+          schedule()
+        },
+        stop() {
+          if (stopped) { /* 仍然清理一遍，保证幂等 */ }
+          stopped = true
+          if (debounce) { clearTimeout(debounce); debounce = null }
+          if (observer) { try { observer.disconnect() } catch {} observer = null }
+          document.removeEventListener('click', onClick, false)
+          document.removeEventListener('keydown', onKey, false)
+          if (controller) { try { controller.abort() } catch {} controller = null }
+          entityPending.clear()
+          unwrapEntities()
+          closeEntity()
+          const style = document.querySelector('style[data-plugin="dsh-style-entity"]')
+          if (style) style.remove()
+          started = false
+        },
+        scan,
+        openEntity,
+        closeEntity,
+        get active() { return !stopped },
+      }
+    }
+
+    const entityRuntime = createEntityRuntime()
+
+    function entityStatusText() {
+      if (entityHostReady === true) return '宿主识别服务已连接'
+      if (entityHostReady === false) return '宿主识别服务未就绪：需要重启一次 DSH 才会加载插件宿主侧'
+      return '正在检测宿主识别服务…'
+    }
+
+    function EntityDetailCardSettings({ cfg, set }) {
+      const on = cfg.entityEnabled === true
+      return h('section', { style: sectionStyle, 'aria-label': '实体详情' },
+        h('h3', { style: sectionTitleStyle }, '实体详情'),
+        h(SwitchRow, { label: '启用实体详情', checked: on, onChange: (value) => set({ entityEnabled: value }) }),
+        h('p', { style: hintStyle }, '在已完成的回复里把实体名变成可点击文本；点击后右侧滑出详情卡，正文与输入框同步左移，点空白不关闭，只有手动关闭才恢复。识别由本机 DSH 模型完成，只读公开数据源（GitHub / npm / PyPI / Hacker News / Wikidata），匹配不到时显示空状态，不编造内容。'),
+        on ? h('p', { style: hintStyle }, '状态：' + entityStatusText()) : null)
+    }
+
+    function syncEntityRuntime() {
+      try {
+        if (store.get().entityEnabled === true) entityRuntime.start()
+        else entityRuntime.stop()
+      } catch {}
+    }
+
     const inject = ['slots', 'sessions']
 
     function apply(ctx) {
@@ -2231,6 +2695,12 @@ window.__ModuleLoader__.load({
       startAliasObserver()
       ctx.effect(() => () => cleanup(), 'dsh-style: 释放外观样式')
       ctx.effect(() => () => stopAliasObserver(), 'dsh-style: 释放插件别名')
+      // 实体详情运行时：跟随开关启停，stop() 必须幂等且清干净。
+      ctx.effect(() => {
+        syncEntityRuntime()
+        const offEntity = store.subscribe(syncEntityRuntime)
+        return () => { offEntity(); entityRuntime.stop() }
+      }, 'dsh-style: 实体详情运行时')
       // 插件详情的页头操作区：在原生「卸载」按钮左侧增加「添加别名 / 编辑别名」。
       ctx.slots.inject('plugins.detail.actions', () => ctx.slots.register({
         name: 'plugins.detail.actions',
@@ -2266,6 +2736,12 @@ window.__ModuleLoader__.load({
         id: 'dsh-style-monitor-btn',
         order: 50,
       }, MonitorButton))
+      // 实体详情面板：常驻在原生 shell.overlay（list 槽），不占用、不替换 rightbar。
+      ctx.slots.inject('shell.overlay', () => ctx.slots.register({
+        name: 'shell.overlay',
+        id: 'dsh-style-entity-panel',
+        order: 950,
+      }, EntityPanelHost))
       // 官方 list slot：渲染在「欢迎语行」与「输入卡片」之间，宽度随首页列宽。
       // 组件自身在非 hero 相位 / 关闭开关时返回 null，不污染正常对话。
       ctx.slots.inject('conversation.input.dock', () => ctx.slots.register({
@@ -2286,7 +2762,7 @@ window.__ModuleLoader__.load({
     exports.LayoutCard = LayoutCard
     exports.EffectsCard = EffectsCard
     exports.SidebarCard = SidebarCard
-    exports.__internal = { applyStyles, readSettings, tagOnce }
+    exports.__internal = { applyStyles, readSettings, tagOnce, entityRuntime, entityUi, hashText, injectInto, unwrapEntities, entityRoots, openEntity, closeEntity, syncEntityRuntime }
 
     return module.exports
   },
