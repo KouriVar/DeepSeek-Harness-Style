@@ -561,7 +561,7 @@ window.__ModuleLoader__.load({
       '.dsh-qtip{position:fixed;z-index:2147483600;pointer-events:none;padding:4px 8px;border-radius:6px;font-size:12px;line-height:16px;white-space:nowrap;background:rgba(24,24,27,.9);color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.16);}',
 
       // 深色主题
-      'html[data-dsh-style-dark="true"]{--dsh-q-sentence-color:#a0a0a4;--dsh-q-card-border:rgba(255,255,255,.12);--dsh-q-empty:rgba(255,255,255,.08);--dsh-q-l1:#1e3a29;--dsh-q-l2:#2b5c3c;--dsh-q-l3:#3f8a56;--dsh-q-l4:#63bd7f;--dsh-q-underline:rgba(255,255,255,.28);}',
+      'html[data-dsh-style-dark="true"]{--dsh-q-sentence-color:#a0a0a4;--dsh-q-card-border:rgba(255,255,255,.12);--dsh-q-empty:rgba(255,255,255,.08);--dsh-q-l1:#1e3a29;--dsh-q-l2:#2b5c3c;--dsh-q-l3:#3f8a56;--dsh-q-l4:#63bd7f;--dsh-q-underline:rgba(255,255,255,.55);}',
       'html[data-dsh-style-dark="true"] .dsh-qtab{color:#8a8a8f;}',
       'html[data-dsh-style-dark="true"] .dsh-qtab[data-active="true"]{color:#e8e8ea;}',
       'html[data-dsh-style-dark="true"] .dsh-qmonths{color:#7c7c82;}',
