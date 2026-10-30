@@ -464,11 +464,10 @@ window.__ModuleLoader__.load({
 
       // ③ 动态欢迎语：整行居中，选择器原地变成句中的可点词组
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"]{',
-      'display:flex !important;justify-content:center !important;align-items:baseline !important;',
-      'gap:0 !important;margin-top:var(--dsh-q-sentence-gap) !important;padding:0 !important;',
+      'display:flex !important;justify-content:center !important;align-items:center !important;flex-wrap:wrap !important;',
+      'gap:0 2px !important;margin-top:var(--dsh-q-sentence-gap) !important;padding:0 !important;',
       'font-size:var(--dsh-q-sentence-size) !important;line-height:1.45 !important;',
       'color:var(--dsw-alias-label-tertiary,#8b8b90) !important;',
-      'white-space:nowrap;',
       '}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"]::before{content:var(--dsh-q-prefix);}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"]::after{content:var(--dsh-q-suffix);}',
@@ -490,8 +489,9 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="mode"] > svg:first-child{display:none !important;}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="ws"] > svg,',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="mode"] > svg{width:11px;height:11px;opacity:.75;margin-left:2px;}',
-      // 分隔词直接挂在「模式」按钮前，避免插入原生按钮内部
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.hero.agentPreset"] > *::before{content:var(--dsh-q-mid);}',
+      // 分隔词挂在「模式」按钮的锚点容器上（与按钮同级，不进入按钮内部）
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="modeWrap"]{display:inline-flex !important;align-items:baseline !important;gap:0 !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="modeWrap"]::before{content:var(--dsh-q-mid);}',
       // 句子行里的其它出口（options）不占位
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"] > [data-dsh-qoder="options"]{margin-left:0 !important;}',
 
@@ -1163,7 +1163,7 @@ window.__ModuleLoader__.load({
     }
 
     // ------------------------------------------------- 首页打标（稳定锚点 → 自己的属性）
-    const QODER_TAGS = ['stack', 'headline', 'previewbadge', 'sentence', 'ws', 'mode', 'options', 'input']
+    const QODER_TAGS = ['stack', 'headline', 'previewbadge', 'sentence', 'ws', 'mode', 'modeWrap', 'options', 'input']
 
     function tagQoderHome() {
       if (typeof document === 'undefined') return
@@ -1187,6 +1187,7 @@ window.__ModuleLoader__.load({
         if (sentence) {
           want(sentence.querySelector(':scope > button'), 'ws')
           want(sentence.querySelector('[data-slot="conversation.hero.agentPreset"] button'), 'mode')
+          want(sentence.querySelector('[data-slot="conversation.hero.agentPreset"] > *'), 'modeWrap')
           want(sentence.querySelector('[data-slot="conversation.hero.options"]'), 'options')
         }
         if (stack) want(stack.querySelector('[data-slot="conversation.composer.bar"] > *'), 'input')
