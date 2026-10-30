@@ -780,6 +780,7 @@ window.__ModuleLoader__.load({
         rbSettleTimer = setTimeout(() => { rbSettleTimer = 0; scheduleTag() }, 700)
       }
 
+
       const dark = isDark() ? 'true' : 'false'
       const root = document.documentElement
       if (root.getAttribute('data-dsh-style-dark') !== dark) root.setAttribute('data-dsh-style-dark', dark)
