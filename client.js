@@ -210,7 +210,9 @@ window.__ModuleLoader__.load({
       '}',
       // 让会话头（标题 / 快捷区 / 右侧工具）与窗口顶栏（红绿灯）垂直对齐：
       // 内嵌布局顶部多了 4px 间隙，把 header 的顶部内边距抵掉同样的量。
-      'html[data-dsh-style-layout="inset"] [data-dsh-style-main] header[data-window-drag]:not([class*="headerBlank"]){padding-top:calc(10px - var(--dsh-style-inset-gap)) !important;}',
+      // 注意：这里不能排除 headerBlank —— 新会话页（hero）的 header 就是 blank 的，
+      // 一旦排除，它的 padding-top 保持 10px，右上角按钮就会比会话页低一截。
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-main] header[data-window-drag]{padding-top:calc(10px - var(--dsh-style-inset-gap)) !important;}',
       // 会话区（主内容）不需要可见滚动条：仍可滚动，只是不显示滚动条。
       'html[data-dsh-style-layout="inset"] [data-dsh-style-main]{scrollbar-width:none;}',
       'html[data-dsh-style-layout="inset"] [data-dsh-style-main] *{scrollbar-width:none;}',
@@ -258,7 +260,7 @@ window.__ModuleLoader__.load({
       // 隐藏会话标签栏（对话 / 轨迹 / …）：连整行一起收掉，会话区自动变高。
       'html[data-dsh-style-hide-tabs="true"] div:has(> [data-conversation-tabs]){display:none !important;}',
       // 标签栏没了，把会话头压到和右栏头一致的高度（38px），标题/图标才能对齐、也不留空白。
-      'html[data-dsh-style-hide-tabs="true"] [data-dsh-style-main] header[data-window-drag]:not([class*="headerBlank"]){min-height:38px !important;height:38px !important;padding-top:0 !important;padding-bottom:0 !important;align-items:center !important;}',
+      'html[data-dsh-style-hide-tabs="true"] [data-dsh-style-main] header[data-window-drag]{min-height:38px !important;height:38px !important;padding-top:0 !important;padding-bottom:0 !important;align-items:center !important;}',
       // 去掉标题栏 / 右栏头部那条分割线（和 Qoder 一样，无分割线）。
       'html[data-dsh-style-enabled="true"] [data-dsh-style-main] header[data-window-drag]{border-bottom:0 !important;}',
       'html[data-dsh-style-enabled="true"] [data-rightbar-col] [class*="_header"]{border-bottom:0 !important;}',
