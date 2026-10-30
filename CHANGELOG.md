@@ -4,6 +4,13 @@
 
 ## [Unreleased]
 
+### 文档 / 工具
+- 新增 [`docs/FEATURES.md`](./docs/FEATURES.md)：逐项说明布局、侧栏、行/HoverCard、页顶、隐藏项、
+  智能体/通用入口、任务监控、设置持久化、可逆性、兼容性，以及哪些不属于插件运行时。
+- 新增 [`scripts/apply-app-locale.mjs`](./scripts/apply-app-locale.mjs)：把 App 原生中文本地化
+  （zh-Hans/zh_CN lproj + Info.plist + entitlements 保留 + ad-hoc 重签）固化成可重复脚本；
+  非插件运行时、不随 `.tgz` 分发，DSH 更新会覆盖，需重跑。README 已加使用/备份/恢复说明。
+
 ### 计划
 - 主题：强调色、字号、界面密度、动效强度（原生控件）。
 - 组件级开关：导航栏 / 输入框 / 消息布局的显隐与形态。

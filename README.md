@@ -3,7 +3,8 @@
 一个**纯客户端**的 DeepSeek Harness 外观定制插件：在 Harness **原生「设置」里新增「外观」页**，
 用 Harness 自带控件做可逆的样式定制。不碰 Bot、不碰宿主业务逻辑、不改 DSH 本身组件。
 
-当前版本：**0.1.1（Phase 1）**。变更见 [CHANGELOG.md](./CHANGELOG.md)。
+当前版本：**0.1.1（Phase 1）**。变更见 [CHANGELOG.md](./CHANGELOG.md)。  
+详细的功能 / 改动范围见 [功能说明（FEATURES.md）](https://github.com/KouriVar/DeepSeek-Harness-Style/blob/main/docs/FEATURES.md)。
 
 ## 0.1.1 同款外观（默认值）
 
@@ -95,6 +96,8 @@ dsh-style/
   cordis.patch.yml     # 把宿主入口挂到 profile（entry id: style）
   test/smoke.mjs       # 无头冒烟测试
   test/layout.mjs      # 假 DOM 测试
+  docs/FEATURES.md     # 功能说明 / 改动范围
+  scripts/apply-app-locale.mjs  # 可选：app 原生中文本地化（非插件运行时）
   CHANGELOG.md
   LICENSE
   README.md
@@ -155,3 +158,26 @@ node scripts/apply-icon-pack.mjs --apply --force --out "/Applications/DeepSeek H
 说明：DSH 的 app 启用了 **asar 完整性校验** + Developer ID 签名。补丁器会：按元素定位并替换图标几何 →
 重算被改文件的**分块 SHA256** → 同步 `Info.plist` 的 `ElectronAsarIntegrity` **header 哈希** →
 对副本 **ad-hoc 重签**。原 app 不受影响。
+
+## App 原生中文本地化（可选，非插件）
+
+DSH 的网页 UI 语言和 macOS **原生**打开面板/菜单语言是两件事。0.2.1-rc.5 的 app 没有
+`zh-Hans.lproj` / `CFBundleLocalizations`，所以即使系统是中文，Cmd+O 的访达面板仍可能英文。
+
+仓库里保留了一个补丁脚本（**不是插件运行时，不随 `.tgz` 分发**）：
+
+```sh
+# 先完全退出 DSH；只检查，不改文件
+node scripts/apply-app-locale.mjs --dry-run
+
+# 修改当前 app：自动备份 zip，补 zh-Hans/zh_CN lproj + Info.plist，保留 entitlements，ad-hoc 重签
+node scripts/apply-app-locale.mjs --apply
+```
+
+说明：
+
+- 会修改 `/Applications/DeepSeek Harness.app` 的签名（ad-hoc），**DSH 更新会覆盖**，更新后要重跑。
+- 首次 `--apply` 默认备份到 `~/Documents/DeepSeek Harness Backups/`；也可用 `--backup <zip>` 指定。
+- 恢复：`rm -rf "/Applications/DeepSeek Harness.app" && ditto -x -k <backup.zip> "/Applications"`。
+- 这是 best-effort 的 app 层补丁；原生面板语言最终由 AppKit/Electron 决定，不是 dsh-style 的设置。
+
