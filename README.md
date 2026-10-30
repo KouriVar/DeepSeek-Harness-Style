@@ -1,73 +1,58 @@
 # dsh-style
 
-一个**纯客户端**的 DeepSeek Harness 外观定制插件：在 Harness **原生「设置」里新增一个
-「外观」页**（出现在设置左侧导航里），用 Harness 自带的原生控件做可逆的样式定制。
-不碰 Bot、不碰宿主业务逻辑、不改 DSH 本身组件。
+一个**纯客户端**的 DeepSeek Harness 外观定制插件：在 Harness **原生「设置」里新增「外观」页**，
+用 Harness 自带控件做可逆的样式定制。不碰 Bot、不碰宿主业务逻辑、不改 DSH 本身组件。
 
-当前版本：`0.1.0`（第一个版本做**布局模式**）。变更见 [CHANGELOG.md](./CHANGELOG.md)。
+当前版本：**0.1.1（Phase 1）**。变更见 [CHANGELOG.md](./CHANGELOG.md)。
+
+## 0.1.1 同款外观（默认值）
+
+全新安装、没有旧 `localStorage` 时，插件默认就是作者当前这套外观：
+
+- 布局：**内嵌（Inset）**
+- 隐藏滚动条、隐藏会话标签栏（对话/轨迹）
+- 隐藏品牌、隐藏新会话
+- 任务监控：开启、**浮动**面板
+- 动效：不减少
+- `monitorAlwaysShow.team = false`
+
+老用户已经保存的 `dsh-style:settings` 不会被覆盖；要和朋友完全一致，按下面「给朋友装」检查一遍。
 
 ## 功能
 
 - **原生设置页**：往 `settings.section` 注册「外观」页（`order: 40`），复用原生
   `Switch` / `SegmentedControl` / `Button`，外观与交互由 Harness 渲染，不自绘。
 - **布局模式**
-  - `经典（Classic）`：完全保持原生 AppFrame，默认，作为完整原生回退。
-  - `内嵌（Inset）`：外层浅灰底板，右侧主内容变成白色圆角卡片（上/右/下 4px、左侧 6px、圆角 20px），
-    可即时切换、即时生效。
-- **效果开关**：启用样式插件 / 减少动效 / 隐藏滚动条；内嵌布局下主会话区滚动条默认隐藏。
-- **可持久化**：设置保存在浏览器 `localStorage`（键 `dsh-style:settings`），重启后恢复。
+  - `内嵌（Inset）`：外层浅灰底板，右侧主内容变成白色圆角卡片，默认。
+  - `经典（Classic）`：保持原生 AppFrame，作为完整原生回退。
+- **侧栏对齐**：以 macOS 红绿灯关闭按钮中心 `22.75px` 为基准，功能导航、文件夹、会话状态槽共列；
+  「工作区」标题与图标列对齐；会话标题与文件夹标题同列；行左右内缩统一为 `8.75px`。
+- **细节修复**：工作区头图标 28px hover 背景不再被 18px 标题行裁剪；底部账户卡不再贴左边框；
+  插件页 / 自动化任务页顶部空白一致；会话 HoverCard 缩进到主内容卡片内 `8.75px`。
+- **工作区会话行**：时间、置顶、归档收进「更多」菜单；标题占满整行。
+- **效果开关**：启用样式插件 / 减少动效 / 隐藏滚动条 / 隐藏会话标签栏。
+- **可持久化**：设置保存在 `localStorage`（键 `dsh-style:settings`），重启后恢复。
 - **可逆、无污染**：禁用/卸载时移除全部 `data-dsh-style-*` 属性与样式表，不留全局样式。
-- **热重载**：修改 `client.js` 后由 `dsh-client-hmr` 自动生效（约 0.5–1 秒），无需重启。
-
-## 结构
-
-```
-dsh-style/
-  package.json         # dsh.client.platform = web；exports ./client；dsh.bundle.patch
-  index.js             # 宿主半边：占位（无服务、无 Config）
-  client.js            # 浏览器半边：注册「外观」页 + 布局/效果引擎
-  cordis.patch.yml     # 把宿主入口挂到 profile（entry id: style）
-  test/smoke.mjs       # 无头冒烟测试（验证 settings.section 注册）
-  test/layout.mjs      # 假 DOM 测试（Inset 打标 / Classic 还原 / 禁用清理）
-  CHANGELOG.md
-  LICENSE
-  README.md
-```
-
-## 怎么工作
-
-- **页面**：`client.js` 往插槽 `settings.section` 注册 `{ id:'style', order:40, label:'外观' }`。
-  这是 DSH 原生设置页自己用的同一个插槽，所以外观、导航都由 Harness 渲染。
-- **控件**：使用原生 `@deepseek-ai/dsh-client-ui-primitives` 的 `Switch` / `SegmentedControl` / `Button`，
-  不自绘、不覆盖样式。
-- **布局**：`root` 插槽（AppFrame）由 `dsh-client-ui-layout` 独占，没有公开插槽改它的类名。
-  因此用**语义锚点** `[data-shell-bottom]` + 右侧栏 `[data-rightbar-col]` 的浅层兄弟关系定位三栏，
-  再打上自有 `data-dsh-style-*` 属性；样式表只针对这些属性，不依赖 hash 类名、不做深层选择器覆盖。
-- **生效**：通过 `data-dsh-style-*` 属性 + 插件自有的 `<style data-plugin="dsh-style">` 施加；
-  布局规则只在 `html[data-dsh-style-layout="inset"]` 下生效，经典模式完全没有痕迹。
-- **持久化**：值存在 `localStorage`。以后要「跨设备 / 写进宿主设置」，把 `index.js` 宿主半边改成
-  导出 schemastery `Config` 并 `ctx.settings.configure(...)`，客户端改用 `ctx.configForms.get(ns)` 即可。
-
-## 自测（不需要启动 DSH）
-
-```sh
-node test/smoke.mjs
-node test/layout.mjs
-```
+- **修改后重启**：桌面端 HMR 不保证，更新 `client.js` 后请重启 Harness。
 
 ## 安装到 DSH
 
-Harness 的插件安装有两条路（会改动 profile，**首次加载新客户端需要重启 Harness**）：
+已验证：**macOS + DeepSeek Harness `0.2.1-rc.5`**。插件是桌面客户端插件，不适用 web profile。
 
-1. 图形界面：Settings → Plugins → Add plugin，填本目录打出的 `.tgz` 或本地路径。
-2. 命令行（示例，profile 名以你本机为准）：
+1. 从 [Releases](https://github.com/KouriVar/DeepSeek-Harness-Style/releases/latest) 下载
+   `dsh-style-0.1.1.tgz`。
+2. Harness → **Settings → Plugins → Add plugin**，选择这个 `.tgz`。
+3. **重启 Harness**。
+4. 打开 **Settings → 外观**，确认「启用样式插件」是开的；其它默认值见上一节。
+
+命令行安装（profile 名以本机为准，桌面版通常是 `desktop`）：
 
 ```sh
-npm pack            # 生成 dsh-style-0.1.0.tgz
-dsh plugin --profile web add /绝对路径/dsh-style-0.1.0.tgz
+npm pack            # 生成 dsh-style-0.1.1.tgz
+dsh plugin --profile desktop add /绝对路径/dsh-style-0.1.1.tgz
 ```
 
-开发期也可把本目录 `link` 进 profile 的 `package.json`：
+开发期也可以把本目录 `link` 进 profile 的 `package.json`：
 
 ```json
 {
@@ -76,7 +61,61 @@ dsh plugin --profile web add /绝对路径/dsh-style-0.1.0.tgz
 }
 ```
 
-然后 `pnpm install`，重启 Harness。打开 Settings，左侧应多出 **外观**。
+然后 `pnpm install`，重启 Harness。
+
+## 给朋友装（同款 UI）
+
+1. 用 **macOS 版 DeepSeek Harness 0.2.1-rc.5**（其它版本选择器可能对不上）。
+2. 下载 `dsh-style-0.1.1.tgz`，按上面步骤安装并重启。
+3. 全新安装默认就是作者这套外观；检查 **Settings → 外观** 是否全开。
+4. 为完全一致，再确认：
+   - 系统 / DSH 外观：**浅色**（插件跟随 DSH 主题，不强改主题）
+   - 侧栏宽度：约 **280px**
+   - 正文字号：默认 **14**
+   - 缩放：**100%**
+5. 如果朋友之前装过旧版，`localStorage` 里已有设置：在「外观」页把布局切到 **内嵌**，并打开
+   隐藏滚动条 / 隐藏标签栏 / 隐藏品牌 / 隐藏新会话 / 任务监控；或清掉 `dsh-style:settings` 后重启。
+
+**图标替换不在插件包里。** 要连 Qoder 图标也一致，需要按下面的「图标替换」单独给 `.app` 打补丁；
+它和 UI 插件是两件事。
+
+## 兼容性
+
+- 0.1.1 在 **0.2.1-rc.5** 实测；DSH 更新后类名/结构可能变化，侧栏选择器和 HoverCard 可能需要适配。
+- 插件不修改官方 `app.asar`；通过 profile 安装，官方 app 保持原样。
+- 侧栏横向基准按 macOS 红绿灯按钮设计；Windows/Linux 版不保证同一像素位置。
+
+## 结构
+
+```
+dsh-style/
+  package.json         # dsh.client.platform = web；exports ./client；dsh.bundle.patch
+  index.js             # 宿主半边：占位（无服务、无 Config）
+  client.js            # 浏览器半边：注册「外观」页 + 布局/效果/侧栏样式引擎
+  cordis.patch.yml     # 把宿主入口挂到 profile（entry id: style）
+  test/smoke.mjs       # 无头冒烟测试
+  test/layout.mjs      # 假 DOM 测试
+  CHANGELOG.md
+  LICENSE
+  README.md
+```
+
+## 怎么工作
+
+- **页面**：`client.js` 往插槽 `settings.section` 注册 `{ id:'style', order:40, label:'外观' }`。
+- **控件**：使用原生 `@deepseek-ai/dsh-client-ui-primitives` 的 `Switch` / `SegmentedControl` / `Button`。
+- **定位**：用语义锚点 `[data-shell-bottom]` + `[data-rightbar-col]` 打上自有 `data-dsh-style-*`；
+  样式优先用这些属性和结构后缀（如 `_pageHead`、`projectRow`），HoverCard 使用当前构建的
+  `_bggy...` 类；DSH 升级后如类名变化需要适配。
+- **生效**：通过 `data-dsh-style-*` + 插件自有 `<style data-plugin="dsh-style">` 施加。
+- **持久化**：值存在 `localStorage`。
+
+## 自测（不需要启动 DSH）
+
+```sh
+node test/smoke.mjs
+node test/layout.mjs
+```
 
 ## 路线图
 
@@ -94,12 +133,13 @@ dsh plugin --profile web add /绝对路径/dsh-style-0.1.0.tgz
 
 在项目根目录运行 `npm run icons:studio`，或双击
 `tools/icon-studio/Start Icon Studio.command`。它是与 DSH 运行时解耦的本机工具，
-用于真实图标清单、Qoder 候选对比、人工审核和语义映射 JSON 导出；本阶段不会替换 DSH 图标。
+用于真实图标清单、Qoder 候选对比、人工审核和语义映射 JSON 导出。
 重建索引用 `npm run icons:index`，验证用 `npm run icons:test`。
 详见 [Icon Mapping Studio 使用说明](./tools/icon-studio/README.md)。
 
 ## 图标替换（Icon System · 预览）
-不改 DSH 源码，用图标包替换原生图标（缺失自动回退原生）：
+
+不改官方 app，用图标包替换原生图标（缺失自动回退原生）：
 
 - 图标包：`icon-packs/qoder/`（`mapping.json` + `svg/` + `native-icons/`）
 - 补丁器：`scripts/apply-icon-pack.mjs`
@@ -108,7 +148,7 @@ dsh plugin --profile web add /绝对路径/dsh-style-0.1.0.tgz
 # 1) 只报告将替换哪些图标（不改任何文件）
 node scripts/apply-icon-pack.mjs --dry-run
 
-# 2) 生成改好的 .app 副本（默认 ~/Applications）
+# 2) 生成改好的 .app 副本
 node scripts/apply-icon-pack.mjs --apply --force --out "/Applications/DeepSeek Harness (Qoder Icons).app"
 ```
 

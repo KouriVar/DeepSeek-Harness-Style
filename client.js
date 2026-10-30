@@ -50,17 +50,18 @@ window.__ModuleLoader__.load({
 
     // ------------------------------------------------------------------ 配置
     const STORE_KEY = 'dsh-style:settings'
+    // 0.1.1 起默认就是作者当前这套「同款外观」；老用户已有的 localStorage 不会被覆盖。
     const DEFAULTS = {
       enabled: true,
-      layout: 'classic',
+      layout: 'inset',
       reduceMotion: false,
-      hideScrollbars: false,
-      hideBrand: false,
-      hideNewSession: false,
-      hideTabs: false,
-      monitorEnabled: false,
+      hideScrollbars: true,
+      hideBrand: true,
+      hideNewSession: true,
+      hideTabs: true,
+      monitorEnabled: true,
       monitorMode: 'floating',
-      monitorAlwaysShow: {},
+      monitorAlwaysShow: { team: false },
     }
     const LAYOUT_OPTIONS = [
       { value: 'classic', label: '经典' },
@@ -125,6 +126,10 @@ window.__ModuleLoader__.load({
       'data-dsh-style-hide-tabs',
       'data-dsh-style-monitor',
     ]
+
+    // 侧栏展开态限定：侧栏根节点带 _collapsed 时是收起态（窄窗口 rail / 隐藏），
+    // 横向对齐规则只作用于展开态，避免影响折叠布局。
+    const SIDEBAR_EXPANDED = 'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar]:not(:has([class*="_collapsed"]))'
 
     // 静态规则。布局规则只在 html[data-dsh-style-layout="inset"] 下生效，
     // 因此经典模式下标签即使挂着也完全不影响原生外观。
@@ -227,13 +232,25 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-enabled="true"] [data-rightbar-col] [class*="_header"]{border-bottom:0 !important;}',
       // 按 Qoder 实测规格收紧侧栏（它更密更精致）：
       //  - 列表行：qoder `h-7 px-2 gap-2 text-[13px]/16` → 高 28 / 内距 8 / gap 8 / 字号 13；
-      //  - 分区标题：qoder `h-[18px] pl-2 text-[13px] leading-4 font-medium` → 高 18 / 左 8 / 13px。
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_sectionHeader"]{height:18px !important;padding-left:8px !important;margin-bottom:6px !important;font-size:13px !important;font-weight:500 !important;line-height:16px !important;}',
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_panelRow"]{min-height:28px !important;height:28px !important;padding:0 8px !important;gap:8px !important;font-size:13px !important;line-height:16px !important;}',
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_panelRow"] svg{width:14px !important;height:14px !important;}',
+      //  - 分区标题：qoder `h-[18px] pl-2 text-[13px] leading-4 font-medium` → 高 18 / 左 6 / 13px。
+      //    「工作区」左缘 = root pad 4.75 + region pad 4 + 6 = 14.75，与下方图标槽左缘同一条线。
+      //    右侧图标按钮是 28px，比 18px 的标题行高；原生 sectionHeader / headerActions /
+      //    regionArea 都是 overflow:hidden，hover / active 背景会被裁成 18px。这里放开裁剪。
+      `${SIDEBAR_EXPANDED} [class*="_sectionHeader"]{height:18px !important;padding-left:6px !important;margin-bottom:6px !important;font-size:13px !important;font-weight:500 !important;line-height:16px !important;overflow:visible !important;}`,
+      `${SIDEBAR_EXPANDED} [class*="_headerActions"]{overflow:visible !important;}`,
+      `${SIDEBAR_EXPANDED} [class*="_regionArea"]:has([class*="_sectionHeader"]){overflow:visible !important;}`,
+      // 底部账户卡（头像/昵称）：原生 triggerRow 左右各 -2px，会贴到侧栏左边缘；
+      // footArea 从 4.75 开始，补 4px 到 8.75，并从宽度里扣掉，右缘回到 255.25。
+      `${SIDEBAR_EXPANDED} [class*="_triggerRow"]{margin-left:var(--dsh-align-footer-inset) !important;margin-right:0 !important;width:calc(100% - var(--dsh-align-footer-inset)) !important;}`,
+      // 插件页 / 带 pageHead 的设置页：pageHead 标题直接贴页面顶（y=5）；
+      // 自动化任务页 pageHeading 有 76px padding + 2px 行偏移，标题 y=83。
+      // 补 78px 顶部 padding，让插件页标题也在 y=83，顶部空白和自动化页一致。
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-main] [class*="_page"]:has(> header[class*="_pageHead"]){padding-top:78px !important;}',
+      `${SIDEBAR_EXPANDED} [class*="_panelRow"]{min-height:28px !important;height:28px !important;padding:0 8px !important;gap:8px !important;font-size:13px !important;line-height:16px !important;}`,
+      `${SIDEBAR_EXPANDED} [class*="_panelRow"] svg{width:14px !important;height:14px !important;}`,
       // regionArea 原本 margin-left:-4 / margin-right:-12（负右边距让行高亮一直顶到侧栏右边缘，所以显得"很宽"）。
-      // 归零后左右各有 12px 内边距，行高亮两边对称、更窄更精致。
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_regionArea"]{margin-left:0 !important;margin-right:0 !important;}',
+      // 归零后左侧从 root pad 起算、右侧保留 12px；行高亮不再顶到右边缘。
+      `${SIDEBAR_EXPANDED} [class*="_regionArea"]{margin-left:0 !important;margin-right:0 !important;}`,
       // 实测：左侧标题文字顶 63px、右侧「开始」/图标顶 74px（截图 2x），右栏低约 11px≈5pt。
       // 右栏 panel 是 top:0 绝对定位，dock 标签栏自带约 5px 顶部内边距；用 top 偏移补齐，
       // 不用 transform（避免破坏内部 fixed 定位的 tooltip）。
@@ -261,6 +278,54 @@ window.__ModuleLoader__.load({
     const WORKSPACE_CSS = [
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="sessionRow"] > [class*="time"]{display:none !important;}',
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="sessionRow"] > [class*="rowActions"] > *:nth-child(n+2){display:none !important;}',
+    ].join('')
+
+    // 标题栏/侧栏横向对齐（macOS 红绿灯基准列）。
+    //
+    // 以窗口左边缘为 0 的逻辑坐标里，红色关闭按钮中心 = 22.75px（截图实测 45.5 @2x）。
+    // 展开态共享一条 16px 图标槽列：槽左缘 = 14.75px，中心 = 22.75px。
+    //   功能导航：root pad 4.75 + 行 margin 2 + 行 padding 8 = 14.75
+    //   工作区行：root pad 4.75 + region padding 4 + 行 padding 6 = 14.75
+    // 功能图标、文件夹图标、会话状态槽都落在同一条中心线上；文字统一从槽右缘 + 8px 起排。
+    // 会话行不再额外缩进：标题与文件夹标题同为 38.75，形成 Qoder 那种同列布局。
+    const ALIGN_CSS = [
+      'html[data-dsh-style-enabled="true"]{',
+      '--dsh-align-icon-center:22.75px;',
+      '--dsh-align-icon-slot:16px;',
+      // 18 = 功能行自身 inset（margin 2 + padding 8）+ 半个图标槽 8。
+      '--dsh-align-root-pad:calc(var(--dsh-align-icon-center) - 18px);',
+      // 侧栏内容区左右统一内缩：左侧 4.75（root pad）+ 4（region pad）= 8.75。
+      '--dsh-align-content-inset:8.75px;',
+      // footArea 从 root content 左缘（4.75）开始；底部账户卡再补 4px 到 8.75。
+      '--dsh-align-footer-inset:calc(var(--dsh-align-content-inset) - var(--dsh-align-root-pad));',
+      '}',
+      // 左右内缩对称：右侧从原生 12px 改成 8.75px，和工作区头 / 行盒子 / 选中框对齐。
+      `${SIDEBAR_EXPANDED} > div > [class*="_root"]{padding-left:var(--dsh-align-root-pad) !important;padding-right:var(--dsh-align-content-inset) !important;}`,
+      // 工作区 root 自己还有 12px 右 padding；交给外层 root 统一控制。
+      `${SIDEBAR_EXPANDED} [class*="_root"]:has(> [class*="_sectionHeader"]){padding-right:0 !important;}`,
+      // 列表容器原先把 edge inset 用负 margin 吃掉；改为 0，让树体填到内容右缘。
+      `${SIDEBAR_EXPANDED} [class*="_listArea"]{margin-right:0 !important;}`,
+      // 列表原先为 5px scrollbar + 2px offset 预留 7px；滚轮已隐藏，改为 auto 并取消预留，
+      // 行/选中框右缘才能到 255.25（264 - 8.75），与左侧 8.75 对称。
+      `${SIDEBAR_EXPANDED} [class*="_list"]:not([class*="_listArea"]):not([class*="_listTop"]){margin-right:0 !important;padding-right:0 !important;scrollbar-gutter:auto !important;}`,
+      // 功能图标统一放进 16px 槽（SVG 仍是 14px），槽内居中。
+      `${SIDEBAR_EXPANDED} [class*="_panelGlyph"]{width:var(--dsh-align-icon-slot) !important;height:var(--dsh-align-icon-slot) !important;}`,
+      // 文件夹行 / 会话行：同一套 6px 左右内边距，文字分别从槽右缘 + 8px 起排。
+      // 行内 time / 更多按钮不占位时，标题会填到 6px 内边距处，左右间距一致。
+      `${SIDEBAR_EXPANDED} [class*="projectRow"]{gap:8px !important;padding-inline-start:calc(6px + var(--dsh-workspace-indent, 0px)) !important;padding-right:6px !important;}`,
+      `${SIDEBAR_EXPANDED} [class*="sessionRow"]{padding-inline-start:calc(6px + var(--dsh-workspace-indent, 0px)) !important;padding-right:6px !important;}`,
+      // 会话标题与文件夹标题同一文字列；右侧 margin 归零，让标题填满行宽。
+      `${SIDEBAR_EXPANDED} [class*="sessionRow"] > [class*="title"]{margin-left:8px !important;margin-right:0 !important;}`,
+      // 「展开其余 n 个会话 / 收起」跟随会话标题同一起点（6 + 16 + 8 = 30）。
+      `${SIDEBAR_EXPANDED} [class*="sessionOverflowButton"]{padding-left:calc(30px + var(--dsh-workspace-indent, 0px)) !important;}`,
+      // 会话 HoverCard 默认 left = 行右缘 + 8，会压到主内容卡片左侧外。
+      // 0.2.1-rc.5 + 侧栏对称内缩实测：主卡片左缘 270、行右缘 255.25、卡片默认 left 263.25；
+      // 要落在主卡片内并留 8.75px（与侧栏内容左右内缩一致），需再右移 15.5px。
+      // 行右缘与主卡片左缘随侧栏宽度同步移动，所以这个偏移在拖宽侧栏时保持不变。
+      // 卡片宽度从固定 244 改为随内容收缩（上限 244、下限 200），左右 padding 16/16，
+      // 标题不再右侧空一大截；长标题在 244 内换行。
+      // `_card_38jqx_9` 仍是当前 0.2.1-rc.5 HoverCard 卡片的 CSS module 类；升级后如类名变化需重新确认。
+      'html[data-dsh-style-layout="inset"] body > div[class*="_card_38jqx_9"]{margin-left:15.5px !important;width:fit-content !important;max-width:244px !important;min-width:200px !important;}',
     ].join('')
 
     // 任务监控：工具栏按钮 + 浮层面板。
@@ -514,7 +579,7 @@ window.__ModuleLoader__.load({
       root.setAttribute('data-dsh-style-monitor', cfg.monitorEnabled ? 'true' : 'false')
       const el = styleTag()
       if (el) {
-        const rules = [BASE_CSS, IMMERSIVE_CSS, TITLEBAR_CSS, SIDEBAR_VIS_CSS, HIDE_HEADER_CSS, WORKSPACE_CSS, MONITOR_CSS]
+        const rules = [BASE_CSS, IMMERSIVE_CSS, TITLEBAR_CSS, SIDEBAR_VIS_CSS, HIDE_HEADER_CSS, WORKSPACE_CSS, ALIGN_CSS, MONITOR_CSS]
         if (cfg.reduceMotion) rules.push(MOTION_CSS)
         if (cfg.hideScrollbars) rules.push(SCROLL_CSS)
         el.textContent = rules.join('\n')
