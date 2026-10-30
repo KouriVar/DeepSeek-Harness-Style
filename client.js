@@ -2264,7 +2264,7 @@ window.__ModuleLoader__.load({
 
     // ---- 面板状态（不可变快照：useSyncExternalStore 要求引用变化） ----
     const entityUi = (() => {
-      let state = { open: false, name: null, type: null, status: 'idle', card: null, error: null, width: 420, animKey: 0 }
+      let state = { open: false, mounted: false, name: null, type: null, status: 'idle', card: null, error: null, width: 420, animKey: 0 }
       const listeners = new Set()
       return {
         get: () => state,
@@ -2414,7 +2414,7 @@ window.__ModuleLoader__.load({
     // ---- 面板内容 ----
     async function openEntity(name, type, context) {
       const width = entityWidth()
-      entityUi.set({ open: true, name, type, status: 'loading', card: null, error: null, width, animKey: entityUi.get().animKey + 1 })
+      entityUi.set({ open: true, mounted: true, name, type, status: 'loading', card: null, error: null, width, animKey: entityUi.get().animKey + 1 })
       applyEntityLayout(true, width)
       try {
         const res = await fetch('/api/style-entity/enrich', {
@@ -2433,6 +2433,12 @@ window.__ModuleLoader__.load({
     function closeEntity() {
       entityUi.set({ open: false, status: 'idle' })
       applyEntityLayout(false, 0)
+      // 等滑出动画结束再卸载节点；禁用时 stop() 会立刻 unmountEntity()
+      setTimeout(() => { if (!entityUi.get().open) entityUi.set({ mounted: false }) }, 420)
+    }
+
+    function unmountEntity() {
+      entityUi.set({ open: false, mounted: false, status: 'idle', card: null })
     }
 
     function applyEntityLayout(open, width) {
@@ -2542,9 +2548,7 @@ window.__ModuleLoader__.load({
 
     function EntityPanelHost() {
       const state = React.useSyncExternalStore(entityUi.subscribe, entityUi.get, entityUi.get)
-      if (!state.open && state.status === 'idle') {
-        return h('div', { 'data-dsh-entity-panel': '', 'data-open': 'false' })
-      }
+      if (!state.mounted) return null
       return h('div', { 'data-dsh-entity-panel': '', 'data-open': state.open ? 'true' : 'false' },
         h('div', { 'data-dsh-entity-card': '', role: 'dialog', 'aria-label': '实体详情' },
           h('div', { 'data-dsh-entity-head': '' },
@@ -2679,7 +2683,8 @@ window.__ModuleLoader__.load({
           if (controller) { try { controller.abort() } catch {} controller = null }
           entityPending.clear()
           unwrapEntities()
-          closeEntity()
+          unmountEntity()
+          applyEntityLayout(false, 0)
           const style = document.querySelector('style[data-plugin="dsh-style-entity"]')
           if (style) style.remove()
           started = false
