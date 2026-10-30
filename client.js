@@ -467,7 +467,7 @@ window.__ModuleLoader__.load({
       'padding-top:var(--dsh-q-top);padding-bottom:var(--dsh-q-bottom);',
       '}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="input"],',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.composer.bar"] > *{margin-top:150px !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.composer.bar"] > *{margin-top:168px !important;}',
       // 输入卡片的 root/hero 都带 --dsh-composer-side-clearance 的左右内距，会把卡片缩窄 32px；
       // 用类选择器直接抹掉，保证它与热力图卡片严格同宽同边。
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] .JZLxKW_root,',
