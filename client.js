@@ -224,6 +224,17 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-layout="inset"] [data-rightbar-col]{',
       'transition:border-radius .2s var(--dsh-style-motion-ease,cubic-bezier(.4,0,.2,1)),border-color .2s var(--dsh-style-motion-ease,cubic-bezier(.4,0,.2,1)),background-color .2s var(--dsh-style-motion-ease,cubic-bezier(.4,0,.2,1));',
       '}',
+      // DSH 把布局过渡写在 [data-animating] 内，而该属性与列宽变化是**同一帧**才加上；
+      // 浏览器只在「变化前已存在过渡声明」时才启动插值 → 真机逐帧采样证实
+      // grid-template-columns 的 transitionrun 从未触发、列宽一帧到位（用户录屏的硬切）。
+      // 改为常驻声明，用同一条曲线；拖拽 / instant 时关掉，保留原生手感。
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-frame]{',
+      'transition:grid-template-columns var(--ds-transition-duration-slow,.3s) var(--ds-ease-in-out,cubic-bezier(.4,0,.2,1)) !important;',
+      '}',
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-frame][data-dragging],',
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-frame][data-rightbar-instant]{',
+      'transition:none !important;',
+      '}',
       // 让会话头（标题 / 快捷区 / 右侧工具）与窗口顶栏（红绿灯）垂直对齐：
       // 内嵌布局顶部多了 4px 间隙，把 header 的顶部内边距抵掉同样的量。
       // 注意：这里不能排除 headerBlank —— 新会话页（hero）的 header 就是 blank 的，
@@ -744,6 +755,31 @@ window.__ModuleLoader__.load({
 
     let rbSettleTimer = 0
 
+    // 把 frame 的内联 grid-template-columns 规范成可插值形式，并在 React 每次改写后同步纠正。
+    //   `288px minmax(400px, 1fr) minmax(0px, 632px)` → `288px 1fr 632px`
+    // 只处理三轨道且形态匹配的原值；匹配不上就原样保留，绝不猜。
+    const GRID_COLS_RE = /^\s*([\d.]+px)\s+minmax\(\s*(?:0px|\d+(?:\.\d+)?px)?\s*,\s*1fr\s*\)\s+minmax\(\s*0px\s*,\s*([\d.]+px)\s*\)\s*$/
+
+    function normalizeGridColumns(frame) {
+      if (typeof document === 'undefined' || !frame) return
+      if (!frame.__dshGridSync) {
+        frame.__dshGridSync = true
+        const apply = () => {
+          const raw = frame.style.getPropertyValue('grid-template-columns')
+          if (!raw) return
+          const hit = GRID_COLS_RE.exec(raw)
+          if (!hit) return
+          const normalized = hit[1] + ' 1fr ' + hit[2]
+          if (raw === normalized && frame.style.getPropertyPriority('grid-template-columns') === 'important') return
+          frame.style.setProperty('grid-template-columns', normalized, 'important')
+        }
+        // 同步纠正：MutationObserver 回调在下一个绘制之前执行，
+        // 所以 React 写入与纠正发生在同一帧，浏览器看不到中间值。
+        new MutationObserver(apply).observe(frame, { attributes: true, attributeFilter: ['style'] })
+        apply()
+      }
+    }
+
     function tagOnce() {
       if (typeof document === 'undefined') return
       mountTitlebar()
@@ -780,6 +816,14 @@ window.__ModuleLoader__.load({
         rbSettleTimer = setTimeout(() => { rbSettleTimer = 0; scheduleTag() }, 700)
       }
 
+
+      // 让右侧栏开合真正插值：DSH 内联写的是
+      //   `${sidebar}px minmax(0|400px, 1fr) minmax(0px, ${rightbar}px)`
+      // 收起/展开时中间轨道的 min 在 0px 与 400px 之间变，轨道列表整体不可插值
+      // → 真机逐帧采样证实 grid-template-columns 的 transition 从未启动（列宽一帧到位）。
+      // 这里把三条轨道统一成「固定长度 + 1fr + 固定长度」，开关时只有最后一条变化，
+      // 浏览器才能逐帧插值出真实布局宽度。
+      normalizeGridColumns(frame)
 
       const dark = isDark() ? 'true' : 'false'
       const root = document.documentElement
@@ -3014,6 +3058,38 @@ window.__ModuleLoader__.load({
         id: 'dsh-style-stamp',
         order: -30,
       }, QoderStampCard))
+      // TEMP-LAYOUT-PROBE v3：只认 frame 自己的 grid-template-columns 过渡
+      try {
+        const arm = () => {
+          const frame = document.querySelector('[data-dsh-style-frame]')
+          if (!frame) { setTimeout(arm, 400); return }
+          if (frame.__dshLP3) return
+          frame.__dshLP3 = true
+          frame.addEventListener('transitionrun', (e) => {
+            if (e.target !== frame) return
+            const t0 = performance.now()
+            const rows = []
+            let n = 0
+            const take = () => {
+              const mEl = document.querySelector('[data-dsh-style-main]')
+              const rEl = frame.querySelector(':scope > [data-rightbar-col]')
+              const t = Math.round(performance.now() - t0)
+              rows.push(t + ':' + (mEl ? Math.round(mEl.getBoundingClientRect().width) : -1)
+                + '/' + (rEl ? Math.round(rEl.getBoundingClientRect().width) : -1)
+                + '/k' + (rEl ? rEl.children.length : -1)
+                + '/k' + (rEl ? rEl.children.length : -1)
+                + '/' + e.propertyName.slice(0, 12)
+                + '/[' + getComputedStyle(frame).gridTemplateColumns + ']')
+              n += 1
+              if (n < 6) requestAnimationFrame(take)
+              else document.title = 'LP3 ' + rows.join(' ')
+            }
+            take()
+          }, true)
+        }
+        arm()
+      } catch (error) { /* probe must never break the plugin */ }
+
     }
 
     exports.apply = apply
