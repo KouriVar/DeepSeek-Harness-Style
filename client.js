@@ -451,7 +451,10 @@ window.__ModuleLoader__.load({
       '}',
 
       // ① 列宽：hero 相把内容列钉到 767（Qoder 实测），输入框与热力图共用这一个变量
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"]{--dsh-composer-card-max-width:min(767px, 100%);}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"]{--dsh-composer-card-max-width:min(767px, 100%);width:min(799px, 100%) !important;}',
+      // 两张卡用同一个 width 表达式，几何上不可能再分叉
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] .dsh-qcard,',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] .JZLxKW_card{width:min(767px, 100%) !important;max-width:none !important;}',
 
       // ② 上下分离：组贴在「距输入框 150px」的位置，上方剩余空间由 auto margin 吸收
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-conversation-scroll]{justify-content:flex-start !important;}',
@@ -462,7 +465,11 @@ window.__ModuleLoader__.load({
       'padding-top:var(--dsh-q-top);padding-bottom:var(--dsh-q-bottom);',
       '}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="input"],',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.composer.bar"] > *{margin-top:150px !important;padding-left:0 !important;padding-right:0 !important;}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.composer.bar"] > *{margin-top:150px !important;}',
+      // 输入卡片的 root/hero 都带 --dsh-composer-side-clearance 的左右内距，会把卡片缩窄 32px；
+      // 用类选择器直接抹掉，保证它与热力图卡片严格同宽同边。
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] .JZLxKW_root,',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] .JZLxKW_hero{padding-left:0 !important;padding-right:0 !important;}',
 
       // 欢迎块自身不再吃满高度（原生 HeroShell.root 是 height:100%，会把句子行推远）
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"] > :first-child{height:auto !important;flex:0 0 auto !important;margin-top:auto !important;}',
