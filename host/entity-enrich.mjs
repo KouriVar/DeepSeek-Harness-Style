@@ -155,10 +155,13 @@ function reasonOf(error, signal) {
   return new AdapterError('network', String(error?.message ?? error))
 }
 
-async function readJson(response) {
+async function readJson(response, signal) {
   try {
     return await response.json()
   } catch (error) {
+    // A body read interrupted by our own deadline must not be reported as a
+    // malformed payload — otherwise the diagnostics blame the upstream.
+    if (signal?.aborted) throw reasonOf(error, signal)
     throw new AdapterError('bad-json', `invalid JSON payload: ${error?.message ?? error}`)
   }
 }
@@ -191,13 +194,18 @@ async function httpJson(url, { signal, headers = {} } = {}) {
 
   if (response.status === 403 || response.status === 429) {
     const remaining = response.headers.get('x-ratelimit-remaining')
+    const reset = Number(response.headers.get('x-ratelimit-reset'))
     try {
       await response.body?.cancel()
     } catch {
       /* ignore */
     }
     const code = remaining === '0' ? 'rate-limited' : `http-${response.status}`
-    throw new AdapterError(code, `HTTP ${response.status}`)
+    const error = new AdapterError(code, `HTTP ${response.status}`)
+    // GitHub's search endpoint allows only 10 anonymous requests per minute; the
+    // reset stamp lets the caller back off exactly instead of guessing.
+    if (Number.isFinite(reset) && reset > 0) error.resetAt = reset * 1000
+    throw error
   }
 
   if (!response.ok) {
@@ -209,7 +217,7 @@ async function httpJson(url, { signal, headers = {} } = {}) {
     throw new AdapterError(`http-${response.status}`, `HTTP ${response.status}`)
   }
 
-  const json = await readJson(response)
+  const json = await readJson(response, signal)
   return { json, status: response.status, headers: response.headers }
 }
 
@@ -318,7 +326,44 @@ function isRelevant(query, hit, floor = 0.5) {
   return tierScore(query, hit).score >= floor
 }
 
+/* ----------------------------- github ----------------------------- */
+
+/**
+ * The GitHub *search* API allows only 10 anonymous requests per minute, so a
+ * chatty client will exhaust it almost immediately. Once we see a rate-limit
+ * response we stop calling search until the advertised reset instead of burning
+ * the remaining quota on requests that are certain to fail.
+ */
+const githubState = { blockedUntil: 0, lastError: null, lastResetAt: 0 }
+const GITHUB_DEFAULT_BACKOFF_MS = 60_000
+
+function githubRetryInMs() {
+  return Math.max(0, githubState.blockedUntil - Date.now())
+}
+
+export function __githubState() {
+  const retryInMs = githubRetryInMs()
+  return { open: retryInMs > 0, retryInMs, lastError: githubState.lastError, lastResetAt: githubState.lastResetAt }
+}
+
 async function githubAdapter({ name, signal }) {
+  if (githubRetryInMs() > 0) {
+    throw new AdapterError('circuit-open', `github search rate limited, retry in ${Math.ceil(githubRetryInMs() / 1000)}s`)
+  }
+  try {
+    return await githubSearch({ name, signal })
+  } catch (error) {
+    if (error?.code === 'rate-limited' || error?.code === 'http-429') {
+      const waitMs = Math.max(0, (error.resetAt ?? Date.now() + GITHUB_DEFAULT_BACKOFF_MS) - Date.now())
+      githubState.blockedUntil = Date.now() + (waitMs > 0 ? waitMs : GITHUB_DEFAULT_BACKOFF_MS)
+      githubState.lastError = error.code
+      githubState.lastResetAt = error.resetAt ?? null
+    }
+    throw error
+  }
+}
+
+async function githubSearch({ name, signal }) {
   const url = `${GITHUB_API}/search/repositories?q=${encodeURIComponent(name)}&per_page=${GITHUB_PER_PAGE}`
   const { json } = await httpJson(url, { signal })
   const items = Array.isArray(json?.items) ? json.items : []
@@ -768,8 +813,12 @@ function buildGroups(scored) {
     }
 
     const imageItem = items.find((item) => item.hit.imageUrl) ?? null
-    const summaryItem = items.find((item) => item.hit.summary) ?? primary
-    const descriptionItem = items.find((item) => item.hit.description) ?? summaryItem
+    // The primary hit is the record the card is *about*, so its own text wins;
+    // only fall back to a linked sibling when the primary has none.
+    const summaryItem = primary.hit.summary ? primary : (items.find((item) => item.hit.summary) ?? primary)
+    const descriptionItem = primary.hit.description
+      ? primary
+      : (items.find((item) => item.hit.description) ?? summaryItem)
     const stars = Math.max(0, ...items.map((item) => item.hit.stars ?? 0))
 
     return {
@@ -786,6 +835,7 @@ function buildGroups(scored) {
       score: primary.score,
       nameScore: primary.nameScore,
       kind: primary.kind,
+      popularity: primary.hit.popularity ?? 0,
       meta: primary.hit.meta ?? null,
       stars,
     }
@@ -990,6 +1040,13 @@ export async function enrichEntity(input = {}) {
   const ownerLevelOnly = WEAK_KINDS.has(top.kind) && normalizeName(name).length >= 4
   if (ownerLevelOnly) confidence = Math.min(confidence, 0.74)
 
+  // Prominence guard: if some other candidate is materially better known than
+  // our pick, the pick is probably not what the user means. Example: an obscure
+  // PyPI package literally called "dsh" out-ranking a 34k-star GitHub project.
+  const prominenceGap = runnerUp ? (runnerUp.popularity ?? 0) - (top.popularity ?? 0) : 0
+  const outranked = prominenceGap > 0.15
+  if (outranked) confidence = Math.min(confidence, 0.74)
+
   const matched = confidence >= 0.45
   const candidates = matched
     ? merged
@@ -1035,6 +1092,8 @@ export async function enrichEntity(input = {}) {
       artifactSource: top.source,
       matchKind: top.kind,
       ownerLevelOnly,
+      outranked,
+      prominenceGap: round3(prominenceGap),
       sourcesSeen: top.sourcesSeen,
       ambiguity: ambiguous,
       runnerUp: runnerUp ? { name: runnerUp.name, source: runnerUp.source, score: round3(runnerUp.score) } : null,

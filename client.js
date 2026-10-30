@@ -265,9 +265,9 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-hide-tabs="true"] div:has(> [data-conversation-tabs]){display:none !important;}',
       // 标签栏没了，把会话头压到和右栏头一致的高度（38px），标题/图标才能对齐、也不留空白。
       'html[data-dsh-style-hide-tabs="true"] [data-dsh-style-main] header[data-window-drag]{min-height:38px !important;height:38px !important;padding-top:0 !important;padding-bottom:0 !important;align-items:center !important;}',
-      // 右上角按钮组：收起右侧栏时，会话头会一直顶到窗口右缘（比展开时少约 8px 呼吸位），
-      // 这里把展开态的内缩量补回来，两种状态视觉位置一致。
-      'html[data-dsh-style-enabled="true"] [data-rightbar-collapsed] [data-dsh-style-main] header[data-window-drag]{padding-right:calc(28px + var(--dsh-style-header-trailing,8px)) !important;}',
+      // 新会话页（空白 header）里右上角只剩一个按钮，原生 28px 右内距会让它离窗口右缘明显偏远；
+      // 单独给它一个更小的右内距，和会话页按钮组的位置对齐。
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-main] header[data-window-drag][class*="headerBlank"]{padding-right:var(--dsh-style-header-blank-trailing,8px) !important;}',
       // 去掉标题栏 / 右栏头部那条分割线（和 Qoder 一样，无分割线）。
       'html[data-dsh-style-enabled="true"] [data-dsh-style-main] header[data-window-drag]{border-bottom:0 !important;}',
       'html[data-dsh-style-enabled="true"] [data-rightbar-col] [class*="_header"]{border-bottom:0 !important;}',
@@ -1301,6 +1301,22 @@ window.__ModuleLoader__.load({
         }
         if (stack) want(stack.querySelector('[data-slot="conversation.composer.bar"] > *'), 'input')
       }
+      // TEMP-DIAG: 把右上角按钮组的几何信息写到窗口标题，便于外部读取
+      try {
+        const hdr = document.querySelector('[data-dsh-style-main] header[data-window-drag]')
+        const corner = document.querySelector('[data-conversation-header-corner]')
+        const frame = document.querySelector('[data-dsh-style-frame]')
+        const r1 = hdr && hdr.getBoundingClientRect()
+        const r2 = corner && corner.getBoundingClientRect()
+        const f = frame ? frame.getBoundingClientRect() : null
+        document.title = 'DIAG|W=' + Math.round(window.innerWidth)
+          + '|hdrRight=' + (r1 ? Math.round(r1.right) : 'x') + '|hdrPadR=' + (hdr ? getComputedStyle(hdr).paddingRight : 'x')
+          + '|cornerL=' + (r2 ? Math.round(r2.left) : 'x') + '|cornerR=' + (r2 ? Math.round(r2.right) : 'x')
+          + '|cornerMR=' + (corner ? getComputedStyle(corner).marginRight : 'x')
+          + '|frameR=' + (f ? Math.round(f.right) : 'x')
+          + '|blank=' + (hdr ? hdr.className.includes('headerBlank') : 'x')
+          + '|rb=' + (frame ? frame.hasAttribute('data-rightbar-collapsed') : 'x')
+      } catch (e) { /* ignore */ }
       for (const el of Array.from(document.querySelectorAll('[data-dsh-qoder]'))) {
         if (wanted.indexOf(el) === -1) el.removeAttribute('data-dsh-qoder')
       }
@@ -2243,6 +2259,8 @@ window.__ModuleLoader__.load({
     const ENTITY_UI_KEY = 'dsh-style:entity'
     const ENTITY_SKIP = 'pre, code, a, button, .katex, [data-footnotes], [contenteditable="true"], textarea, input, svg, [data-dsh-entity]'
     const ENTITY_MAX_PER_MSG = 24
+    // 只处理最近的若干条已定型消息：首次进入长会话时避免把整段历史都送进模型。
+    const ENTITY_SCAN_LIMIT = 6
 
     // ---- 面板状态（不可变快照：useSyncExternalStore 要求引用变化） ----
     const entityUi = (() => {
@@ -2569,7 +2587,8 @@ window.__ModuleLoader__.load({
 
       const scan = async () => {
         if (stopped) return
-        const roots = entityRoots()
+        const allRoots = entityRoots()
+        const roots = allRoots.slice(Math.max(0, allRoots.length - ENTITY_SCAN_LIMIT))
         for (const root of roots) {
           if (stopped) return
           const text = (root.textContent || '').trim()

@@ -13,10 +13,14 @@
  *   network   — real upstreams; a failure is reported as WARN, not FAIL
  */
 
-import { enrichEntity, __clearCache, __cacheInfo, __wikidataState, __internals } from '../entity-enrich.mjs'
+import { enrichEntity, __clearCache, __cacheInfo, __wikidataState, __githubState, __internals } from '../entity-enrich.mjs'
 import { proxyImage, isAllowedImageUrl, ALLOWED_HOSTS } from '../entity-image.mjs'
 
 const JSON_ONLY = process.argv.includes('--json')
+// GitHub's anonymous *search* quota is 10 requests/minute. Pacing the batch keeps
+// a verification run from tripping it (use --fast to skip the waits).
+const PACE_MS = process.argv.includes('--fast') ? 0 : Number(process.env.DSH_PACE_MS ?? 6500)
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 const log = (...args) => {
   if (!JSON_ONLY) console.log(...args)
 }
@@ -360,6 +364,10 @@ async function runEnrichCase(testCase) {
   // through proxyImage's allow-list, otherwise the card gets a broken avatar.
   const imageUrl = result.entity?.imageUrl
   check('image-url-proxyable', !imageUrl || isAllowedImageUrl(imageUrl), { imageUrl })
+  // The client renders description directly; it must never be undefined.
+  check('description-is-string', typeof result.entity?.description === 'string', {
+    type: typeof result.entity?.description,
+  })
 
   const failed = checks.filter((c) => !c.pass)
   const status = failed.length === 0 ? 'PASS' : testCase.expect === 'unmatched' ? 'FAIL' : 'WARN'
@@ -375,6 +383,7 @@ async function runEnrichCase(testCase) {
       name: result.entity?.name,
       type: result.entity?.type,
       summary: result.entity?.summary,
+      description: result.entity?.description,
       imageUrl: result.entity?.imageUrl,
       imageSource: result.entity?.imageSource,
       links: result.entity?.links ?? [],
@@ -410,8 +419,25 @@ async function main() {
 
   log('\n[1] entity-enrich.mjs — real names, sequential (honest per-source latency)')
   __clearCache()
-  for (const testCase of enrichCases) {
-    results.enrich.push(await runEnrichCase(testCase))
+  if (PACE_MS) log(`  (pacing ${PACE_MS}ms between queries: GitHub search allows 10/min anonymously)`)
+  for (const [index, testCase] of enrichCases.entries()) {
+    if (PACE_MS && index > 0) await sleep(PACE_MS)
+    const breaker = __githubState()
+    if (breaker.open) {
+      const wait = Math.min(breaker.retryInMs, 65_000)
+      log(`  … github breaker open (${breaker.lastError}); waiting ${Math.round(wait / 1000)}s`)
+      await sleep(wait)
+    }
+    let record = await runEnrichCase(testCase)
+    const github = record.adapters.find((a) => a.id === 'github')
+    if (PACE_MS && github && (github.error === 'rate-limited' || github.error === 'circuit-open')) {
+      const wait = Math.min(__githubState().retryInMs || 60_000, 65_000)
+      log(`  … github ${github.error} for "${testCase.name}"; clearing cache and retrying in ${Math.round(wait / 1000)}s`)
+      await sleep(wait)
+      __clearCache()
+      record = await runEnrichCase(testCase)
+    }
+    results.enrich.push(record)
   }
 
   log('\n[2] entity-enrich.mjs — cache replay + wikidata breaker state')
@@ -426,6 +452,7 @@ async function main() {
     }
     results.cacheInfo = __cacheInfo()
     results.wikidataState = __wikidataState()
+    results.githubState = __githubState()
     log(`  cache replay: cached=${replay.cached === true} ${replayMs}ms (${results.cacheInfo.size} entries)`)
     log(`  wikidata breaker: open=${!results.wikidataState.open} lastError=${results.wikidataState.lastError}`)
   }
@@ -588,6 +615,7 @@ async function main() {
       artifactSource: r.meta?.artifactSource ?? null,
       matchKind: r.meta?.matchKind ?? null,
       ownerLevelOnly: r.meta?.ownerLevelOnly ?? null,
+      outranked: r.meta?.outranked ?? null,
       summary: String(r.entity.summary ?? '').slice(0, 80),
       candidateCount: r.candidates.length,
       emptyReason: r.emptyReason,
@@ -596,6 +624,7 @@ async function main() {
     tiering: results.tiering.map((t) => ({ id: t.id, pass: t.pass })),
     wikidataFirstRun: wikidata ? { ok: wikidata.ok, ms: wikidata.ms, error: wikidata.error } : null,
     wikidataCircuitOpen: !results.wikidataState?.open,
+    githubBreaker: results.githubState ?? null,
     endToEnd: results.endToEnd?.status ?? 'skipped',
     finishedAt: new Date().toISOString(),
   }
