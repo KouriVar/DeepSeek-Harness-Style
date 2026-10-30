@@ -451,7 +451,7 @@ window.__ModuleLoader__.load({
       '}',
 
       // ① 列宽：hero 相把内容列钉到 767（Qoder 实测），输入框与热力图共用这一个变量
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"]{--dsh-composer-card-max-width:min(767px, calc(100% - 40px));}',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"]{--dsh-composer-card-max-width:min(767px, 100%);}',
 
       // ② 上下分离：组贴在「距输入框 150px」的位置，上方剩余空间由 auto margin 吸收
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-conversation-scroll]{justify-content:flex-start !important;}',
