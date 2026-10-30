@@ -518,7 +518,7 @@ window.__ModuleLoader__.load({
       // ④ 热力图卡片
       '.dsh-qcard{',
       'box-sizing:border-box;width:min(calc(100% - 88px),864px);max-width:var(--dsh-composer-card-max-width);align-self:center;',
-      'position:relative;display:flex;flex-direction:column;',
+      'display:flex;flex-direction:column;',
       'margin-top:var(--dsh-q-card-gap);',
       'padding:19px 20px 20px;',
       'border:1px solid var(--dsh-q-card-border);',
@@ -540,7 +540,7 @@ window.__ModuleLoader__.load({
       '.dsh-qmonths{display:grid;grid-template-columns:repeat(53,1fr);gap:3px;margin-top:7px;font-size:10px;line-height:14px;color:#8f8f8f;}',
       '.dsh-qmonths > span{white-space:nowrap;}',
       // 口径注记：贴在月份行右端的空白处，不占额外行，也不挤进表头
-      '.dsh-qsum{position:absolute;right:20px;top:21px;font-size:11px;line-height:18px;font-weight:400;color:#bdbdbd;white-space:nowrap;pointer-events:none;}',
+      '.dsh-qsum{margin-left:auto;font-size:11px;line-height:18px;font-weight:400;color:#bdbdbd;white-space:nowrap;pointer-events:none;}',
       '.dsh-qempty{margin:8px 0 0;font-size:11px;line-height:16px;color:#b0b0b0;}',
       '.dsh-qtip{position:fixed;z-index:2147483600;pointer-events:none;padding:4px 8px;border-radius:6px;font-size:12px;line-height:16px;white-space:nowrap;background:rgba(24,24,27,.9);color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.16);}',
 
@@ -1211,10 +1211,10 @@ window.__ModuleLoader__.load({
       },
         h('div', { className: 'dsh-qcard-head' },
           h('button', { className: 'dsh-qtab', type: 'button', 'data-active': String(mode === 'sessions'), onClick: () => setMode('sessions') }, '会话'),
-          h('button', { className: 'dsh-qtab', type: 'button', 'data-active': String(mode === 'workspaces'), onClick: () => setMode('workspaces') }, '工作区')),
+          h('button', { className: 'dsh-qtab', type: 'button', 'data-active': String(mode === 'workspaces'), onClick: () => setMode('workspaces') }, '工作区'),
+          h('span', { className: 'dsh-qsum' }, demo ? '演示数据 · 非真实统计' : (model.total > 0 ? '共 ' + model.total + ' · 按最近活动日' : '按最近活动日'))),
         h('div', { className: 'dsh-qgrid' }, cells),
         h('div', { className: 'dsh-qmonths' }, monthCells),
-        h('span', { className: 'dsh-qsum' }, demo ? '演示数据 · 非真实统计' : (model.total > 0 ? '共 ' + model.total + ' · 按最近活动日' : '按最近活动日')),
         model.total === 0 ? h('p', { className: 'dsh-qempty' }, '还没有可以统计的会话。') : null,
         tipNode,
       )
