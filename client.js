@@ -1377,7 +1377,8 @@ window.__ModuleLoader__.load({
     function QoderStampCard(props) {
       const useSessions = props.useSessions
       const sessionId = props.sessionId
-      const [settings] = React.useState(store.get)
+      const [settings, setSettings] = React.useState(store.get)
+      React.useEffect(() => store.subscribe(() => setSettings(store.get())), [])
       const blank = typeof useSessions === 'function'
         ? useSessions((value) => Boolean(value && value.byId && sessionId !== void 0 && value.byId[sessionId] && value.byId[sessionId].blank === true))
         : false
