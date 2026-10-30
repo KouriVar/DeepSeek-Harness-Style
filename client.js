@@ -265,11 +265,13 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-hide-tabs="true"] div:has(> [data-conversation-tabs]){display:none !important;}',
       // 标签栏没了，把会话头压到和右栏头一致的高度（38px），标题/图标才能对齐、也不留空白。
       'html[data-dsh-style-hide-tabs="true"] [data-dsh-style-main] header[data-window-drag]{min-height:38px !important;height:38px !important;padding-top:0 !important;padding-bottom:0 !important;align-items:center !important;}',
-      // 新会话页（空白 header）右上角只剩 corner 一个按钮，实测它会比会话页更靠左。
-      // 与其去追是哪一层撑开的，直接把 corner 绝对定位钉在 header 右缘，
-      // 偏移量 = 会话页实测值（内嵌间隙 4 + 12 = 16px ≈ 距窗口右缘 17px）。
-      'html[data-dsh-style-enabled="true"] [data-phase="hero"] header[data-window-drag]{position:relative;}',
-      'html[data-dsh-style-enabled="true"] [data-phase="hero"] header[data-window-drag] [data-conversation-header-corner]{position:absolute;top:50%;transform:translateY(-50%);right:calc(var(--dsh-style-inset-gap,4px) + var(--dsh-style-hero-corner-inset,12px));align-items:center;}',
+      // 右上角「侧边栏」按钮：以**右侧栏展开时**的位置为唯一基准。
+      // 收起态由会话头 corner 渲染（原生 padding-right:28 - 外边距 16 = 距面板右缘 12px），
+      // 展开态由右栏工具栏渲染，两者差一截。这里只改会话头的右内距，
+      // 整组按钮随之内缩，按钮组内部间距不变（不会重叠、不会被圆角裁切）。
+      'html[data-dsh-style-enabled="true"] [data-rightbar-collapsed] [data-dsh-style-main] header[data-window-drag]{',
+      'padding-right:var(--dsh-style-corner-pad,22px) !important;',
+      '}',
       // 去掉标题栏 / 右栏头部那条分割线（和 Qoder 一样，无分割线）。
       'html[data-dsh-style-enabled="true"] [data-dsh-style-main] header[data-window-drag]{border-bottom:0 !important;}',
       'html[data-dsh-style-enabled="true"] [data-rightbar-col] [class*="_header"]{border-bottom:0 !important;}',
