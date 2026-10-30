@@ -2315,6 +2315,7 @@ window.__ModuleLoader__.load({
     // ---- 注入：把实体名包成可点击元素 ----
     let entityLinks = []
     function entityRoots() {
+      if (typeof document === 'undefined') return []
       const out = []
       const rows = document.querySelectorAll('[data-chat-flow-kind="assistant-step"]')
       for (const row of rows) {
@@ -2374,6 +2375,7 @@ window.__ModuleLoader__.load({
     }
 
     function unwrapEntities() {
+      if (typeof document === 'undefined') { entityLinks = []; return }
       for (const link of entityLinks) {
         try {
           const parent = link.parentNode
@@ -2413,6 +2415,7 @@ window.__ModuleLoader__.load({
     }
 
     function applyEntityLayout(open, width) {
+      if (typeof document === 'undefined') return
       try {
         const root = document.documentElement
         if (open) {
@@ -2453,6 +2456,7 @@ window.__ModuleLoader__.load({
     ].join('\n')
 
     function ensureEntityStyle() {
+      if (typeof document === 'undefined') return null
       let el = document.querySelector('style[data-plugin="dsh-style-entity"]')
       if (!el) {
         el = document.createElement('style')
@@ -2625,6 +2629,7 @@ window.__ModuleLoader__.load({
 
       return {
         start() {
+          if (typeof document === 'undefined') return
           if (!stopped) return
           stopped = false
           if (started) { schedule(); return }
@@ -2642,6 +2647,7 @@ window.__ModuleLoader__.load({
           schedule()
         },
         stop() {
+          if (typeof document === 'undefined') { stopped = true; return }
           if (stopped) { /* 仍然清理一遍，保证幂等 */ }
           stopped = true
           if (debounce) { clearTimeout(debounce); debounce = null }
