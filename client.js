@@ -436,6 +436,7 @@ window.__ModuleLoader__.load({
       '--dsh-q-title-size:20px;',
       '--dsh-q-sentence-size:22px;',
       '--dsh-q-sentence-color:#717171;',
+      '--dsh-q-title-gap:10px;',
       '--dsh-q-card-gap:28px;',
       '--dsh-q-top:clamp(24px,6vh,80px);',
       '--dsh-q-bottom:clamp(16px,3vh,40px);',
@@ -491,14 +492,15 @@ window.__ModuleLoader__.load({
       'color:var(--dsw-alias-label-primary,#000) !important;',
       '}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="previewbadge"]{display:none !important;}',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="headline"] svg,',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.hero.brand.mark"] svg{width:22px !important;height:22px !important;}',
+      // 标题前的图标：整槽隐藏（不占位，标题自然居中）
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-slot="conversation.hero.brand.mark"],',
+      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [class*="fishHitbox"]{display:none !important;}',
 
       // ③ 动态欢迎语：整行居中，两个原生选择器原地句化
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"],',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] div:has(> [data-slot="conversation.hero.agentPreset"]){',
       'display:flex !important;justify-content:center !important;align-items:baseline !important;flex-wrap:wrap !important;',
-      'gap:0 !important;margin-top:6px !important;padding:0 !important;',
+      'gap:0 !important;margin-top:var(--dsh-q-title-gap) !important;padding:0 !important;',
       'font-size:var(--dsh-q-sentence-size) !important;line-height:1.4 !important;',
       'font-weight:600 !important;',
       'color:var(--dsh-q-sentence-color) !important;',
