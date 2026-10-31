@@ -826,7 +826,7 @@ window.__ModuleLoader__.load({
     // （模型收到的仍是 @相对路径）。点卡片 → 定位/高亮正文引用；点引用 → 高亮卡片；
     // 引用被删除时卡片随之消失、编号按当下顺序自动重排。
     const REFCARD_CSS = [
-      '[data-dsh-refcards]{position:fixed;z-index:2147482999;display:flex;align-items:stretch;gap:8px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 6px;scrollbar-width:none;-webkit-app-region:no-drag;pointer-events:auto;}',
+      '[data-dsh-refcards]{box-sizing:border-box;width:100%;display:flex;align-items:stretch;gap:8px;overflow-x:auto;overflow-y:hidden;padding:0 12px 2px;scrollbar-width:none;}',
       '[data-dsh-refcards]::-webkit-scrollbar{display:none}',
       '[data-dsh-refcard]{position:relative;flex:none;box-sizing:border-box;display:inline-flex;align-items:center;gap:10px;width:240px;height:64px;padding:0 12px;border-radius:14px;border:.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.12));background:var(--dsw-specific-input-major,#fff);box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:border-color .12s,box-shadow .12s,background .12s;}',
       '[data-dsh-refcard]:hover{border-color:var(--dsw-alias-border-l3,rgba(0,0,0,.2));}',
@@ -867,7 +867,6 @@ window.__ModuleLoader__.load({
       let signature = ''
       let observer = null
       let raf = 0
-      let ticker = 0
       let docClick = null
 
       function composerCard() {
@@ -905,13 +904,17 @@ window.__ModuleLoader__.load({
         }
         return out
       }
-      function ensureRow() {
-        if (row && row.isConnected) return row
-        row = document.createElement('div')
-        row.setAttribute('data-dsh-refcards', '')
-        row.setAttribute('role', 'list')
-        row.setAttribute('aria-label', '输入框引用卡片')
-        document.body.appendChild(row)
+      // 行挂在 composer 卡片内部的最前面（不浮层）：卡片自然长高，卡片行随输入框一起滚动。
+      function ensureRow(card) {
+        if (!row) {
+          row = document.createElement('div')
+          row.setAttribute('data-dsh-refcards', '')
+          row.setAttribute('role', 'list')
+          row.setAttribute('aria-label', '输入框引用卡片')
+        }
+        if (row.parentElement !== card) {
+          try { card.insertBefore(row, card.firstChild) } catch { try { card.appendChild(row) } catch {} }
+        }
         return row
       }
       function hideRow() {
@@ -962,34 +965,23 @@ window.__ModuleLoader__.load({
         })
         return card
       }
-      function place() {
-        if (!row || !row.isConnected) return
-        const card = composerCard()
-        if (!card) { hideRow(); return }
-        const r = card.getBoundingClientRect()
-        const h = row.offsetHeight || 64
-        const left = Math.round(r.left + 8)
-        const width = Math.max(160, Math.round(r.width - 16))
-        let top = Math.round(r.top - h - 8)
-        if (top < 8) top = Math.round(r.bottom + 8)
-        row.style.left = left + 'px'
-        row.style.width = width + 'px'
-        row.style.top = top + 'px'
-      }
       function sync() {
         if (!enabled) return
         const card = composerCard()
-        const next = card ? collect(card) : []
+        if (!card) { chips = []; signature = ''; hideRow(); return }
+        const next = collect(card)
         chips = next
         const sig = next.map((item) => item.name + '#' + item.ext).join('|')
         if (sig !== signature) {
           signature = sig
           if (!next.length) { hideRow(); return }
-          const rowEl = ensureRow()
+          const rowEl = ensureRow(card)
           rowEl.replaceChildren(...next.map((item, index) => cardNode(item, index)))
+          return
         }
-        if (!next.length) { hideRow(); return }
-        place()
+        // 内容没变但行还在（常见于 React 重渲染把子节点重建），重新挂到卡片内部。
+        if (next.length) ensureRow(card)
+        else hideRow()
       }
       function schedule() {
         if (raf) return
@@ -1018,20 +1010,15 @@ window.__ModuleLoader__.load({
           observer.observe(document.body, { childList: true, subtree: true, characterData: true })
         }
         window.addEventListener('resize', schedule)
-        document.addEventListener('scroll', schedule, true)
         docClick = onDocClick
         document.addEventListener('click', docClick, true)
-        // 布局动画（右栏开合）不改 DOM，用低频 ticker 兜住位置。
-        ticker = setInterval(place, 250)
         schedule()
       }
       function stop() {
         enabled = false
         if (observer) { try { observer.disconnect() } catch {} observer = null }
         window.removeEventListener('resize', schedule)
-        document.removeEventListener('scroll', schedule, true)
         if (docClick) { document.removeEventListener('click', docClick, true); docClick = null }
-        if (ticker) { clearInterval(ticker); ticker = 0 }
         if (raf) { try { cancelAnimationFrame(raf) } catch {} raf = 0 }
         for (const item of chips) { try { item.chip.removeAttribute('data-dsh-chip-flash') } catch {} }
         chips = []
