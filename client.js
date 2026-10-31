@@ -292,6 +292,14 @@ window.__ModuleLoader__.load({
       '[data-dsh-style-tip]{position:fixed;z-index:2147483001;max-width:280px;padding:7px 11px;border-radius:9px;background:rgba(28,28,30,.95);color:#f5f5f7;font-size:12px;line-height:17px;box-shadow:0 10px 26px rgba(0,0,0,.32);pointer-events:none;}',
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_toggle"]{display:none !important;}',
       'html[data-dsh-style-enabled="true"] [data-shell-leading]{display:none !important;}',
+      // 标题行让位：侧栏折叠时 DSH 只按「原生 3 颗按钮」预留 --dsh-frame-leading-clearance:160px，
+      // 标题左缘 = 清变量 + 6px。插件按钮条是 88px 起、含第 4 颗刷新按钮到 206px，于是标题被压住。
+      // 这里把清变量抬到「按钮条右缘 + 4px」→ 标题左缘 = 按钮右缘 + 10px。
+      // 宽度由 JS 实测写进 --dsh-style-tb-width（4 颗 118px / 3 颗 88px）。
+      'html[data-platform="darwin"][data-dsh-style-enabled="true"] [data-dsh-style-frame][data-sidebar-collapsed]{--dsh-frame-leading-clearance:calc(88px + var(--dsh-style-tb-width,118px) + 4px);}',
+      // 全屏时原生把 leadingSeat 挪到 12px、清变量降到 84px：按钮条跟着左移，清变量同步重算。
+      'html[data-dsh-style-enabled="true"][data-fullscreen] .dsh-style-tb{left:12px;}',
+      'html[data-platform="darwin"][data-dsh-style-enabled="true"][data-fullscreen] [data-dsh-style-frame][data-sidebar-collapsed]{--dsh-frame-leading-clearance:calc(12px + var(--dsh-style-tb-width,118px) + 4px);}',
     ].join('')
 
     // 输入框外观微调（可配置）：整卡圆角、输入区默认高度、圆形按钮改圆角矩形。
@@ -723,6 +731,15 @@ window.__ModuleLoader__.load({
 
     // ---- 顶部窗口控制（折叠 / 后退 / 前进 / 刷新） ----
     let titlebarEl = null
+    // HMR 会重跑整个模块但不回收上一代实例：它的 MutationObserver 还在跑，每次 tagOnce 都会
+    // 再 append 一个按钮盒（真机实测叠到 11 个，AX 树里 11 个「收起侧边栏」）。用 window 上的
+    // 代次认主：模块每执行一次就 +1，只有「代次不落后于当前主」的实例能挂按钮。
+    let titlebarGen = 1
+    try {
+      const G = globalThis
+      G.__dshStyleTitlebarGen = (G.__dshStyleTitlebarGen || 0) + 1
+      titlebarGen = G.__dshStyleTitlebarGen
+    } catch {}
     function tbIcon(kind) {
       if (kind === 'panel') return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2.2" y="3.2" width="11.6" height="9.6" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M6.4 3.4v9.2" stroke="currentColor" stroke-width="1.4"/></svg>'
       if (kind === 'back') return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M9.8 3.6 5.4 8l4.4 4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -803,10 +820,23 @@ window.__ModuleLoader__.load({
       if (typeof document === 'undefined' || !document.body) return
       const cfg = store.get()
       if (cfg.titlebarButtons === false) { unmountTitlebar(); return }
+      // 只有「不落后于当前主」的实例能挂按钮（见 titlebarGen 注释）：旧实例的 observer 还在
+      // 触发，走到这里就只拆掉自己的盒子，不再 append。
+      try {
+        if (globalThis.__dshStyleTitlebarOwner > titlebarGen) {
+          unmountTitlebar()
+          return
+        }
+        globalThis.__dshStyleTitlebarOwner = titlebarGen
+      } catch {}
       const wantRefresh = cfg.titlebarRefresh !== false
       // 开关切换后按钮组合变了：先拆再建（同一帧内完成，不会闪）。
       if (titlebarEl && (titlebarEl.__hasRefresh !== wantRefresh || !document.body.contains(titlebarEl))) unmountTitlebar()
       if (titlebarEl && document.body.contains(titlebarEl)) { syncTitlebar(); return }
+      // 旧实例（HMR 前后的任何一代）遗留的按钮盒先扫掉，保证 body 上最多一个。
+      for (const stale of Array.from(document.querySelectorAll('[data-dsh-style-titlebar]'))) {
+        try { stale.remove() } catch {}
+      }
       const box = document.createElement('div')
       box.className = 'dsh-style-tb'
       box.setAttribute('data-dsh-style-titlebar', '')
@@ -855,10 +885,17 @@ window.__ModuleLoader__.load({
       box.__hasRefresh = wantRefresh
       document.body.appendChild(box)
       titlebarEl = box
+      // 把按钮条实测宽度交给 CSS（标题行让位用；3 颗 88px / 4 颗 118px）。
+      try {
+        const width = Math.round(box.getBoundingClientRect().width)
+        if (width > 0) document.documentElement.style.setProperty('--dsh-style-tb-width', width + 'px')
+      } catch {}
       syncTitlebar()
     }
     function unmountTitlebar() {
       if (titlebarEl) { try { titlebarEl.remove() } catch {} titlebarEl = null }
+      // 自己做主时才交还令牌，避免旧实例把新实例的挂载权一起撤掉。
+      try { if (globalThis.__dshStyleTitlebarOwner === titlebarGen) delete globalThis.__dshStyleTitlebarOwner } catch {}
     }
 
     // ---- 输入框引用卡片（正文 @文件引用的只读镜像） ----

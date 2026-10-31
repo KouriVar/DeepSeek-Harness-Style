@@ -2,6 +2,31 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.2.1] - 2026-10-31
+
+### 修复
+- **折叠左侧栏后，会话区标题被顶栏按钮压住（刷新图标正好盖在标题开头几个字上）**。
+  根因：DSH 原生用 `--dsh-frame-leading-clearance` 给左上角 chrome 让位——侧栏折叠时（`[data-sidebar-collapsed]`）
+  设 `160px`（全屏 `84px`），会话标题行的 `padding-inline-start` 是 `calc(清变量 - 20px)`，
+  即「标题左缘 = 清变量 + 6px」。这个 160px 是按**原生 3 颗按钮**量的；插件多加了第 4 颗「刷新页面」，
+  按钮条固定在 `left:88px`、宽 118px（88→**206px**），于是标题从 **166px** 起，重叠 40px。
+  修法：沿用原生同一套让位机制，把清变量抬到「按钮条右缘 + 4px」——
+  `calc(88px + var(--dsh-style-tb-width) + 4px)`，宽度由 JS 实测后写进 `--dsh-style-tb-width`
+  （4 颗 118px / 关掉刷新时 3 颗 88px），展开态不生效。全屏时按钮条跟随原生 leadingSeat 左移到 12px，
+  清变量同步按 `calc(12px + 宽度 + 4px)` 重算（原生全屏只给 84px，原来叠得更狠）。
+  实测（1512 宽、macOS、非全屏）：折叠态清变量 `calc(88px + 118px + 4px)` = 210px、
+  标题行 `padding-inline-start 190px`、标题左缘 **166 → 216px**、按钮右缘 206px，间隙 10px；
+  命中测试（标题左缘 +3px 处 `elementFromPoint`）从「刷新按钮」变为「标题文字本身」。
+  展开态清变量为空、标题在 307px，无回退。
+- **顶栏按钮盒在 HMR 后重复叠份（真机实测 body 上 11 个，AX 树里 11 个「收起侧边栏」）**。
+  根因与当年引用卡片叠行同源：`dsh-client-hmr` 重跑整个插件模块、但不回收上一代实例，
+  旧实例的 `MutationObserver` 还在跑，每次 `tagOnce()` 都会再 `append` 一个按钮盒（位置完全相同，
+  所以肉眼看不出来，但命中层与无障碍树各自多出 N 份）。
+  修法：模块执行时用一个自增代次认主（`globalThis.__dshStyleTitlebarGen`），
+  只有「代次不落后于当前主」的实例能挂按钮；挂载前先扫掉 body 上任何遗留的 `[data-dsh-style-titlebar]`，
+  保证最多一个。实测：修复后连续 HMR 数次，`document.querySelectorAll('[data-dsh-style-titlebar]').length`
+  恒为 **1**，AX 树从 11 个按钮回到 1 个。
+
 ## [0.2.0] - 2026-10-31
 
 ### 新增
