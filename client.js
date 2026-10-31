@@ -912,6 +912,10 @@ window.__ModuleLoader__.load({
           row.setAttribute('role', 'list')
           row.setAttribute('aria-label', '输入框引用卡片')
         }
+        // 同一张 composer 卡片里只允许存在一行：旧实例残留 / React 重建都会叠出多行。
+        for (const el of Array.from(card.querySelectorAll(':scope > [data-dsh-refcards]'))) {
+          if (el !== row) { try { el.remove() } catch {} }
+        }
         if (row.parentElement !== card) {
           try { card.insertBefore(row, card.firstChild) } catch { try { card.appendChild(row) } catch {} }
         }
@@ -1002,6 +1006,12 @@ window.__ModuleLoader__.load({
       function start() {
         if (enabled) return
         enabled = true
+        // HMR 重载时旧插件实例可能没被回收：用 window 上的单例把手把它停掉，避免每实例各插一行。
+        try {
+          const prev = globalThis.__dshStyleRefCards
+          if (prev && prev !== api && typeof prev.stop === 'function') prev.stop()
+        } catch {}
+        try { globalThis.__dshStyleRefCards = api } catch {}
         // 旧实例残留（HMR/重载）先清掉，避免叠两排。
         for (const stale of Array.from(document.querySelectorAll('[data-dsh-refcards]'))) { try { stale.remove() } catch {} }
         for (const stale of Array.from(document.querySelectorAll('[data-dsh-chip-flash]'))) { try { stale.removeAttribute('data-dsh-chip-flash') } catch {} }
@@ -1024,8 +1034,10 @@ window.__ModuleLoader__.load({
         chips = []
         signature = ''
         hideRow()
+        try { if (globalThis.__dshStyleRefCards === api) delete globalThis.__dshStyleRefCards } catch {}
       }
-      return { start, stop, refresh: schedule }
+      const api = { start, stop, refresh: schedule }
+      return api
     })()
 
 
