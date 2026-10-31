@@ -471,6 +471,51 @@
       "tint": "currentColor",
       "hide": "svg",
       "enabled": true
+    },
+    {
+      "id": "conversation.header-open-with",
+      "area": "conversation.top",
+      "native": "IconChevronDownOutlineRegular",
+      "where": "会话区顶部 ·「更多打开方式」小箭头",
+      "selector": "button[aria-label=\"更多打开方式\"]",
+      "file": "conversation/top/arrow-down-s-line.svg",
+      "source": "remixicon/arrow-down-s-line",
+      "size": 12,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
+    },
+    {
+      "id": "conversation.header-task-monitor",
+      "area": "conversation.top",
+      "native": "IconQueueOutlineRegular",
+      "where": "会话区顶部 ·「打开任务监控」",
+      "selector": "button[aria-label=\"打开任务监控\"]",
+      "file": "conversation/top/list-check-3.svg",
+      "source": "remixicon/list-check-3",
+      "size": 14,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
+    },
+    {
+      "id": "rightbar.collapse",
+      "area": "rightbar",
+      "native": "未知（右侧栏头部 收起/展开）",
+      "where": "右侧栏 · 收起右侧边栏（展开态）；与左侧栏折叠保持同一套语言",
+      "selector": "button[aria-label=\"收起右侧边栏\"], button[aria-label=\"展开右侧边栏\"], button[aria-label=\"打开右侧边栏\"]",
+      "file": "rightbar/layout-right-line.svg",
+      "source": "remixicon/layout-right-line（展开态） / layout-right-fill（收起态）",
+      "size": 15,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true,
+      "variants": [
+        {
+          "selector": "button[aria-label=\"展开右侧边栏\"], button[aria-label=\"打开右侧边栏\"]",
+          "file": "rightbar/layout-right-fill.svg"
+        }
+      ]
     }
   ]
 }

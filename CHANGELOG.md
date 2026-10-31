@@ -2,6 +2,19 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.3.0] - 2026-10-31
+
+### 新增 · 会话区顶部 + 右侧栏折叠（第一批·顶部）
+- 「更多打开方式」小箭头 → `arrow-down-s-line`，**12px**（原 10px 太糊，已放大）；
+- 「打开任务监控」→ `list-check-3`（14px）；
+- **隐藏「更多操作」（⋯）**：用户判定无用，CSS `display:none`（一行注释标明位置，删掉即恢复）；
+- 「用访达打开」**不动**（读的是系统 Finder 应用，图标是应用图标不是 svg）；
+- 右侧栏折叠按钮与左侧栏统一语言：**展开态** `layout-right-line`、**收起态** `layout-right-fill`
+  （15px，选择器覆盖 `收起/展开/打开右侧边栏` 三种 aria）。**注意**：收起后的按钮文案未能实测确认，
+  若 DSH 用的是别的措辞（如「显示右侧边栏」），补一个选择器即可。
+
+实测：`chevron none/b12px` `taskMon none/b14px` `more w0`（已隐藏）`collapseNow none/b15px`。
+
 ## [0.2.9] - 2026-10-31
 
 ### 调整
