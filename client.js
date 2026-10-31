@@ -826,9 +826,9 @@ window.__ModuleLoader__.load({
     // （模型收到的仍是 @相对路径）。点卡片 → 定位/高亮正文引用；点引用 → 高亮卡片；
     // 引用被删除时卡片随之消失、编号按当下顺序自动重排。
     const REFCARD_CSS = [
-      '[data-dsh-refcards]{box-sizing:border-box;width:100%;display:flex;align-items:stretch;gap:8px;overflow-x:auto;overflow-y:hidden;padding:0 12px 2px;scrollbar-width:none;}',
+      '[data-dsh-refcards]{box-sizing:border-box;width:100%;display:flex;align-items:stretch;gap:8px;overflow-x:auto;overflow-y:hidden;padding:2px 16px;scroll-padding:0 16px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);}',
       '[data-dsh-refcards]::-webkit-scrollbar{display:none}',
-      '[data-dsh-refcard]{position:relative;flex:none;box-sizing:border-box;display:inline-flex;align-items:center;gap:10px;width:240px;height:64px;padding:0 12px;border-radius:14px;border:.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.12));background:var(--dsw-specific-input-major,#fff);box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:border-color .12s,box-shadow .12s,background .12s;}',
+      '[data-dsh-refcard]{position:relative;flex:0 1 220px;min-width:150px;box-sizing:border-box;display:inline-flex;align-items:center;gap:10px;height:64px;padding:0 12px;border-radius:14px;border:.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.12));background:var(--dsw-specific-input-major,#fff);box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:border-color .12s,box-shadow .12s,background .12s;}',
       '[data-dsh-refcard]:hover{border-color:var(--dsw-alias-border-l3,rgba(0,0,0,.2));}',
       '[data-dsh-refcard]:focus-visible{outline:2px solid var(--dsw-alias-state-business-primary,#4d6bfe);outline-offset:2px;}',
       '[data-dsh-refcard][data-dsh-refflash="true"]{border-color:var(--dsw-alias-state-business-primary,#4d6bfe);box-shadow:0 0 0 2px color-mix(in srgb,var(--dsw-alias-state-business-primary,#4d6bfe) 28%,transparent);}',
@@ -982,6 +982,8 @@ window.__ModuleLoader__.load({
           if (!next.length) { hideRow(); return }
           const rowEl = ensureRow(card)
           rowEl.replaceChildren(...next.map((item, index) => cardNode(item, index)))
+          // 引用集合变了就回到开头，避免沿用上次的横向滚动位置把第一张卡截掉。
+          try { rowEl.scrollLeft = 0 } catch {}
           return
         }
         // 内容没变但行还在（常见于 React 重渲染把子节点重建），重新挂到卡片内部。

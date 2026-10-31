@@ -26,6 +26,11 @@
     每行一张卡且序号都是 1）。修法：`start()` 通过 `globalThis.__dshStyleRefCards` 单例把手先 `stop()`
     上一个活着的实例；`ensureRow()` 再对同一张 composer 卡片做 `:scope > [data-dsh-refcards]` 去重，
     保证「一张卡片最多一行」。验证：探针渲染 3 张卡后连续触发 3 次 HMR，始终只有 1 行 3 卡（不再叠 3 行）。
+  - **间距与裁切**：行内左右各留 `16px`（`padding: 2px 16px` + `scroll-padding`），内容变化时 `scrollLeft` 复位，
+    避免第一张卡被上次的滚动位置截掉；卡片改 `flex: 0 1 220px; min-width: 150px`，三张卡在 712px 宽的
+    composer 里自动压缩到约 204px 正好排满（文件名超出用省略号），更多卡才横向滚动；行头/行尾加 12px
+    渐隐遮罩（`mask-image`），滚动裁切不再生硬。实测：探针 3 张卡（MOV / EXE / DMG）左右各有内边距、
+    三张完整并排，文件名以 `…` 截断。
 - **标题栏「刷新页面」按钮（真刷新，不是占位）**：在左箭头 / 右箭头右侧补第 4 个 28px 按钮
   （`aria-label` / `title` = 刷新页面，`data-act="reload"`），图标为 16px、`stroke-width:1.4` 的环形箭头，
   与同组三个按钮同一套 `dsh-style-tb-btn` hover/active 样式。点击走 `location.reload()`：
