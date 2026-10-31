@@ -67,6 +67,7 @@ window.__ModuleLoader__.load({
       // 以前「常开」的功能，现补成可开关（默认开，保持原外观）。
       immersive: true,
       titlebarButtons: true,
+      titlebarRefresh: true,
       sidebarCompact: true,
       hovercardInset: true,
       pageTopSpacing: true,
@@ -101,6 +102,7 @@ window.__ModuleLoader__.load({
         // 默认开的新开关：老配置里没有该键时保持 true（用 !== false 而非 Boolean）。
         merged.immersive = merged.immersive !== false
         merged.titlebarButtons = merged.titlebarButtons !== false
+        merged.titlebarRefresh = merged.titlebarRefresh !== false
         merged.sidebarCompact = merged.sidebarCompact !== false
         merged.hovercardInset = merged.hovercardInset !== false
         merged.pageTopSpacing = merged.pageTopSpacing !== false
@@ -674,11 +676,12 @@ window.__ModuleLoader__.load({
       }
     }
 
-    // ---- 顶部窗口控制（折叠 / 后退 / 前进） ----
+    // ---- 顶部窗口控制（折叠 / 后退 / 前进 / 刷新） ----
     let titlebarEl = null
     function tbIcon(kind) {
       if (kind === 'panel') return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2.2" y="3.2" width="11.6" height="9.6" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M6.4 3.4v9.2" stroke="currentColor" stroke-width="1.4"/></svg>'
       if (kind === 'back') return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M9.8 3.6 5.4 8l4.4 4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      if (kind === 'refresh') return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 8a6 6 0 1 1-6-6c1.68 0 3.29.67 4.49 1.83L14 5.33" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v3.33h-3.33" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
       return '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6.2 3.6 10.6 8l-4.4 4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
     }
     function nativeToggle() {
@@ -686,6 +689,19 @@ window.__ModuleLoader__.load({
       return document.querySelector('[data-dsh-style-sidebar] [class*="_toggle"]')
         || document.querySelector('[data-shell-leading] button')
         || document.querySelector('button[class*="_toggle"]')
+    }
+    // 真正的页面刷新：重载渲染进程里的整个 Web 应用（等同浏览器 Cmd+R：页面、连接、插件状态全部重来），
+    // 不是只重跑 apply()。reload() 正常时页面随之卸载，下面的兜底计时器不会执行；
+    // 万一导航被拦下（页面没卸载），1200ms 后整页再导航一次，并把按钮恢复可用。
+    function reloadPage(btn) {
+      if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true') }
+      let navigating = false
+      try { window.location.reload(); navigating = true } catch {}
+      if (!navigating) { try { window.location.href = window.location.href } catch {} }
+      setTimeout(() => {
+        try { window.location.href = window.location.href } catch {}
+        if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy') }
+      }, 1200)
     }
     function syncTitlebar() {
       if (!titlebarEl) return
@@ -695,7 +711,11 @@ window.__ModuleLoader__.load({
     }
     function mountTitlebar() {
       if (typeof document === 'undefined' || !document.body) return
-      if (store.get().titlebarButtons === false) { unmountTitlebar(); return }
+      const cfg = store.get()
+      if (cfg.titlebarButtons === false) { unmountTitlebar(); return }
+      const wantRefresh = cfg.titlebarRefresh !== false
+      // 开关切换后按钮组合变了：先拆再建（同一帧内完成，不会闪）。
+      if (titlebarEl && (titlebarEl.__hasRefresh !== wantRefresh || !document.body.contains(titlebarEl))) unmountTitlebar()
       if (titlebarEl && document.body.contains(titlebarEl)) { syncTitlebar(); return }
       const box = document.createElement('div')
       box.className = 'dsh-style-tb'
@@ -722,6 +742,12 @@ window.__ModuleLoader__.load({
       back.addEventListener('click', (e) => { e.preventDefault(); try { window.history.back() } catch {} })
       fwd.addEventListener('click', (e) => { e.preventDefault(); try { window.history.forward() } catch {} })
       box.append(toggle, back, fwd)
+      if (wantRefresh) {
+        const refresh = mk('reload', 'refresh', '刷新页面')
+        refresh.addEventListener('click', (e) => { e.preventDefault(); reloadPage(refresh) })
+        box.append(refresh)
+      }
+      box.__hasRefresh = wantRefresh
       document.body.appendChild(box)
       titlebarEl = box
       syncTitlebar()
@@ -1020,7 +1046,8 @@ window.__ModuleLoader__.load({
         h(SwitchRow, { label: '会话卡片（HoverCard）内缩', checked: cfg.hovercardInset !== false, onChange: (value) => set({ hovercardInset: value }) }),
         h(SwitchRow, { label: '会话详情背景：跟随系统（浅色/深色）', checked: cfg.hovercardFollowTheme !== false, onChange: (value) => set({ hovercardFollowTheme: value }) }),
         h(SwitchRow, { label: '页面顶部留白对齐', checked: cfg.pageTopSpacing !== false, onChange: (value) => set({ pageTopSpacing: value }) }),
-        h(SwitchRow, { label: '标题栏窗口按钮（折叠 / 后退 / 前进）', checked: cfg.titlebarButtons !== false, onChange: (value) => set({ titlebarButtons: value }) }))
+        h(SwitchRow, { label: '标题栏窗口按钮（折叠 / 后退 / 前进 / 刷新）', checked: cfg.titlebarButtons !== false, onChange: (value) => set({ titlebarButtons: value }) }),
+        h(SwitchRow, { label: '标题栏刷新按钮（真正重新加载页面）', checked: cfg.titlebarRefresh !== false, onChange: (value) => set({ titlebarRefresh: value }) }))
     }
 
     // 交互：属于「功能」类的行为开关（默认开）。
