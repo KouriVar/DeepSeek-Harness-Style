@@ -75,6 +75,9 @@ window.__ModuleLoader__.load({
       composerRadius: 16,
       composerLines: 3,
       squareActionButtons: true,
+      // 输入框 UI（独立开关）：隐藏权限按钮；模型选择只显示品牌图标（点图标仍是原生菜单）。
+      composerHideAccess: true,
+      composerModelIcon: true,
       sidebarCompact: true,
       hovercardInset: true,
       pageTopSpacing: true,
@@ -113,6 +116,8 @@ window.__ModuleLoader__.load({
         merged.refCards = merged.refCards !== false
         merged.composerChrome = merged.composerChrome !== false
         merged.squareActionButtons = merged.squareActionButtons !== false
+        merged.composerHideAccess = merged.composerHideAccess !== false
+        merged.composerModelIcon = merged.composerModelIcon !== false
         const composerRadius = Number(merged.composerRadius)
         merged.composerRadius = [12, 16, 20, 28].includes(composerRadius) ? composerRadius : DEFAULTS.composerRadius
         const composerLines = Number(merged.composerLines)
@@ -327,6 +332,27 @@ window.__ModuleLoader__.load({
       if (cfg.squareActionButtons !== false) {
         rules.push('[data-composer-card] button[aria-label*="添加文件"], [data-composer-card] button[aria-label*="Add file"]{border-radius:8px !important;}')
         rules.push('[data-composer-card] button[aria-label*="停止"], [data-composer-card] button[aria-label*="发送"], [data-composer-card] button[aria-label*="Stop"], [data-composer-card] button[aria-label*="Send"]{border-radius:10px !important;}')
+      }
+      return rules.join('')
+    }
+
+    // 输入框 UI 分组（与「外观微调」解耦的独立开关）：隐藏权限按钮 / 模型选择只显示图标。
+    // 锚点只用**稳定属性**，类名是构建哈希（真机 bundle 是 fofTgQ_*，源码里是 htuFrW_*），不能用：
+    //   ① 权限按钮——DSH 原生槽出口 `[data-slot="conversation.input.permission"]`（display:contents 包裹层）；
+    //   ② 模型按钮——渲染出来的 button 带 `aria-label="选择模型，当前 …"` / `aria-haspopup="menu"`。
+    // 模型「图标态」不自己画：原生就有 `data-model-compact` 紧凑态，靠
+    // `--dsh-composer-model-text-display` / `--dsh-composer-model-icon-display` 两个变量切换文字与 16px 品牌图标。
+    // 变量沿 DOM 继承，所以在卡片上抬一次就作用于里面的触发按钮，且不依赖任何哈希类名。
+    function composerUiCss(cfg) {
+      const rules = []
+      if (cfg.composerHideAccess !== false) {
+        rules.push('[data-composer-card] [data-slot="conversation.input.permission"]{display:none !important;}')
+      }
+      if (cfg.composerModelIcon !== false) {
+        rules.push('[data-composer-card]{--dsh-composer-model-text-display:none;--dsh-composer-model-icon-display:block;}')
+        rules.push('[data-composer-card] button[aria-label^="选择模型"], [data-composer-card] button[aria-label^="Choose model"]{box-sizing:border-box;width:28px !important;min-width:28px !important;max-width:none !important;padding:0 !important;gap:0 !important;justify-content:center;border-radius:8px !important;}')
+        // 图标态不需要下拉箭头：按钮的第 1 个 svg 是品牌图标，最后一个 svg 是 chevron。
+        rules.push('[data-composer-card] button[aria-label^="选择模型"] > svg:last-of-type, [data-composer-card] button[aria-label^="Choose model"] > svg:last-of-type{display:none !important;}')
       }
       return rules.join('')
     }
@@ -1345,6 +1371,7 @@ window.__ModuleLoader__.load({
       const el = styleTag()
       if (el) {
         const rules = [BASE_CSS]
+        rules.push(composerUiCss(cfg))
         if (cfg.composerChrome !== false) rules.push(composerChromeCss(cfg))
         if (cfg.immersive !== false) rules.push(IMMERSIVE_CSS)
         if (cfg.titlebarButtons !== false) rules.push(TITLEBAR_CSS)
@@ -1486,9 +1513,17 @@ window.__ModuleLoader__.load({
         h(SwitchRow, { label: '会话详情背景：跟随系统（浅色/深色）', checked: cfg.hovercardFollowTheme !== false, onChange: (value) => set({ hovercardFollowTheme: value }) }),
         h(SwitchRow, { label: '页面顶部留白对齐', checked: cfg.pageTopSpacing !== false, onChange: (value) => set({ pageTopSpacing: value }) }),
         h(SwitchRow, { label: '标题栏窗口按钮（折叠 / 后退 / 前进 / 刷新）', checked: cfg.titlebarButtons !== false, onChange: (value) => set({ titlebarButtons: value }) }),
-        h(SwitchRow, { label: '标题栏刷新按钮（真正重新加载页面）', checked: cfg.titlebarRefresh !== false, onChange: (value) => set({ titlebarRefresh: value }) }),
-        h(SwitchRow, { label: '输入框附件栅格（图片 + 引用卡片，自动换行）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }),
-        h(SwitchRow, { label: '输入框外观微调（圆角 / 高度 / 内距）', checked: cfg.composerChrome !== false, onChange: (value) => set({ composerChrome: value }) }),
+        h(SwitchRow, { label: '标题栏刷新按钮（真正重新加载页面）', checked: cfg.titlebarRefresh !== false, onChange: (value) => set({ titlebarRefresh: value }) }))
+    }
+
+    // 输入框（composer）：所有与输入卡片有关的开关集中在这里，方便一处调完。
+    function ComposerCard({ cfg, set }) {
+      return h('section', { style: sectionStyle, 'aria-label': '输入框' },
+        h('h3', { style: sectionTitleStyle }, '输入框'),
+        h(SwitchRow, { label: '隐藏「权限」按钮（已设完全权限时用不上）', checked: cfg.composerHideAccess !== false, onChange: (value) => set({ composerHideAccess: value }) }),
+        h(SwitchRow, { label: '模型选择只显示图标（点图标仍弹原生菜单）', checked: cfg.composerModelIcon !== false, onChange: (value) => set({ composerModelIcon: value }) }),
+        h(SwitchRow, { label: '附件栅格（图片 + 引用卡片，自动换行）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }),
+        h(SwitchRow, { label: '外观微调（圆角 / 高度 / 内距）', checked: cfg.composerChrome !== false, onChange: (value) => set({ composerChrome: value }) }),
         h(SegmentedRow, {
           id: 'dsh-style-composer-radius',
           label: '输入框圆角（原生 28）',
@@ -2124,6 +2159,7 @@ window.__ModuleLoader__.load({
         h(LayoutCard, { cfg, set: store.set }),
         h(EffectsCard, { cfg, set: store.set }),
         h(SidebarCard, { cfg, set: store.set }),
+        h(ComposerCard, { cfg, set: store.set }),
         h(LookDetailCard, { cfg, set: store.set }),
         h(QoderHomeCard, { cfg, set: store.set }),
         // ── 功能 ──

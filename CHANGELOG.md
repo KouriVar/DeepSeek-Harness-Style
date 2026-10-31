@@ -2,6 +2,28 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.2.2] - 2026-10-31
+
+### 新增
+- **设置页新增「输入框」分组（外观 → 输入框）**：原来散落在「外观细节」里的 composer 项
+  （附件栅格 / 外观微调 / 圆角 / 默认行数 /「+」和发送按钮改圆角矩形）全部并到这一组，
+  方便一处调完；「外观细节」只留外壳与标题栏相关开关。
+- **隐藏「权限」按钮**（默认开）：composer 左下角那个 100×28 的「完全权限 / 需要确认」按钮可以关掉了
+  —— 已经设成完全权限时它只是常驻噪音。锚点用 DSH 原生槽出口
+  `[data-slot="conversation.input.permission"]`（不是构建哈希类名），只 `display:none`，不改任何行为：
+  真正改动权限仍走设置页 / 原生菜单。
+  实测：`getComputedStyle(slot).display === "none"`、宽 0；工具行里 ＋ 按钮照旧在其位置。
+- **模型选择只显示图标**（默认开）：把 264px 宽的「DeepSeek V4.1 Flash · OpenCode High ⌄」文字按钮
+  收成 **28×28 的 deepseek 品牌图标按钮**，点击仍然弹原生「模型与推理等级」菜单（不重画菜单、不碰模型状态）。
+  实现复用 DSH **原生紧凑态**的两个变量——`--dsh-composer-model-text-display`（文字）与
+  `--dsh-composer-model-icon-display`（16px 品牌图标）；原生本来就是用它们切换
+  `data-model-compact`，插件只是把这两个变量抬到 `[data-composer-card]` 上让它常驻图标态，
+  再补一条 `svg:last-of-type` 隐藏下拉箭头、按钮 28×28 圆角 8。
+  **为什么不按类名写**：真机 bundle 里这两组类是 `fofTgQ_*` / `htuFrW_*`（源码里是另一套哈希），
+  类名会随构建变；变量名与 `aria-label` 前缀是稳定的。
+  实测：按钮 `28×28`、`triggerIcon svg 16px display:block`、label/effort/chevron 全部 `width 0 / display:none`、
+  两个变量读出 `none` / `block`；点击后 AX 出现 `AXMenu（模型与推理等级）` + 菜单项，可正常切换。
+
 ## [0.2.1] - 2026-10-31
 
 ### 修复

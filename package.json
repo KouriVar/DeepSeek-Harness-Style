@@ -1,6 +1,6 @@
 {
   "name": "dsh-style",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "DeepSeek Harness 客户端外观插件：内嵌/经典布局、侧栏对齐、任务监控与同款外观预设。",
   "type": "module",
   "main": "index.js",
