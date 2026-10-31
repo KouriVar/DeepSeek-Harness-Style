@@ -88,6 +88,27 @@ for (const raw of list) {
   const svg = minifySvg(readFileSync(svgPath, 'utf8'))
   if (!/viewBox\s*=/.test(svg)) fail(id + ' 的 svg 缺少 viewBox（缩放会失真）：' + file)
 
+  // variants：同一位置的「状态态」图标（例如常态 Line / 选中 Fill）。
+  // when 是拼在目标选择器后面的状态限定（如 [aria-pressed="true"]、[data-active="true"]、:hover）。
+  const variants = []
+  if (raw.variants !== undefined) {
+    if (!Array.isArray(raw.variants)) fail(id + ' 的 variants 必须是数组')
+    for (const v of raw.variants) {
+      if (!v || !v.when) fail(id + ' 的 variants 条目缺少 when（状态选择器）')
+      const vfile = String(v.file || '')
+      if (!vfile) fail(id + ' 的 variants 条目缺少 file')
+      const vpath = isAbsolute(vfile) ? vfile : join(iconsDir, vfile)
+      if (!existsSync(vpath)) fail(id + ' 的 variants 文件不存在：' + vfile)
+      if (!vpath.startsWith(iconsDir + '/')) fail(id + ' 的 variants 文件必须放在 icons/ 内：' + vfile)
+      if (!vfile.replace(/\\/g, '/').startsWith(areaDir)) {
+        fail(id + ' 的 variants 文件也应放在 icons/' + areaDir + ' 下：' + vfile)
+      }
+      const vsvg = minifySvg(readFileSync(vpath, 'utf8'))
+      if (!/viewBox\s*=/.test(vsvg)) fail(id + ' 的 variants svg 缺少 viewBox：' + vfile)
+      variants.push({ when: String(v.when), svg: toDataUrl(vsvg) })
+    }
+  }
+
   entries.push({
     id,
     area,
@@ -97,6 +118,7 @@ for (const raw of list) {
     size: Number(raw.size) || 16,
     tint: raw.tint === 'color' ? 'color' : 'currentColor',
     hide: raw.hide === false ? false : (raw.hide || 'svg'),
+    variants,
     svg: toDataUrl(svg),
   })
 }
@@ -113,6 +135,7 @@ const body = entries.length === 0
         'size: ' + e.size,
         'tint: ' + JSON.stringify(e.tint),
         'hide: ' + JSON.stringify(e.hide),
+        'variants: ' + JSON.stringify(e.variants),
         'svg: ' + JSON.stringify(e.svg),
       ]
       return '      { ' + parts.join(', ') + ' },'

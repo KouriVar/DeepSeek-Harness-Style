@@ -369,6 +369,16 @@ window.__ModuleLoader__.load({
     //   tint: "color"        → background-image（保留图标自身配色，不做着色）
     function iconOverrideCss() {
       const rules = []
+      // 一条图标的「上色方式」：单色走 mask（跟随 currentColor），彩色直接当背景图。
+      const paintOf = (svg, tint) => {
+        if (tint === 'color') {
+          return 'background-image:url("' + svg + '");background-size:contain;background-repeat:no-repeat;background-position:center;'
+        }
+        return 'background-color:currentColor;'
+          + '-webkit-mask-image:url("' + svg + '");mask-image:url("' + svg + '");'
+          + '-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;'
+          + '-webkit-mask-size:contain;mask-size:contain;'
+      }
       for (const item of ICON_OVERRIDES) {
         if (!item || !item.selector || !item.svg) continue
         // selector 可能是一组（中/英两个分支）；伪元素必须拼到**每一段**上，
@@ -379,13 +389,14 @@ window.__ModuleLoader__.load({
           rules.push(parts.map((p) => p + ' > ' + item.hide).join(', ') + '{display:none !important;}')
         }
         const size = Number(item.size) || 16
-        let paint = 'background-color:currentColor;'
-        if (item.tint === 'color') {
-          paint = 'background-image:url("' + item.svg + '");background-size:contain;background-repeat:no-repeat;background-position:center;'
-        } else {
-          paint += '-webkit-mask-image:url("' + item.svg + '");mask-image:url("' + item.svg + '");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain;'
+        const box = 'content:"";display:block;flex:none;width:' + size + 'px;height:' + size + 'px;'
+        rules.push(parts.map((p) => p + '::before').join(', ') + '{' + box + paintOf(item.svg, item.tint) + '}')
+        // 状态态（如常规 Line → 选中 Fill）：when 是状态限定，拼在整段选择器之后，
+        // 特异性高于基础规则，所以同一元素上会按状态覆盖。
+        for (const variant of Array.isArray(item.variants) ? item.variants : []) {
+          if (!variant || !variant.when || !variant.svg) continue
+          rules.push(parts.map((p) => p + variant.when + '::before').join(', ') + '{' + box + paintOf(variant.svg, variant.tint || item.tint) + '}')
         }
-        rules.push(parts.map((p) => p + '::before').join(', ') + '{content:"";display:block;flex:none;width:' + size + 'px;height:' + size + 'px;' + paint + '}')
       }
       return rules.join('')
     }

@@ -2,6 +2,19 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.2.4] - 2026-10-31
+
+### 新增
+- **图标覆盖支持状态态（`variants`）**：一条记录里可以挂多个「状态一键换形」——
+  `file` 放常态（Line 线框），`variants: [{ when, file }]` 放状态态（Fill 实心），
+  `when` 是拼在目标选择器后的状态限定（`[aria-pressed="true"]` / `[aria-expanded]` / `[data-active]` / `:hover` …）。
+  生成后的规则特异性高于基础规则，同一元素按状态自动覆盖。
+  背景：项目图标集与 DSH 原生一致，分 **Line（常态）/ Fill（状态态）** 两种形态，不是深浅色两套；
+  DSH 导出 180 个图标名里 Outline 160 / Fill 20，成对仅 10 组 —— 线框是常态，实心只给有状态的图标。
+  **深浅色不需要两套图**：单色图形走 mask，颜色由 `currentColor` 决定，一份自动适配明暗。
+  实测：拿 Qoder 的 `CameraSwitchLine/Fill` 做冒烟条目，构建正确产出 base + variant 两条规则、
+  真机 16px 位置正常渲染；验证后已撤回，manifest 只留停用模板。
+
 ## [0.2.3] - 2026-10-31
 
 ### 新增

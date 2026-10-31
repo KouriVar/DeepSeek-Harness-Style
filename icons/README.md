@@ -65,6 +65,35 @@
 | `hide` | | 要隐藏的子元素选择器，默认 `svg`；`false` / `"none"` 表示不隐藏 |
 | `enabled` | | `false` 时只保留记录、不写进产物 |
 
+## Line / Fill 两种形态（variants）
+
+你的图标集和 DSH 一样分两种**形态**（不是深浅色）：`Line`（线框，默认态）与 `Fill`（实心，状态态）。
+DSH 自己导出 180 个图标名里 Outline 160 / Fill 20，成对的只有 10 组 —— 也就是**线框是常态，实心只给「有状态」的图标**。
+
+- **深浅色不用两套**：图形是单色（`fill="currentColor"`）时我当 mask 用，颜色由 CSS 的 `currentColor` 决定，
+  一份图自动适配浅色/深色。
+- **有状态的位置给一对**：`file` 放常态（Line），`variants` 里写状态态（Fill）：
+
+```json
+{
+  "id": "sidebar.workspace-search",
+  "area": "sidebar",
+  "native": "IconSearchOutlineRegular",
+  "where": "左侧栏工作区行右侧：搜索（悬停/激活时实心）",
+  "selector": "...",
+  "file": "sidebar/QoderSearchLine.svg",
+  "variants": [
+    { "when": "[aria-pressed=\"true\"]", "file": "sidebar/QoderSearchFill.svg" }
+  ]
+}
+```
+
+`when` 是拼在目标选择器**后面**的状态限定，常用取值：
+`[aria-pressed="true"]`、`[aria-expanded="true"]`、`[aria-selected="true"]`、`[data-active="true"]`、`:hover`、`:focus-visible`。
+生成后的 CSS 特异性高于基础规则，所以同一元素按状态自动覆盖。
+
+> 拿不准目标元素有哪些状态属性时，先只给 Line，我用探针把它的状态属性摸出来再补 `variants`。
+
 ## 生成出来的 CSS 长什么样
 
 对每条生效项，脚本阶段只负责内联 svg；运行时 `iconOverrideCss()`（`client.js`）把表翻成两条规则：
