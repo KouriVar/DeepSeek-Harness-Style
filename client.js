@@ -283,6 +283,14 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-enabled="true"] [data-shell-leading]{display:none !important;}',
     ].join('')
 
+    // 输入框圆角：整卡 28 → 16；左下角「+」与右下角发送/停止按钮从圆形改成圆角矩形。
+    // 用 aria-label 片段定位（中文/英文各一条），只是形状覆盖，不影响任何行为。
+    const COMPOSER_CHROME_CSS = [
+      '[data-composer-card]{border-radius:16px !important;}',
+      '[data-composer-card] button[aria-label*="添加文件"], [data-composer-card] button[aria-label*="Add file"]{border-radius:8px !important;}',
+      '[data-composer-card] button[aria-label*="停止"], [data-composer-card] button[aria-label*="发送"], [data-composer-card] button[aria-label*="Stop"], [data-composer-card] button[aria-label*="Send"]{border-radius:10px !important;}',
+    ].join('')
+
     // 侧边栏模块可见性（品牌 / 新会话）。用 html 属性驱动，纯 CSS 隐藏；隐藏后侧栏是
     // flex 自动布局，下方内容会自然上移。
     // 侧边栏基础可见性（品牌 / 新会话 / 会话标签栏）与头部无分割线（始终启用）。
@@ -1267,7 +1275,7 @@ window.__ModuleLoader__.load({
       root.setAttribute('data-dsh-style-qoderhome', cfg.qoderHome !== false ? 'true' : 'false')
       const el = styleTag()
       if (el) {
-        const rules = [BASE_CSS]
+        const rules = [BASE_CSS, COMPOSER_CHROME_CSS]
         if (cfg.immersive !== false) rules.push(IMMERSIVE_CSS)
         if (cfg.titlebarButtons !== false) rules.push(TITLEBAR_CSS)
         rules.push(SIDEBAR_BASE_CSS)
