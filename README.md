@@ -94,6 +94,23 @@ dsh plugin --profile desktop add /绝对路径/dsh-style-0.2.0.tgz
 **图标替换不在插件包里。** 要连 Qoder 图标也一致，需要按下面的「图标替换」单独给 `.app` 打补丁；
 它和 UI 插件是两件事。
 
+## 给朋友装（从 GitHub 直接装，不用发文件）
+
+DSH 的 **Add plugin** 安装框接受「包名 / **Git 地址** / tarball / 本地绝对路径」，所以直接把仓库地址给他就行：
+
+1. 仓库地址：`https://github.com/KouriVar/DeepSeek-Harness-Style`
+   想锁版本：`https://github.com/KouriVar/DeepSeek-Harness-Style#v0.2.0`
+2. Harness → **Settings → Plugins → Add plugin**（或箭头 → *Install a third-party plugin*），粘贴地址 → **Install**。
+3. 装完**重启 Harness**；打开 **Settings → 外观**，确认「启用样式插件」是开的。
+4. 升级：Git 安装属于「第三方插件」，DSH 是「卸载再重装」的语义 → 再装一次同一地址即拿到最新 `main`；
+   锁了 tag 的话改 tag 再装。
+
+注意：
+
+- Git 安装需要能访问 GitHub；网络不稳时改用 Release 里的 `dsh-style-<版本>.tgz`，在同一对话框粘贴它的绝对路径。
+- 装的是仓库默认分支（`main`），不加 `#tag` 就跟着主线走。
+- 仓库根目录就是插件包本体（`package.json` 的 `dsh.bundle.patch` 指向 `cordis.patch.yml`），没有构建步骤，装完即用。
+
 ## 兼容性
 
 - 0.2.0 在 **0.2.1-rc.5** 实测；DSH 更新后类名/结构可能变化，侧栏选择器和 HoverCard 可能需要适配。
