@@ -2,6 +2,16 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.2.8] - 2026-10-31
+
+### 修复
+- **会话行标题贴着右侧「⋯」按钮**。原因：DSH 给 `[class*="_sessionRow"] [class*="_title"]` 用的是
+  `text-overflow:clip`（直接切掉、没有省略号），且标题是 `flex:1`、行 `gap:0`，长标题就顶到按钮下面。
+  改成 `text-overflow:ellipsis` + `padding-right:12px`（标题 `min-width:0`，padding 会真的从宽度里扣，
+  不撑行），另把 `[class*="_rowActions"]` 固定 `flex:none`。
+  实测：`titleRight 249 / actsLeft 249`，文字实际在 237 处截断 → 与按钮有 12px 空隙；
+  `getComputedStyle(title).textOverflow === 'ellipsis'`。
+
 ## [0.2.7] - 2026-10-31
 
 ### 新增

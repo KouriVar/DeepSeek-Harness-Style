@@ -296,6 +296,11 @@ window.__ModuleLoader__.load({
       // 刷新被拦下时的提示气泡（浅色/深色都用深底白字，像系统 tooltip）。
       '[data-dsh-style-tip]{position:fixed;z-index:2147483001;max-width:280px;padding:7px 11px;border-radius:9px;background:rgba(28,28,30,.95);color:#f5f5f7;font-size:12px;line-height:17px;box-shadow:0 10px 26px rgba(0,0,0,.32);pointer-events:none;}',
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_toggle"]{display:none !important;}',
+      // 会话行：原生是 text-overflow:clip，长标题会被直接切掉、贴着右侧「⋯」按钮。
+      // 这里改成省略号截断 + 右侧留 10px，标题和「⋯」之间始终有缝。标题是 flex:1 + min-width:0，
+      // 所以 padding 会真的从标题宽度里扣（不会撑开行）。
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_sessionRow"] [class*="_title"]{text-overflow:ellipsis !important;padding-right:12px !important;}',
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_sessionRow"] [class*="_rowActions"]{flex:none !important;}',
       'html[data-dsh-style-enabled="true"] [data-shell-leading]{display:none !important;}',
       // 标题行让位：侧栏折叠时 DSH 只按「原生 3 颗按钮」预留 --dsh-frame-leading-clearance:160px，
       // 标题左缘 = 清变量 + 6px。插件按钮条是 88px 起、含第 4 颗刷新按钮到 206px，于是标题被压住。
