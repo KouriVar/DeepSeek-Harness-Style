@@ -826,17 +826,21 @@ window.__ModuleLoader__.load({
     // （模型收到的仍是 @相对路径）。点卡片 → 定位/高亮正文引用；点引用 → 高亮卡片；
     // 引用被删除时卡片随之消失、编号按当下顺序自动重排。
     const REFCARD_CSS = [
-      '[data-dsh-refcards]{box-sizing:border-box;width:100%;display:flex;align-items:stretch;gap:8px;overflow-x:auto;overflow-y:hidden;padding:2px 10px;scroll-padding:0 10px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);}',
-      '[data-dsh-refcards]::-webkit-scrollbar{display:none}',
-      '[data-dsh-refcard]{position:relative;flex:0 1 220px;min-width:150px;box-sizing:border-box;display:inline-flex;align-items:center;gap:10px;height:64px;padding:0 12px;border-radius:14px;border:.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.12));background:var(--dsw-specific-input-major,#fff);box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:border-color .12s,box-shadow .12s,background .12s;}',
+      // 统一附件/引用栅格：图片在前、文件卡在后，不滚动，自动换行（对齐 Figma Frame 5：wrap + gap 12）。
+      '[data-dsh-refcards]{box-sizing:border-box;width:100%;display:flex;flex-wrap:wrap;align-items:flex-start;gap:12px;padding:2px 10px;overflow:visible;}',
+      '[data-dsh-refcards]>*{flex:0 0 auto;}',
+      // 官方附件（图片/文件）的镜像项：保持官方缩略图与文件卡原样，只约束高度=文件卡高。
+      '[data-dsh-refcards]>[data-dsh-clone]{height:64px;display:flex;align-items:stretch;}',
+      '[data-dsh-refcards]>[data-dsh-clone] [class*="_card"]{width:164px !important;}',
+      '[data-dsh-refcard]{position:relative;flex:0 0 auto;box-sizing:border-box;display:inline-flex;align-items:center;gap:8px;width:164px;height:64px;padding:0 10px;border-radius:12px;border:.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.12));background:var(--dsw-specific-input-major,#fff);box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:border-color .12s,box-shadow .12s,background .12s;}',
       '[data-dsh-refcard]:hover{border-color:var(--dsw-alias-border-l3,rgba(0,0,0,.2));}',
       '[data-dsh-refcard]:focus-visible{outline:2px solid var(--dsw-alias-state-business-primary,#4d6bfe);outline-offset:2px;}',
       '[data-dsh-refcard][data-dsh-refflash="true"]{border-color:var(--dsw-alias-state-business-primary,#4d6bfe);box-shadow:0 0 0 2px color-mix(in srgb,var(--dsw-alias-state-business-primary,#4d6bfe) 28%,transparent);}',
-      '[data-dsh-refnum]{flex:none;width:16px;height:16px;border-radius:999px;background:var(--dsw-alias-fill-tertiary,rgba(0,0,0,.08));color:var(--dsw-alias-label-tertiary,#8a9099);font-size:10px;line-height:16px;text-align:center;}',
-      '[data-dsh-reficon]{flex:none;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:#fff;font-size:9px;font-weight:600;letter-spacing:.2px;text-transform:uppercase;}',
-      '[data-dsh-refbody]{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}',
-      '[data-dsh-refname]{font-size:14px;line-height:22px;color:var(--dsw-alias-label-primary,inherit);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
-      '[data-dsh-refmeta]{font-size:11px;line-height:15px;color:var(--dsw-alias-label-tertiary,#8a9099);}',
+      '[data-dsh-refnum]{flex:none;width:15px;height:15px;border-radius:999px;background:var(--dsw-alias-fill-tertiary,rgba(0,0,0,.08));color:var(--dsw-alias-label-tertiary,#8a9099);font-size:10px;line-height:15px;text-align:center;}',
+      '[data-dsh-reficon]{flex:none;width:24px;height:24px;border-radius:8px;display:grid;place-items:center;color:#fff;font-size:8px;font-weight:600;letter-spacing:.2px;text-transform:uppercase;}',
+      '[data-dsh-refbody]{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;}',
+      '[data-dsh-refname]{font-size:12px;line-height:18px;color:var(--dsw-alias-label-primary,inherit);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
+      '[data-dsh-refmeta]{font-size:10px;line-height:14px;color:var(--dsw-alias-label-tertiary,#8a9099);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
       '[data-composer-chip][data-dsh-chip-flash="true"]{outline:2px solid var(--dsw-alias-state-business-primary,#4d6bfe);outline-offset:1px;border-radius:6px;}',
     ].join('')
 
@@ -970,25 +974,84 @@ window.__ModuleLoader__.load({
         })
         return card
       }
+      // 官方附件栏（图片 + 上传型文件卡）的 rail：Official rail, found by stable suffix + role=group.
+      function findRail(card) {
+        const rails = Array.from(card.querySelectorAll('[class*="_rail"][role="group"]'))
+        for (const rail of rails) if (rail.children.length) return rail
+        return rails[0] || null
+      }
+      function railRootOf(rail) {
+        return rail && rail.parentElement ? rail.parentElement : null
+      }
+      function showRail(rail) {
+        const root = railRootOf(rail)
+        if (root) { try { root.style.removeProperty('display') } catch {} }
+      }
+      function hideRail(rail) {
+        const root = railRootOf(rail)
+        if (root) { try { root.style.setProperty('display', 'none', 'important') } catch {} }
+      }
+      // 只做「克隆展示」：不动 React 节点；点击/删除代理回官方原件。
+      function railSignature(rail) {
+        if (!rail) return ''
+        return Array.from(rail.children).map((item) => {
+          const img = item.querySelector('img')
+          if (img) return 'img:' + (img.getAttribute('src') || '')
+          return 'file:' + (item.textContent || '').trim()
+        }).join('|')
+      }
+      function cloneRailItems(rail) {
+        const out = []
+        if (!rail) return out
+        for (const source of Array.from(rail.children)) {
+          const clone = source.cloneNode(true)
+          clone.setAttribute('data-dsh-clone', '')
+          const originalButtons = Array.from(source.querySelectorAll('button'))
+          const cloneButtons = Array.from(clone.querySelectorAll('button'))
+          clone.addEventListener('click', (event) => {
+            const target = event.target
+            const button = target && typeof target.closest === 'function' ? target.closest('button') : null
+            if (!button) return
+            const index = cloneButtons.indexOf(button)
+            const original = index >= 0 ? originalButtons[index] : null
+            if (!original) return
+            event.preventDefault()
+            event.stopPropagation()
+            try { original.click() } catch {}
+          })
+          out.push(clone)
+        }
+        return out
+      }
       function sync() {
         if (!enabled) return
         const card = composerCard()
         if (!card) { chips = []; signature = ''; hideRow(); return }
-        const next = collect(card)
-        chips = next
-        const sig = next.map((item) => item.name + '#' + item.ext).join('|')
+        const refs = collect(card)
+        const rail = findRail(card)
+        chips = refs
+        const sig = refs.map((item) => item.name + '#' + item.ext).join('|') + '##' + railSignature(rail)
         if (sig !== signature) {
           signature = sig
-          if (!next.length) { hideRow(); return }
+          const nodes = cloneRailItems(rail)
+          for (let index = 0; index < refs.length; index += 1) nodes.push(cardNode(refs[index], index))
+          if (nodes.length === 0) {
+            hideRow()
+            showRail(rail)
+            return
+          }
           const rowEl = ensureRow(card)
-          rowEl.replaceChildren(...next.map((item, index) => cardNode(item, index)))
-          // 引用集合变了就回到开头，避免沿用上次的横向滚动位置把第一张卡截掉。
-          try { rowEl.scrollLeft = 0 } catch {}
+          rowEl.replaceChildren(...nodes)
+          hideRail(rail)
           return
         }
-        // 内容没变但行还在（常见于 React 重渲染把子节点重建），重新挂到卡片内部。
-        if (next.length) ensureRow(card)
-        else hideRow()
+        if (sig) {
+          ensureRow(card)
+          hideRail(rail)
+        } else {
+          hideRow()
+          showRail(rail)
+        }
       }
       function schedule() {
         if (raf) return
@@ -1341,7 +1404,7 @@ window.__ModuleLoader__.load({
         h(SwitchRow, { label: '页面顶部留白对齐', checked: cfg.pageTopSpacing !== false, onChange: (value) => set({ pageTopSpacing: value }) }),
         h(SwitchRow, { label: '标题栏窗口按钮（折叠 / 后退 / 前进 / 刷新）', checked: cfg.titlebarButtons !== false, onChange: (value) => set({ titlebarButtons: value }) }),
         h(SwitchRow, { label: '标题栏刷新按钮（真正重新加载页面）', checked: cfg.titlebarRefresh !== false, onChange: (value) => set({ titlebarRefresh: value }) }),
-        h(SwitchRow, { label: '输入框引用卡片（正文 @文件镜像到输入框顶部）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }))
+        h(SwitchRow, { label: '输入框附件栅格（图片 + 引用卡片，自动换行）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }))
     }
 
     // 交互：属于「功能」类的行为开关（默认开）。
