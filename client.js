@@ -826,7 +826,7 @@ window.__ModuleLoader__.load({
     // （模型收到的仍是 @相对路径）。点卡片 → 定位/高亮正文引用；点引用 → 高亮卡片；
     // 引用被删除时卡片随之消失、编号按当下顺序自动重排。
     const REFCARD_CSS = [
-      '[data-dsh-refcards]{box-sizing:border-box;width:100%;display:flex;align-items:stretch;gap:8px;overflow-x:auto;overflow-y:hidden;padding:2px 16px;scroll-padding:0 16px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);}',
+      '[data-dsh-refcards]{box-sizing:border-box;width:100%;display:flex;align-items:stretch;gap:8px;overflow-x:auto;overflow-y:hidden;padding:2px 10px;scroll-padding:0 10px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);}',
       '[data-dsh-refcards]::-webkit-scrollbar{display:none}',
       '[data-dsh-refcard]{position:relative;flex:0 1 220px;min-width:150px;box-sizing:border-box;display:inline-flex;align-items:center;gap:10px;height:64px;padding:0 12px;border-radius:14px;border:.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.12));background:var(--dsw-specific-input-major,#fff);box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:border-color .12s,box-shadow .12s,background .12s;}',
       '[data-dsh-refcard]:hover{border-color:var(--dsw-alias-border-l3,rgba(0,0,0,.2));}',
