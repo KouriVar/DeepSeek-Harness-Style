@@ -827,7 +827,8 @@ window.__ModuleLoader__.load({
     // 引用被删除时卡片随之消失、编号按当下顺序自动重排。
     const REFCARD_CSS = [
       // 统一附件/引用栅格：图片在前、文件卡在后，不滚动，自动换行（对齐 Figma Frame 5：wrap + gap 12）。
-      '[data-dsh-refcards]{box-sizing:border-box;width:100%;display:flex;flex-wrap:wrap;align-items:flex-start;gap:12px;padding:2px 10px;overflow:visible;}',
+      '[data-composer-card]{padding-top:14px !important;}',
+      '[data-dsh-refcards]{box-sizing:border-box;width:100%;display:flex;flex-wrap:wrap;align-items:flex-start;gap:12px;padding:0 14px;overflow:visible;}',
       '[data-dsh-refcards]>*{flex:0 0 auto;}',
       // 官方附件（图片/文件）的镜像项：保持官方缩略图与文件卡原样，只约束高度=文件卡高。
       '[data-dsh-refcards]>[data-dsh-clone]{height:64px;display:flex;align-items:stretch;}',
@@ -1030,7 +1031,10 @@ window.__ModuleLoader__.load({
         const refs = collect(card)
         const rail = findRail(card)
         chips = refs
-        const sig = refs.map((item) => item.name + '#' + item.ext).join('|') + '##' + railSignature(rail)
+        const railSig = railSignature(rail)
+        const sig = refs.length > 0 || railSig !== ''
+          ? refs.map((item) => item.name + '#' + item.ext).join('|') + '##' + railSig
+          : ''
         if (sig !== signature) {
           signature = sig
           const nodes = cloneRailItems(rail)
