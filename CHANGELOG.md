@@ -2,6 +2,28 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.2.6] - 2026-10-31
+
+### 新增
+- **图标来源改为 RemixIcon + 状态态扩展**。发现：Qoder 那套图标集 **89%（3190/3546）与 RemixIcon 4.9.1 路径逐字相同**
+  （`QoderArrowLeftSLine` = `arrow-left-s-line`，命名只是 camel→kebab）。已把 RemixIcon 拉到本地
+  （`../remixicon-4.9.1/`，3229 个），并对用户那套做了去重：删 3190、留 356（28 个改过 + 328 个自研），
+  报告在 `qoder-icons-20261029/CLEANUP-REPORT.md`，整包备份 `/tmp/qoder-icons-BACKUP-20261031-222524.tgz`。
+- **variants 支持 `selector`**（原来只有 `when` 拼接在原目标上）：状态落在**祖先**时，
+  例如工作区行的 `aria-expanded`、文件夹槽的 `_folderActive`，可以给完整选择器。
+- **新增 18 个位置**（全部实测接线）：
+  新会话 `chat-new-line`；工作区箭头 `arrow-right-s-line`（收起）/`arrow-down-s-line`（展开）；
+  工作区文件夹 `folder-2-line` / 展开 `folder-open-line` / 选中 `folder-open-fill`；
+  会话菜单 置顶 `pushpin-2-line`/取消置顶 `pushpin-line`、重命名 `edit-line`、分叉 `git-branch-line`、
+  归档 `archive-line`、复制 ID `file-copy-line`；视图菜单 按工作区 `layout-line`、工作区树 `node-tree`、
+  单列表 `list-unordered`、手动排序 `drag-move-line`、最近更新 `time-line`、
+  隐藏已归档/仅显示已归档 `archive-line`、全部对话 `chat-3-line`。
+  菜单项无 aria-label，靠 `tagMenuItems()` 按文案打 `data-dsh-icon`（文案变了自动退回原生）。
+- **实测**：工作区行 `aria-expanded=true` 且文件夹槽带 `_folderActive` → 原生 svg `display:none`、
+  我们的 `::before` 16px 生效；两个菜单 13 项打标全部命中（`menu-session-* / menu-view-* / menu-sort-* / menu-filter-*`）。
+- **踩坑**：面板行图标壳 `<span class="_panelGlyph">` 固定 16px，只藏 svg 会留空壳把文字顶开
+  （文字从 x=61 变 x=37 才对）；已按类名尾缀一起收掉。
+
 ## [0.2.5] - 2026-10-31
 
 ### 新增

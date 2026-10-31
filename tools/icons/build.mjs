@@ -94,7 +94,8 @@ for (const raw of list) {
   if (raw.variants !== undefined) {
     if (!Array.isArray(raw.variants)) fail(id + ' 的 variants 必须是数组')
     for (const v of raw.variants) {
-      if (!v || !v.when) fail(id + ' 的 variants 条目缺少 when（状态选择器）')
+      // 两种写法：when（拼在原目标选择器后面的状态限定）或 selector（完整选择器，状态落在祖先上时用）
+      if (!v || (!v.when && !v.selector)) fail(id + ' 的 variants 条目需要 when 或 selector')
       const vfile = String(v.file || '')
       if (!vfile) fail(id + ' 的 variants 条目缺少 file')
       const vpath = isAbsolute(vfile) ? vfile : join(iconsDir, vfile)
@@ -105,7 +106,10 @@ for (const raw of list) {
       }
       const vsvg = minifySvg(readFileSync(vpath, 'utf8'))
       if (!/viewBox\s*=/.test(vsvg)) fail(id + ' 的 variants svg 缺少 viewBox：' + vfile)
-      variants.push({ when: String(v.when), svg: toDataUrl(vsvg) })
+      const row = { svg: toDataUrl(vsvg) }
+      if (v.when) row.when = String(v.when)
+      if (v.selector) row.selector = String(v.selector)
+      variants.push(row)
     }
   }
 
