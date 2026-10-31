@@ -35,8 +35,11 @@
 - **标题栏按钮**：`.dsh-style-tb` 自绘四个 28px 按钮——折叠侧栏 / 后退 / 前进 / **刷新页面**
   （`location.reload()` 真正重载整个 Web 应用；刷新前会校验桌面壳缓存的启动注入，插件刚热更新过时只提示
   「请退出 App 后重新打开」而不会触发「应用无法启动」）；整组可关，刷新按钮另有独立开关。
-- **输入框引用卡片**：正文里的 `@文件` 引用（不改变引用语义）在输入框顶部镜像成一排 240×64 卡片（横向滚动）——
-  序号 + 类型色块 + 文件名 + 类别；点卡片定位/高亮正文引用，点引用高亮卡片，删引用后卡片同步消失并重编号。
+- **输入框附件栅格**：官方附件（图片/上传文件）与正文 `@文件` 引用合并成一个 **wrap 栅格** ——
+  图片在前、引用卡片在后，`gap 12` 自动换行，不再横向滚动；引用卡 164×64（序号 + 类型色块 + 文件名 + 类别），
+  点卡片定位/高亮正文引用、点引用高亮卡片，删引用后卡片同步消失并重编号。官方条目以克隆展示、点击/删除代理回原件。
+- **输入框外观微调（可配）**：整卡圆角（12 / 16 / 20 / 原生 28）、输入区默认行数（2 / 3 / 4 行 → min-height
+  36 / 60 / 84）、顶部内距 14（与正文左内距对齐）、「+」与发送/停止按钮从正圆改圆角矩形（8px / 10px）。
 - **Qoder 风格首页（仅新会话 hero 相位）**：欢迎组贴顶、活跃度热力图居中、输入卡片下沉，
   欢迎语由工作区/模式两个原生选择器原地句化；全部规则限定在 `[data-phase="hero"]`，正常对话零影响。
 - **苹果树邮戳插画**：首页标题上方的 174×100 小卡片（素材内联）。悬停整体 `scale(1.03)`／500ms，
@@ -45,14 +48,14 @@
   热区光标为 canvas 生成的苹果；支持 Tab 聚焦、Esc 关闭与 `prefers-reduced-motion` 降级。
 - **可持久化**：设置保存在 `localStorage`（键 `dsh-style:settings`），重启后恢复。
 - **可逆、无污染**：禁用/卸载时移除全部 `data-dsh-style-*` 属性与样式表，不留全局样式。
-- **修改后重启**：桌面端 HMR 不保证，更新 `client.js` 后请重启 Harness。
+- **热更新**：改 `client.js` 后 `dsh-client-hmr` 会在 1–2 秒内热替换插件，无需重启 Harness。
 
 ## 安装到 DSH
 
 已验证：**macOS + DeepSeek Harness `0.2.1-rc.5`**。插件是桌面客户端插件，不适用 web profile。
 
 1. 从 [Releases](https://github.com/KouriVar/DeepSeek-Harness-Style/releases/latest) 下载
-   `dsh-style-0.1.1.tgz`。
+   `dsh-style-0.2.0.tgz`。
 2. Harness → **Settings → Plugins → Add plugin**，选择这个 `.tgz`。
 3. **重启 Harness**。
 4. 打开 **Settings → 外观**，确认「启用样式插件」是开的；其它默认值见上一节。
@@ -60,8 +63,8 @@
 命令行安装（profile 名以本机为准，桌面版通常是 `desktop`）：
 
 ```sh
-npm pack            # 生成 dsh-style-0.1.1.tgz
-dsh plugin --profile desktop add /绝对路径/dsh-style-0.1.1.tgz
+npm pack            # 生成 dsh-style-0.2.0.tgz
+dsh plugin --profile desktop add /绝对路径/dsh-style-0.2.0.tgz
 ```
 
 开发期也可以把本目录 `link` 进 profile 的 `package.json`：
@@ -78,7 +81,7 @@ dsh plugin --profile desktop add /绝对路径/dsh-style-0.1.1.tgz
 ## 给朋友装（同款 UI）
 
 1. 用 **macOS 版 DeepSeek Harness 0.2.1-rc.5**（其它版本选择器可能对不上）。
-2. 下载 `dsh-style-0.1.1.tgz`，按上面步骤安装并重启。
+2. 下载 `dsh-style-0.2.0.tgz`，按上面步骤安装并重启。
 3. 全新安装默认就是作者这套外观；检查 **Settings → 外观** 是否全开。
 4. 为完全一致，再确认：
    - 系统 / DSH 外观：**浅色**（插件跟随 DSH 主题，不强改主题）
@@ -93,7 +96,7 @@ dsh plugin --profile desktop add /绝对路径/dsh-style-0.1.1.tgz
 
 ## 兼容性
 
-- 0.1.1 在 **0.2.1-rc.5** 实测；DSH 更新后类名/结构可能变化，侧栏选择器和 HoverCard 可能需要适配。
+- 0.2.0 在 **0.2.1-rc.5** 实测；DSH 更新后类名/结构可能变化，侧栏选择器和 HoverCard 可能需要适配。
 - 插件不修改官方 `app.asar`；通过 profile 安装，官方 app 保持原样。
 - 侧栏横向基准按 macOS 红绿灯按钮设计；Windows/Linux 版不保证同一像素位置。
 

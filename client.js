@@ -70,6 +70,11 @@ window.__ModuleLoader__.load({
       titlebarRefresh: true,
       // 输入框引用卡片（正文 @文件引用镜像成输入框上方一行卡片）。
       refCards: true,
+      // 输入框外观微调：整卡圆角 / 输入区行数 / 圆形按钮改圆角矩形。
+      composerChrome: true,
+      composerRadius: 16,
+      composerLines: 3,
+      squareActionButtons: true,
       sidebarCompact: true,
       hovercardInset: true,
       pageTopSpacing: true,
@@ -106,6 +111,12 @@ window.__ModuleLoader__.load({
         merged.titlebarButtons = merged.titlebarButtons !== false
         merged.titlebarRefresh = merged.titlebarRefresh !== false
         merged.refCards = merged.refCards !== false
+        merged.composerChrome = merged.composerChrome !== false
+        merged.squareActionButtons = merged.squareActionButtons !== false
+        const composerRadius = Number(merged.composerRadius)
+        merged.composerRadius = [12, 16, 20, 28].includes(composerRadius) ? composerRadius : DEFAULTS.composerRadius
+        const composerLines = Number(merged.composerLines)
+        merged.composerLines = [2, 3, 4].includes(composerLines) ? composerLines : DEFAULTS.composerLines
         merged.sidebarCompact = merged.sidebarCompact !== false
         merged.hovercardInset = merged.hovercardInset !== false
         merged.pageTopSpacing = merged.pageTopSpacing !== false
@@ -283,15 +294,34 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-enabled="true"] [data-shell-leading]{display:none !important;}',
     ].join('')
 
-    // 输入框圆角：整卡 28 → 16；左下角「+」与右下角发送/停止按钮从圆形改成圆角矩形。
-    // 用 aria-label 片段定位（中文/英文各一条），只是形状覆盖，不影响任何行为。
-    const COMPOSER_CHROME_CSS = [
-      '[data-composer-card]{border-radius:16px !important;}',
-      '[data-composer-card] button[aria-label*="添加文件"], [data-composer-card] button[aria-label*="Add file"]{border-radius:8px !important;}',
-      '[data-composer-card] button[aria-label*="停止"], [data-composer-card] button[aria-label*="发送"], [data-composer-card] button[aria-label*="Stop"], [data-composer-card] button[aria-label*="Send"]{border-radius:10px !important;}',
-      // 默认输入区高度：DSH 原生 min-height 36px（正文行高 24px），这里加一行 → 60px；跟字号增量一起缩放。
-      '[data-composer-card] [data-composer-input]{min-height:calc(60px + var(--dsh-content-font-delta,0px)) !important;}',
-    ].join('')
+    // 输入框外观微调（可配置）：整卡圆角、输入区默认高度、圆形按钮改圆角矩形。
+    // 锚点只用 data-composer-* 与 aria-label 片段，只覆盖形状，不改任何行为。
+    const COMPOSER_RADIUS_OPTIONS = [
+      { value: '12', label: '12' },
+      { value: '16', label: '16' },
+      { value: '20', label: '20' },
+      { value: '28', label: '原生 28' },
+    ]
+    const COMPOSER_LINES_OPTIONS = [
+      { value: '2', label: '2 行' },
+      { value: '3', label: '3 行' },
+      { value: '4', label: '4 行' },
+    ]
+    function composerChromeCss(cfg) {
+      const radius = Number(cfg.composerRadius) || 16
+      const lines = Math.max(2, Number(cfg.composerLines) || 3)
+      // DSH 原生 min-height 36px、正文行高 24px：2 行=36、3 行=60、4 行=84，随字号增量缩放。
+      const minHeight = 36 + (lines - 2) * 24
+      const rules = [
+        '[data-composer-card]{border-radius:' + radius + 'px !important;padding-top:14px !important;}',
+        '[data-composer-card] [data-composer-input]{min-height:calc(' + minHeight + 'px + var(--dsh-content-font-delta,0px)) !important;}',
+      ]
+      if (cfg.squareActionButtons !== false) {
+        rules.push('[data-composer-card] button[aria-label*="添加文件"], [data-composer-card] button[aria-label*="Add file"]{border-radius:8px !important;}')
+        rules.push('[data-composer-card] button[aria-label*="停止"], [data-composer-card] button[aria-label*="发送"], [data-composer-card] button[aria-label*="Stop"], [data-composer-card] button[aria-label*="Send"]{border-radius:10px !important;}')
+      }
+      return rules.join('')
+    }
 
     // 侧边栏模块可见性（品牌 / 新会话）。用 html 属性驱动，纯 CSS 隐藏；隐藏后侧栏是
     // flex 自动布局，下方内容会自然上移。
@@ -1099,16 +1129,16 @@ window.__ModuleLoader__.load({
           observer = new MutationObserver(schedule)
           observer.observe(document.body, { childList: true, subtree: true, characterData: true })
         }
-        window.addEventListener('resize', schedule)
+        if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') window.addEventListener('resize', schedule)
         docClick = onDocClick
-        document.addEventListener('click', docClick, true)
+        if (typeof document.addEventListener === 'function') document.addEventListener('click', docClick, true)
         schedule()
       }
       function stop() {
         enabled = false
         if (observer) { try { observer.disconnect() } catch {} observer = null }
-        window.removeEventListener('resize', schedule)
-        if (docClick) { document.removeEventListener('click', docClick, true); docClick = null }
+        if (typeof window !== 'undefined' && typeof window.removeEventListener === 'function') window.removeEventListener('resize', schedule)
+        if (docClick) { if (typeof document.removeEventListener === 'function') document.removeEventListener('click', docClick, true); docClick = null }
         if (raf) { try { cancelAnimationFrame(raf) } catch {} raf = 0 }
         for (const item of chips) { try { item.chip.removeAttribute('data-dsh-chip-flash') } catch {} }
         chips = []
@@ -1277,7 +1307,8 @@ window.__ModuleLoader__.load({
       root.setAttribute('data-dsh-style-qoderhome', cfg.qoderHome !== false ? 'true' : 'false')
       const el = styleTag()
       if (el) {
-        const rules = [BASE_CSS, COMPOSER_CHROME_CSS]
+        const rules = [BASE_CSS]
+        if (cfg.composerChrome !== false) rules.push(composerChromeCss(cfg))
         if (cfg.immersive !== false) rules.push(IMMERSIVE_CSS)
         if (cfg.titlebarButtons !== false) rules.push(TITLEBAR_CSS)
         rules.push(SIDEBAR_BASE_CSS)
@@ -1299,6 +1330,7 @@ window.__ModuleLoader__.load({
       // 输入框引用卡片：开关变化时启停只读镜像（默认开）。
       if (cfg.refCards !== false) refCards.start()
       else refCards.stop()
+
       // 沉浸式外壳在经典/内嵌两种布局下都生效，所以始终打标（经典模式下 BASE_CSS 的
       // inset 规则不匹配，不会影响原生布局）。
       startTagging()
@@ -1418,7 +1450,23 @@ window.__ModuleLoader__.load({
         h(SwitchRow, { label: '页面顶部留白对齐', checked: cfg.pageTopSpacing !== false, onChange: (value) => set({ pageTopSpacing: value }) }),
         h(SwitchRow, { label: '标题栏窗口按钮（折叠 / 后退 / 前进 / 刷新）', checked: cfg.titlebarButtons !== false, onChange: (value) => set({ titlebarButtons: value }) }),
         h(SwitchRow, { label: '标题栏刷新按钮（真正重新加载页面）', checked: cfg.titlebarRefresh !== false, onChange: (value) => set({ titlebarRefresh: value }) }),
-        h(SwitchRow, { label: '输入框附件栅格（图片 + 引用卡片，自动换行）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }))
+        h(SwitchRow, { label: '输入框附件栅格（图片 + 引用卡片，自动换行）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }),
+        h(SwitchRow, { label: '输入框外观微调（圆角 / 高度 / 内距）', checked: cfg.composerChrome !== false, onChange: (value) => set({ composerChrome: value }) }),
+        h(SegmentedRow, {
+          id: 'dsh-style-composer-radius',
+          label: '输入框圆角（原生 28）',
+          value: String(cfg.composerRadius),
+          options: COMPOSER_RADIUS_OPTIONS,
+          onChange: (value) => set({ composerRadius: Number(value) }),
+        }),
+        h(SegmentedRow, {
+          id: 'dsh-style-composer-lines',
+          label: '输入区默认行数（原生 2 行）',
+          value: String(cfg.composerLines),
+          options: COMPOSER_LINES_OPTIONS,
+          onChange: (value) => set({ composerLines: Number(value) }),
+        }),
+        h(SwitchRow, { label: '「+」和发送按钮改圆角矩形', checked: cfg.squareActionButtons !== false, onChange: (value) => set({ squareActionButtons: value }) }))
     }
 
     // 交互：属于「功能」类的行为开关（默认开）。

@@ -2,7 +2,7 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
-## [Unreleased]
+## [0.2.0] - 2026-10-31
 
 ### 新增
 - **输入框引用卡片（S1：正文 @文件引用的只读镜像）**：composer 里每出现一个文件引用（`span[data-composer-chip]`，
@@ -32,6 +32,14 @@
     渐隐遮罩（`mask-image`），滚动裁切不再生硬。实测：探针 3 张卡（MOV / EXE / DMG）左右各有内边距、
     三张完整并排，文件名以 `…` 截断。
 ### 新增（本轮续）
+- **输入框外观微调 + 设置项**：外观页新增「输入框外观微调（圆角 / 高度 / 内距）」开关，
+  以及「输入框圆角」分段（12 / 16 / 20 / 原生 28）、「输入区默认行数」分段（2 / 3 / 4 行，对应
+  `min-height` 36 / 60 / 84，随字号增量缩放）、「「+」和发送按钮改圆角矩形」开关。
+  CSS 由 `composerChromeCss(cfg)` 按配置拼装（`client.js`），默认 16px / 3 行 / 圆角矩形。
+  实测：默认 `card=16px padT=14px minH=60px plus=8px send=10px`；把圆角 12 + 4 行时
+  `card=12px minH=84px`（与映射一致）。
+
+
 - **Figma 变量板（设计变量参考页）**：Figma「DSH」文件新增页面 `dsh-style · 变量板`（背景 `#F5F5F5`），三块画板：
   `01 · 官方 Token（Light）`（nodeId `43:446`，98 别名色 + 77 静态色 + 6 圆角的色块/圆角块）、
   `02 · 输入框 Composer 标注`（nodeId `43:1249`，672 宽 mock + 8 条编号标注，蓝色 = 插件改过）、

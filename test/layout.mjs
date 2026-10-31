@@ -11,19 +11,52 @@ import { strict as assert } from 'node:assert'
 
 const code = readFileSync(new URL('../client.js', import.meta.url), 'utf8')
 
+// 插件里用了浏览器全局（MutationObserver / getComputedStyle），Node 侧给最小 stub。
+globalThis.MutationObserver = class { observe() {} disconnect() {} takeRecords() { return [] } }
+globalThis.getComputedStyle = () => ({ getPropertyValue: () => '', length: 0, item: () => '' })
+
 function makeEl(tag) {
-  return {
+  const el = {
     tag,
     attrs: {},
-    style: {},
+    dataset: {},
+    style: {
+      getPropertyValue() { return '' },
+      setProperty() {},
+      getPropertyPriority() { return '' },
+      removeProperty() {},
+    },
     children: [],
     parentElement: null,
     previousElementSibling: null,
+    innerHTML: '',
+    textContent: '',
+    disabled: false,
+    classList: { add() {}, remove() {}, toggle() {}, contains() { return false } },
     setAttribute(key, value) { this.attrs[key] = String(value) },
     getAttribute(key) { return Object.prototype.hasOwnProperty.call(this.attrs, key) ? this.attrs[key] : null },
     hasAttribute(key) { return Object.prototype.hasOwnProperty.call(this.attrs, key) },
     removeAttribute(key) { delete this.attrs[key] },
+    addEventListener() {},
+    removeEventListener() {},
     appendChild(child) { this.children.push(child); child.parentElement = this; return child },
+    append(...kids) { for (const kid of kids) this.appendChild(kid) },
+    insertBefore(child, ref) {
+      const index = ref ? this.children.indexOf(ref) : -1
+      if (index >= 0) this.children.splice(index, 0, child)
+      else this.children.push(child)
+      child.parentElement = this
+      return child
+    },
+    removeChild(child) { this.children = this.children.filter((c) => c !== child); child.parentElement = null },
+    remove() { if (this.parentElement) this.parentElement.removeChild(this) },
+    contains(node) {
+      let cursor = node
+      while (cursor) { if (cursor === this) return true; cursor = cursor.parentElement }
+      return false
+    },
+    closest() { return null },
+    getBoundingClientRect() { return { top: 0, left: 0, width: 0, height: 0, right: 0, bottom: 0 } },
     querySelector(selector) {
       if (selector === ':scope > [data-rightbar-col]') {
         return this.children.find((child) => child.hasAttribute('data-rightbar-col')) || null
@@ -31,6 +64,11 @@ function makeEl(tag) {
       return null
     },
   }
+  Object.defineProperty(el, 'className', {
+    get() { return this.attrs.class || '' },
+    set(value) { this.attrs.class = String(value) },
+  })
+  return el
 }
 
 let styleEl = null
@@ -66,6 +104,8 @@ const fakeDocument = {
     if (selector === '[data-shell-bottom]') return bottom
     return null
   },
+  addEventListener() {},
+  removeEventListener() {},
   querySelectorAll(selector) {
     const match = selector.match(/^\[(data-dsh-style-[a-z]+)\]$/)
     if (!match) return []
@@ -80,7 +120,14 @@ const fakeLocalStorage = {
 }
 
 let def = null
-const fakeWindow = { __ModuleLoader__: { load: (value) => { def = value } } }
+const resizeListeners = new Set()
+const fakeWindow = {
+  __ModuleLoader__: { load: (value) => { def = value } },
+  addEventListener(type, fn) { if (type === 'resize') resizeListeners.add(fn) },
+  removeEventListener(type, fn) { if (type === 'resize') resizeListeners.delete(fn) },
+  requestAnimationFrame: (fn) => setTimeout(fn, 0),
+  cancelAnimationFrame: (id) => clearTimeout(id),
+}
 new Function('window', 'document', 'localStorage', code)(fakeWindow, fakeDocument, fakeLocalStorage)
 
 const exported = def.factory((id) => {
@@ -91,7 +138,7 @@ const exported = def.factory((id) => {
 const { applyStyles } = exported.__internal
 
 // --- inset: tags three columns, writes CSS, sets html attribute
-applyStyles({ enabled: true, layout: 'inset', reduceMotion: false, hideScrollbars: false })
+applyStyles({ enabled: true, layout: 'inset', reduceMotion: false, hideScrollbars: false, titlebarButtons: false, refCards: false, composerChrome: false })
 assert.equal(html.getAttribute('data-dsh-style-layout'), 'inset', 'html carries layout=inset')
 assert.ok(frame.hasAttribute('data-dsh-style-frame'), 'frame tagged')
 assert.ok(center.hasAttribute('data-dsh-style-main'), 'center column tagged as main')
@@ -100,14 +147,14 @@ assert.ok(styleEl && styleEl.textContent.includes('[data-dsh-style-main]'), 'sty
 assert.ok(styleEl.textContent.includes('--dsh-style-inset-radius'), 'stylesheet defines inset tokens')
 
 // --- classic: removes tags, native layout restored
-applyStyles({ enabled: true, layout: 'classic', reduceMotion: false, hideScrollbars: false })
+applyStyles({ enabled: true, layout: 'classic', reduceMotion: false, hideScrollbars: false, titlebarButtons: false, refCards: false, composerChrome: false })
 assert.equal(html.getAttribute('data-dsh-style-layout'), 'classic', 'html carries layout=classic')
-assert.ok(!frame.hasAttribute('data-dsh-style-frame'), 'frame tag removed')
-assert.ok(!center.hasAttribute('data-dsh-style-main'), 'main tag removed')
-assert.ok(!sidebar.hasAttribute('data-dsh-style-sidebar'), 'sidebar tag removed')
+// 经典模式下仍会打结构标记（沉浸式外壳对两种布局都生效）；inset 样式由 html 上的 layout 属性门控。
+assert.ok(frame.hasAttribute('data-dsh-style-frame'), 'classic keeps structural tags')
+assert.ok(styleEl.textContent.includes('data-dsh-style-layout'), 'stylesheet is gated by layout attribute')
 
 // --- disabled: no residue at all
-applyStyles({ enabled: false, layout: 'inset', reduceMotion: false, hideScrollbars: false })
+applyStyles({ enabled: false, layout: 'inset', reduceMotion: false, hideScrollbars: false, titlebarButtons: false, refCards: false, composerChrome: false })
 assert.equal(html.getAttribute('data-dsh-style-layout'), null, 'layout attribute cleared when disabled')
 assert.equal(html.getAttribute('data-dsh-style-enabled'), null, 'enabled attribute cleared when disabled')
 assert.equal(styleEl.textContent, '', 'stylesheet cleared when disabled')
