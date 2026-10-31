@@ -848,6 +848,7 @@ window.__ModuleLoader__.load({
       ['doc', '文档', '#2563eb', ['doc', 'docx', 'rtf', 'odt', 'pages', 'md', 'mdx', 'markdown', 'txt']],
       ['sheet', '表格', '#15803d', ['xls', 'xlsx', 'xlsm', 'xlsb', 'csv', 'tsv', 'numbers', 'ods']],
       ['slides', '演示', '#ea580c', ['ppt', 'pptx', 'key', 'odp']],
+      ['installer', '安装包', '#b45309', ['exe', 'msi', 'pkg', 'apk', 'deb', 'rpm', 'appimage']],
       ['archive', '压缩包', '#78716c', ['zip', 'tar', 'gz', 'tgz', 'rar', '7z', 'dmg', 'iso']],
       ['code', '代码', '#475569', ['js', 'mjs', 'cjs', 'ts', 'tsx', 'jsx', 'css', 'scss', 'sass', 'less', 'html', 'htm', 'xml', 'json', 'yaml', 'yml', 'sh', 'bash', 'zsh', 'py', 'go', 'rs', 'java', 'kt', 'c', 'h', 'cpp', 'hpp', 'cs', 'rb', 'php', 'swift', 'toml', 'ini', 'conf', 'sql', 'vue', 'svelte', 'astro']],
     ]
