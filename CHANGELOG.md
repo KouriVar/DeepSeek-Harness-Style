@@ -32,6 +32,15 @@
     渐隐遮罩（`mask-image`），滚动裁切不再生硬。实测：探针 3 张卡（MOV / EXE / DMG）左右各有内边距、
     三张完整并排，文件名以 `…` 截断。
 ### 新增（本轮续）
+- **Figma 变量板（设计变量参考页）**：Figma「DSH」文件新增页面 `dsh-style · 变量板`（背景 `#F5F5F5`），三块画板：
+  `01 · 官方 Token（Light）`（nodeId `43:446`，98 别名色 + 77 静态色 + 6 圆角的色块/圆角块）、
+  `02 · 输入框 Composer 标注`（nodeId `43:1249`，672 宽 mock + 8 条编号标注，蓝色 = 插件改过）、
+  `03 · 改动对照`（nodeId `43:1346`，原生值 ↔ 当前值表格）。
+  - 变量集合：`DSH · 官方 Token` 181 个（alias/static/radius），`dsh-style · 改动值` 31 个
+    （composer/editor/toolbar/grid/各按钮数值），画板节点已绑定，改变量 → 画板同步。
+  - 数据源：`dsh-client-ui-theme` 的 `--dsw-*` 定义（Light）+ 真机探针实测值；说明见 `docs/figma-token-board.md`。
+
+
 - **默认输入区加高一行**：DSH 原生 `[data-composer-input]` `min-height:36px`（正文行高 24px），
   这里改成 `min-height: calc(60px + var(--dsh-content-font-delta, 0px))`，即 36 + 24 = 60px；
   composer 整卡高度随之 104 → 128px。实测：`edH 36→60`、`cardH 104→128`、`line-height 24px / font-size 14px`。
