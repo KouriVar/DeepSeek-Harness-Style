@@ -32,6 +32,12 @@
     渐隐遮罩（`mask-image`），滚动裁切不再生硬。实测：探针 3 张卡（MOV / EXE / DMG）左右各有内边距、
     三张完整并排，文件名以 `…` 截断。
 ### 新增（本轮续）
+- **默认输入区加高一行**：DSH 原生 `[data-composer-input]` `min-height:36px`（正文行高 24px），
+  这里改成 `min-height: calc(60px + var(--dsh-content-font-delta, 0px))`，即 36 + 24 = 60px；
+  composer 整卡高度随之 104 → 128px。实测：`edH 36→60`、`cardH 104→128`、`line-height 24px / font-size 14px`。
+  （顺带说明：用户猜的“文字高度 16px”不对，DSH 正文行高是 24px，所以加一行是 +24 而不是 +16。）
+
+
 - **输入框圆角收小 + 两个圆形按钮改圆角矩形**：`[data-composer-card]` 圆角 `28px → 16px`；
   左下角「添加文件或调用指令」28×28 圆钮 `999px → 8px`；右下角「发送/停止」34×34 圆钮 `999px → 10px`
   （停止态与发送态共用一条规则，中英文 aria-label 都覆盖）。实测 computed：`card=16px / plus=8px / send=10px`。

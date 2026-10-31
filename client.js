@@ -289,6 +289,8 @@ window.__ModuleLoader__.load({
       '[data-composer-card]{border-radius:16px !important;}',
       '[data-composer-card] button[aria-label*="添加文件"], [data-composer-card] button[aria-label*="Add file"]{border-radius:8px !important;}',
       '[data-composer-card] button[aria-label*="停止"], [data-composer-card] button[aria-label*="发送"], [data-composer-card] button[aria-label*="Stop"], [data-composer-card] button[aria-label*="Send"]{border-radius:10px !important;}',
+      // 默认输入区高度：DSH 原生 min-height 36px（正文行高 24px），这里加一行 → 60px；跟字号增量一起缩放。
+      '[data-composer-card] [data-composer-input]{min-height:calc(60px + var(--dsh-content-font-delta,0px)) !important;}',
     ].join('')
 
     // 侧边栏模块可见性（品牌 / 新会话）。用 html 属性驱动，纯 CSS 隐藏；隐藏后侧栏是
