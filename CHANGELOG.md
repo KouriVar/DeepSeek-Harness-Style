@@ -2,6 +2,24 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.3.1] - 2026-10-31
+
+### 修复
+- **右侧栏折叠的展开/收起图形用反了**：改为 展开态 `layout-right-fill`、收起态 `layout-right-line`
+  （与左侧栏一致：当前状态用实心）。实测收起后那颗按钮 aria 确认为 `打开右侧边栏`，已覆盖。
+- 「打开任务监控」14px → **16px**（用户觉得偏小）。
+
+### 新增 · 会话页第二批（消息功能）
+- 复制 `file-copy-line` @15；
+- 好的回答 `thumb-up-line` → **选中态 `aria-pressed="true"` 切 `thumb-up-fill`** @15；
+- 有问题的回答 `thumb-down-line` → 选中态 `thumb-down-fill` @15；
+- 在新对话中分支 `git-branch-line` @16；
+- 自动换行 `text-wrap` @14；
+- 代码块「查看 … 的改动」`code-box-line` @20（选择器 `button[aria-label^="查看"][aria-label$="的改动"]`）；
+- 消息「更多」`more-fill` @15（按钮悬停才渲染，本次未实测到，命中不了会退回原生）。
+
+实测：复制/两个回答/分支/自动换行/查看改动 六处均 `svg display:none` + `::before 15/16/14/20px` 生效。
+
 ## [0.3.0] - 2026-10-31
 
 ### 新增 · 会话区顶部 + 右侧栏折叠（第一批·顶部）

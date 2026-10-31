@@ -493,7 +493,7 @@
       "selector": "button[aria-label=\"打开任务监控\"]",
       "file": "conversation/top/list-check-3.svg",
       "source": "remixicon/list-check-3",
-      "size": 14,
+      "size": 16,
       "tint": "currentColor",
       "hide": "svg",
       "enabled": true
@@ -502,10 +502,10 @@
       "id": "rightbar.collapse",
       "area": "rightbar",
       "native": "未知（右侧栏头部 收起/展开）",
-      "where": "右侧栏 · 收起右侧边栏（展开态）；与左侧栏折叠保持同一套语言",
+      "where": "右侧栏 · 收起右侧边栏（展开态=fill）；与左侧栏折叠同一套语言",
       "selector": "button[aria-label=\"收起右侧边栏\"], button[aria-label=\"展开右侧边栏\"], button[aria-label=\"打开右侧边栏\"]",
-      "file": "rightbar/layout-right-line.svg",
-      "source": "remixicon/layout-right-line（展开态） / layout-right-fill（收起态）",
+      "file": "rightbar/layout-right-fill.svg",
+      "source": "remixicon/layout-right-fill（展开态） / layout-right-line（收起态）",
       "size": 15,
       "tint": "currentColor",
       "hide": "svg",
@@ -513,9 +513,112 @@
       "variants": [
         {
           "selector": "button[aria-label=\"展开右侧边栏\"], button[aria-label=\"打开右侧边栏\"]",
-          "file": "rightbar/layout-right-fill.svg"
+          "file": "rightbar/layout-right-line.svg"
         }
       ]
+    },
+    {
+      "id": "message.copy",
+      "area": "conversation.main",
+      "native": "IconCopyOutlineRegular",
+      "where": "消息操作条 · 复制",
+      "selector": "button[aria-label=\"复制\"]",
+      "file": "conversation/main/file-copy-line.svg",
+      "source": "remixicon/file-copy-line",
+      "size": 15,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
+    },
+    {
+      "id": "message.thumb-up",
+      "area": "conversation.main",
+      "native": "IconThumbUpOutlineRegular",
+      "where": "消息操作条 · 好的回答（未选 line / 已选 fill）",
+      "selector": "button[aria-label=\"好的回答\"]",
+      "file": "conversation/main/thumb-up-line.svg",
+      "source": "remixicon/thumb-up-line + thumb-up-fill（aria-pressed=true）",
+      "size": 15,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true,
+      "variants": [
+        {
+          "when": "[aria-pressed=\"true\"]",
+          "file": "conversation/main/thumb-up-fill.svg"
+        }
+      ]
+    },
+    {
+      "id": "message.thumb-down",
+      "area": "conversation.main",
+      "native": "IconThumbDownOutlineRegular",
+      "where": "消息操作条 · 有问题的回答（未选 line / 已选 fill）",
+      "selector": "button[aria-label=\"有问题的回答\"]",
+      "file": "conversation/main/thumb-down-line.svg",
+      "source": "remixicon/thumb-down-line + thumb-down-fill（aria-pressed=true）",
+      "size": 15,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true,
+      "variants": [
+        {
+          "when": "[aria-pressed=\"true\"]",
+          "file": "conversation/main/thumb-down-fill.svg"
+        }
+      ]
+    },
+    {
+      "id": "message.branch",
+      "area": "conversation.main",
+      "native": "IconBranchOutlineRegular",
+      "where": "消息操作条 · 在新对话中分支",
+      "selector": "button[aria-label=\"在新对话中分支\"]",
+      "file": "conversation/main/git-branch-line.svg",
+      "source": "remixicon/git-branch-line",
+      "size": 16,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
+    },
+    {
+      "id": "message.wrap",
+      "area": "conversation.main",
+      "native": "IconWrapTextOutlineRegular",
+      "where": "代码块 · 自动换行（aria-pressed 表示开关）",
+      "selector": "button[aria-label=\"自动换行\"]",
+      "file": "conversation/main/text-wrap.svg",
+      "source": "remixicon/text-wrap",
+      "size": 14,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
+    },
+    {
+      "id": "message.view-diff",
+      "area": "conversation.main",
+      "native": "未知（代码块 查看改动）",
+      "where": "代码块标题 ·「查看 … 的改动」",
+      "selector": "button[aria-label^=\"查看\"][aria-label$=\"的改动\"]",
+      "file": "conversation/main/code-box-line.svg",
+      "source": "remixicon/code-box-line",
+      "size": 20,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
+    },
+    {
+      "id": "message.more",
+      "area": "conversation.main",
+      "native": "IconEllipsisOutlineRegular",
+      "where": "消息 ·「更多」（会话区内，区别于侧栏面板行的更多）",
+      "selector": "[data-slot^=\"conversation.chat\"] button[aria-label=\"更多\"], [data-slot^=\"conversation.session\"] button[aria-label=\"更多\"]",
+      "file": "conversation/main/more-fill.svg",
+      "source": "remixicon/more-fill",
+      "size": 15,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
     }
   ]
 }
