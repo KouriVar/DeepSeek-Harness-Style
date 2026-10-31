@@ -68,6 +68,8 @@ window.__ModuleLoader__.load({
       immersive: true,
       titlebarButtons: true,
       titlebarRefresh: true,
+      // 输入框引用卡片（正文 @文件引用镜像成输入框上方一行卡片）。
+      refCards: true,
       sidebarCompact: true,
       hovercardInset: true,
       pageTopSpacing: true,
@@ -103,6 +105,7 @@ window.__ModuleLoader__.load({
         merged.immersive = merged.immersive !== false
         merged.titlebarButtons = merged.titlebarButtons !== false
         merged.titlebarRefresh = merged.titlebarRefresh !== false
+        merged.refCards = merged.refCards !== false
         merged.sidebarCompact = merged.sidebarCompact !== false
         merged.hovercardInset = merged.hovercardInset !== false
         merged.pageTopSpacing = merged.pageTopSpacing !== false
@@ -818,6 +821,227 @@ window.__ModuleLoader__.load({
       if (titlebarEl) { try { titlebarEl.remove() } catch {} titlebarEl = null }
     }
 
+    // ---- 输入框引用卡片（正文 @文件引用的只读镜像） ----
+    // 只读：从 composer 编辑器里的 chip DOM 派生一排卡片，不碰编辑器模型、不改引用语义
+    // （模型收到的仍是 @相对路径）。点卡片 → 定位/高亮正文引用；点引用 → 高亮卡片；
+    // 引用被删除时卡片随之消失、编号按当下顺序自动重排。
+    const REFCARD_CSS = [
+      '[data-dsh-refcards]{position:fixed;z-index:2147482999;display:flex;align-items:stretch;gap:8px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 6px;scrollbar-width:none;-webkit-app-region:no-drag;pointer-events:auto;}',
+      '[data-dsh-refcards]::-webkit-scrollbar{display:none}',
+      '[data-dsh-refcard]{position:relative;flex:none;box-sizing:border-box;display:inline-flex;align-items:center;gap:10px;width:240px;height:64px;padding:0 12px;border-radius:14px;border:.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.12));background:var(--dsw-specific-input-major,#fff);box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;transition:border-color .12s,box-shadow .12s,background .12s;}',
+      '[data-dsh-refcard]:hover{border-color:var(--dsw-alias-border-l3,rgba(0,0,0,.2));}',
+      '[data-dsh-refcard]:focus-visible{outline:2px solid var(--dsw-alias-state-business-primary,#4d6bfe);outline-offset:2px;}',
+      '[data-dsh-refcard][data-dsh-refflash="true"]{border-color:var(--dsw-alias-state-business-primary,#4d6bfe);box-shadow:0 0 0 2px color-mix(in srgb,var(--dsw-alias-state-business-primary,#4d6bfe) 28%,transparent);}',
+      '[data-dsh-refnum]{flex:none;width:16px;height:16px;border-radius:999px;background:var(--dsw-alias-fill-tertiary,rgba(0,0,0,.08));color:var(--dsw-alias-label-tertiary,#8a9099);font-size:10px;line-height:16px;text-align:center;}',
+      '[data-dsh-reficon]{flex:none;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:#fff;font-size:9px;font-weight:600;letter-spacing:.2px;text-transform:uppercase;}',
+      '[data-dsh-refbody]{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}',
+      '[data-dsh-refname]{font-size:14px;line-height:22px;color:var(--dsw-alias-label-primary,inherit);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
+      '[data-dsh-refmeta]{font-size:11px;line-height:15px;color:var(--dsw-alias-label-tertiary,#8a9099);}',
+      '[data-composer-chip][data-dsh-chip-flash="true"]{outline:2px solid var(--dsw-alias-state-business-primary,#4d6bfe);outline-offset:1px;border-radius:6px;}',
+    ].join('')
+
+    const REFCARD_KINDS = [
+      ['image', '图片', '#16a34a', ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'heic', 'heif', 'avif', 'bmp', 'ico', 'tif', 'tiff']],
+      ['video', '视频', '#0ea5e9', ['mp4', 'mov', 'm4v', 'webm', 'mkv', 'avi', 'mpg', 'mpeg']],
+      ['audio', '音频', '#8b5cf6', ['mp3', 'wav', 'flac', 'm4a', 'aac', 'ogg', 'opus']],
+      ['pdf', 'PDF', '#dc2626', ['pdf']],
+      ['doc', '文档', '#2563eb', ['doc', 'docx', 'rtf', 'odt', 'pages', 'md', 'mdx', 'markdown', 'txt']],
+      ['sheet', '表格', '#15803d', ['xls', 'xlsx', 'xlsm', 'xlsb', 'csv', 'tsv', 'numbers', 'ods']],
+      ['slides', '演示', '#ea580c', ['ppt', 'pptx', 'key', 'odp']],
+      ['archive', '压缩包', '#78716c', ['zip', 'tar', 'gz', 'tgz', 'rar', '7z', 'dmg', 'iso']],
+      ['code', '代码', '#475569', ['js', 'mjs', 'cjs', 'ts', 'tsx', 'jsx', 'css', 'scss', 'sass', 'less', 'html', 'htm', 'xml', 'json', 'yaml', 'yml', 'sh', 'bash', 'zsh', 'py', 'go', 'rs', 'java', 'kt', 'c', 'h', 'cpp', 'hpp', 'cs', 'rb', 'php', 'swift', 'toml', 'ini', 'conf', 'sql', 'vue', 'svelte', 'astro']],
+    ]
+    const REFCARD_KIND_BY_EXT = (() => {
+      const map = new Map()
+      for (const [kind, label, color, exts] of REFCARD_KINDS) for (const ext of exts) map.set(ext, { kind, label, color })
+      return map
+    })()
+    function refCardKind(ext) {
+      return REFCARD_KIND_BY_EXT.get(ext) || { kind: 'file', label: '引用', color: '#64748b' }
+    }
+
+    const refCards = (() => {
+      let enabled = false
+      let row = null
+      let chips = []
+      let signature = ''
+      let observer = null
+      let raf = 0
+      let ticker = 0
+      let docClick = null
+
+      function composerCard() {
+        let best = null
+        let area = 0
+        const viewH = (typeof window !== 'undefined' && window.innerHeight) || 0
+        for (const el of Array.from(document.querySelectorAll('[data-composer-card]'))) {
+          if (!el.isConnected) continue
+          const r = el.getBoundingClientRect()
+          if (r.width < 160 || r.height < 32) continue
+          if (r.bottom < 0 || r.top > viewH) continue
+          const a = r.width * r.height
+          if (a > area) { area = a; best = el }
+        }
+        return best
+      }
+      function editorOf(card) {
+        if (!card) return null
+        return card.querySelector('[data-composer-input]') || card.querySelector('[contenteditable="true"]')
+      }
+      // 只收「文件」引用：命令 chip、目录、会话引用都不画卡片（没有扩展名的一律跳过）。
+      function collect(card) {
+        const editor = editorOf(card)
+        if (!editor) return []
+        const out = []
+        for (const chip of Array.from(editor.querySelectorAll('[data-composer-chip]'))) {
+          const source = (chip.getAttribute('data-composer-chip') || '').toLowerCase()
+          if (source.indexOf('command') >= 0 || source.indexOf('slash') >= 0) continue
+          const name = (chip.textContent || '').trim()
+          if (!name) continue
+          const hit = /\.([A-Za-z0-9]{1,8})$/.exec(name)
+          if (!hit) continue
+          const ext = hit[1].toLowerCase()
+          out.push({ chip, name, ext, kind: refCardKind(ext) })
+        }
+        return out
+      }
+      function ensureRow() {
+        if (row && row.isConnected) return row
+        row = document.createElement('div')
+        row.setAttribute('data-dsh-refcards', '')
+        row.setAttribute('role', 'list')
+        row.setAttribute('aria-label', '输入框引用卡片')
+        document.body.appendChild(row)
+        return row
+      }
+      function hideRow() {
+        if (row) { try { row.remove() } catch {} row = null }
+      }
+      function flash(el, attr, ms) {
+        try {
+          el.setAttribute(attr, 'true')
+          setTimeout(() => { try { el.removeAttribute(attr) } catch {} }, ms || 1400)
+        } catch {}
+      }
+      function focusChip(index) {
+        const item = chips[index]
+        if (!item || !item.chip || !item.chip.isConnected) { schedule(); return }
+        try { item.chip.scrollIntoView({ block: 'nearest', inline: 'nearest' }) } catch {}
+        flash(item.chip, 'data-dsh-chip-flash', 1400)
+        if (row && row.isConnected) {
+          const card = row.querySelectorAll('[data-dsh-refcard]')[index]
+          if (card) flash(card, 'data-dsh-refflash', 1400)
+        }
+      }
+      function cardNode(item, index) {
+        const card = document.createElement('div')
+        card.setAttribute('data-dsh-refcard', '')
+        card.setAttribute('role', 'listitem')
+        card.setAttribute('tabindex', '0')
+        card.title = item.name + '（点击定位正文里的引用）'
+        const num = document.createElement('span')
+        num.setAttribute('data-dsh-refnum', '')
+        num.textContent = String(index + 1)
+        const icon = document.createElement('span')
+        icon.setAttribute('data-dsh-reficon', '')
+        icon.style.background = item.kind.color
+        icon.textContent = item.ext.slice(0, 4).toUpperCase()
+        const body = document.createElement('span')
+        body.setAttribute('data-dsh-refbody', '')
+        const name = document.createElement('span')
+        name.setAttribute('data-dsh-refname', '')
+        name.textContent = item.name
+        const meta = document.createElement('span')
+        meta.setAttribute('data-dsh-refmeta', '')
+        meta.textContent = item.kind.label
+        body.append(name, meta)
+        card.append(num, icon, body)
+        card.addEventListener('click', () => focusChip(index))
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); focusChip(index) }
+        })
+        return card
+      }
+      function place() {
+        if (!row || !row.isConnected) return
+        const card = composerCard()
+        if (!card) { hideRow(); return }
+        const r = card.getBoundingClientRect()
+        const h = row.offsetHeight || 64
+        const left = Math.round(r.left + 8)
+        const width = Math.max(160, Math.round(r.width - 16))
+        let top = Math.round(r.top - h - 8)
+        if (top < 8) top = Math.round(r.bottom + 8)
+        row.style.left = left + 'px'
+        row.style.width = width + 'px'
+        row.style.top = top + 'px'
+      }
+      function sync() {
+        if (!enabled) return
+        const card = composerCard()
+        const next = card ? collect(card) : []
+        chips = next
+        const sig = next.map((item) => item.name + '#' + item.ext).join('|')
+        if (sig !== signature) {
+          signature = sig
+          if (!next.length) { hideRow(); return }
+          const rowEl = ensureRow()
+          rowEl.replaceChildren(...next.map((item, index) => cardNode(item, index)))
+        }
+        if (!next.length) { hideRow(); return }
+        place()
+      }
+      function schedule() {
+        if (raf) return
+        const rafFn = typeof requestAnimationFrame === 'function' ? requestAnimationFrame : (fn) => setTimeout(fn, 16)
+        raf = rafFn(() => { raf = 0; sync() })
+      }
+      // 点正文里的引用 → 高亮对应卡片（capture 阶段，不阻止原生行为）。
+      function onDocClick(event) {
+        const target = event.target
+        if (!target || typeof target.closest !== 'function') return
+        const chip = target.closest('[data-composer-chip]')
+        if (!chip) return
+        const index = chips.findIndex((item) => item.chip === chip)
+        if (index < 0 || !row || !row.isConnected) return
+        const card = row.querySelectorAll('[data-dsh-refcard]')[index]
+        if (card) flash(card, 'data-dsh-refflash', 1400)
+      }
+      function start() {
+        if (enabled) return
+        enabled = true
+        // 旧实例残留（HMR/重载）先清掉，避免叠两排。
+        for (const stale of Array.from(document.querySelectorAll('[data-dsh-refcards]'))) { try { stale.remove() } catch {} }
+        for (const stale of Array.from(document.querySelectorAll('[data-dsh-chip-flash]'))) { try { stale.removeAttribute('data-dsh-chip-flash') } catch {} }
+        if (typeof MutationObserver === 'function') {
+          observer = new MutationObserver(schedule)
+          observer.observe(document.body, { childList: true, subtree: true, characterData: true })
+        }
+        window.addEventListener('resize', schedule)
+        document.addEventListener('scroll', schedule, true)
+        docClick = onDocClick
+        document.addEventListener('click', docClick, true)
+        // 布局动画（右栏开合）不改 DOM，用低频 ticker 兜住位置。
+        ticker = setInterval(place, 250)
+        schedule()
+      }
+      function stop() {
+        enabled = false
+        if (observer) { try { observer.disconnect() } catch {} observer = null }
+        window.removeEventListener('resize', schedule)
+        document.removeEventListener('scroll', schedule, true)
+        if (docClick) { document.removeEventListener('click', docClick, true); docClick = null }
+        if (ticker) { clearInterval(ticker); ticker = 0 }
+        if (raf) { try { cancelAnimationFrame(raf) } catch {} raf = 0 }
+        for (const item of chips) { try { item.chip.removeAttribute('data-dsh-chip-flash') } catch {} }
+        chips = []
+        signature = ''
+        hideRow()
+      }
+      return { start, stop, refresh: schedule }
+    })()
+
+
     // 按文案定位顶栏那几个状态入口（哈希类名会随构建变，文案更稳），标记隐藏。
     function applyChipHiding() {
       if (typeof document === 'undefined') return
@@ -986,12 +1210,16 @@ window.__ModuleLoader__.load({
         if (cfg.workspaceRowCompact !== false) rules.push(WORKSPACE_CSS)
         rules.push(MONITOR_CSS)
         if (cfg.qoderHome !== false) rules.push(QODER_HOME_CSS)
+        if (cfg.refCards !== false) rules.push(REFCARD_CSS)
         if (cfg.reduceMotion) rules.push(MOTION_CSS)
         if (cfg.hideScrollbars) rules.push(SCROLL_CSS)
         el.textContent = rules.join('\n')
       }
       if (cfg.qoderHome === false) tagQoderHome()
       if (cfg.titlebarButtons === false) unmountTitlebar()
+      // 输入框引用卡片：开关变化时启停只读镜像（默认开）。
+      if (cfg.refCards !== false) refCards.start()
+      else refCards.stop()
       // 沉浸式外壳在经典/内嵌两种布局下都生效，所以始终打标（经典模式下 BASE_CSS 的
       // inset 规则不匹配，不会影响原生布局）。
       startTagging()
@@ -1004,6 +1232,7 @@ window.__ModuleLoader__.load({
       const el = document.querySelector(STYLE_TAG)
       if (el) el.textContent = ''
       unmountTitlebar()
+      refCards.stop()
       stopTagging()
       tagQoderHome()
     }
@@ -1109,7 +1338,8 @@ window.__ModuleLoader__.load({
         h(SwitchRow, { label: '会话详情背景：跟随系统（浅色/深色）', checked: cfg.hovercardFollowTheme !== false, onChange: (value) => set({ hovercardFollowTheme: value }) }),
         h(SwitchRow, { label: '页面顶部留白对齐', checked: cfg.pageTopSpacing !== false, onChange: (value) => set({ pageTopSpacing: value }) }),
         h(SwitchRow, { label: '标题栏窗口按钮（折叠 / 后退 / 前进 / 刷新）', checked: cfg.titlebarButtons !== false, onChange: (value) => set({ titlebarButtons: value }) }),
-        h(SwitchRow, { label: '标题栏刷新按钮（真正重新加载页面）', checked: cfg.titlebarRefresh !== false, onChange: (value) => set({ titlebarRefresh: value }) }))
+        h(SwitchRow, { label: '标题栏刷新按钮（真正重新加载页面）', checked: cfg.titlebarRefresh !== false, onChange: (value) => set({ titlebarRefresh: value }) }),
+        h(SwitchRow, { label: '输入框引用卡片（正文 @文件镜像到输入框上方）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }))
     }
 
     // 交互：属于「功能」类的行为开关（默认开）。
@@ -1145,8 +1375,8 @@ window.__ModuleLoader__.load({
       return h('section', { style: sectionStyle, 'aria-label': '规划中' },
         h('h3', { style: sectionTitleStyle }, '规划中（未实现）'),
         h(PlannedRow, {
-          label: '输入框引用卡片',
-          hint: 'v0.2 计划：把正文里的 @文件引用镜像成输入框上方的一排文件卡片（图片与文档统一），点引用高亮卡片、点卡片定位引用；引用被删除时卡片同步消失、编号自动重排。本轮只记录需求，不实现。',
+          label: '输入框引用卡片 · 剩余部分',
+          hint: '卡片的镜像显示、双向高亮与自动编号已实现（见上方「输入框引用卡片」开关）。v0.2 剩余：正文引用显示为「附件 N」短链接；卡片上的 × 回删正文引用（插件没有编辑器 API，目前只能点卡片定位）。',
         }))
     }
 
