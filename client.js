@@ -357,6 +357,39 @@ window.__ModuleLoader__.load({
       return rules.join('')
     }
 
+    // ---- 图标覆盖表（icons/manifest.json → 见 tools/icons/build.mjs）----
+    // 每条 = 把 DSH 某位置的原生图标换成自己的 svg（内联 data URL；单文件插件没有资源管线）。
+    // 官方改名 / 换 aria-label 时这些选择器只是不再命中 —— 图标回到原生，不会报错、不会坏。
+    // <icons:auto> 由 tools/icons/build.mjs 生成，勿手改；改图标请编辑 icons/manifest.json 后跑 npm run icons:build
+    const ICON_OVERRIDES = []
+    // </icons:auto>
+
+    // 覆盖表 → CSS：先隐藏该位置原生的 svg，再用 ::before 贴上我们的图标。
+    //   tint: "currentColor" → mask（图形当遮罩，颜色跟随当前文字色；深浅主题都正常）
+    //   tint: "color"        → background-image（保留图标自身配色，不做着色）
+    function iconOverrideCss() {
+      const rules = []
+      for (const item of ICON_OVERRIDES) {
+        if (!item || !item.selector || !item.svg) continue
+        // selector 可能是一组（中/英两个分支）；伪元素必须拼到**每一段**上，
+        // 直接 sel + '::before' 只会挂在最后一段，其余分支会出现「藏了图标又没贴」的空洞。
+        const parts = String(item.selector).split(',').map((s) => s.trim()).filter(Boolean)
+        if (parts.length === 0) continue
+        if (item.hide && item.hide !== 'none') {
+          rules.push(parts.map((p) => p + ' > ' + item.hide).join(', ') + '{display:none !important;}')
+        }
+        const size = Number(item.size) || 16
+        let paint = 'background-color:currentColor;'
+        if (item.tint === 'color') {
+          paint = 'background-image:url("' + item.svg + '");background-size:contain;background-repeat:no-repeat;background-position:center;'
+        } else {
+          paint += '-webkit-mask-image:url("' + item.svg + '");mask-image:url("' + item.svg + '");-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain;'
+        }
+        rules.push(parts.map((p) => p + '::before').join(', ') + '{content:"";display:block;flex:none;width:' + size + 'px;height:' + size + 'px;' + paint + '}')
+      }
+      return rules.join('')
+    }
+
     // 侧边栏模块可见性（品牌 / 新会话）。用 html 属性驱动，纯 CSS 隐藏；隐藏后侧栏是
     // flex 自动布局，下方内容会自然上移。
     // 侧边栏基础可见性（品牌 / 新会话 / 会话标签栏）与头部无分割线（始终启用）。
@@ -1372,6 +1405,7 @@ window.__ModuleLoader__.load({
       if (el) {
         const rules = [BASE_CSS]
         rules.push(composerUiCss(cfg))
+        rules.push(iconOverrideCss())
         if (cfg.composerChrome !== false) rules.push(composerChromeCss(cfg))
         if (cfg.immersive !== false) rules.push(IMMERSIVE_CSS)
         if (cfg.titlebarButtons !== false) rules.push(TITLEBAR_CSS)

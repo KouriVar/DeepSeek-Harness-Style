@@ -1,6 +1,6 @@
 {
   "name": "dsh-style",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "DeepSeek Harness 客户端外观插件：内嵌/经典布局、侧栏对齐、任务监控与同款外观预设。",
   "type": "module",
   "main": "index.js",
@@ -14,7 +14,9 @@
     "client.js",
     "cordis.patch.yml",
     "README.md",
-    "host"
+    "host",
+    "icons",
+    "tools/icons"
   ],
   "keywords": [
     "dsh-plugin",
@@ -39,6 +41,8 @@
     "icons:index": "node tools/icon-studio/index.mjs",
     "icons:studio": "node tools/icon-studio/service.mjs start --open",
     "icons:test": "node --test tools/icon-studio/test/studio.test.mjs",
-    "icons:stop": "node tools/icon-studio/service.mjs stop"
+    "icons:stop": "node tools/icon-studio/service.mjs stop",
+    "icons:build": "node tools/icons/build.mjs",
+    "icons:check": "node tools/icons/build.mjs --check"
   }
 }

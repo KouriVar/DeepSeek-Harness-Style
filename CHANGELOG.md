@@ -2,6 +2,24 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.2.3] - 2026-10-31
+
+### 新增
+- **图标覆盖表（`icons/` + `tools/icons/build.mjs`）**：把「换某个原生图标」变成声明式配置，不再手写 base64。
+  1. svg 按**被替换的官方图标名**命名（如 `IconDataOutlineRegular.svg`），放进 `icons/`；
+  2. 在 `icons/manifest.json` 记一条：`native`（换了谁）、`where`（界面上哪个位置，人话）、
+     `selector`（稳定锚点：`data-*` / `aria-label` / `data-slot`，**不用哈希类名**）、`size`、`tint`、`enabled`；
+  3. `npm run icons:build` 把 svg 压成 data URL 写进 `client.js` 的 `<icons:auto>` 块；
+     `npm run icons:check` 只校验不写盘（提交前防「改了表忘构建」）。
+  运行时 `iconOverrideCss()` 把表翻成两条 CSS：隐藏该位置原生 svg + `::before` 贴我们的图标。
+  `tint: currentColor` 走 mask（跟随深浅主题），`tint: color` 保留原图配色。
+  换电脑 clone 即生效（svg 已内联，运行时零文件依赖）；**官方改名/改 aria-label 时选择器不再命中，
+  自动退回原生图标，不会报错也不会坏**。
+- **踩坑记录**：`selector` 是逗号列表（中/英两个分支）时，伪元素必须拼到**每一段**上；
+  第一版写成 `selector + '::before'` 只挂到最后一段，中文那颗出现「原生图标被藏掉、新图标没贴」的空白，
+  真机截图确认后改成逐段拼接，复测图标正常显示。
+- 当前 manifest 里只有一条**停用**记录（`composer-model ← IconDataOutlineRegular`，留着当模板）。
+
 ## [0.2.2] - 2026-10-31
 
 ### 新增
