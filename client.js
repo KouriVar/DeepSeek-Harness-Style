@@ -361,7 +361,11 @@ window.__ModuleLoader__.load({
     // 每条 = 把 DSH 某位置的原生图标换成自己的 svg（内联 data URL；单文件插件没有资源管线）。
     // 官方改名 / 换 aria-label 时这些选择器只是不再命中 —— 图标回到原生，不会报错、不会坏。
     // <icons:auto> 由 tools/icons/build.mjs 生成，勿手改；改图标请编辑 icons/manifest.json 后跑 npm run icons:build
-    const ICON_OVERRIDES = []
+    const ICON_OVERRIDES = [
+      { id: "sidebar.workspace-search", area: "sidebar", native: "IconSearchOutlineRegular", where: "左侧栏 · 工作区行右侧第一个按钮（搜索会话）", selector: "[data-slot=\"sidebar.workspaces\"] button[aria-label=\"搜索会话\"]", size: 14, tint: "currentColor", hide: "svg", variants: [], svg: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xOC4wMzEgMTYuNjE2OEwyMi4zMTM3IDIwLjg5OTVMMjAuODk5NSAyMi4zMTM3TDE2LjYxNjggMTguMDMxQzE1LjA3NjkgMTkuMjYzIDEzLjEyNCAyMCAxMSAyMEM2LjAzMiAyMCAyIDE1Ljk2OCAyIDExQzIgNi4wMzIgNi4wMzIgMiAxMSAyQzE1Ljk2OCAyIDIwIDYuMDMyIDIwIDExQzIwIDEzLjEyNCAxOS4yNjMgMTUuMDc2OSAxOC4wMzEgMTYuNjE2OFpNMTYuMDI0NyAxNS44NzQ4QzE3LjI0NzUgMTQuNjE0NiAxOCAxMi44OTU2IDE4IDExQzE4IDcuMTMyNSAxNC44Njc1IDQgMTEgNEM3LjEzMjUgNCA0IDcuMTMyNSA0IDExQzQgMTQuODY3NSA3LjEzMjUgMTggMTEgMThDMTIuODk1NiAxOCAxNC42MTQ2IDE3LjI0NzUgMTUuODc0OCAxNi4wMjQ3TDE2LjAyNDcgMTUuODc0OFoiPjwvcGF0aD48L3N2Zz4=" },
+      { id: "sidebar.workspace-view-options", area: "sidebar", native: "IconSlidersTwoOutlineRegular", where: "左侧栏 · 工作区行右侧第二个按钮（视图选项）", selector: "[data-slot=\"sidebar.workspaces\"] button[aria-label=\"视图选项\"]", size: 16, tint: "currentColor", hide: "svg", variants: [], svg: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMiAxTDIxLjUgNi41VjE3LjVMMTIgMjNMMi41IDE3LjVWNi41TDEyIDFaTTEyIDMuMzExTDQuNSA3LjY1MzExVjE2LjM0NjlMMTIgMjAuNjg5TDE5LjUgMTYuMzQ2OVY3LjY1MzExTDEyIDMuMzExWk0xMiAxNkM5Ljc5MDg2IDE2IDggMTQuMjA5MSA4IDEyQzggOS43OTA4NiA5Ljc5MDg2IDggMTIgOEMxNC4yMDkxIDggMTYgOS43OTA4NiAxNiAxMkMxNiAxNC4yMDkxIDE0LjIwOTEgMTYgMTIgMTZaTTEyIDE0QzEzLjEwNDYgMTQgMTQgMTMuMTA0NiAxNCAxMkMxNCAxMC44OTU0IDEzLjEwNDYgMTAgMTIgMTBDMTAuODk1NCAxMCAxMCAxMC44OTU0IDEwIDEyQzEwIDEzLjEwNDYgMTAuODk1NCAxNCAxMiAxNFoiPjwvcGF0aD48L3N2Zz4=" },
+      { id: "sidebar.workspace-add", area: "sidebar", native: "IconProjectAddOutlineRegular", where: "左侧栏 · 工作区行右侧第三个按钮（添加工作区 / 新文件夹）", selector: "[data-slot=\"sidebar.workspaces\"] button[aria-label=\"添加工作区\"]", size: 16, tint: "currentColor", hide: "svg", variants: [], svg: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iY3VycmVudENvbG9yIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMi40MTQyIDVIMjFDMjEuNTUyMyA1IDIyIDUuNDQ3NzIgMjIgNlYyMEMyMiAyMC41NTIzIDIxLjU1MjMgMjEgMjEgMjFIM0MyLjQ0NzcyIDIxIDIgMjAuNTUyMyAyIDIwVjRDMiAzLjQ0NzcyIDIuNDQ3NzIgMyAzIDNIMTAuNDE0MkwxMi40MTQyIDVaTTQgNVYxOUgyMFY3SDExLjU4NThMOS41ODU3OSA1SDRaTTExIDEyVjlIMTNWMTJIMTZWMTRIMTNWMTdIMTFWMTRIOFYxMkgxMVoiPjwvcGF0aD48L3N2Zz4=" },
+    ]
     // </icons:auto>
 
     // 覆盖表 → CSS：先隐藏该位置原生的 svg，再用 ::before 贴上我们的图标。
@@ -1443,6 +1447,7 @@ window.__ModuleLoader__.load({
       // 沉浸式外壳在经典/内嵌两种布局下都生效，所以始终打标（经典模式下 BASE_CSS 的
       // inset 规则不匹配，不会影响原生布局）。
       startTagging()
+
     }
 
     function cleanup() {

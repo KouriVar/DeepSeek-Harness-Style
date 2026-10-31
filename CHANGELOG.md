@@ -2,6 +2,24 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.2.5] - 2026-10-31
+
+### 新增
+- **第一批图标覆盖（左侧栏 · 工作区行右侧三颗）**，走 `icons/manifest.json` 声明式登记：
+  | 位置 | 官方图标（反查所得） | 尺寸 | 取自 |
+  |---|---|---|---|
+  | 搜索会话 | `IconSearchOutlineRegular` | 14 | QoderSearchLine |
+  | 视图选项 | `IconSlidersTwoOutlineRegular` | 16 | QoderSettingsLine（库里暂无滑杆图标，暂用齿轮） |
+  | 添加工作区（新文件夹） | `IconProjectAddOutlineRegular` | 16 | QoderFolderAddLine |
+  选择器统一用 `[data-slot="sidebar.workspaces"] button[aria-label="…"]`（槽出口 + 中文 aria，均稳定；
+  哈希类名 `Kjh-qa_*` 不参与）。实测：三颗均正常渲染（放大镜 / 齿轮 / 文件夹+），原生 svg `display:none`
+  后由 `::before` 贴图，按钮 28×28 点击行为不变。
+- **官方图标名反查方法**（可复用）：真机取 DOM 里 svg 的 `path d` 前缀 → 在
+  `research/extracted/pkgs/dsh-web-frontend/dist/assets/index-*.js` 里定位该路径 → 找到包住它的
+  局部常量（如 `$v=({size…})`）→ 顺着 wrapper（`NT=e=>jsx($v,{strokeWidth:1})`）到导出表
+  `IconXxxOutlineRegular:NT`。因为图标是「base + Regular/Medium wrapper」两层包装，直接搜路径会停在 base 上。
+- 一条 `IconDataOutlineRegular`（composer 模型按钮）仍是停用模板，等选定图形再启用。
+
 ## [0.2.4] - 2026-10-31
 
 ### 新增

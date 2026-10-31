@@ -23,6 +23,45 @@
       "tint": "currentColor",
       "hide": "svg",
       "enabled": false
+    },
+    {
+      "id": "sidebar.workspace-search",
+      "area": "sidebar",
+      "native": "IconSearchOutlineRegular",
+      "where": "左侧栏 · 工作区行右侧第一个按钮（搜索会话）",
+      "selector": "[data-slot=\"sidebar.workspaces\"] button[aria-label=\"搜索会话\"]",
+      "file": "sidebar/IconSearchOutlineRegular.svg",
+      "source": "qoder-icons-20261029/svg/QoderSearchLine.svg",
+      "size": 14,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
+    },
+    {
+      "id": "sidebar.workspace-view-options",
+      "area": "sidebar",
+      "native": "IconSlidersTwoOutlineRegular",
+      "where": "左侧栏 · 工作区行右侧第二个按钮（视图选项）",
+      "selector": "[data-slot=\"sidebar.workspaces\"] button[aria-label=\"视图选项\"]",
+      "file": "sidebar/IconSlidersTwoOutlineRegular.svg",
+      "source": "qoder-icons-20261029/svg/QoderSettingsLine.svg（暂用齿轮，库里无滑杆图标）",
+      "size": 16,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
+    },
+    {
+      "id": "sidebar.workspace-add",
+      "area": "sidebar",
+      "native": "IconProjectAddOutlineRegular",
+      "where": "左侧栏 · 工作区行右侧第三个按钮（添加工作区 / 新文件夹）",
+      "selector": "[data-slot=\"sidebar.workspaces\"] button[aria-label=\"添加工作区\"]",
+      "file": "sidebar/IconProjectAddOutlineRegular.svg",
+      "source": "qoder-icons-20261029/svg/QoderFolderAddLine.svg",
+      "size": 16,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
     }
   ]
 }
