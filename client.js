@@ -1326,7 +1326,7 @@ window.__ModuleLoader__.load({
         h(SwitchRow, { label: '页面顶部留白对齐', checked: cfg.pageTopSpacing !== false, onChange: (value) => set({ pageTopSpacing: value }) }),
         h(SwitchRow, { label: '标题栏窗口按钮（折叠 / 后退 / 前进 / 刷新）', checked: cfg.titlebarButtons !== false, onChange: (value) => set({ titlebarButtons: value }) }),
         h(SwitchRow, { label: '标题栏刷新按钮（真正重新加载页面）', checked: cfg.titlebarRefresh !== false, onChange: (value) => set({ titlebarRefresh: value }) }),
-        h(SwitchRow, { label: '输入框引用卡片（正文 @文件镜像到输入框上方）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }))
+        h(SwitchRow, { label: '输入框引用卡片（正文 @文件镜像到输入框顶部）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }))
     }
 
     // 交互：属于「功能」类的行为开关（默认开）。
