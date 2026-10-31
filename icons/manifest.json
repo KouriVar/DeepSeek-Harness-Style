@@ -1,12 +1,24 @@
 {
-  "$comment": "图标覆盖表。每条 = 把 DSH 某个位置的官方图标换成自己的。改完必须跑 `npm run icons:build` 才会写进 client.js。命名规则：file 用「被替换的官方图标名」；同一官方图标被用在多处时加 `--<id>` 后缀。selector 只用稳定锚点（data-* / aria-label），不要用哈希类名。",
+  "$comment": "图标覆盖表。每条 = 把 DSH 某个位置的原生图标换成自己的。改完必须跑 `npm run icons:build` 才会写进 client.js。area = 区域（同时是 icons/ 下的目录），见 README；file 相对 icons/；命名用「被替换的官方图标名」，同一图标多处使用时加 `--<id>` 后缀；selector 只用稳定锚点（data-* / aria-label / data-slot），不要用哈希类名。",
+  "areas": {
+    "shell": "窗口外壳 / 标题栏（红绿灯、折叠·后退·前进·刷新、拖拽区）",
+    "sidebar": "左侧栏（工作区行、搜索、设置、新文件夹、会话列表、底部账户）",
+    "conversation.top": "会话区 · 顶部（页头、会话标题、面包屑、页头操作）",
+    "conversation.main": "会话区 · 中间（消息流、气泡操作、代码块、工具卡片）",
+    "conversation.composer": "会话区 · 底部（输入卡、工具行、附件与引用栅格、发送）",
+    "rightbar": "右侧栏（dockkit 面板、分栏、面板头）",
+    "overlay": "浮层（任务监控、实体详情、提示气泡、菜单）",
+    "settings": "设置页（分组、行、控件）",
+    "hero": "首页 hero（新会话空白页：欢迎语、热力图、邮戳、输入卡）"
+  },
   "icons": [
     {
       "id": "composer-model",
+      "area": "conversation.composer",
       "native": "IconDataOutlineRegular",
       "where": "输入卡底部工具行 → 模型选择按钮（DSH 原生紧凑态图标位，28×28 按钮内 16px）",
       "selector": "[data-composer-card] button[aria-label^=\"选择模型\"], [data-composer-card] button[aria-label^=\"Choose model\"]",
-      "file": "IconDataOutlineRegular.svg",
+      "file": "conversation/composer/IconDataOutlineRegular.svg",
       "size": 16,
       "tint": "currentColor",
       "hide": "svg",

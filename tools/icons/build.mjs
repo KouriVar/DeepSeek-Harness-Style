@@ -57,6 +57,7 @@ if (list.length === 0) fail('icons/manifest.json 里没有任何条目')
 
 const entries = []
 const seen = new Set()
+const areas = manifest.areas && typeof manifest.areas === 'object' ? manifest.areas : {}
 for (const raw of list) {
   const id = String(raw.id || '').trim()
   if (!id) fail('有条目缺少 id')
@@ -64,8 +65,13 @@ for (const raw of list) {
   seen.add(id)
   if (!raw.selector) fail(id + ' 缺少 selector')
 
+  // area 同时决定目录分类：file 应当落在 icons/<area>/ 下，方便按区域找、也方便以后按区域生成清单。
+  const area = String(raw.area || '').trim()
+  if (!area) fail(id + ' 缺少 area（取值见 manifest.areas）')
+  if (!areas[area]) fail(id + ' 的 area 不在 manifest.areas 里：' + area)
+
   if (raw.enabled === false) {
-    console.log('[icons] skip（enabled:false）' + id + ' · ' + (raw.native || '?'))
+    console.log('[icons] skip（enabled:false）' + area + ' · ' + id + ' · ' + (raw.native || '?'))
     continue
   }
 
@@ -73,12 +79,18 @@ for (const raw of list) {
   if (!file) fail(id + ' 缺少 file')
   const svgPath = isAbsolute(file) ? file : join(iconsDir, file)
   if (!existsSync(svgPath)) fail(id + ' 找不到图标文件：' + svgPath)
+  if (!svgPath.startsWith(iconsDir + '/')) fail(id + ' 的 file 必须放在 icons/ 目录内：' + file)
+  const areaDir = area.split('.').join('/') + '/'
+  if (!file.replace(/\\/g, '/').startsWith(areaDir)) {
+    fail(id + ' 的 file 应放在 icons/' + areaDir + ' 下（area 用点分层、目录用斜杠对齐）：' + file)
+  }
 
   const svg = minifySvg(readFileSync(svgPath, 'utf8'))
   if (!/viewBox\s*=/.test(svg)) fail(id + ' 的 svg 缺少 viewBox（缩放会失真）：' + file)
 
   entries.push({
     id,
+    area,
     native: raw.native || '',
     where: raw.where || '',
     selector: String(raw.selector),
@@ -94,6 +106,7 @@ const body = entries.length === 0
   : '    const ICON_OVERRIDES = [\n' + entries.map((e) => {
       const parts = [
         'id: ' + JSON.stringify(e.id),
+        'area: ' + JSON.stringify(e.area),
         'native: ' + JSON.stringify(e.native),
         'where: ' + JSON.stringify(e.where),
         'selector: ' + JSON.stringify(e.selector),
@@ -123,7 +136,7 @@ if (checkOnly) {
 if (changed) {
   writeFileSync(clientPath, next)
   console.log('[icons] 写入 client.js：' + entries.length + ' 条生效 / ' + (list.length - entries.length) + ' 条停用')
-  for (const e of entries) console.log('  · ' + e.id + ' ← ' + (e.native || '?') + ' @ ' + e.size + 'px (' + e.tint + ')')
+  for (const e of entries) console.log('  · [' + e.area + '] ' + e.id + ' ← ' + (e.native || '?') + ' @ ' + e.size + 'px (' + e.tint + ')')
 } else {
   console.log('[icons] 无变化（' + entries.length + ' 条生效）')
 }

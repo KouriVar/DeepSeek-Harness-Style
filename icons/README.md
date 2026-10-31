@@ -9,6 +9,30 @@
 所以任何图片/SVG 都必须以 data URL 的形式写进 `client.js`。`icons/` 只是**源文件 + 映射表**，
 真正生效的是 `client.js` 里 `// <icons:auto>` 到 `// </icons:auto>` 之间那段（由脚本生成，别手改）。
 
+## 按区域分类（area）
+
+目录与 `manifest.json` 的 `area` 一一对应（area 用点分层，目录用斜杠）：
+
+| area | 目录 | 区域 | 稳定锚点（定位时用这些，不用视觉位置） |
+|---|---|---|---|
+| `shell` | `icons/shell/` | 窗口外壳 / 标题栏 | `.dsh-style-tb`、`[data-shell-leading]`、红绿灯 |
+| `sidebar` | `icons/sidebar/` | 左侧栏 | `[data-dsh-style-sidebar]`、`[data-sidebar-collapsed]` |
+| `conversation.top` | `icons/conversation/top/` | 会话区 · 顶部 | 页头 `header[data-window-drag]`、`[class*="_titleRow"]` |
+| `conversation.main` | `icons/conversation/main/` | 会话区 · 中间 | `[data-conversation-scroll]`、`[data-conversation-content]` |
+| `conversation.composer` | `icons/conversation/composer/` | 会话区 · 底部 | `[data-composer-card]`、`[data-composer-input]` |
+| `rightbar` | `icons/rightbar/` | 右侧栏 | `[data-rightbar-col]`、`data-dockkit-*` |
+| `overlay` | `icons/overlay/` | 浮层 | `[data-slot="shell.overlay"]` |
+| `settings` | `icons/settings/` | 设置页 | `settings.section` 槽 |
+| `hero` | `icons/hero/` | 首页 hero（新会话空白页） | `[data-phase="hero"]` |
+
+两条归属规则（踩过的歧义）：
+
+1. **跨区域元素归 `shell`**：标题栏那 4 颗按钮虽然画在侧栏上方（`left:88px` 固定），本质是窗口 chrome，
+   归 `shell`；否则侧栏一折叠，分类就自相矛盾。
+2. **`hero` 单独算**：新会话空白页是会话区的 `hero` 相位，布局与正常对话完全不同，混进会话区会乱。
+
+构建会强制 `area` 与目录一致（不齐直接报错），所以不存在「记了区域但文件乱放」。
+
 ## 命名规则
 
 `file` 用**被替换的那个官方图标名**（例如 `IconDataOutlineRegular.svg`），这样一眼就知道换了谁。
@@ -19,7 +43,7 @@
 
 ## 改一个图标（三步）
 
-1. 把 svg 放进 `icons/`，文件名按上面的规则；
+1. 把 svg 放进 `icons/<area 对应目录>/`，文件名按上面的规则；
 2. 在 `icons/manifest.json` 里加/改一条记录（字段见下），`"enabled": true`；
 3. 跑 `npm run icons:build` —— 它会把 svg 压成 base64 写进 `client.js`，保存即 HMR 生效。
 
@@ -30,11 +54,12 @@
 
 | 字段 | 必填 | 说明 |
 |---|---|---|
-| `id` | ✅ | 唯一标识（kebab-case），出现重复直接构建失败 |
-| `native` | 记录用 | 被替换的官方图标名，**只做记录**，官方改名时靠它对照 |
+| `id` | ✅ | 唯一标识（kebab-case），重复直接构建失败 |
+| `area` | ✅ | 区域键，必须是 `manifest.areas` 里的键，且与文件所在目录一致 |
+| `native` | 记录用 | 被替换的官方图标名，官方改名时靠它对照 |
 | `where` | 记录用 | 这个图标在界面上的位置（人话描述，方便以后定位） |
-| `selector` | ✅ | 目标元素的 CSS 选择器。**只用稳定锚点**：`data-*`、`aria-label`、`data-slot`；**不要用哈希类名**（`JZLxKW_*` 这类每次构建都变） |
-| `file` | ✅ | svg 文件名（相对 `icons/`） |
+| `selector` | ✅ | 目标元素选择器。**只用稳定锚点**：`data-*`、`aria-label`、`data-slot`；**不要用哈希类名**（`JZLxKW_*` 这类每次构建都变） |
+| `file` | ✅ | svg 文件名（相对 `icons/`，必须落在 `icons/<area>/` 下） |
 | `size` | | 图标像素尺寸，默认 16 |
 | `tint` | | `currentColor`（默认，mask 着色，跟随深浅主题）或 `color`（保留原图配色，直接当背景图） |
 | `hide` | | 要隐藏的子元素选择器，默认 `svg`；`false` / `"none"` 表示不隐藏 |
@@ -52,14 +77,13 @@
                     mask-size:contain; mask-position:center; }
 ```
 
-> ⚠️ 一个踩过的坑：`selector` 如果是逗号列表（中英文两个分支），伪元素必须拼到**每一段**上。
+> ⚠️ 踩过的坑：`selector` 如果是逗号列表（中英文两个分支），伪元素必须拼到**每一段**上。
 > 直接 `selector + '::before'` 只会挂在最后一段，其余分支就变成「原生图标被藏掉、新图标又没贴」的空洞。
 
 ## 官方改名了会怎样
 
 不会坏，只会**静默退回原生图标**：选择器不命中 → 我们的规则不生效 → DSH 自己的图标照常显示。
-构建脚本也会在 `native` 对不上时靠人肉发现（`where` 字段就是给这个用的）。要恢复覆盖，
-按报错/现象更新 `selector` 即可。
+`native` + `where` 就是给这种事留的线索；要恢复覆盖，更新 `selector` 即可。
 
 ## 相关脚本
 
