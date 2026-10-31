@@ -2,6 +2,16 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.2.7] - 2026-10-31
+
+### 新增
+- **工作区行右侧两个悬停按钮的图标**（用户选型 ① ①）：
+  - 「…」更多操作 → `more-line`（14px）
+  - 「新建会话」→ `chat-new-line`（与顶部新会话同款，14px）
+  锚点用 `[data-slot="sidebar.workspaces"] button[aria-label^="工作区"][aria-label$="的操作"]`
+  与 `… button[aria-label^="在“"][aria-label$="中新建会话"]`（含中文书名号/引号，均来自 DSH 自身 aria）。
+  实测：两个按钮原生 svg `display:none`、我们的 `::before` 均 `14px` 生效（按钮平时悬停才显示，故宽度读作 0）。
+
 ## [0.2.6] - 2026-10-31
 
 ### 新增

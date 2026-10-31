@@ -445,6 +445,32 @@
       "tint": "currentColor",
       "hide": "svg",
       "enabled": true
+    },
+    {
+      "id": "sidebar.workspace-more",
+      "area": "sidebar",
+      "native": "IconEllipsisOutlineRegular",
+      "where": "工作区行右侧 ·「…」更多操作（悬停出现）",
+      "selector": "[data-slot=\"sidebar.workspaces\"] button[aria-label^=\"工作区\"][aria-label$=\"的操作\"]",
+      "file": "sidebar/more-line.svg",
+      "source": "remixicon/more-line",
+      "size": 14,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
+    },
+    {
+      "id": "sidebar.workspace-new-session",
+      "area": "sidebar",
+      "native": "IconNewChatOutlineRegular",
+      "where": "工作区行右侧 ·「新建会话」（悬停出现）",
+      "selector": "[data-slot=\"sidebar.workspaces\"] button[aria-label^=\"在“\"][aria-label$=\"中新建会话\"]",
+      "file": "sidebar/chat-new-line.svg",
+      "source": "remixicon/chat-new-line",
+      "size": 14,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
     }
   ]
 }
