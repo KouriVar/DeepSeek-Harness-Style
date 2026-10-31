@@ -1120,6 +1120,36 @@ window.__ModuleLoader__.load({
         h(SwitchRow, { label: '「智能体 / 通用」入口改名并归位', checked: cfg.agentEntryMerge !== false, onChange: (value) => set({ agentEntryMerge: value }) }))
     }
 
+    // 规划中的条目：只做「记录需求」的占位行（参照上下文感知插件的 v0.2 行）——
+    // badge + 禁用开关 + 说明，不写 localStorage、不接任何设置。
+    const plannedBadgeStyle = {
+      padding: '0 6px',
+      border: '0.5px solid var(--dsw-alias-border-l3, rgba(0,0,0,.16))',
+      borderRadius: '999px',
+      fontSize: '11px',
+      lineHeight: '16px',
+      color: 'var(--dsw-alias-label-tertiary, #8a9099)',
+    }
+    function PlannedRow({ label, hint }) {
+      return h('div', { style: { display: 'flex', flexDirection: 'column', gap: '4px', padding: '10px 0' } },
+        h('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' } },
+          h('span', { style: { display: 'inline-flex', alignItems: 'center', gap: '8px', minWidth: 0 } },
+            h('span', { style: { fontSize: '14px', color: 'var(--dsw-alias-label-secondary, inherit)' } }, label),
+            h('span', { style: plannedBadgeStyle }, 'v0.2')),
+          // 纯占位：开关禁用且不接 onChange，避免看起来像能开。
+          h('div', { style: { pointerEvents: 'none', opacity: 0.55 }, 'aria-hidden': 'true' },
+            h(Switch, { checked: false, disabled: true, onChange: () => {} }))),
+        hint ? h('p', { style: hintStyle }, hint) : null)
+    }
+    function PlannedCard() {
+      return h('section', { style: sectionStyle, 'aria-label': '规划中' },
+        h('h3', { style: sectionTitleStyle }, '规划中（未实现）'),
+        h(PlannedRow, {
+          label: '输入框引用卡片',
+          hint: 'v0.2 计划：把正文里的 @文件引用镜像成输入框上方的一排文件卡片（图片与文档统一），点引用高亮卡片、点卡片定位引用；引用被删除时卡片同步消失、编号自动重排。本轮只记录需求，不实现。',
+        }))
+    }
+
     // -------------------------------------------------- 智能体入口（还原原生交互）
     // 不用自绘胶囊切换了：直接把 ds-bot 原生那一行 panellist 显示出来，只做两件事——
     //   1) 改文案：'Halfsignal Bot'（当前在对话面，点它去 bot 页）→「智能体」；
@@ -1707,7 +1737,8 @@ window.__ModuleLoader__.load({
           h('h2', { style: headingStyle }, '功能')),
         h(TaskMonitorCard, { cfg, set: store.set }),
         h(EntityDetailCardSettings, { cfg, set: store.set }),
-        h(InteractionCard, { cfg, set: store.set }))
+        h(InteractionCard, { cfg, set: store.set }),
+        h(PlannedCard, {}))
     }
 
     // -------------------------------------------------- 任务监控（Task Monitor）
