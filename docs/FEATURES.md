@@ -41,7 +41,7 @@
 | 行右缘 | 列表取消 scrollbar 5px + offset 2px 预留；`scrollbar-gutter: auto` | 行/选中框右缘 = 侧栏宽 - 8.75（264 时 255.25，280 时 271.25） |
 | 工作区头图标 | 18px 标题行里 28px 的搜索/视图/添加按钮；`sectionHeader` / `headerActions` / `regionArea` 三处 `overflow: visible` | 28px hover / active 方块不再被裁成 18px |
 | 底部账户卡 | `triggerRow` 原生左右 `-2px`；补 left `4px`、宽度扣 `4px` | 卡片左缘 `8.75`、右缘 `255.25`；底部间距不变 |
-| 标题栏控件 | 插件自绘 `.dsh-style-tb`：折叠侧栏、后退、前进、刷新页面（`location.reload()` 真实重载）；macOS 红绿灯保留 | 自定义窗口 chrome |
+| 标题栏控件 | 插件自绘 `.dsh-style-tb`：折叠侧栏、后退、前进、刷新页面（`location.reload()` 真实重载；刷新前 GET 校验启动注入，插件刚热更新过时只提示重启）；macOS 红绿灯保留 | 自定义窗口 chrome |
 | 隐藏项 | 见第 6 节 | 收紧侧栏 |
 
 注意：`工作区` 标题文字左缘仍是 `14.75`（与图标槽同列），不是 `8.75`；`8.75` 是行盒子/选中框的外内缩。

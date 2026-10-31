@@ -10,11 +10,25 @@
   与同组三个按钮同一套 `dsh-style-tb-btn` hover/active 样式。点击走 `location.reload()`：
   重载渲染进程里的整个 Web 应用（页面、WebSocket 连接、插件状态全部重来），而不是只重跑 `apply()`；
   `reload()` 万一被拦下（页面没有 unload）则 1200ms 后补一次整页导航并恢复按钮。
-  实测：AX 树四个按钮 `@88 / 118 / 148 / 178, 11`，各 `28×28`；点击后宿主重启
-  （Web GUI 端口 `58871 → 64059`），确认是真实重载，不是视觉假象。
+  实测：AX 树四个按钮 `@88 / 118 / 148 / 178, 11`，各 `28×28`。
   开关：「外观 → 外观细节 → 标题栏刷新按钮（真正重新加载页面）」，默认开；整组仍受「标题栏窗口按钮」总开关控制。
 
 ### 修复
+- **刷新按钮撞上桌面壳的启动注入缓存 → 启动阶段 `dsh-style: import failed` 弹窗，已加刷新前校验**。
+  根因在桌面壳，插件只能兜底（不改内核）：
+  1. `app.asar/lib/main.js` 在 Host 启动时把 `ready.injections` 存进主进程内存
+     （`injections = ready.injections`），之后 IPC `dsh-desktop:boot` 每次启动都返回这份**缓存**；
+     `__DSH_BOOT__` 里每个插件条目的 `url` 带 `rev`（`/plugins/??<id>/client.js&rev=…`）。
+  2. `client-hmr` 每 500ms stat 插件 bundle，文件一变就 `clientModules.rebuilt(id)`，
+     `rev = hash(mtimeMs, ctimeMs, size)` 随之变化；Host 的 `/plugins` 路由对旧 `rev` 直接 404
+     （只保留当前一代 + 上一代 batch）。
+  3. 于是「插件被热更新过 + 页面 reload」= 用旧 rev 拉脚本 404 → boot 审计报 `<id>: import failed`
+     → 桌面壳 `reportFatal` 弹「应用无法启动或已意外停止」。
+  实测两次崩溃（`crash-2026-10-31T03-56-50Z` / `04-03-31Z-web-boot.log`，均为 `dsh-style: import failed`）；
+  第 2 次的 shell 11:56 启动、`client.js` 11:57:49 被 HMR 改过 → 注入 rev 与磁盘 rev 不一致，对得上。
+  兜底：点击刷新前先 GET 一遍 `__DSH_BOOT__.entries[].url`，任一非 200 就只弹提示
+  「插件刚热更新过，整页刷新会在启动时报错。请退出 App 后重新打开。」，不做 reload；
+  全新启动（没有热更新）时按钮照常真刷新。
 - **右侧栏开合改为真正逐帧插值的双向布局动画**。真机逐帧采样定位到两个原因：
   1. DSH 把 `grid-template-columns` 过渡写在 `[data-animating]` 里，而该属性与列宽变化**同一帧**才被加上；
      浏览器只在「变化前已存在过渡声明」时启动插值 → 该过渡从未启动，列宽一帧到位（硬切）。

@@ -265,7 +265,7 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar]{background:transparent !important;background-image:none !important;border-right:0 !important;}',
     ].join('')
 
-    // 顶部窗口控制：折叠 / 后退 / 前进。放在红绿灯右侧（沿用原生 leadingSeat 坐标 left:88 / top:11，
+    // 顶部窗口控制：折叠 / 后退 / 前进 / 刷新。放在红绿灯右侧（沿用原生 leadingSeat 坐标 left:88 / top:11，
     // 相对红绿灯约 16px 间距）。原生折叠按钮与占位控制隐藏，统一由这套接管。
     const TITLEBAR_CSS = [
       '.dsh-style-tb{position:fixed;top:11px;left:88px;display:flex;align-items:center;gap:2px;z-index:2147483000;-webkit-app-region:no-drag;}',
@@ -274,6 +274,8 @@ window.__ModuleLoader__.load({
       '.dsh-style-tb-btn:active:not(:disabled){background:var(--dsw-alias-interactive-bg-active,rgba(128,128,128,.2));}',
       '.dsh-style-tb-btn:disabled{opacity:.3;cursor:default;}',
       '.dsh-style-tb-btn svg{display:block;}',
+      // 刷新被拦下时的提示气泡（浅色/深色都用深底白字，像系统 tooltip）。
+      '[data-dsh-style-tip]{position:fixed;z-index:2147483001;max-width:280px;padding:7px 11px;border-radius:9px;background:rgba(28,28,30,.95);color:#f5f5f7;font-size:12px;line-height:17px;box-shadow:0 10px 26px rgba(0,0,0,.32);pointer-events:none;}',
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_toggle"]{display:none !important;}',
       'html[data-dsh-style-enabled="true"] [data-shell-leading]{display:none !important;}',
     ].join('')
@@ -703,6 +705,51 @@ window.__ModuleLoader__.load({
         if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy') }
       }, 1200)
     }
+    // 刷新前的「启动注入」校验（DSH 0.2.1-rc.5 桌面壳的缓存 bug 兜底）：
+    // 桌面主进程在 Host 启动时把 `window.__DSH_BOOT__`（每个插件 bundle 的 rev URL）缓存进内存，
+    // 之后 client-hmr 热替换会让 rev 变新、旧 URL 在 Host 侧立刻 404（Host 只保留当前代 + 上一代 batch）。
+    // 这时整页刷新会在 boot 阶段报 `<插件>: import failed`，桌面壳直接弹「应用无法启动」。
+    // 所以刷新前先 GET 一遍启动注入里的每个插件脚本：只要有一个不是 200，就只提示、不刷新。
+    async function bootInjectionStale() {
+      let boot = null
+      try { boot = (typeof window !== 'undefined' && window.__DSH_BOOT__) || null } catch { boot = null }
+      if (!boot) return false
+      const urls = []
+      for (const row of Array.isArray(boot.entries) ? boot.entries : []) {
+        if (row && typeof row.url === 'string' && row.url) urls.push(row.url)
+      }
+      if (urls.length === 0) return false
+      for (const url of urls) {
+        try {
+          const res = await fetch(url)
+          if (res.status !== 200) return true
+        } catch {
+          return true
+        }
+      }
+      return false
+    }
+    function showTitlebarTip(anchor, text) {
+      if (typeof document === 'undefined' || !document.body) return
+      let tip = document.querySelector('[data-dsh-style-tip]')
+      if (!tip) {
+        tip = document.createElement('div')
+        tip.setAttribute('data-dsh-style-tip', '')
+        tip.setAttribute('role', 'status')
+        document.body.appendChild(tip)
+      }
+      tip.textContent = text
+      let left = 88
+      let top = 45
+      try {
+        const rect = anchor && anchor.getBoundingClientRect ? anchor.getBoundingClientRect() : null
+        if (rect && rect.width) { left = Math.round(rect.left); top = Math.round(rect.bottom + 6) }
+      } catch {}
+      tip.style.left = left + 'px'
+      tip.style.top = top + 'px'
+      if (showTitlebarTip.timer) clearTimeout(showTitlebarTip.timer)
+      showTitlebarTip.timer = setTimeout(() => { try { tip.remove() } catch {} }, 4500)
+    }
     function syncTitlebar() {
       if (!titlebarEl) return
       const collapsed = Boolean(document.querySelector('[data-sidebar-collapsed]'))
@@ -744,7 +791,22 @@ window.__ModuleLoader__.load({
       box.append(toggle, back, fwd)
       if (wantRefresh) {
         const refresh = mk('reload', 'refresh', '刷新页面')
-        refresh.addEventListener('click', (e) => { e.preventDefault(); reloadPage(refresh) })
+        refresh.addEventListener('click', async (e) => {
+          e.preventDefault()
+          if (refresh.dataset.busy === 'true') return
+          refresh.dataset.busy = 'true'
+          refresh.disabled = true
+          try {
+            if (await bootInjectionStale()) {
+              showTitlebarTip(refresh, '插件刚热更新过，整页刷新会在启动时报错。请退出 App 后重新打开。')
+              return
+            }
+            reloadPage(refresh)
+          } finally {
+            refresh.dataset.busy = 'false'
+            refresh.disabled = false
+          }
+        })
         box.append(refresh)
       }
       box.__hasRefresh = wantRefresh
