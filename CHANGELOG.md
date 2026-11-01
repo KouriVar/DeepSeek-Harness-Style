@@ -2,6 +2,15 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.4.4] - 2026-11-01
+
+### 调整 · 票根虚线可调化
+- 上移量 `-4px → -12px`；虚线更密（实 4px / 空 4px，原来 5/10）；**左右各缩进 10px**（不再顶满卡片）。
+- 三个量抽成 CSS 变量挂在 `[data-composer-card]` 上，改一个数即可：
+  `--dsh-style-ticket-inset`（左右缩进）/ `--dsh-style-ticket-lift`（上移）/ `--dsh-style-ticket-dash` + `--dsh-style-ticket-gap`（密度）。
+- 实测：卡片 / 工具行 / 输入区左缘都在同一列（x=560，横向无 padding），所以缩进只能是**我们自己的数**，
+  取 10px（略宽于「+」按钮的 8px 行内距，看起来像内缩的票根线）。
+
 ## [0.4.3] - 2026-11-01
 
 ### 修复 · 输入框工具行三个按钮真正拉平

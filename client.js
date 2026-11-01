@@ -377,8 +377,10 @@ window.__ModuleLoader__.load({
         + 'border-radius:8px !important;transform:none !important;}')
       if (cfg.composerPerforation !== false) {
         // 票根式分隔：工具行顶部画一条虚线，颜色跟随文字色、只靠透明度收敛（不抢视线）。
+        // 可调：缩进（左右）、上移量（top）、虚线密度（实/空 px）
+        rules.push('[data-composer-card]{--dsh-style-ticket-inset:10px;--dsh-style-ticket-lift:12px;--dsh-style-ticket-dash:4px;--dsh-style-ticket-gap:4px;}')
         rules.push('[data-dsh-style-toolbar]{position:relative !important;}')
-        rules.push('[data-dsh-style-toolbar]::before{content:"";position:absolute;left:0;right:0;top:-4px;height:1px;pointer-events:none;background-image:repeating-linear-gradient(to right, currentColor 0 5px, transparent 5px 10px);opacity:.16;}')
+        rules.push('[data-dsh-style-toolbar]::before{content:"";position:absolute;left:var(--dsh-style-ticket-inset);right:var(--dsh-style-ticket-inset);top:calc(-1 * var(--dsh-style-ticket-lift));height:1px;pointer-events:none;background-image:repeating-linear-gradient(to right, currentColor 0 var(--dsh-style-ticket-dash), transparent var(--dsh-style-ticket-dash) calc(var(--dsh-style-ticket-dash) + var(--dsh-style-ticket-gap)));opacity:.16;}')
       }
       if (cfg.composerAttachButton !== false) {
         rules.push('[data-dsh-style-attach]{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;flex:none;border:0;background:transparent;border-radius:8px;cursor:pointer;color:inherit;}')
