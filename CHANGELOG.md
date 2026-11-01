@@ -2,6 +2,21 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.5.0] - 2026-11-01
+
+### 新增 · 这一轮改动全部开关化 + 分类
+- **新增设置卡片「图标」**（外观组，排在输入框之后）：
+  - `启用图标替换`（总开关，`iconOverrides`）
+  - 分区开关：`侧边栏` / `会话区` / `标题栏` / `右侧栏`（`iconAreaSidebar|Conversation|Shell|Rightbar`）
+  - 总开关关掉时四行自动置灰（`SwitchRow` 的 `disabled`）。
+  - 实现：`iconOverrideCss(cfg)` 按 `item.area` 的**首段**分组过滤，关掉的分区一条规则都不输出。
+- **零散改动补开关**（原先写死在 CSS 里）：
+  - `sessionTitleGap` —— 会话标题直接截断 + 与「⋯」留 12px（侧边栏卡片）
+  - `composerHideMore` —— 隐藏会话区顶部「更多操作」⋯
+  - `composerToolbarAlign` —— 工具行 `+ / 附件 / 发送` 统一 28×28 / 圆角 8（含压掉原生 `transform:translateY(-2px)`）
+  - `statsRowSplit` —— 底部统计行左组靠右贴（关闭时会自动清掉 `data-dsh-style-stats` 与内联宽度变量）
+- 根节点新增 `data-dsh-style-session-title-gap` / `data-dsh-style-hide-more`，对应规则从 `[data-dsh-style-enabled="true"]` 迁到这两个属性上，做到「关掉即完全还原」。
+
 ## [0.4.11] - 2026-11-01
 
 ### 修复 · 上下文长条右端「凭空多一根亮线」

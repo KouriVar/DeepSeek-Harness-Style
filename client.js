@@ -84,6 +84,17 @@ window.__ModuleLoader__.load({
       composerPerforation: true,
       // 上下文用量：环形 → 长条（带斜纹底，按百分比填充）。
       composerContextBar: true,
+      // ---- 图标替换（分区域开关；总开关关掉=完全不碰原生图标）----
+      iconOverrides: true,
+      iconAreaSidebar: true,
+      iconAreaConversation: true,
+      iconAreaShell: true,
+      iconAreaRightbar: true,
+      // ---- 零散外观改动（原来写死的，现在都能关）----
+      sessionTitleGap: true,      // 会话行标题截断 + 与「⋯」留 12px
+      composerHideMore: true,     // 隐藏会话区顶部「更多操作」⋯
+      composerToolbarAlign: true, // 工具行 +/附件/发送 统一 28×28 圆角 8
+      statsRowSplit: true,        // 底部统计行：左组靠拢 + 上下文贴右
       sidebarCompact: true,
       hovercardInset: true,
       pageTopSpacing: true,
@@ -127,6 +138,15 @@ window.__ModuleLoader__.load({
         merged.composerAttachButton = merged.composerAttachButton !== false
         merged.composerPerforation = merged.composerPerforation !== false
         merged.composerContextBar = merged.composerContextBar !== false
+        merged.iconOverrides = merged.iconOverrides !== false
+        merged.iconAreaSidebar = merged.iconAreaSidebar !== false
+        merged.iconAreaConversation = merged.iconAreaConversation !== false
+        merged.iconAreaShell = merged.iconAreaShell !== false
+        merged.iconAreaRightbar = merged.iconAreaRightbar !== false
+        merged.sessionTitleGap = merged.sessionTitleGap !== false
+        merged.composerHideMore = merged.composerHideMore !== false
+        merged.composerToolbarAlign = merged.composerToolbarAlign !== false
+        merged.statsRowSplit = merged.statsRowSplit !== false
         const composerRadius = Number(merged.composerRadius)
         merged.composerRadius = [12, 16, 20, 28].includes(composerRadius) ? composerRadius : DEFAULTS.composerRadius
         const composerLines = Number(merged.composerLines)
@@ -306,12 +326,13 @@ window.__ModuleLoader__.load({
       '[data-dsh-style-tip]{position:fixed;z-index:2147483001;max-width:280px;padding:7px 11px;border-radius:9px;background:rgba(28,28,30,.95);color:#f5f5f7;font-size:12px;line-height:17px;box-shadow:0 10px 26px rgba(0,0,0,.32);pointer-events:none;}',
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_toggle"]{display:none !important;}',
       // 会话区顶部「更多操作」（⋯）对用户没用，直接隐藏（可按需删掉这一行恢复）。
-      'html[data-dsh-style-enabled="true"] [data-slot="conversation.header"] button[aria-label="更多操作"]{display:none !important;}',
+      'html[data-dsh-style-hide-more="true"] [data-slot="conversation.header"] button[aria-label="更多操作"]{display:none !important;}',
       // 会话行：原生 text-overflow:clip，长标题会被直接切掉、贴着右侧「⋯」按钮。
       // 按用户选择保持「直接截断、不出省略号」（悬停有详情卡片兜底），只把右侧空隙补出来，
       // 让标题和「⋯」不再贴在一起。标题是 flex:1 + min-width:0，padding 会真的从宽度里扣。
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_sessionRow"] [class*="_title"]{text-overflow:clip !important;padding-right:12px !important;}',
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_sessionRow"] [class*="_rowActions"]{flex:none !important;}',
+      // 会话行标题：直接截断（不出省略号）+ 与右侧「⋯」留 12px 空隙。可用 sessionTitleGap 关掉。
+      'html[data-dsh-style-session-title-gap="true"] [data-dsh-style-sidebar] [class*="_sessionRow"] [class*="_title"]{text-overflow:clip !important;padding-right:12px !important;}',
+      'html[data-dsh-style-session-title-gap="true"] [data-dsh-style-sidebar] [class*="_sessionRow"] [class*="_rowActions"]{flex:none !important;}',
       'html[data-dsh-style-enabled="true"] [data-shell-leading]{display:none !important;}',
       // 标题行让位：侧栏折叠时 DSH 只按「原生 3 颗按钮」预留 --dsh-frame-leading-clearance:160px，
       // 标题左缘 = 清变量 + 6px。插件按钮条是 88px 起、含第 4 颗刷新按钮到 206px，于是标题被压住。
@@ -369,7 +390,7 @@ window.__ModuleLoader__.load({
       // 图标尺寸在 manifest 里同步调（composer.send / composer.stop = 18px）。
       // 三个按钮（+ / 附件 / 发送）统一成同一套盒模型：实测原生加号是 grid + padding 1px 6px、
       // 发送是 grid 但垂直高了 2px、附件是 flex —— 不拉平就永远「看着不协调」。
-      rules.push('[data-composer-card] button[aria-label="添加文件或调用指令"],'
+      if (cfg.composerToolbarAlign !== false) rules.push('[data-composer-card] button[aria-label="添加文件或调用指令"],'
         + '[data-composer-card] button[aria-label="发送消息"],[data-composer-card] button[aria-label="停止生成"],'
         + '[data-composer-card] button[aria-label="Send message"],[data-composer-card] button[aria-label="Stop generating"],'
         + '[data-composer-card] [data-dsh-style-attach]'
@@ -398,8 +419,10 @@ window.__ModuleLoader__.load({
       // 所以只把它拉到卡片同宽 + 两端对齐，不碰 display、不碰外层容器。
       // 左组靠左、上下文单独贴右：用 flex-start + last-child margin-left:auto，
       // 这样无论 dock 里是 2 个还是 3 个子元素，「步数」和「命中缓存」都挨在一起，不会被 space-between 拉开。
-      rules.push('[data-dsh-style-stats]{width:var(--dsh-style-stats-w,100%) !important;justify-content:flex-start !important;align-items:center !important;}')
-      rules.push('[data-dsh-style-stats] > :last-child{margin-left:auto !important;}')
+      if (cfg.statsRowSplit !== false) {
+        rules.push('[data-dsh-style-stats]{width:var(--dsh-style-stats-w,100%) !important;justify-content:flex-start !important;align-items:center !important;}')
+        rules.push('[data-dsh-style-stats] > :last-child{margin-left:auto !important;}')
+      }
       if (cfg.composerPerforation !== false) {
         // 票根式分隔：工具行顶部画一条虚线，颜色跟随文字色、只靠透明度收敛（不抢视线）。
         // 可调：缩进（左右）、上移量（top）、虚线密度（实/空 px）
@@ -491,8 +514,19 @@ window.__ModuleLoader__.load({
     // 覆盖表 → CSS：先隐藏该位置原生的 svg，再用 ::before 贴上我们的图标。
     //   tint: "currentColor" → mask（图形当遮罩，颜色跟随当前文字色；深浅主题都正常）
     //   tint: "color"        → background-image（保留图标自身配色，不做着色）
-    function iconOverrideCss() {
+    function iconOverrideCss(cfg) {
       const rules = []
+      const conf = cfg || {}
+      if (conf.iconOverrides === false) return ''
+      // 区域 → 开关。area 形如 sidebar / conversation.composer / shell / rightbar
+      const areaOn = (area) => {
+        const group = String(area || '').split('.')[0]
+        if (group === 'sidebar') return conf.iconAreaSidebar !== false
+        if (group === 'conversation') return conf.iconAreaConversation !== false
+        if (group === 'shell') return conf.iconAreaShell !== false
+        if (group === 'rightbar') return conf.iconAreaRightbar !== false
+        return true
+      }
       // 一条图标的「上色方式」：单色走 mask（跟随 currentColor），彩色直接当背景图。
       const paintOf = (svg, tint) => {
         if (tint === 'color') {
@@ -519,6 +553,7 @@ window.__ModuleLoader__.load({
       }
       for (const item of ICON_OVERRIDES) {
         if (!item || !item.selector || !item.svg) continue
+        if (!areaOn(item.area)) continue
         const parts = splitSel(item.selector)
         if (parts.length === 0) continue
         const size = Number(item.size) || 16
@@ -1608,6 +1643,13 @@ window.__ModuleLoader__.load({
     // 不要用宽度当判据 —— 上一次已经把 dock 拉宽成 672，宽度判据就再也认不出它自己（踩过这个死锁）。
     function tagStatsRow() {
       if (typeof document === 'undefined') return
+      if (store.get().statsRowSplit === false) {
+        for (const el of Array.from(document.querySelectorAll('[data-dsh-style-stats], [style*="dsh-style-stats-w"]'))) {
+          el.removeAttribute('data-dsh-style-stats')
+          el.style.removeProperty('--dsh-style-stats-w')
+        }
+        return
+      }
       const card = document.querySelector('[data-composer-card]')
       const btns = Array.from(document.querySelectorAll('button[aria-label]')).filter((b) => {
         const a = b.getAttribute('aria-label') || ''
@@ -1788,12 +1830,14 @@ window.__ModuleLoader__.load({
       root.setAttribute('data-dsh-style-hide-newsession', cfg.hideNewSession ? 'true' : 'false')
       root.setAttribute('data-dsh-style-hide-tabs', cfg.hideTabs ? 'true' : 'false')
       root.setAttribute('data-dsh-style-monitor', cfg.monitorEnabled ? 'true' : 'false')
+      root.setAttribute('data-dsh-style-session-title-gap', cfg.sessionTitleGap !== false ? 'true' : 'false')
+      root.setAttribute('data-dsh-style-hide-more', cfg.composerHideMore !== false ? 'true' : 'false')
       root.setAttribute('data-dsh-style-qoderhome', cfg.qoderHome !== false ? 'true' : 'false')
       const el = styleTag()
       if (el) {
         const rules = [BASE_CSS]
         rules.push(composerUiCss(cfg))
-        rules.push(iconOverrideCss())
+        rules.push(iconOverrideCss(cfg))
         if (cfg.composerChrome !== false) rules.push(composerChromeCss(cfg))
         if (cfg.immersive !== false) rules.push(IMMERSIVE_CSS)
         if (cfg.titlebarButtons !== false) rules.push(TITLEBAR_CSS)
@@ -1922,7 +1966,25 @@ window.__ModuleLoader__.load({
       return h('section', { style: sectionStyle, 'aria-label': '侧边栏' },
         h('h3', { style: sectionTitleStyle }, '侧边栏'),
         h(SwitchRow, { label: '隐藏品牌', checked: cfg.hideBrand, onChange: (value) => set({ hideBrand: value }) }),
-        h(SwitchRow, { label: '隐藏新会话', checked: cfg.hideNewSession, onChange: (value) => set({ hideNewSession: value }) }))
+        h(SwitchRow, { label: '隐藏新会话', checked: cfg.hideNewSession, onChange: (value) => set({ hideNewSession: value }) }),
+        h(SwitchRow, { label: '会话标题直接截断，与「⋯」留空隙', checked: cfg.sessionTitleGap !== false, onChange: (value) => set({ sessionTitleGap: value }) }))
+    }
+
+    // 图标：全部走 icons/manifest.json 的声明式覆盖，这里只放开关（总开关 + 分区开关）。
+    function IconCard({ cfg, set }) {
+      const area = (label, key) => h(SwitchRow, {
+        label,
+        checked: cfg[key] !== false,
+        disabled: cfg.iconOverrides === false,
+        onChange: (value) => set({ [key]: value }),
+      })
+      return h('section', { style: sectionStyle, 'aria-label': '图标' },
+        h('h3', { style: sectionTitleStyle }, '图标'),
+        h(SwitchRow, { label: '启用图标替换（总开关）', checked: cfg.iconOverrides !== false, onChange: (value) => set({ iconOverrides: value }) }),
+        area('侧边栏（面板行 / 工作区 / 会话菜单 / 视图菜单）', 'iconAreaSidebar'),
+        area('会话区（顶部 / 消息操作 / 输入框 / 「+」菜单）', 'iconAreaConversation'),
+        area('标题栏（折叠 / 后退 / 前进 / 刷新）', 'iconAreaShell'),
+        area('右侧栏（收起 / 展开）', 'iconAreaRightbar'))
     }
 
     // 外观细节：这些以前是「常开」的视觉处理，现补成可开关（默认开）。
@@ -1946,7 +2008,10 @@ window.__ModuleLoader__.load({
         h(SwitchRow, { label: '模型选择只显示图标（点图标仍弹原生菜单）', checked: cfg.composerModelIcon !== false, onChange: (value) => set({ composerModelIcon: value }) }),
         h(SwitchRow, { label: '「+」右侧加附件按钮（一步选文件）', checked: cfg.composerAttachButton !== false, onChange: (value) => set({ composerAttachButton: value }) }),
         h(SwitchRow, { label: '工具行上方虚线（票根分隔）', checked: cfg.composerPerforation !== false, onChange: (value) => set({ composerPerforation: value }) }),
-        h(SwitchRow, { label: '上下文用量改成条状（绿条 + 斜纹剩余）', checked: cfg.composerContextBar !== false, onChange: (value) => set({ composerContextBar: value }) }),
+        h(SwitchRow, { label: '上下文用量改成条状（蓝条 + 斜纹剩余）', checked: cfg.composerContextBar !== false, onChange: (value) => set({ composerContextBar: value }) }),
+        h(SwitchRow, { label: '工具行 +/附件/发送 统一成 28×28 圆角 8', checked: cfg.composerToolbarAlign !== false, onChange: (value) => set({ composerToolbarAlign: value }) }),
+        h(SwitchRow, { label: '底部统计行：步数+命中靠左、上下文贴右', checked: cfg.statsRowSplit !== false, onChange: (value) => set({ statsRowSplit: value }) }),
+        h(SwitchRow, { label: '隐藏会话区顶部「更多操作」⋯', checked: cfg.composerHideMore !== false, onChange: (value) => set({ composerHideMore: value }) }),
         h(SwitchRow, { label: '附件栅格（图片 + 引用卡片，自动换行）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }),
         h(SwitchRow, { label: '外观微调（圆角 / 高度 / 内距）', checked: cfg.composerChrome !== false, onChange: (value) => set({ composerChrome: value }) }),
         h(SegmentedRow, {
@@ -2585,6 +2650,7 @@ window.__ModuleLoader__.load({
         h(EffectsCard, { cfg, set: store.set }),
         h(SidebarCard, { cfg, set: store.set }),
         h(ComposerCard, { cfg, set: store.set }),
+        h(IconCard, { cfg, set: store.set }),
         h(LookDetailCard, { cfg, set: store.set }),
         h(QoderHomeCard, { cfg, set: store.set }),
         // ── 功能 ──
