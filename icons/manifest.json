@@ -715,14 +715,14 @@
       "id": "composer.stat-context",
       "area": "conversation.composer",
       "native": "未知（上下文用量）",
-      "where": "输入框底部 ·「上下文已用 N%」统计胶囊",
+      "where": "输入框底部 ·「上下文已用 N%」（已改为我们的长条样式，见 client.js 的 tagContextBar）",
       "selector": "[data-slot=\"conversation.composer\"] button[aria-label*=\"上下文已用\"]",
       "file": "conversation/composer/donut-chart-line.svg",
       "source": "remixicon/donut-chart-line",
       "size": 14,
       "tint": "currentColor",
       "hide": "svg",
-      "enabled": true
+      "enabled": false
     },
     {
       "id": "plus.file",

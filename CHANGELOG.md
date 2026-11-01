@@ -2,6 +2,17 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.4.8] - 2026-11-01
+
+### 新增 · 上下文用量改成条状
+- 原本是个环形图标（我们用 `donut-chart-line` 盖过的那颗）。现在整条替换为
+  **绿条 + 斜纹剩余 + 右侧百分比**，宽度 34×7、圆角 2，颜色跟随 `--dsw-alias-status-success`。
+- 实现：`tagContextBar()` 每轮从按钮 aria-label（`上下文已用 42%`）里抠出百分比，
+  写进 CSS 变量 `--dsh-style-ctx-w`；`::before` 用一层 `linear-gradient`（实心到百分比）
+  叠一层 `repeating-linear-gradient`（45° 斜纹）。百分比变化自动跟随，无需刷新。
+- 原来的 `composer.stat-context` 图标覆盖已停用（`enabled:false`），避免和长条打架。
+- **开关**：设置 → 插件 → dsh-style → 输入框 →「上下文用量改成条状」。
+
 ## [0.4.7] - 2026-11-01
 
 ### 调整 · 统计行左组真正靠拢

@@ -82,6 +82,8 @@ window.__ModuleLoader__.load({
       composerAttachButton: true,
       // 工具行上方加一条票根式虚线（低透明度，不抢视线）。
       composerPerforation: true,
+      // 上下文用量：环形 → 长条（带斜纹底，按百分比填充）。
+      composerContextBar: true,
       sidebarCompact: true,
       hovercardInset: true,
       pageTopSpacing: true,
@@ -124,6 +126,7 @@ window.__ModuleLoader__.load({
         merged.composerModelIcon = merged.composerModelIcon !== false
         merged.composerAttachButton = merged.composerAttachButton !== false
         merged.composerPerforation = merged.composerPerforation !== false
+        merged.composerContextBar = merged.composerContextBar !== false
         const composerRadius = Number(merged.composerRadius)
         merged.composerRadius = [12, 16, 20, 28].includes(composerRadius) ? composerRadius : DEFAULTS.composerRadius
         const composerLines = Number(merged.composerLines)
@@ -376,6 +379,17 @@ window.__ModuleLoader__.load({
         + 'justify-content:center !important;align-self:center !important;vertical-align:middle !important;'
         + 'border-radius:8px !important;transform:none !important;}')
       // 底部统计行：把「轮/步 · tok/s」和「tok · 缓存命中」并到左边一组，上下文甩到最右。
+      if (cfg.composerContextBar !== false) {
+        // 上下文用量：把原本的环形图标换成一条「绿条 + 斜纹剩余」，
+        // 填充宽度由 JS 把 aria 里的百分比写进 --dsh-style-ctx-w。
+        rules.push('[data-dsh-style-ctx]{position:relative !important;}')
+        rules.push('[data-dsh-style-ctx] svg{display:none !important;}')
+        rules.push('[data-dsh-style-ctx]::before{content:"";display:inline-block;flex:none;width:34px;height:7px;border-radius:2px;'
+          + 'border:1px solid var(--dsw-alias-border-l3, rgba(127,127,127,.45));box-sizing:border-box;'
+          + 'background-image:linear-gradient(to right, var(--dsw-alias-status-success, #34c759) 0 var(--dsh-style-ctx-w, 0%), transparent var(--dsh-style-ctx-w, 0%)),'
+          + 'repeating-linear-gradient(45deg, transparent 0 3px, var(--dsw-alias-border-l3, rgba(127,127,127,.45)) 3px 4.5px);'
+          + 'background-size:100% 100%,auto;}')
+      }
       // 原生是个居中的窄 dock（实测 449 宽，卡片 672），里面已经分了「左组/右组」两半。
       // 所以只把它拉到卡片同宽 + 两端对齐，不碰 display、不碰外层容器。
       // 左组靠左、上下文单独贴右：用 flex-start + last-child margin-left:auto，
@@ -459,7 +473,6 @@ window.__ModuleLoader__.load({
       { id: "composer.stop", area: "conversation.composer", native: "IconStopOutlineRegular", where: "输入框 · 停止生成", selector: "button[aria-label=\"停止生成\"]", size: 18, tint: "currentColor", hide: "svg", variants: [], svg: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMjJDNi40NzcxNSAyMiAyIDE3LjUyMjggMiAxMkMyIDYuNDc3MTUgNi40NzcxNSAyIDEyIDJDMTcuNTIyOCAyIDIyIDYuNDc3MTUgMjIgMTJDMjIgMTcuNTIyOCAxNy41MjI4IDIyIDEyIDIyWk0xMiAyMEMxNi40MTgzIDIwIDIwIDE2LjQxODMgMjAgMTJDMjAgNy41ODE3MiAxNi40MTgzIDQgMTIgNEM3LjU4MTcyIDQgNCA3LjU4MTcyIDQgMTJDNCAxNi40MTgzIDcuNTgxNzIgMjAgMTIgMjBaTTkgOUgxNVYxNUg5VjlaIi8+PC9zdmc+" },
       { id: "composer.stat-turns", area: "conversation.composer", native: "未知（轮/步统计）", where: "输入框底部 ·「N 轮 N 步」统计胶囊", selector: "[data-slot=\"conversation.composer\"] button[aria-label*=\"轮\"][aria-label*=\"步\"]", size: 14, tint: "currentColor", hide: "svg", variants: [], svg: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNCAxNVY4LjVDNCA2LjAxNDcyIDYuMDE0NzIgNCA4LjUgNEMxMC45ODUzIDQgMTMgNi4wMTQ3MiAxMyA4LjVWMTUuNUMxMyAxNi44ODA3IDE0LjExOTMgMTggMTUuNSAxOEMxNi44ODA3IDE4IDE4IDE2Ljg4MDcgMTggMTUuNVY4LjgyOTI5QzE2LjgzNDggOC40MTc0NiAxNiA3LjMwNjIyIDE2IDZDMTYgNC4zNDMxNSAxNy4zNDMxIDMgMTkgM0MyMC42NTY5IDMgMjIgNC4zNDMxNSAyMiA2QzIyIDcuMzA2MjIgMjEuMTY1MiA4LjQxNzQ2IDIwIDguODI5MjlWMTUuNUMyMCAxNy45ODUzIDE3Ljk4NTMgMjAgMTUuNSAyMEMxMy4wMTQ3IDIwIDExIDE3Ljk4NTMgMTEgMTUuNVY4LjVDMTEgNy4xMTkyOSA5Ljg4MDcxIDYgOC41IDZDNy4xMTkyOSA2IDYgNy4xMTkyOSA2IDguNVYxNUg5TDUgMjBMMSAxNUg0Wk0xOSA3QzE5LjU1MjMgNyAyMCA2LjU1MjI4IDIwIDZDMjAgNS40NDc3MiAxOS41NTIzIDUgMTkgNUMxOC40NDc3IDUgMTggNS40NDc3MiAxOCA2QzE4IDYuNTUyMjggMTguNDQ3NyA3IDE5IDdaIi8+PC9zdmc+" },
       { id: "composer.stat-tokens", area: "conversation.composer", native: "未知（token 统计）", where: "输入框底部 ·「N tok · 缓存命中」统计胶囊", selector: "[data-slot=\"conversation.composer\"] button[aria-label*=\"tok\"]", size: 14, tint: "currentColor", hide: "svg", variants: [], svg: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNSAxMi41QzUgMTIuODEzNCA1LjQ2MTAxIDEzLjM1ODQgNi41MzA0NyAxMy44OTMxQzcuOTE0MDUgMTQuNTg0OSA5Ljg3Njc3IDE1IDEyIDE1QzE0LjEyMzIgMTUgMTYuMDg1OSAxNC41ODQ5IDE3LjQ2OTUgMTMuODkzMUMxOC41MzkgMTMuMzU4NCAxOSAxMi44MTM0IDE5IDEyLjVWMTAuMzI4N0MxNy4zNSAxMS4zNDgyIDE0LjgyNzMgMTIgMTIgMTJDOS4xNzI3MyAxMiA2LjY0OTk2IDExLjM0ODIgNSAxMC4zMjg3VjEyLjVaTTE5IDE1LjMyODdDMTcuMzUgMTYuMzQ4MiAxNC44MjczIDE3IDEyIDE3QzkuMTcyNzMgMTcgNi42NDk5NiAxNi4zNDgyIDUgMTUuMzI4N1YxNy41QzUgMTcuODEzNCA1LjQ2MTAxIDE4LjM1ODQgNi41MzA0NyAxOC44OTMxQzcuOTE0MDUgMTkuNTg0OSA5Ljg3Njc3IDIwIDEyIDIwQzE0LjEyMzIgMjAgMTYuMDg1OSAxOS41ODQ5IDE3LjQ2OTUgMTguODkzMUMxOC41MzkgMTguMzU4NCAxOSAxNy44MTM0IDE5IDE3LjVWMTUuMzI4N1pNMyAxNy41VjcuNUMzIDUuMDE0NzIgNy4wMjk0NCAzIDEyIDNDMTYuOTcwNiAzIDIxIDUuMDE0NzIgMjEgNy41VjE3LjVDMjEgMTkuOTg1MyAxNi45NzA2IDIyIDEyIDIyQzcuMDI5NDQgMjIgMyAxOS45ODUzIDMgMTcuNVpNMTIgMTBDMTQuMTIzMiAxMCAxNi4wODU5IDkuNTg0OTIgMTcuNDY5NSA4Ljg5MzEzQzE4LjUzOSA4LjM1ODQgMTkgNy44MTM0MiAxOSA3LjVDMTkgNy4xODY1OCAxOC41MzkgNi42NDE2IDE3LjQ2OTUgNi4xMDY4N0MxNi4wODU5IDUuNDE1MDggMTQuMTIzMiA1IDEyIDVDOS44NzY3NyA1IDcuOTE0MDUgNS40MTUwOCA2LjUzMDQ3IDYuMTA2ODdDNS40NjEwMSA2LjY0MTYgNSA3LjE4NjU4IDUgNy41QzUgNy44MTM0MiA1LjQ2MTAxIDguMzU4NCA2LjUzMDQ3IDguODkzMTNDNy45MTQwNSA5LjU4NDkyIDkuODc2NzcgMTAgMTIgMTBaIi8+PC9zdmc+" },
-      { id: "composer.stat-context", area: "conversation.composer", native: "未知（上下文用量）", where: "输入框底部 ·「上下文已用 N%」统计胶囊", selector: "[data-slot=\"conversation.composer\"] button[aria-label*=\"上下文已用\"]", size: 14, tint: "currentColor", hide: "svg", variants: [], svg: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAuOTk5OSAyLjA0OTM4TDExIDQuMDYxODhDNy4wNTM3MSA0LjU1Mzk2IDQgNy45MjAzNiA0IDEyQzQgMTYuNDE4MyA3LjU4MTcyIDIwIDEyIDIwQzEzLjg0ODcgMjAgMTUuNTUwOSAxOS4zNzI5IDE2LjkwNTUgMTguMzE5OUwxOC4zMjg5IDE5Ljc0MjhDMTYuNjA1IDIxLjE1MzYgMTQuNDAxNCAyMiAxMiAyMkM2LjQ3NzE1IDIyIDIgMTcuNTIyOCAyIDEyQzIgNi44MTQ2OCA1Ljk0NjYyIDIuNTUxMTUgMTAuOTk5OSAyLjA0OTM4Wk0yMS45NTA2IDEzLjAwMDFDMjEuNzUwOSAxNS4wMTExIDIwLjk1NTUgMTYuODQ2OCAxOS43NDMzIDE4LjMyODNMMTguMzE5OSAxNi45MDU1QzE5LjE4MDEgMTUuNzk5IDE5Ljc1NiAxNC40NjA2IDE5LjkzODEgMTIuOTk5OUwyMS45NTA2IDEzLjAwMDFaTTEzLjAwMTEgMi4wNDk0OEMxNy43MjUgMi41MTkwMiAyMS40ODE1IDYuMjc1ODkgMjEuOTUwNiAxMC45OTk5TDE5LjkzODEgMTFDMTkuNDg2OSA3LjM4MTYyIDE2LjYxOTIgNC41MTM2NCAxMy4wMDEgNC4wNjJMMTMuMDAxMSAyLjA0OTQ4WiIvPjwvc3ZnPg==" },
       { id: "plus.file", area: "conversation.composer", native: "未知（+菜单 文件）", where: "「+」弹层 · 文件", selector: "[data-dsh-icon=\"plus-file\"]", size: 14, tint: "currentColor", hide: "svg", variants: [], svg: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTQgMTMuNVY4QzE0IDUuNzkwODYgMTIuMjA5MSA0IDEwIDRDNy43OTA4NiA0IDYgNS43OTA4NiA2IDhWMTMuNUM2IDE3LjA4OTkgOC45MTAxNSAyMCAxMi41IDIwQzE2LjA4OTkgMjAgMTkgMTcuMDg5OSAxOSAxMy41VjRIMjFWMTMuNUMyMSAxOC4xOTQ0IDE3LjE5NDQgMjIgMTIuNSAyMkM3LjgwNTU4IDIyIDQgMTguMTk0NCA0IDEzLjVWOEM0IDQuNjg2MjkgNi42ODYyOSAyIDEwIDJDMTMuMzEzNyAyIDE2IDQuNjg2MjkgMTYgOFYxMy41QzE2IDE1LjQzMyAxNC40MzMgMTcgMTIuNSAxN0MxMC41NjcgMTcgOSAxNS40MzMgOSAxMy41VjhIMTFWMTMuNUMxMSAxNC4zMjg0IDExLjY3MTYgMTUgMTIuNSAxNUMxMy4zMjg0IDE1IDE0IDE0LjMyODQgMTQgMTMuNVoiLz48L3N2Zz4=" },
       { id: "plus.goal", area: "conversation.composer", native: "未知（+菜单 目标）", where: "「+」弹层 · 目标", selector: "[data-dsh-icon=\"plus-goal\"]", size: 14, tint: "currentColor", hide: "svg", variants: [], svg: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIuMzgyIDNDMTIuNzYwNyAzIDEzLjEwNyAzLjIxNCAxMy4yNzY0IDMuNTUyNzlMMTQgNUgyMEMyMC41NTIzIDUgMjEgNS40NDc3MiAyMSA2VjE3QzIxIDE3LjU1MjMgMjAuNTUyMyAxOCAyMCAxOEgxMy42MThDMTMuMjM5MyAxOCAxMi44OTMgMTcuNzg2IDEyLjcyMzYgMTcuNDQ3MkwxMiAxNkg1VjIySDNWM0gxMi4zODJaTTExLjc2MzkgNUg1VjE0SDEzLjIzNjFMMTQuMjM2MSAxNkgxOVY3SDEyLjc2MzlMMTEuNzYzOSA1WiIvPjwvc3ZnPg==" },
       { id: "plus.plan", area: "conversation.composer", native: "未知（+菜单 计划）", where: "「+」弹层 · 计划", selector: "[data-dsh-icon=\"plus-plan\"]", size: 14, tint: "currentColor", hide: "svg", variants: [], svg: "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOCA0SDIxVjZIOFY0Wk0zIDMuNUg2VjYuNUgzVjMuNVpNMyAxMC41SDZWMTMuNUgzVjEwLjVaTTMgMTcuNUg2VjIwLjVIM1YxNy41Wk04IDExSDIxVjEzSDhWMTFaTTggMThIMjFWMjBIOFYxOFoiLz48L3N2Zz4=" },
@@ -1621,6 +1634,24 @@ window.__ModuleLoader__.load({
       if (dock.style.getPropertyValue('--dsh-style-stats-w') !== cardW + 'px') dock.style.setProperty('--dsh-style-stats-w', cardW + 'px')
     }
 
+    // 上下文用量长条：从 aria-label（「上下文已用 35%」）读百分比，写进 CSS 变量。
+    // 每轮打标都重算，所以百分比变化会自动跟随。
+    function tagContextBar() {
+      if (typeof document === 'undefined') return
+      const btn = Array.from(document.querySelectorAll('button[aria-label]')).find((b) => {
+        const a = b.getAttribute('aria-label') || ''
+        return a.indexOf('上下文已用') >= 0 || a.indexOf('Context') >= 0 && a.indexOf('%') >= 0
+      })
+      if (!btn) return
+      const text = (btn.getAttribute('aria-label') || '') + ' ' + (btn.textContent || '')
+      const match = text.match(/(\d+(?:\.\d+)?)\s*%/)
+      if (!match) return
+      const pct = Math.max(0, Math.min(100, Number(match[1])))
+      if (btn.getAttribute('data-dsh-style-ctx') !== '') btn.setAttribute('data-dsh-style-ctx', '')
+      const value = pct.toFixed(1) + '%'
+      if (btn.style.getPropertyValue('--dsh-style-ctx-w') !== value) btn.style.setProperty('--dsh-style-ctx-w', value)
+    }
+
     function tagOnce() {
       if (typeof document === 'undefined') return
       mountTitlebar()
@@ -1629,6 +1660,7 @@ window.__ModuleLoader__.load({
       mountAttachButton()
       tagComposerToolbar()
       tagStatsRow()
+      tagContextBar()
       applyChipHiding()
       tagQoderHome()
       const frame = frameEl()
@@ -1900,6 +1932,7 @@ window.__ModuleLoader__.load({
         h(SwitchRow, { label: '模型选择只显示图标（点图标仍弹原生菜单）', checked: cfg.composerModelIcon !== false, onChange: (value) => set({ composerModelIcon: value }) }),
         h(SwitchRow, { label: '「+」右侧加附件按钮（一步选文件）', checked: cfg.composerAttachButton !== false, onChange: (value) => set({ composerAttachButton: value }) }),
         h(SwitchRow, { label: '工具行上方虚线（票根分隔）', checked: cfg.composerPerforation !== false, onChange: (value) => set({ composerPerforation: value }) }),
+        h(SwitchRow, { label: '上下文用量改成条状（绿条 + 斜纹剩余）', checked: cfg.composerContextBar !== false, onChange: (value) => set({ composerContextBar: value }) }),
         h(SwitchRow, { label: '附件栅格（图片 + 引用卡片，自动换行）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }),
         h(SwitchRow, { label: '外观微调（圆角 / 高度 / 内距）', checked: cfg.composerChrome !== false, onChange: (value) => set({ composerChrome: value }) }),
         h(SegmentedRow, {
