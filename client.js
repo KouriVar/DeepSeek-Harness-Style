@@ -384,11 +384,11 @@ window.__ModuleLoader__.load({
         // 填充宽度由 JS 把 aria 里的百分比写进 --dsh-style-ctx-w。
         rules.push('[data-dsh-style-ctx]{position:relative !important;}')
         rules.push('[data-dsh-style-ctx] svg{display:none !important;}')
-        rules.push('[data-dsh-style-ctx]::before{content:"";display:inline-block;flex:none;width:40px;height:7px;border-radius:2px;'
-          + 'border:1px solid var(--dsw-alias-border-l3, rgba(127,127,127,.45));box-sizing:border-box;'
-          // 用发送按钮同款的主色 token：--dsw-alias-brand-primary 在深色下是 neutral bluish（近白），不是蓝。
+        // 不要描边：1px 边框在右端会读成「一根多余的竖线」。改成淡底色 + 斜纹表示未用量。
+        rules.push('[data-dsh-style-ctx]::before{content:"";display:inline-block;flex:none;width:40px;height:7px;border-radius:3px;'
+          + 'background-color:var(--dsw-alias-bg-l3, rgba(127,127,127,.20));'
           + 'background-image:linear-gradient(to right, var(--dsw-alias-button-info-fill, #4176e6) 0 var(--dsh-style-ctx-w, 0%), transparent var(--dsh-style-ctx-w, 0%)),'
-          + 'repeating-linear-gradient(45deg, transparent 0 3px, var(--dsw-alias-border-l3, rgba(127,127,127,.45)) 3px 4.5px);'
+          + 'repeating-linear-gradient(45deg, transparent 0 3px, rgba(127,127,127,.42) 3px 4.5px);'
           + 'background-size:100% 100%,auto;}')
       }
       // 原生是个居中的窄 dock（实测 449 宽，卡片 672），里面已经分了「左组/右组」两半。

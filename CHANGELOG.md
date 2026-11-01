@@ -2,6 +2,13 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.4.10] - 2026-11-01
+
+### 调整
+- 上下文长条**去掉 1px 描边**。那条描边在右端会读成「一根多余的竖线」（用户误以为是 bug）。
+  改成 `border:none` + 淡底色 `--dsw-alias-bg-l3` + 斜纹表示未用量，圆角 3px。
+  想要「电池/刻度」那种描边观感的话，把 border 那行加回去即可（一行）。
+
 ## [0.4.9] - 2026-11-01
 
 ### 调整
