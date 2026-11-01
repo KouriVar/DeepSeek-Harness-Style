@@ -2,6 +2,22 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.3.2] - 2026-11-01
+
+### 新增 · 会话页第三批（输入框 + 「+」弹层）
+- **输入框内**：加号 `add-line` @14、选择模型 `brain-line` @16、语音输入 `mic-2-line` @18、
+  发送 `arrow-up-line` @16、停止生成 `stop-circle-line` @16；
+- **底部三个统计胶囊**：轮/步 `route-line`、token/缓存 `database-2-line`、上下文用量 `donut-chart-line`（均 14，
+  锚点 `[data-slot="conversation.composer"] button[aria-label*="轮"][aria-label*="步"]` /
+  `*="tok"` / `*="上下文已用"` —— 注意它们在 `conversation.composer` 里，**不在** `conversation.input.dock`）；
+- **「+」弹层 8 项**：文件 `attachment-line`、目标 `flag-line`、计划 `list-check`、反馈 `feedback-line`、
+  压缩 `collapse-diagonal-line`、权限 `shield-check-line`、模型 `brain-line`、下载日志 `file-download-line`（均 14）。
+  该弹层是**自定义 popover，没有 `role="menuitem"` 也没有 aria**，只能按首行文案打标：
+  新增 `tagPlusMenu()`（从每个 svg 往上找最近命中文案的祖先，打 `data-dsh-icon="plus-*"`），文案变了自动退回原生。
+
+实测（真机）：加号 `none/b14px`、模型 `none/b16px`、语音 `none/b18px`、停止 `none/b16px`、
+轮步/token/上下文 三处均 `none/b14px`。发送按钮在生成中不存在（同一位置显示「停止生成」），未单独验证。
+
 ## [0.3.1] - 2026-10-31
 
 ### 修复
