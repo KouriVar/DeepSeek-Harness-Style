@@ -1437,9 +1437,9 @@ window.__ModuleLoader__.load({
     ]
     function tagPlusMenu() {
       if (typeof document === 'undefined') return
-      const stale = document.querySelectorAll('[data-dsh-icon^="plus-"]')
-      for (const el of stale) el.removeAttribute('data-dsh-icon')
-      // 弹层：文本以「添加」开头、体积最小的容器
+      // 注意：这里**不能先清空再标**。弹层在 hover 时会重渲染，清空那一刻如果还没认出新弹层，
+      // 属性就会一直是空的 → 图标变回原生（用户实测到的就是这个）。
+      // 做法：先找弹层，找到才动；只清「不在本次命中集合里」的旧标。
       let host = null
       for (const el of document.querySelectorAll('div,section')) {
         const t = (el.textContent || '').trim()
@@ -1449,7 +1449,7 @@ window.__ModuleLoader__.load({
         if (!host || r.width * r.height < host.getBoundingClientRect().width * host.getBoundingClientRect().height) host = el
       }
       if (!host) return
-      // 从每个 svg 往上找最近的、文案命中某一项的祖先，给它打标
+      const marked = new Set()
       for (const svg of Array.from(host.querySelectorAll('svg'))) {
         let el = svg.parentElement
         let hit = null
@@ -1462,7 +1462,12 @@ window.__ModuleLoader__.load({
           if (hit) break
           el = el.parentElement
         }
-        if (hit) hit[0].setAttribute('data-dsh-icon', hit[1])
+        if (!hit) continue
+        if (hit[0].getAttribute('data-dsh-icon') !== hit[1]) hit[0].setAttribute('data-dsh-icon', hit[1])
+        marked.add(hit[0])
+      }
+      for (const el of Array.from(document.querySelectorAll('[data-dsh-icon^="plus-"]'))) {
+        if (!marked.has(el)) el.removeAttribute('data-dsh-icon')
       }
     }
 
@@ -1531,6 +1536,16 @@ window.__ModuleLoader__.load({
 
     function startTagging() {
       tagOnce()
+      if (typeof document !== 'undefined' && !globalThis.__dshStylePointerTag) {
+        // 有些弹层（例如「+」的添加菜单）在 hover 时会整块重渲染，新节点不带我们打的标，
+        // 而 React 的替换有时不产生可观察的 childList 变化。这里补一层「指针/焦点进来就重标」，
+        // 代价极低（scheduleTag 有 rAF 去重）。
+        globalThis.__dshStylePointerTag = true
+        const relabel = () => scheduleTag()
+        document.addEventListener('pointerover', relabel, true)
+        document.addEventListener('pointerdown', relabel, true)
+        document.addEventListener('focusin', relabel, true)
+      }
       if (observer || typeof MutationObserver === 'undefined' || typeof document === 'undefined') return
       observer = new MutationObserver(scheduleTag)
       // 外壳重挂时重新打标；跟随 body 上的暗色主题切换。
