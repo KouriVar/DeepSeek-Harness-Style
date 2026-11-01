@@ -2,6 +2,20 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.4.6] - 2026-11-01
+
+### 修复 · 统计行「左右分布」把输入框撑宽了（0.4.5 的回归）
+- 0.4.5 给统计行容器强加 `display:flex + width:100%`，结果**标到了比输入框更宽的容器**上，把整列撑变形
+  （用户截图）。已回退该做法。
+- 正解：统计胶囊其实装在一个**居中窄 dock**（实测 449 宽，卡片 672）里，里面本来就分了左右两组。
+  只把 dock 拉到与卡片同宽（`--dsh-style-stats-w` 由 JS 写入）+ `justify-content:space-between` ——
+  不碰 display、不碰外层容器。实测：`dock 672@559`、`justify=space-between`，卡片仍是 672。
+- **认 dock 只看结构**（包含三个胶囊的最小共同祖先、子元素 ≤6）。用宽度当判据会死锁：
+  上一轮已把 dock 拉宽成 672，之后「必须比卡片窄 40px」的条件就再也认不出它（实测踩到）。
+  另外清理时按 `[style*="dsh-style-stats-w"]` 一起清，避免内联变量残留导致卡在旧宽度。
+- **MutationObserver 补 `characterData: true`**：统计行只改文本的重渲染不产生 childList 变化，
+  打标会丢（实测首次之后属性消失）。
+
 ## [0.4.5] - 2026-11-01
 
 ### 调整 · 输入框底部统计行左右分布

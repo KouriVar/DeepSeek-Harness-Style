@@ -376,8 +376,9 @@ window.__ModuleLoader__.load({
         + 'justify-content:center !important;align-self:center !important;vertical-align:middle !important;'
         + 'border-radius:8px !important;transform:none !important;}')
       // 底部统计行：把「轮/步 · tok/s」和「tok · 缓存命中」并到左边一组，上下文甩到最右。
-      rules.push('[data-dsh-style-stats]{display:flex !important;align-items:center !important;gap:8px !important;width:100% !important;}')
-      rules.push('[data-dsh-style-stats] > :last-child{margin-left:auto !important;}')
+      // 原生是个居中的窄 dock（实测 449 宽，卡片 672），里面已经分了「左组/右组」两半。
+      // 所以只把它拉到卡片同宽 + 两端对齐，不碰 display、不碰外层容器。
+      rules.push('[data-dsh-style-stats]{width:var(--dsh-style-stats-w,100%) !important;justify-content:space-between !important;align-items:center !important;}')
       if (cfg.composerPerforation !== false) {
         // 票根式分隔：工具行顶部画一条虚线，颜色跟随文字色、只靠透明度收敛（不抢视线）。
         // 可调：缩进（左右）、上移量（top）、虚线密度（实/空 px）
@@ -1581,32 +1582,40 @@ window.__ModuleLoader__.load({
       row.setAttribute('data-dsh-style-toolbar', '')
     }
 
-    // 底部统计行（轮/步 · tok/s ｜ tok · 缓存命中 ｜ 上下文已用）打标。
-    // 结构实测：button[aria-label] ← span._anchor(flex) ← div(display:contents) ← 行容器。
-    // 选法必须带约束：只要「包含这三个胶囊、且子元素 ≤ 6」的最小祖先 ——
-    // 否则会一路爬到整个内容行，给它强加 flex 布局（实测踩过：标的落到了 287..1505 的大容器上）。
+    // 底部统计行：原生是「居中窄 dock」（实测 449 宽，卡片 672），里面已经分成左右两组
+    // （左：轮/步 + tok/s，右：上下文）。做法：把 dock 拉到卡片同宽 + space-between。
+    // 认 dock 只看**结构**：包含全部三个胶囊的「最小共同祖先」，且子元素 ≤6。
+    // 不要用宽度当判据 —— 上一次已经把 dock 拉宽成 672，宽度判据就再也认不出它自己（踩过这个死锁）。
     function tagStatsRow() {
       if (typeof document === 'undefined') return
+      const card = document.querySelector('[data-composer-card]')
       const btns = Array.from(document.querySelectorAll('button[aria-label]')).filter((b) => {
         const a = b.getAttribute('aria-label') || ''
         return /\d+\s*步/.test(a) || a.indexOf('tok') >= 0 || a.indexOf('上下文已用') >= 0
       })
-      let target = null
+      let dock = null
       if (btns.length >= 2) {
         let node = btns[0].parentElement
         for (let i = 0; i < 6 && node; i++) {
-          if (node.contains(btns[0]) && btns.every((b) => node.contains(b))) {
+          if (btns.every((b) => node.contains(b))) {
             const display = getComputedStyle(node).display
-            const childCount = display === 'contents' ? (node.parentElement ? node.parentElement.children.length : 99) : node.children.length
-            if (display !== 'contents' && childCount <= 6) { target = node; break }
+            if (display !== 'contents' && node.children.length <= 6) { dock = node; break }
           }
           node = node.parentElement
         }
       }
-      for (const el of Array.from(document.querySelectorAll('[data-dsh-style-stats]'))) {
-        if (el !== target) el.removeAttribute('data-dsh-style-stats')
+      // 清残留：属性或内联宽度变量不属于 dock 的，全清掉（否则会卡在上一次的宽度上）
+      for (const el of Array.from(document.querySelectorAll('[data-dsh-style-stats], [style*="dsh-style-stats-w"]'))) {
+        if (el !== dock) {
+          el.removeAttribute('data-dsh-style-stats')
+          el.style.removeProperty('--dsh-style-stats-w')
+        }
       }
-      if (target && target.getAttribute('data-dsh-style-stats') !== '') target.setAttribute('data-dsh-style-stats', '')
+      if (!dock || !card) return
+      const cardW = Math.round(card.getBoundingClientRect().width)
+      if (!cardW) return
+      if (dock.getAttribute('data-dsh-style-stats') !== '') dock.setAttribute('data-dsh-style-stats', '')
+      if (dock.style.getPropertyValue('--dsh-style-stats-w') !== cardW + 'px') dock.style.setProperty('--dsh-style-stats-w', cardW + 'px')
     }
 
     function tagOnce() {
@@ -1693,6 +1702,9 @@ window.__ModuleLoader__.load({
       observer.observe(document.body, {
         childList: true,
         subtree: true,
+        // characterData：输入框底部统计这类「只改文本」的重渲染不会产生 childList 变化，
+        // 不打标就会丢（实测统计行打标在首次之后消失）。
+        characterData: true,
         attributes: true,
         attributeFilter: ['data-ds-dark-theme', 'data-sidebar-collapsed', 'data-rightbar-collapsed', 'data-animating'],
       })
