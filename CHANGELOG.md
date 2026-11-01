@@ -2,6 +2,14 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.4.7] - 2026-11-01
+
+### 调整 · 统计行左组真正靠拢
+- `space-between` 在 dock 有 3 个子元素时会把「步数」和「命中缓存」也拉开。
+  改成 `justify-content:flex-start` + `> :last-child{margin-left:auto}` ——
+  不管里面是 2 个还是 3 个子元素，前两个都挨在一起、只有最后一个贴右。
+- 实测观感：`74 轮 760 步 · 196 tok/s` 与 `249M tok · 缓存命中 99%` 相邻，`41%` 独占最右。
+
 ## [0.4.6] - 2026-11-01
 
 ### 修复 · 统计行「左右分布」把输入框撑宽了（0.4.5 的回归）

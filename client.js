@@ -378,7 +378,10 @@ window.__ModuleLoader__.load({
       // 底部统计行：把「轮/步 · tok/s」和「tok · 缓存命中」并到左边一组，上下文甩到最右。
       // 原生是个居中的窄 dock（实测 449 宽，卡片 672），里面已经分了「左组/右组」两半。
       // 所以只把它拉到卡片同宽 + 两端对齐，不碰 display、不碰外层容器。
-      rules.push('[data-dsh-style-stats]{width:var(--dsh-style-stats-w,100%) !important;justify-content:space-between !important;align-items:center !important;}')
+      // 左组靠左、上下文单独贴右：用 flex-start + last-child margin-left:auto，
+      // 这样无论 dock 里是 2 个还是 3 个子元素，「步数」和「命中缓存」都挨在一起，不会被 space-between 拉开。
+      rules.push('[data-dsh-style-stats]{width:var(--dsh-style-stats-w,100%) !important;justify-content:flex-start !important;align-items:center !important;}')
+      rules.push('[data-dsh-style-stats] > :last-child{margin-left:auto !important;}')
       if (cfg.composerPerforation !== false) {
         // 票根式分隔：工具行顶部画一条虚线，颜色跟随文字色、只靠透明度收敛（不抢视线）。
         // 可调：缩进（左右）、上移量（top）、虚线密度（实/空 px）
