@@ -384,9 +384,10 @@ window.__ModuleLoader__.load({
         // 填充宽度由 JS 把 aria 里的百分比写进 --dsh-style-ctx-w。
         rules.push('[data-dsh-style-ctx]{position:relative !important;}')
         rules.push('[data-dsh-style-ctx] svg{display:none !important;}')
-        rules.push('[data-dsh-style-ctx]::before{content:"";display:inline-block;flex:none;width:34px;height:7px;border-radius:2px;'
+        rules.push('[data-dsh-style-ctx]::before{content:"";display:inline-block;flex:none;width:40px;height:7px;border-radius:2px;'
           + 'border:1px solid var(--dsw-alias-border-l3, rgba(127,127,127,.45));box-sizing:border-box;'
-          + 'background-image:linear-gradient(to right, var(--dsw-alias-status-success, #34c759) 0 var(--dsh-style-ctx-w, 0%), transparent var(--dsh-style-ctx-w, 0%)),'
+          // 用发送按钮同款的主色 token：--dsw-alias-brand-primary 在深色下是 neutral bluish（近白），不是蓝。
+          + 'background-image:linear-gradient(to right, var(--dsw-alias-button-info-fill, #4176e6) 0 var(--dsh-style-ctx-w, 0%), transparent var(--dsh-style-ctx-w, 0%)),'
           + 'repeating-linear-gradient(45deg, transparent 0 3px, var(--dsw-alias-border-l3, rgba(127,127,127,.45)) 3px 4.5px);'
           + 'background-size:100% 100%,auto;}')
       }
@@ -1721,6 +1722,16 @@ window.__ModuleLoader__.load({
 
     function startTagging() {
       tagOnce()
+      // 清理历史调试浮标：旧版本探针的定时器（window.__scanT）会不断重建 #scano 这个浮标。
+      try { clearInterval(globalThis.__scanT); clearInterval(globalThis.__dshStyleProbe) } catch (e) {}
+      let sweeps = 0
+      const sweep = setInterval(() => {
+        for (const el of Array.from(document.querySelectorAll('body > div'))) {
+          const style = el.getAttribute('style') || ''
+          if (style.indexOf('2147483647') >= 0) el.remove()
+        }
+        if (++sweeps > 20) clearInterval(sweep)
+      }, 300)
       if (typeof document !== 'undefined' && !globalThis.__dshStylePointerTag) {
         // 有些弹层（例如「+」的添加菜单）在 hover 时会整块重渲染，新节点不带我们打的标，
         // 而 React 的替换有时不产生可观察的 childList 变化。这里补一层「指针/焦点进来就重标」，

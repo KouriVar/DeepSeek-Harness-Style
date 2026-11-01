@@ -2,6 +2,15 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.4.9] - 2026-11-01
+
+### 调整
+- 上下文长条：颜色 `--dsw-alias-brand-primary` → **`--dsw-alias-button-info-fill`**，宽度 34 → **40px**。
+  坑：`--dsw-alias-brand-primary` 指向 `--dsw-static-neutral-bluish-*`（灰阶），深色下解析出来是**近白**，
+  根本不是主色；发送按钮用的 `--dsw-alias-button-info-fill` 才是真正的蓝。
+- **清理历史调试浮标**：旧探针的 `window.__scanT` 定时器一直在重建 `#scano` 那个绿色字浮标（用户屏幕上挂了很久）。
+  `startTagging()` 里现在会 `clearInterval` 掉旧的定时器，并连扫 20 次（每 300ms）移除 z-index 2147483647 的残留浮标。
+
 ## [0.4.8] - 2026-11-01
 
 ### 新增 · 上下文用量改成条状
