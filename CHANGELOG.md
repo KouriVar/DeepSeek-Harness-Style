@@ -2,6 +2,15 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.4.11] - 2026-11-01
+
+### 修复 · 上下文长条右端「凭空多一根亮线」
+- 恢复 0.4.9 的描边观感，但把 `border:1px` 换成 **`box-shadow: inset 0 0 0 1px`**。
+- 原因说清楚：`border` 方案里，左侧和上下的 1px 边被**蓝色填充压住**（填充贴着边缘），
+  于是只剩右边那一条可见 —— 视觉上就像凭空多出一根高亮竖线。
+  `box-shadow: inset` 画在背景**之上**，四条边均匀可见，观感才是"电池/刻度条"该有的样子。
+- 宽度保持 40px、填充色 `--dsw-alias-button-info-fill`、斜纹 45°。
+
 ## [0.4.10] - 2026-11-01
 
 ### 调整

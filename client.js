@@ -384,12 +384,15 @@ window.__ModuleLoader__.load({
         // 填充宽度由 JS 把 aria 里的百分比写进 --dsh-style-ctx-w。
         rules.push('[data-dsh-style-ctx]{position:relative !important;}')
         rules.push('[data-dsh-style-ctx] svg{display:none !important;}')
-        // 不要描边：1px 边框在右端会读成「一根多余的竖线」。改成淡底色 + 斜纹表示未用量。
-        rules.push('[data-dsh-style-ctx]::before{content:"";display:inline-block;flex:none;width:40px;height:7px;border-radius:3px;'
-          + 'background-color:var(--dsw-alias-bg-l3, rgba(127,127,127,.20));'
+        // 恢复描边观感，但用 **inset box-shadow** 而不是 border：
+        // border 方案里左侧/上下边被蓝色填充盖住，只剩右边那 1px 可见 → 看起来像凭空多出一根亮线。
+        // box-shadow inset 画在背景之上、四边均匀，就不会有「只有右边高亮」的错觉。
+        rules.push('[data-dsh-style-ctx]::before{content:"";display:inline-block;flex:none;width:40px;height:7px;border-radius:2px;'
+          + 'background-color:rgba(127,127,127,.16);'
           + 'background-image:linear-gradient(to right, var(--dsw-alias-button-info-fill, #4176e6) 0 var(--dsh-style-ctx-w, 0%), transparent var(--dsh-style-ctx-w, 0%)),'
           + 'repeating-linear-gradient(45deg, transparent 0 3px, rgba(127,127,127,.42) 3px 4.5px);'
-          + 'background-size:100% 100%,auto;}')
+          + 'background-size:100% 100%,auto;'
+          + 'box-shadow:inset 0 0 0 1px var(--dsw-alias-border-l3, rgba(127,127,127,.45));}')
       }
       // 原生是个居中的窄 dock（实测 449 宽，卡片 672），里面已经分了「左组/右组」两半。
       // 所以只把它拉到卡片同宽 + 两端对齐，不碰 display、不碰外层容器。
