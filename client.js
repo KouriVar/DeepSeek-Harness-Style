@@ -78,6 +78,8 @@ window.__ModuleLoader__.load({
       // 输入框 UI（独立开关）：隐藏权限按钮；模型选择只显示品牌图标（点图标仍是原生菜单）。
       composerHideAccess: true,
       composerModelIcon: true,
+      // 在「+」右侧插一个附件按钮（原生要两步：+ → 文件）。
+      composerAttachButton: true,
       sidebarCompact: true,
       hovercardInset: true,
       pageTopSpacing: true,
@@ -118,6 +120,7 @@ window.__ModuleLoader__.load({
         merged.squareActionButtons = merged.squareActionButtons !== false
         merged.composerHideAccess = merged.composerHideAccess !== false
         merged.composerModelIcon = merged.composerModelIcon !== false
+        merged.composerAttachButton = merged.composerAttachButton !== false
         const composerRadius = Number(merged.composerRadius)
         merged.composerRadius = [12, 16, 20, 28].includes(composerRadius) ? composerRadius : DEFAULTS.composerRadius
         const composerLines = Number(merged.composerLines)
@@ -354,6 +357,13 @@ window.__ModuleLoader__.load({
       const rules = []
       if (cfg.composerHideAccess !== false) {
         rules.push('[data-composer-card] [data-slot="conversation.input.permission"]{display:none !important;}')
+      }
+      if (cfg.composerAttachButton !== false) {
+        rules.push('[data-dsh-style-attach]{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;flex:none;border:0;background:transparent;border-radius:8px;cursor:pointer;color:inherit;}')
+        rules.push('[data-dsh-style-attach]:hover{background:var(--dsw-alias-bg-l2, rgba(127,127,127,.16));}')
+        rules.push('[data-dsh-style-attach] [data-dsh-style-attach-ico]{width:18px;height:18px;display:block;background-color:currentColor;}')
+      } else {
+        rules.push('[data-dsh-style-attach]{display:none !important;}')
       }
       if (cfg.composerModelIcon !== false) {
         rules.push('[data-composer-card]{--dsh-composer-model-text-display:none;--dsh-composer-model-icon-display:block;}')
@@ -1471,11 +1481,73 @@ window.__ModuleLoader__.load({
       }
     }
 
+    // ---- 输入框「+」右侧的附件按钮（原生要 + → 文件 两步）----
+    // 不移动任何 React 管理的节点，只在「+」按钮后面插一个自己的 button；
+    // 插件被禁用/该开关关掉时 CSS 直接 display:none，且每次打标都会复核一次。
+    function openNativeFilePicker() {
+      const scope = document.querySelector('[data-slot="conversation.composer"]') || document
+      const inputs = Array.from(scope.querySelectorAll('input[type="file"]'))
+      if (inputs.length) {
+        // 优先「通用文件」那个（accept 不是纯图片）；找不到就用第一个。
+        const general = inputs.find((input) => {
+          const accept = (input.getAttribute('accept') || '').toLowerCase()
+          return !accept || !accept.startsWith('image')
+        })
+        const target = general || inputs[0]
+        try { target.click(); return true } catch (e) { /* 落到下面的退路 */ }
+      }
+      // 退路：点开「+」再点「文件」那一项（弹层是自定义 popover，按文案找）
+      const plus = document.querySelector('button[aria-label="添加文件或调用指令"]')
+      if (!plus) return false
+      plus.click()
+      setTimeout(() => {
+        const rows = Array.from(document.querySelectorAll('[data-dsh-icon="plus-file"]'))
+        if (rows.length) rows[0].click()
+        else plus.click()
+      }, 120)
+      return true
+    }
+
+    function mountAttachButton() {
+      if (typeof document === 'undefined') return
+      const plus = document.querySelector('[data-slot="conversation.composer"] button[aria-label="添加文件或调用指令"]')
+        || document.querySelector('button[aria-label="添加文件或调用指令"]')
+      const holder = plus && plus.parentElement
+      if (!plus || !holder) return
+      let btn = holder.querySelector('[data-dsh-style-attach]')
+      if (!btn) {
+        btn = document.createElement('button')
+        btn.type = 'button'
+        btn.setAttribute('data-dsh-style-attach', '')
+        btn.setAttribute('aria-label', '添加附件（直接选文件）')
+        btn.title = '添加附件'
+        const ico = document.createElement('span')
+        ico.setAttribute('data-dsh-style-attach-ico', '')
+        const entry = ICON_OVERRIDES.find((item) => item && item.id === 'plus.file')
+        if (entry && entry.svg) {
+          ico.style.maskImage = 'url("' + entry.svg + '")'
+          ico.style.webkitMaskImage = 'url("' + entry.svg + '")'
+          ico.style.maskRepeat = 'no-repeat'
+          ico.style.maskPosition = 'center'
+          ico.style.maskSize = 'contain'
+        }
+        btn.appendChild(ico)
+        btn.addEventListener('click', (event) => {
+          event.preventDefault()
+          event.stopPropagation()
+          openNativeFilePicker()
+        })
+      }
+      // 位置：紧跟在「+」后面
+      if (plus.nextElementSibling !== btn) holder.insertBefore(btn, plus.nextElementSibling)
+    }
+
     function tagOnce() {
       if (typeof document === 'undefined') return
       mountTitlebar()
       tagMenuItems()
       tagPlusMenu()
+      mountAttachButton()
       applyChipHiding()
       tagQoderHome()
       const frame = frameEl()
@@ -1742,6 +1814,7 @@ window.__ModuleLoader__.load({
         h('h3', { style: sectionTitleStyle }, '输入框'),
         h(SwitchRow, { label: '隐藏「权限」按钮（已设完全权限时用不上）', checked: cfg.composerHideAccess !== false, onChange: (value) => set({ composerHideAccess: value }) }),
         h(SwitchRow, { label: '模型选择只显示图标（点图标仍弹原生菜单）', checked: cfg.composerModelIcon !== false, onChange: (value) => set({ composerModelIcon: value }) }),
+        h(SwitchRow, { label: '「+」右侧加附件按钮（一步选文件）', checked: cfg.composerAttachButton !== false, onChange: (value) => set({ composerAttachButton: value }) }),
         h(SwitchRow, { label: '附件栅格（图片 + 引用卡片，自动换行）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }),
         h(SwitchRow, { label: '外观微调（圆角 / 高度 / 内距）', checked: cfg.composerChrome !== false, onChange: (value) => set({ composerChrome: value }) }),
         h(SegmentedRow, {

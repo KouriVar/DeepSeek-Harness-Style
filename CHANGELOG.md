@@ -2,6 +2,19 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.4.0] - 2026-11-01
+
+### 新增 · 输入框「+」右侧的附件按钮
+- 原生要两步（点「+」→ 点「文件」），这里在「+」后面直接插一个 28×28 的附件按钮，
+  图标复用手册里的 `attachment-line`（mask + currentColor，深浅色自动跟随）。
+- **不移动任何 React 节点**：只是在「+」的父容器里 `insertBefore` 自己的 `<button data-dsh-style-attach>`，
+  每次打标复核一次位置（被 React 重渲染掉会自动补回）。
+- 点击行为：优先用输入框里**已有的隐藏 `input[type=file]`**（实测 `accept` 为空、`multiple`，即「通用文件」），
+  直接唤起系统文件选择器；找不到才退回「点 + → 点文件」的老路。
+- **开关**：设置 → 插件 → dsh-style → 输入框 →「+」右侧加附件按钮（`composerAttachButton`，默认开）。
+
+实测：`fileInputs=any+multi`（可直接唤起）、`btn=28x28 aria=添加附件（直接选文件）`、`mask=set`、`visible=flex`。
+
 ## [0.3.4] - 2026-11-01
 
 ### 修复
