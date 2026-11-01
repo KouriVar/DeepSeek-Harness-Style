@@ -667,7 +667,7 @@
       "selector": "button[aria-label=\"发送消息\"]",
       "file": "conversation/composer/arrow-up-line.svg",
       "source": "remixicon/arrow-up-line",
-      "size": 16,
+      "size": 18,
       "tint": "currentColor",
       "hide": "svg",
       "enabled": true
@@ -680,7 +680,7 @@
       "selector": "button[aria-label=\"停止生成\"]",
       "file": "conversation/composer/stop-circle-line.svg",
       "source": "remixicon/stop-circle-line",
-      "size": 16,
+      "size": 18,
       "tint": "currentColor",
       "hide": "svg",
       "enabled": true
