@@ -364,11 +364,21 @@ window.__ModuleLoader__.load({
       }
       // 发送/停止按钮原生 34×34（圆角 10），比同一排的「+」大一圈。统一成 28×28 / 圆角 8，
       // 图标尺寸在 manifest 里同步调（composer.send / composer.stop = 18px）。
-      rules.push('[data-composer-card] button[aria-label="发送消息"],[data-composer-card] button[aria-label="停止生成"],[data-composer-card] button[aria-label="Send message"],[data-composer-card] button[aria-label="Stop generating"]{box-sizing:border-box;width:28px !important;min-width:28px !important;height:28px !important;min-height:28px !important;padding:0 !important;border-radius:8px !important;}')
+      // 三个按钮（+ / 附件 / 发送）统一成同一套盒模型：实测原生加号是 grid + padding 1px 6px、
+      // 发送是 grid 但垂直高了 2px、附件是 flex —— 不拉平就永远「看着不协调」。
+      rules.push('[data-composer-card] button[aria-label="添加文件或调用指令"],'
+        + '[data-composer-card] button[aria-label="发送消息"],[data-composer-card] button[aria-label="停止生成"],'
+        + '[data-composer-card] button[aria-label="Send message"],[data-composer-card] button[aria-label="Stop generating"],'
+        + '[data-composer-card] [data-dsh-style-attach]'
+        + '{box-sizing:border-box !important;width:28px !important;min-width:28px !important;max-width:28px !important;'
+        + 'height:28px !important;min-height:28px !important;max-height:28px !important;'
+        + 'padding:0 !important;margin:0 !important;display:inline-flex !important;align-items:center !important;'
+        + 'justify-content:center !important;align-self:center !important;vertical-align:middle !important;'
+        + 'border-radius:8px !important;transform:none !important;}')
       if (cfg.composerPerforation !== false) {
         // 票根式分隔：工具行顶部画一条虚线，颜色跟随文字色、只靠透明度收敛（不抢视线）。
         rules.push('[data-dsh-style-toolbar]{position:relative !important;}')
-        rules.push('[data-dsh-style-toolbar]::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;pointer-events:none;background-image:repeating-linear-gradient(to right, currentColor 0 5px, transparent 5px 10px);opacity:.16;}')
+        rules.push('[data-dsh-style-toolbar]::before{content:"";position:absolute;left:0;right:0;top:-4px;height:1px;pointer-events:none;background-image:repeating-linear-gradient(to right, currentColor 0 5px, transparent 5px 10px);opacity:.16;}')
       }
       if (cfg.composerAttachButton !== false) {
         rules.push('[data-dsh-style-attach]{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;flex:none;border:0;background:transparent;border-radius:8px;cursor:pointer;color:inherit;}')

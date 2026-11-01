@@ -2,6 +2,17 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.4.3] - 2026-11-01
+
+### 修复 · 输入框工具行三个按钮真正拉平
+- 之前只统一了尺寸，实测仍有差异：加号 `padding 1px 6px`（原生）、部分 `display:grid`、**发送按钮比加号高 2px**。
+  现在 `+ / 附件 / 发送` 统一：`28×28 / padding:0 / margin:0 / display:inline-flex / align-items:center /
+  justify-content:center / align-self:center / border-radius:8px`。
+- **2px 偏移的根因是 `transform`**：父容器 `.trailing` 与 `.tools` 都在 803–831，但发送按钮是 801–829，
+  静态定位 + margin 0 不可能偏移 → 按钮自带一个上移的 transform。统一规则里加 `transform:none !important`，
+  实测两边都回到 `803–831`。
+- 票根虚线 `top: 0 → -4px`（按用户要求整体上移 4px）。
+
 ## [0.4.2] - 2026-11-01
 
 ### 调整
