@@ -2,6 +2,16 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.4.1] - 2026-11-01
+
+### 新增 · 输入框「票根虚线」
+- 在输入区和工具行（`+` 附件 模型 语音 发送 那一排）之间加一条**虚线分隔**：
+  `repeating-linear-gradient(to right, currentColor 0 5px, transparent 5px 10px)`，`opacity:.16` ——
+  颜色跟随文字色、只靠透明度收敛，深浅色都自然（用户要求「别那么白」）。
+- 锚点：工具行结构实测 `button._add → div._tools → div._row（与卡片同宽 672）→ div._card`，
+  运行时给 `div._row` 打 `data-dsh-style-toolbar`，CSS 挂在属性上（不依赖哈希类名）。
+- **开关**：设置 → 插件 → dsh-style → 输入框 →「工具行上方虚线（票根分隔）」（`composerPerforation`，默认开）。
+
 ## [0.4.0] - 2026-11-01
 
 ### 新增 · 输入框「+」右侧的附件按钮

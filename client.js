@@ -80,6 +80,8 @@ window.__ModuleLoader__.load({
       composerModelIcon: true,
       // 在「+」右侧插一个附件按钮（原生要两步：+ → 文件）。
       composerAttachButton: true,
+      // 工具行上方加一条票根式虚线（低透明度，不抢视线）。
+      composerPerforation: true,
       sidebarCompact: true,
       hovercardInset: true,
       pageTopSpacing: true,
@@ -121,6 +123,7 @@ window.__ModuleLoader__.load({
         merged.composerHideAccess = merged.composerHideAccess !== false
         merged.composerModelIcon = merged.composerModelIcon !== false
         merged.composerAttachButton = merged.composerAttachButton !== false
+        merged.composerPerforation = merged.composerPerforation !== false
         const composerRadius = Number(merged.composerRadius)
         merged.composerRadius = [12, 16, 20, 28].includes(composerRadius) ? composerRadius : DEFAULTS.composerRadius
         const composerLines = Number(merged.composerLines)
@@ -357,6 +360,11 @@ window.__ModuleLoader__.load({
       const rules = []
       if (cfg.composerHideAccess !== false) {
         rules.push('[data-composer-card] [data-slot="conversation.input.permission"]{display:none !important;}')
+      }
+      if (cfg.composerPerforation !== false) {
+        // 票根式分隔：工具行顶部画一条虚线，颜色跟随文字色、只靠透明度收敛（不抢视线）。
+        rules.push('[data-dsh-style-toolbar]{position:relative !important;}')
+        rules.push('[data-dsh-style-toolbar]::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;pointer-events:none;background-image:repeating-linear-gradient(to right, currentColor 0 5px, transparent 5px 10px);opacity:.16;}')
       }
       if (cfg.composerAttachButton !== false) {
         rules.push('[data-dsh-style-attach]{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;padding:0;flex:none;border:0;background:transparent;border-radius:8px;cursor:pointer;color:inherit;}')
@@ -1542,12 +1550,25 @@ window.__ModuleLoader__.load({
       if (plus.nextElementSibling !== btn) holder.insertBefore(btn, plus.nextElementSibling)
     }
 
+    // 工具行（+ 附件 … 发送 那一排）打标：给票根虚线一个稳定锚点。
+    // 结构实测：button._add → div._tools → div._row（=工具行，与卡片同宽）→ div._card
+    function tagComposerToolbar() {
+      if (typeof document === 'undefined') return
+      const plus = document.querySelector('[data-slot="conversation.composer"] button[aria-label="添加文件或调用指令"]')
+        || document.querySelector('button[aria-label="添加文件或调用指令"]')
+      if (!plus) return
+      const row = plus.parentElement && plus.parentElement.parentElement
+      if (!row || row.getAttribute('data-dsh-style-toolbar') === '') return
+      row.setAttribute('data-dsh-style-toolbar', '')
+    }
+
     function tagOnce() {
       if (typeof document === 'undefined') return
       mountTitlebar()
       tagMenuItems()
       tagPlusMenu()
       mountAttachButton()
+      tagComposerToolbar()
       applyChipHiding()
       tagQoderHome()
       const frame = frameEl()
@@ -1815,6 +1836,7 @@ window.__ModuleLoader__.load({
         h(SwitchRow, { label: '隐藏「权限」按钮（已设完全权限时用不上）', checked: cfg.composerHideAccess !== false, onChange: (value) => set({ composerHideAccess: value }) }),
         h(SwitchRow, { label: '模型选择只显示图标（点图标仍弹原生菜单）', checked: cfg.composerModelIcon !== false, onChange: (value) => set({ composerModelIcon: value }) }),
         h(SwitchRow, { label: '「+」右侧加附件按钮（一步选文件）', checked: cfg.composerAttachButton !== false, onChange: (value) => set({ composerAttachButton: value }) }),
+        h(SwitchRow, { label: '工具行上方虚线（票根分隔）', checked: cfg.composerPerforation !== false, onChange: (value) => set({ composerPerforation: value }) }),
         h(SwitchRow, { label: '附件栅格（图片 + 引用卡片，自动换行）', checked: cfg.refCards !== false, onChange: (value) => set({ refCards: value }) }),
         h(SwitchRow, { label: '外观微调（圆角 / 高度 / 内距）', checked: cfg.composerChrome !== false, onChange: (value) => set({ composerChrome: value }) }),
         h(SegmentedRow, {
