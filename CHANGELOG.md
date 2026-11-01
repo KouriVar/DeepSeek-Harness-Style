@@ -2,6 +2,15 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.4.5] - 2026-11-01
+
+### 调整 · 输入框底部统计行左右分布
+- 三个胶囊（轮/步 · tok/s ｜ tok · 缓存命中 ｜ 上下文已用）改成：**前两个靠左成组、上下文甩到最右**。
+  做法：给行容器打 `data-dsh-style-stats`，CSS `display:flex; gap:8px` + `> :last-child{margin-left:auto}`。
+- **打标选法带约束**：只认「包含这三个胶囊、且子元素 ≤ 6」的最小祖先。第一版没约束，
+  一路爬到整个内容行（实测打到 `287..1505` 的大容器上）—— 那会把整块内容强加 flex 布局，非常危险。
+- 结构实测：`button[aria-label] ← span._anchor(flex) ← div(display:contents) ← 行容器`。
+
 ## [0.4.4] - 2026-11-01
 
 ### 调整 · 票根虚线可调化

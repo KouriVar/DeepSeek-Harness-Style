@@ -375,6 +375,9 @@ window.__ModuleLoader__.load({
         + 'padding:0 !important;margin:0 !important;display:inline-flex !important;align-items:center !important;'
         + 'justify-content:center !important;align-self:center !important;vertical-align:middle !important;'
         + 'border-radius:8px !important;transform:none !important;}')
+      // 底部统计行：把「轮/步 · tok/s」和「tok · 缓存命中」并到左边一组，上下文甩到最右。
+      rules.push('[data-dsh-style-stats]{display:flex !important;align-items:center !important;gap:8px !important;width:100% !important;}')
+      rules.push('[data-dsh-style-stats] > :last-child{margin-left:auto !important;}')
       if (cfg.composerPerforation !== false) {
         // 票根式分隔：工具行顶部画一条虚线，颜色跟随文字色、只靠透明度收敛（不抢视线）。
         // 可调：缩进（左右）、上移量（top）、虚线密度（实/空 px）
@@ -1578,6 +1581,34 @@ window.__ModuleLoader__.load({
       row.setAttribute('data-dsh-style-toolbar', '')
     }
 
+    // 底部统计行（轮/步 · tok/s ｜ tok · 缓存命中 ｜ 上下文已用）打标。
+    // 结构实测：button[aria-label] ← span._anchor(flex) ← div(display:contents) ← 行容器。
+    // 选法必须带约束：只要「包含这三个胶囊、且子元素 ≤ 6」的最小祖先 ——
+    // 否则会一路爬到整个内容行，给它强加 flex 布局（实测踩过：标的落到了 287..1505 的大容器上）。
+    function tagStatsRow() {
+      if (typeof document === 'undefined') return
+      const btns = Array.from(document.querySelectorAll('button[aria-label]')).filter((b) => {
+        const a = b.getAttribute('aria-label') || ''
+        return /\d+\s*步/.test(a) || a.indexOf('tok') >= 0 || a.indexOf('上下文已用') >= 0
+      })
+      let target = null
+      if (btns.length >= 2) {
+        let node = btns[0].parentElement
+        for (let i = 0; i < 6 && node; i++) {
+          if (node.contains(btns[0]) && btns.every((b) => node.contains(b))) {
+            const display = getComputedStyle(node).display
+            const childCount = display === 'contents' ? (node.parentElement ? node.parentElement.children.length : 99) : node.children.length
+            if (display !== 'contents' && childCount <= 6) { target = node; break }
+          }
+          node = node.parentElement
+        }
+      }
+      for (const el of Array.from(document.querySelectorAll('[data-dsh-style-stats]'))) {
+        if (el !== target) el.removeAttribute('data-dsh-style-stats')
+      }
+      if (target && target.getAttribute('data-dsh-style-stats') !== '') target.setAttribute('data-dsh-style-stats', '')
+    }
+
     function tagOnce() {
       if (typeof document === 'undefined') return
       mountTitlebar()
@@ -1585,6 +1616,7 @@ window.__ModuleLoader__.load({
       tagPlusMenu()
       mountAttachButton()
       tagComposerToolbar()
+      tagStatsRow()
       applyChipHiding()
       tagQoderHome()
       const frame = frameEl()
