@@ -628,7 +628,7 @@
       "selector": "button[aria-label=\"添加文件或调用指令\"]",
       "file": "conversation/composer/add-line.svg",
       "source": "remixicon/add-line",
-      "size": 14,
+      "size": 18,
       "tint": "currentColor",
       "hide": "svg",
       "enabled": true
@@ -641,7 +641,7 @@
       "selector": "button[aria-label^=\"选择模型\"]",
       "file": "conversation/composer/brain-line.svg",
       "source": "remixicon/brain-line",
-      "size": 16,
+      "size": 18,
       "tint": "currentColor",
       "hide": "svg",
       "enabled": true
