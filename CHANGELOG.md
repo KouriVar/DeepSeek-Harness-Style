@@ -2,6 +2,18 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.5.1] - 2026-11-02
+
+### 修复 · 设置子页（「实验性插件」）标题贴顶
+- 0.1.x 那条「设置页顶部留白 78px」只匹配 `section._page > header._pageHead`（外页，如插件列表）。
+- 实测「实验性插件」是**子页**，结构为 `section._page > header._moreHead > h1._pageTitle`，
+  header 类名是 `_moreHead`，于是规则不命中 → 标题贴在 y=10。
+- 追加一条 `:has(> header[class*="_moreHead"])` 的 78px 规则，两套 header 都覆盖。
+
+### 顺带
+- 清理调试遗留：`#p43/#p11/#scano` 浮标在启动时统一移除；`document.title` 加写保护，
+  拦掉历史探针残留定时器写入的 `P|` / `D|` 调试串（业务标题照常写）。
+
 ## [0.5.0] - 2026-11-01
 
 ### 新增 · 这一轮改动全部开关化 + 分类

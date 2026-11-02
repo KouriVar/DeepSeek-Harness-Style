@@ -618,7 +618,12 @@ window.__ModuleLoader__.load({
 
     // 页面顶部留白（插件页标题和自动化页顶部空白一致）——可开关 pageTopSpacing。
     const PAGE_TOP_CSS = [
+      // 设置类页面统一顶部留白 78px。注意有两套 header：
+      //   · 外页（插件列表等）用 `_pageHead`；
+      //   · 子页（「实验性插件」等）用 `_moreHead` —— 实测 section._page > header._moreHead > h1._pageTitle，
+      //     之前只匹配 `_pageHead`，所以子页标题一直贴顶（y10）。
       'html[data-dsh-style-enabled="true"] [data-dsh-style-main] [class*="_page"]:has(> header[class*="_pageHead"]){padding-top:78px !important;}',
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-main] [class*="_page"]:has(> header[class*="_moreHead"]){padding-top:78px !important;}',
     ].join('')
 
     // 把「智能体团队 / 子智能体 / 后台任务」三个头部入口从顶栏移到「任务监控」后，
@@ -1769,6 +1774,25 @@ window.__ModuleLoader__.load({
       tagOnce()
       // 清理历史调试浮标：旧版本探针的定时器（window.__scanT）会不断重建 #scano 这个浮标。
       try { clearInterval(globalThis.__scanT); clearInterval(globalThis.__dshStyleProbe) } catch (e) {}
+      for (const id of ['p43', 'p11', 'scano']) { const el = document.getElementById(id); if (el) el.remove() }
+      // 历史上探针会往 document.title 写调试串（P| / D|），旧定时器可能还在跑。
+      // 这里给 title 装一层写保护：只挡我们自己的调试前缀，业务标题照常写。
+      if (!globalThis.__dshStyleTitleGuard) {
+        globalThis.__dshStyleTitleGuard = true
+        try {
+          const desc = Object.getOwnPropertyDescriptor(Document.prototype, 'title')
+          if (desc && desc.set && desc.get) {
+            Object.defineProperty(document, 'title', {
+              configurable: true,
+              get() { return desc.get.call(document) },
+              set(value) {
+                if (typeof value === 'string' && /^[PD]\|/.test(value)) return
+                desc.set.call(document, value)
+              },
+            })
+          }
+        } catch (e) {}
+      }
       let sweeps = 0
       const sweep = setInterval(() => {
         for (const el of Array.from(document.querySelectorAll('body > div'))) {
