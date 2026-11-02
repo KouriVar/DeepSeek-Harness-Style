@@ -319,6 +319,13 @@ window.__ModuleLoader__.load({
       // 说明：不在这里加 overflow:hidden —— 面板内部的下拉菜单（模型选择等）是绝对定位在
       // 面板里的，裁切会把它们切掉。面板底色本来就会被 border-radius 圆角裁好，
       // 子元素都无自身底色、且内边距足够，不会在圆角处露方角。
+      // ---- 顶部标签条：去掉可滚动容器的默认白色大焦点框 ----
+      // `.bt-ptabs-in` 是横向可滚动容器，Chromium 会把它当可聚焦元素：键盘 / 拖拽滚动时
+      // 会在整条容器外画一圈又宽又高的白色默认焦点框 —— 就是用户截图里那圈把标签包起来、
+      // “很大很宽、肥胖”的白框。这里去掉它；键盘聚焦时改成只在具体标签上给一条细描边（保留可访问性）。
+      'html[data-dsh-style-enabled="true"] .bt-ptabs-in{outline:none !important;}',
+      'html[data-dsh-style-enabled="true"] .bt-ptab{outline:none !important;}',
+      'html[data-dsh-style-enabled="true"] .bt-ptab:focus-visible{outline:2px solid var(--dsw-alias-button-info-fill,#4d6bfe) !important;outline-offset:-2px;border-radius:9px;}',
       // 面板打开时主卡片右侧不再是独立圆角收边，改成直角 + 透明右边框，交给面板收边。
       'html[data-dsh-style-layout="inset"] [data-dsh-style-frame][data-dsh-btpanel="open"] [data-dsh-style-main]{',
       'border-radius:var(--dsh-style-inset-radius) 0 0 var(--dsh-style-inset-radius);',
