@@ -1793,14 +1793,17 @@ window.__ModuleLoader__.load({
           }
         } catch (e) {}
       }
+      // 旧模块实例里的探针定时器不会随 HMR 停止，会不停重建调试浮标。
+      // 这里持续清扫几分钟（只按 id 清，不动别的元素），等 App 重启后定时器自然消失。
+      const STRAY_IDS = ['p43', 'p41', 'p11', 'scano']
       let sweeps = 0
       const sweep = setInterval(() => {
-        for (const el of Array.from(document.querySelectorAll('body > div'))) {
-          const style = el.getAttribute('style') || ''
-          if (style.indexOf('2147483647') >= 0) el.remove()
+        for (const id of STRAY_IDS) {
+          const el = document.getElementById(id)
+          if (el) el.remove()
         }
-        if (++sweeps > 20) clearInterval(sweep)
-      }, 300)
+        if (++sweeps > 600) clearInterval(sweep)
+      }, 400)
       if (typeof document !== 'undefined' && !globalThis.__dshStylePointerTag) {
         // 有些弹层（例如「+」的添加菜单）在 hover 时会整块重渲染，新节点不带我们打的标，
         // 而 React 的替换有时不产生可观察的 childList 变化。这里补一层「指针/焦点进来就重标」，
