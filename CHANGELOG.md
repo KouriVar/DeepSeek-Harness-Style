@@ -2,6 +2,22 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.5.3] - 2026-11-02
+
+### 修复 · 「智能体」页 Bot 详情侧栏与主卡片割裂
+- **根因**：Bot 详情侧栏不是原生 `[data-rightbar-col]`，而是 **ds-bot 插件** 用
+  `createPortal(…, document.body)` 挂到 `<body>` 的固定浮层 `.bt-panel`：`position:fixed;
+  top:var(--dsh-frame-chrome-top,0px); right:0; bottom:0;`，紧贴窗口右缘、方角、只画一条左描边。
+  它不吃我们给右侧栏做的「合体大圆角卡」，所以展开后面板与主卡片是两种造型 → 观感割裂（用户截图）。
+- **修复**：inset 布局下，让 `.bt-panel` 与右侧栏 `[data-rightbar-col]` 走同一套语言：
+  向内让出 `--dsh-style-inset-gap`（4px）缝、右侧 20px 圆角、整圈 `--dsh-style-inset-border`
+  描边、底色统一为 `--dsw-alias-bg-base`；并给 frame 打 `data-dsh-btpanel="open"`，同步把主卡片
+  右侧圆角改 0、右边框透明，两张面拼成一张。关闭（portal 卸载）后属性消失，主卡片圆角平滑收回。
+- **实测**（真机，窗口 1378×820 pt / 截图 2048×1219，DPR≈1.486）：面板右缘到窗口边 ≈7 物理 px
+  ≈4.7 CSS px；上边框 y≈7 物理 px ≈4.7 CSS px；四边一致，右上/右下均为 20px 圆角（改前：0 边、方角）。
+- 只用 `.bt-panel` 类名选择器（ds-bot 稳定公开的 DOM 类），不依赖 hash 类名，也不改 ds-bot 本体；
+  仅作用于 `html[data-dsh-style-layout="inset"]`，经典布局与非插件页面完全不受影响。
+
 ## [0.5.2] - 2026-11-02
 
 ### 清理

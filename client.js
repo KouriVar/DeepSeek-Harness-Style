@@ -302,6 +302,28 @@ window.__ModuleLoader__.load({
       '}',
       // 底部状态行跟随内容面，不画成一条横带。
       'html[data-dsh-style-layout="inset"] [data-shell-bottom]{background:transparent;}',
+      // ---- ds-bot「Bot 详情侧栏」(.bt-panel) 与主卡片合体 ----
+      // .bt-panel 是 ds-bot portal 到 body 的固定浮层：原生紧贴窗口右缘、方角、只画左描边，
+      // 和 inset 主卡片浮在两种造型里 → 观感割裂（用户截图）。这里让它和右侧栏
+      // [data-rightbar-col] 走同一套「合体大圆角卡」语言：向内让出 4px 缝、右侧圆角、
+      // 整圈描边、底色与主卡片一致；面板存在时主卡片右侧圆角与右边框也让出来，
+      // 两张面拼成一张。top 兼容 Windows 标题栏（--dsh-frame-chrome-top）。
+      'html[data-dsh-style-layout="inset"] .bt-panel{',
+      'top:calc(var(--dsh-frame-chrome-top,0px) + var(--dsh-style-inset-gap)) !important;',
+      'right:var(--dsh-style-inset-gap) !important;',
+      'bottom:var(--dsh-style-inset-gap) !important;',
+      'background:var(--dsw-alias-bg-base) !important;',
+      'border:1px solid var(--dsh-style-inset-border) !important;',
+      'border-radius:0 var(--dsh-style-inset-radius) var(--dsh-style-inset-radius) 0 !important;',
+      '}',
+      // 说明：不在这里加 overflow:hidden —— 面板内部的下拉菜单（模型选择等）是绝对定位在
+      // 面板里的，裁切会把它们切掉。面板底色本来就会被 border-radius 圆角裁好，
+      // 子元素都无自身底色、且内边距足够，不会在圆角处露方角。
+      // 面板打开时主卡片右侧不再是独立圆角收边，改成直角 + 透明右边框，交给面板收边。
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-frame][data-dsh-btpanel="open"] [data-dsh-style-main]{',
+      'border-radius:var(--dsh-style-inset-radius) 0 0 var(--dsh-style-inset-radius);',
+      'border-right-color:transparent;',
+      '}',
     ].join('')
 
     // 沉浸式外壳（与布局无关）：
@@ -971,6 +993,7 @@ window.__ModuleLoader__.load({
           el.removeAttribute('data-dsh-style-frame')
           el.removeAttribute('data-dsh-style-main')
           el.removeAttribute('data-dsh-style-sidebar')
+          el.removeAttribute('data-dsh-btpanel')
         }
       }
     }
@@ -1722,6 +1745,18 @@ window.__ModuleLoader__.load({
       const sidebar = main && main.previousElementSibling
       if (main) main.setAttribute('data-dsh-style-main', '')
       if (sidebar) sidebar.setAttribute('data-dsh-style-sidebar', '')
+      // ds-bot 的「Bot 详情侧栏」`.bt-panel` 是 portal 到 body 的固定浮层（position:fixed /
+      // right:0 / 方角 / 只有左描边），和 inset 主卡片不是一个造型语言，叠在一起就「割裂」。
+      // 它不是原生 [data-rightbar-col]，所以这里单独探测它的存在，给 frame 打标，
+      // 让 CSS 把主卡片与它按「合体大圆角卡」处理（见 BASE_CSS 里的 .bt-panel 规则）。
+      // 用「存在即视为打开」：关闭动画（[data-leaving]）期间 DOM 还在，主卡片保持让角，
+      // 等 portal 卸载后属性一起消失，圆角平滑收回。
+      const btPanel = document.querySelector('.bt-panel')
+      if (btPanel) {
+        if (frame.getAttribute('data-dsh-btpanel') !== 'open') frame.setAttribute('data-dsh-btpanel', 'open')
+      } else if (frame.hasAttribute('data-dsh-btpanel')) {
+        frame.removeAttribute('data-dsh-btpanel')
+      }
       // 右栏布局动画状态机（供 CSS 使用，避免"关闭第一帧就切成最终外观"）：
       //   closed  = 已收起
       //   opening = 正在展开（右栏从 0 长出来）
