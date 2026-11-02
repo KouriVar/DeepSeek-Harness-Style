@@ -332,7 +332,9 @@ window.__ModuleLoader__.load({
       // 这里按原生数值把标签本体和选中指示条一起归拢（指示条居中：条高 44，上下各留 (44-28)/2=8）。
       'html[data-dsh-style-enabled="true"] .bt-panel .bt-ptabs-in{box-sizing:border-box !important;}',
       'html[data-dsh-style-enabled="true"] .bt-panel .bt-ptab{height:28px !important;padding:0 10px !important;border-radius:8px !important;font-size:13px !important;line-height:1 !important;min-width:80px;max-width:170px;}',
-      'html[data-dsh-style-enabled="true"] .bt-panel .bt-ptab-bot{padding:0 8px !important;}',
+      // 头像标签（.bt-ptab-bot）只显示头像时不参与原生 min-width:80（否则头像右侧留一大段空白，
+      // 切到浏览器标签时“新标签页”被推到很右）。这里把头像标签宽度收回内容宽。
+      'html[data-dsh-style-enabled="true"] .bt-panel .bt-ptab-bot{padding:0 8px !important;min-width:0 !important;}',
       'html[data-dsh-style-enabled="true"] .bt-panel .bt-ptab-ind{top:8px !important;bottom:8px !important;border-radius:8px !important;background:var(--dsw-alias-markdown-tag) !important;}',
       'html[data-dsh-style-enabled="true"] .bt-panel .bt-ptab-new{height:28px !important;width:28px !important;border-radius:8px !important;}',
       // 面板打开时主卡片右侧不再是独立圆角收边，改成直角 + 透明右边框，交给面板收边。

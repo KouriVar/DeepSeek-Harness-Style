@@ -2,6 +2,15 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.5.6] - 2026-11-02
+
+### 修复 · 切到浏览器标签后「头像和新标签页之间一大段空白」
+- **根因**：0.5.5 给 `.bt-ptab` 加了 `min-width:80px`（对齐原生 dockkit 标签）。但 Bot 的头像标签
+  `.bt-ptab-bot` 在非详情态只显示 20px 头像、没有名字，被这条 min-width 撑到 80px，
+  于是头像右侧空出 ~44px；切到浏览器标签时「新标签页」被推到很右边，看着像一大块空隙。
+- **修复**：`.bt-ptab-bot{min-width:0}`，头像标签按内容宽收回；普通文字标签仍保留原生 min-width:80。
+- 实测：浏览器态下头像右缘到标签左缘的间隙从 ~44px 收到 ~6px（padding 8 + gap 2 的正常间距）。
+
 ## [0.5.5] - 2026-11-02
 
 ### 调整 · Bot 详情面板标签的「选中状态」对齐 DSH 原生右侧栏
