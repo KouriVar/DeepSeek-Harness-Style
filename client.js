@@ -325,7 +325,16 @@ window.__ModuleLoader__.load({
       // “很大很宽、肥胖”的白框。这里去掉它；键盘聚焦时改成只在具体标签上给一条细描边（保留可访问性）。
       'html[data-dsh-style-enabled="true"] .bt-ptabs-in{outline:none !important;}',
       'html[data-dsh-style-enabled="true"] .bt-ptab{outline:none !important;}',
-      'html[data-dsh-style-enabled="true"] .bt-ptab:focus-visible{outline:2px solid var(--dsw-alias-button-info-fill,#4d6bfe) !important;outline-offset:-2px;border-radius:9px;}',
+      'html[data-dsh-style-enabled="true"] .bt-ptab:focus-visible{outline:2px solid var(--dsw-alias-button-info-fill,#4d6bfe) !important;outline-offset:-2px;border-radius:8px;}',
+      // ---- 顶部标签条：对齐 DSH 原生右侧栏（dockkit）标签的尺寸 / 圆角 / 选中底色 ----
+      // 原生：tab 高 28、圆角 8、内距 0 10、字号 13、选中底色 --dsw-alias-markdown-tag（深色实心 #2c2c2e）；
+      // ds-bot 默认是 32 / 9 / 0 8 / 12.5 / 淡白 hover 底 → 选中态和原生右侧栏明显不是一套设计。
+      // 这里按原生数值把标签本体和选中指示条一起归拢（指示条居中：条高 44，上下各留 (44-28)/2=8）。
+      'html[data-dsh-style-enabled="true"] .bt-panel .bt-ptabs-in{box-sizing:border-box !important;}',
+      'html[data-dsh-style-enabled="true"] .bt-panel .bt-ptab{height:28px !important;padding:0 10px !important;border-radius:8px !important;font-size:13px !important;line-height:1 !important;min-width:80px;max-width:170px;}',
+      'html[data-dsh-style-enabled="true"] .bt-panel .bt-ptab-bot{padding:0 8px !important;}',
+      'html[data-dsh-style-enabled="true"] .bt-panel .bt-ptab-ind{top:8px !important;bottom:8px !important;border-radius:8px !important;background:var(--dsw-alias-markdown-tag) !important;}',
+      'html[data-dsh-style-enabled="true"] .bt-panel .bt-ptab-new{height:28px !important;width:28px !important;border-radius:8px !important;}',
       // 面板打开时主卡片右侧不再是独立圆角收边，改成直角 + 透明右边框，交给面板收边。
       'html[data-dsh-style-layout="inset"] [data-dsh-style-frame][data-dsh-btpanel="open"] [data-dsh-style-main]{',
       'border-radius:var(--dsh-style-inset-radius) 0 0 var(--dsh-style-inset-radius);',
