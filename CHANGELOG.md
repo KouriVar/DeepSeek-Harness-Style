@@ -2,6 +2,25 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.5.8] - 2026-11-07
+
+### 修复 · 会话「更多」菜单：图标-标题间距过大 + 两项图标非 Remix
+- **问题①（间距）**：0.2.2 菜单项结构为 `button._item > span._itemIcon(14×14) + span._itemLabel`，
+  行内 `gap:6px`。图标覆盖只藏了原生 `svg`，但 `_itemIcon` 空壳仍占 14px，于是
+  `::before`(14) + gap(6) + 空壳(14) + gap(6) + 文字 → 图标到文字被撑成双倍间距。
+  **修复**：`iconOverrideCss` 的 `emit()` 隐藏列表追加 `[class*="_itemIcon"]`（与既有
+  `[class*="_panelGlyph"]` 同一套路，按 CSS Module 类名尾缀收壳，哈希变也不坏）。
+- **问题②（图标）**：「在 Finder 中显示」（open-in-app 包注入，icon key `open-in-app.reveal`
+  → 原生 `IconFolderOpenOutlineRegular`）与「更新于 X」（本插件 `SessionTimeMenuItem`，
+  原生 `IconClockOutlineRegular`）此前**没进 `MENU_ICON_TAGS`**，没打 `data-dsh-icon` 标 →
+  图标覆盖选不到 → 一直是原生 Fluent 图标，和其余 Remix 项不一致。
+  **修复**：`MENU_ICON_TAGS` 补两条正则（Finder 兼容「在 Finder 中显示/在 Finder 显示/Show in Finder」，
+  时间行 `^更新于`）；`icons/manifest.json` 补 `menu.session-finder`（remixicon/folder-2-line，
+  与工作区文件夹图标同款）、`menu.session-time`（remixicon/time-line），跑 `npm run icons:build` 内联进产物。
+- **验证**：`node --check` 通过；`icons:check` 59 生效/2 停用；用 QuickLook(WebKit) 对「修复前/后」
+  对照页实测渲染（`research/shots/menu-icon-fix-test.png`）——三项 Remix 图标（图钉/文件夹/时钟）
+  均正常显示，收壳后图标-文字回到 6px 间距，且 `::before` 不受 `_itemIcon` 隐藏影响（无回归）。
+
 ## [0.5.7] - 2026-11-07
 
 ### 修复 · 升级 DSH 0.2.2-rc.1 后「会话卡片（HoverCard）内缩 / 跟随系统」失效

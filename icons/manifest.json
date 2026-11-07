@@ -343,6 +343,32 @@
       "enabled": true
     },
     {
+      "id": "menu.session-finder",
+      "area": "sidebar",
+      "native": "IconFolderOpenOutlineRegular",
+      "where": "会话「更多」菜单 · 在 Finder 中显示（open-in-app 包注入，icon key open-in-app.reveal）",
+      "selector": "[role=\"menuitem\"][data-dsh-icon=\"menu-session-finder\"]",
+      "file": "sidebar/folder-2-line.svg",
+      "source": "remixicon/folder-2-line",
+      "size": 14,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
+    },
+    {
+      "id": "menu.session-time",
+      "area": "sidebar",
+      "native": "IconClockOutlineRegular",
+      "where": "会话「更多」菜单 · 更新于 X（本插件 SessionTimeMenuItem 注入的只读行）",
+      "selector": "[role=\"menuitem\"][data-dsh-icon=\"menu-session-time\"]",
+      "file": "sidebar/time-line.svg",
+      "source": "remixicon/time-line",
+      "size": 14,
+      "tint": "currentColor",
+      "hide": "svg",
+      "enabled": true
+    },
+    {
       "id": "menu.view-by-workspace",
       "area": "sidebar",
       "native": "未知（视图选项）",
