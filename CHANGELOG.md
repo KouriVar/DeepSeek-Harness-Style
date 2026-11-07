@@ -2,6 +2,25 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.5.11] - 2026-11-08
+
+### 修复 · 插件页顶部留白消失 + 副标题仍被裁（0.5.10 的真正根因）
+- **现象**：0.5.10 把 78px 从测高条排除后，插件页标题直接贴顶、副标题依旧拦腰裁掉。
+- **真根因**：0.2.2 插件管理器的页面头 `header.pageHead` / `header.moreHead` 也带
+  `data-window-drag`（实测仅这两个 `<header>`，`detailTop` 是 div 不受影响）。插件里三条
+  **本来只针对会话头**的 `header[data-window-drag]` 全局规则把它们一并命中：
+  1. `hideTabs`（**默认开**）→ `height:38px + padding-top:0`：页头被压成 38px，
+     副标题（标题 28 + 副文案 20 + 间距）溢出被裁，顶部留白清零 —— 两个症状的主因；
+  2. inset 布局 → `padding-top:6px`：把原生顶部留白压没；
+  3. rightbar 收起 → `padding-right:22px`：改掉页头右内距。
+- **修复**：三条规则的选择器统一追加 `:not([class*="_pageHead"]):not([class*="_moreHead"])`，
+  只作用于会话头；插件页头交还原生 —— 原生顶部留白 `--plugin-page-top-inset:28px +
+  --dsh-frame-top-clearance:48px = 76px`（≈ 之前 78px 的观感），高度不再被压、副标题完整。
+  与 0.5.10 互补：那条管「别往测高条上加 78px」，这条管「别把页头原生留白/高度压没」。
+- **验证**：`node --check` 通过；QuickLook 按 0.2.2 实测页头结构（data-window-drag + 测高 +
+  clip-path，hideTabs 开）渲染旧/新对照（`research/shots/page-head-spacing-fix.png`）：
+  旧＝贴顶 + 副标题裁掉，新＝76px 留白 + 副标题完整。
+
 ## [0.5.10] - 2026-11-08
 
 ### 修复 · 插件页顶部被裁剪（标题副文案拦腰切掉）

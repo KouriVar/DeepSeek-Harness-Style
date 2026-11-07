@@ -289,7 +289,9 @@ window.__ModuleLoader__.load({
       // 内嵌布局顶部多了 4px 间隙，把 header 的顶部内边距抵掉同样的量。
       // 注意：这里不能排除 headerBlank —— 新会话页（hero）的 header 就是 blank 的，
       // 一旦排除，它的 padding-top 保持 10px，右上角按钮就会比会话页低一截。
-      'html[data-dsh-style-layout="inset"] [data-dsh-style-main] header[data-window-drag]{padding-top:calc(10px - var(--dsh-style-inset-gap)) !important;}',
+      // 0.2.2：插件管理器的 pageHead/moreHead 也带 data-window-drag，但它们是页面头不是会话头，
+      // 原生自带顶部留白（28px + frame clearance），排除掉以免把留白压成 6px。
+      'html[data-dsh-style-layout="inset"] [data-dsh-style-main] header[data-window-drag]:not([class*="_pageHead"]):not([class*="_moreHead"]){padding-top:calc(10px - var(--dsh-style-inset-gap)) !important;}',
       // 会话区（主内容）不需要可见滚动条：仍可滚动，只是不显示滚动条。
       'html[data-dsh-style-layout="inset"] [data-dsh-style-main]{scrollbar-width:none;}',
       'html[data-dsh-style-layout="inset"] [data-dsh-style-main] *{scrollbar-width:none;}',
@@ -628,12 +630,15 @@ window.__ModuleLoader__.load({
       // 隐藏会话标签栏（对话 / 轨迹 / …）：连整行一起收掉，会话区自动变高。
       'html[data-dsh-style-hide-tabs="true"] div:has(> [data-conversation-tabs]){display:none !important;}',
       // 标签栏没了，把会话头压到和右栏头一致的高度（38px），标题/图标才能对齐、也不留空白。
-      'html[data-dsh-style-hide-tabs="true"] [data-dsh-style-main] header[data-window-drag]{min-height:38px !important;height:38px !important;padding-top:0 !important;padding-bottom:0 !important;align-items:center !important;}',
+      // 0.2.2：只压会话头。插件管理器 pageHead/moreHead 也带 data-window-drag，若被压成 38px
+      // 会把副标题拦腰裁掉、顶部留白清零（用户实测），排除之。
+      'html[data-dsh-style-hide-tabs="true"] [data-dsh-style-main] header[data-window-drag]:not([class*="_pageHead"]):not([class*="_moreHead"]){min-height:38px !important;height:38px !important;padding-top:0 !important;padding-bottom:0 !important;align-items:center !important;}',
       // 右上角「侧边栏」按钮：以**右侧栏展开时**的位置为唯一基准。
       // 收起态由会话头 corner 渲染（原生 padding-right:28 - 外边距 16 = 距面板右缘 12px），
       // 展开态由右栏工具栏渲染，两者差一截。这里只改会话头的右内距，
       // 整组按钮随之内缩，按钮组内部间距不变（不会重叠、不会被圆角裁切）。
-      'html[data-dsh-style-enabled="true"] [data-rightbar-collapsed] [data-dsh-style-main] header[data-window-drag]{',
+      // 同样排除插件管理器页面头（pageHead/moreHead），右内距交还原生 --plugin-page-inset。
+      'html[data-dsh-style-enabled="true"] [data-rightbar-collapsed] [data-dsh-style-main] header[data-window-drag]:not([class*="_pageHead"]):not([class*="_moreHead"]){',
       'padding-right:var(--dsh-style-corner-pad,22px) !important;',
       '}',
       // 去掉标题栏 / 右栏头部那条分割线（和 Qoder 一样，无分割线）。
