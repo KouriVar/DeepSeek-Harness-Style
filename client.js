@@ -725,20 +725,21 @@ window.__ModuleLoader__.load({
     ].join('')
 
     // 会话 HoverCard 内缩 —— 可开关 hovercardInset。
-    // `_card_38jqx_9` 是当前构建 HoverCard 卡片的 CSS module 类；升级后如类名变化需重新确认。
+    // 0.2.2 起卡片哈希类名随构建变（_card_38jqx_9 → _card_bgejw_9…），且被包进 body>span[class*=portal]。
+    // 改用不依赖哈希的语义锚点：含 hoverTitle 的 _card_ 容器；descendant 选择器兼容 portal 包裹层。
     const HOVERCARD_CSS = [
-      'html[data-dsh-style-layout="inset"] body > div[class*="_card_38jqx_9"]{margin-left:15.5px !important;width:fit-content !important;max-width:244px !important;min-width:200px !important;}',
+      'html[data-dsh-style-layout="inset"] body div[class*="_card_"]:has([class*="hoverTitle"]){margin-left:15.5px !important;width:fit-content !important;max-width:244px !important;min-width:200px !important;}',
     ].join('')
 
     // 会话悬浮详情卡背景「跟随系统」——可开关 hovercardFollowTheme。
     // 原生把卡片底色写死为 --dsw-hovercard-bg:#2C2C2E（固定深色），所以浅色模式也是黑卡。
     // 这里仅在浅色模式把它改成主题浅底，并把内部文字改成深色 label；深色模式保持原生。
     const HOVERCARD_THEME_CSS = [
-      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_38jqx_9"]{--dsw-hovercard-bg:var(--dsw-alias-bg-base) !important;border:.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.1)) !important;}',
-      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_38jqx_9"] [class*="hoverTitle"]{color:var(--dsw-alias-label-primary) !important;}',
-      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_38jqx_9"] [class*="hoverPath"]{color:var(--dsw-alias-label-secondary) !important;}',
-      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_38jqx_9"] [class*="hoverTime"]{color:var(--dsw-alias-label-secondary) !important;}',
-      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_38jqx_9"] [class*="hoverStatus"]{color:var(--dsw-alias-label-tertiary) !important;}',
+      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_"]:has([class*="hoverTitle"]){--dsw-hovercard-bg:var(--dsw-alias-bg-base) !important;border:.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.1)) !important;}',
+      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_"]:has([class*="hoverTitle"]) [class*="hoverTitle"]{color:var(--dsw-alias-label-primary) !important;}',
+      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_"]:has([class*="hoverTitle"]) [class*="hoverPath"]{color:var(--dsw-alias-label-secondary) !important;}',
+      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_"]:has([class*="hoverTitle"]) [class*="hoverTime"]{color:var(--dsw-alias-label-secondary) !important;}',
+      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_"]:has([class*="hoverTitle"]) [class*="hoverStatus"]{color:var(--dsw-alias-label-tertiary) !important;}',
     ].join('')
 
     // 任务监控：工具栏按钮 + 浮层面板。

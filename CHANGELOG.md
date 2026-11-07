@@ -2,6 +2,25 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.5.7] - 2026-11-07
+
+### 修复 · 升级 DSH 0.2.2-rc.1 后「会话卡片（HoverCard）内缩 / 跟随系统」失效
+- **根因（两处同时变）**：插件原来写死旧构建的哈希类名 `_card_38jqx_9`。0.2.2-rc.1 里：
+  1. 哈希变了：HoverCard 卡片类名变成 `_card_bgejw_9`（从新版 `app.asar` 的
+     `dsh-web-frontend/dist/assets/index-lh_YM6sT.css` 逐字节提取确认）。
+  2. DOM 结构变了：卡片不再直接挂在 `body` 下，而是被包进一层
+     `span._portal_bgejw_96{display:contents}`（`createPortal(…, document.body)` 的根从
+     `div` 改成了 `span`），所以原来的 `body > div[…]` 直接子选择器也落空。
+- **修复**：改用**不依赖哈希**的语义锚点 `body div[class*="_card_"]:has([class*="hoverTitle"])`
+  ——只要卡片里含 `hoverTitle`（会话/工作区悬浮卡稳定语义类）就命中，descendant 选择器
+  兼容新的 portal 包裹层。内缩规则同时去掉 `>` 直接子组合符。共改 6 处选择器 + 1 处组合符。
+- **验证**：新类名与 portal 结构均从新版 `app.asar` 实测提取；`node --check` 通过；HMR 热替换
+  无崩溃日志。卡片为悬停触发的 portal，背景输入无法稳定触发 `pointerenter`，最终肉眼确认
+  需在真机悬停会话行复核（内缩 15.5px / 浅色浅底）。
+- **审计附带发现（本轮未改，待新版侧栏结构逆向）**：全量锚点审计另有 3 个失效锚点
+  `_listArea` / `_listTop` / `sessionOverflowButton`——0.2.2 的 workspace 包整段重构，
+  这些类已不存在（列表容器与「展开其余 n 个会话」按钮换了结构），属侧栏对齐微调，需单独一轮处理。
+
 ## [0.5.6] - 2026-11-02
 
 ### 修复 · 切到浏览器标签后「头像和新标签页之间一大段空白」
