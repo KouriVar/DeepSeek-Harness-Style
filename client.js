@@ -667,8 +667,14 @@ window.__ModuleLoader__.load({
       //   · 外页（插件列表等）用 `_pageHead`；
       //   · 子页（「实验性插件」等）用 `_moreHead` —— 实测 section._page > header._moreHead > h1._pageTitle，
       //     之前只匹配 `_pageHead`，所以子页标题一直贴顶（y10）。
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-main] [class*="_page"]:has(> header[class*="_pageHead"]){padding-top:78px !important;}',
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-main] [class*="_page"]:has(> header[class*="_moreHead"]){padding-top:78px !important;}',
+      // 0.2.2 例外：插件管理器（plugin-manager）自带顶部留白（--plugin-page-top-inset:28px +
+      //   --dsh-frame-top-clearance），且列表页头是「JS 测高 + clip-path」的 sticky 条
+      //   （div.pageBar[data-plugin-bar] > header.pageHead，height:var(--plugin-header-rest-height)）。
+      //   78px 若打在这条 bar 上，内容被推下去但裁剪高度不变 → 副标题被拦腰裁掉（用户实测）。
+      //   子页 section.page[data-plugin-panel] > header.moreHead 同理原生已有留白，再 +78px 会双倍。
+      //   用这两个稳定 data 锚点把 plugin-manager 整体排除，交还原生；老结构设置页不受影响。
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-main] [class*="_page"]:not([data-plugin-bar]):has(> header[class*="_pageHead"]){padding-top:78px !important;}',
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-main] [class*="_page"]:not([data-plugin-panel]):has(> header[class*="_moreHead"]){padding-top:78px !important;}',
     ].join('')
 
     // 把「智能体团队 / 子智能体 / 后台任务」三个头部入口从顶栏移到「任务监控」后，

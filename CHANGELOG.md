@@ -2,6 +2,24 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.5.10] - 2026-11-08
+
+### 修复 · 插件页顶部被裁剪（标题副文案拦腰切掉）
+- **根因**：「页面顶部留白 78px」规则 `[class*="_page"]:has(> header[class*="_pageHead"])`
+  在 0.2.2 误中插件管理器的新结构 `div.pageBody > div.pageBar[data-plugin-bar] > header.pageHead`
+  ——`pageBar` 类名同样含 `_page` 子串且有直接子 header，于是 78px 打在了这条
+  **JS 测高 + clip-path 裁剪的 sticky 条**上（`height:var(--plugin-header-rest-height)` +
+  `clip-path:inset(…)`）：内容被推下去、裁剪几何不变 → 副标题被裁（用户截图）。
+  且新版原生自带顶部留白（`--plugin-page-top-inset:28px + --dsh-frame-top-clearance`），
+  78px 在这页本就多余；子页 `section.page[data-plugin-panel] > header.moreHead` 同理，
+  再 +78px 会双倍留白。
+- **修复**：两条规则分别用稳定 data 锚点排除 plugin-manager：
+  `:not([data-plugin-bar])`（列表页测高条）、`:not([data-plugin-panel])`（子页容器），
+  顶部留白交还原生机制；老结构设置页（无这两个锚点）不受影响。
+- **验证**：`node --check` 通过；QuickLook 按 0.2.2 实测结构（sticky 条 + 测高 + clip-path）
+  渲染旧/新规则对照（`research/shots/page-top-fix-test.png`）：旧规则头部被推离背景带、
+  内容挤出可视区；新规则标题/副标题完整、留白正常。
+
 ## [0.5.9] - 2026-11-07
 
 ### 修复 · 会话行标题后的时间又出现了（挤占标题宽度）
