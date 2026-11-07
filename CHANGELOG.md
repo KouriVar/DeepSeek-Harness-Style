@@ -2,6 +2,19 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.5.9] - 2026-11-07
+
+### 修复 · 会话行标题后的时间又出现了（挤占标题宽度）
+- **根因**：「会话行时间 / 操作收进『更多』』开关（`workspaceRowCompact`，默认开）一直是开的，
+  但隐藏规则用的是直接子选择器 `sessionRow > [class*="time"]`。0.2.2 的 workspace 重构给行里
+  加了一层 `span.rowResting`（实测渲染：`sessionRow > rowResting > span.time(.timestamp)`），
+  时间从行的直接子级变成孙级 → 规则落空 → 时间回显，还把标题截断挤成「…插化29 分钟」。
+- **修复**：该条改后代选择器 `sessionRow [class*="time"]`。**不能**整壳隐藏 `rowResting`——
+  里面还有图钉（PinnedIndicator）和 `sidebar.session.row.trailing` 插槽，只收 time 本体。
+  时间信息仍可在每行「更多」菜单的「更新于 X」看到（0.5.8 起为 Remix time-line 图标）。
+- **验证**：`node --check` 通过；QuickLook(WebKit) 按 0.2.2 实测行结构渲染旧/新规则对照
+  （`research/shots/row-time-hide-test.png`）：旧规则时间回显，新规则时间消失、图钉保留、标题占满。
+
 ## [0.5.8] - 2026-11-07
 
 ### 修复 · 会话「更多」菜单：图标-标题间距过大 + 两项图标非 Remix

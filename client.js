@@ -685,7 +685,9 @@ window.__ModuleLoader__.load({
     //  - 行内悬停的「归档 / 置顶」按钮收进「更多」菜单（菜单里本来就有这两项），
     //    悬停时只留一个「更多」按钮。
     const WORKSPACE_CSS = [
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="sessionRow"] > [class*="time"]{display:none !important;}',
+      // 0.2.2 起时间被包进 span.rowResting（sessionRow > rowResting > time），不再是行直接子级；
+      // 改后代选择器。rowResting 里还有图钉/trailing 插槽，不能整壳隐藏，只收 time 本体。
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="sessionRow"] [class*="time"]{display:none !important;}',
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="sessionRow"] > [class*="rowActions"] > *:nth-child(n+2){display:none !important;}',
     ].join('')
 
