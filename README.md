@@ -66,7 +66,8 @@
 
 ## 安装到 DSH
 
-已验证：**macOS + DeepSeek Harness `0.2.1-rc.5`**。插件是桌面客户端插件，不适用 web profile。
+已验证：**macOS + DeepSeek Harness `0.2.2-rc.1`**（0.5.12 实测；上游 `0.2.2-rc.2` 已做静态预检，见
+`research/findings/08-rc2-compat.md`，锚点全部仍在）。插件是桌面客户端插件，不适用 web profile。
 
 1. 从 [Releases](https://github.com/KouriVar/DeepSeek-Harness-Style/releases/latest) 下载
    `dsh-style-0.2.0.tgz`。
@@ -94,7 +95,7 @@ dsh plugin --profile desktop add /绝对路径/dsh-style-0.2.0.tgz
 
 ## 给朋友装（同款 UI）
 
-1. 用 **macOS 版 DeepSeek Harness 0.2.1-rc.5**（其它版本选择器可能对不上）。
+1. 用 **macOS 版 DeepSeek Harness 0.2.2-rc.1**（其它版本选择器可能对不上）。
 2. 下载 `dsh-style-0.2.0.tgz`，按上面步骤安装并重启。
 3. 全新安装默认就是作者这套外观；检查 **Settings → 外观** 是否全开。
 4. 为完全一致，再确认：
@@ -127,7 +128,8 @@ DSH 的 **Add plugin** 安装框接受「包名 / **Git 地址** / tarball / 本
 
 ## 兼容性
 
-- 0.2.0 在 **0.2.1-rc.5** 实测；DSH 更新后类名/结构可能变化，侧栏选择器和 HoverCard 可能需要适配。
+- 0.2.0 / 0.5.12 分别在 **0.2.1-rc.5**、**0.2.2-rc.1** 实测；0.2.2-rc.2 已静态预检（类名/data 锚点全在）。
+  DSH 每次升级都可能改哈希类名或包裹层，升级后若发现局部样式失效，先看 `research/findings/` 的最新审计报告再动手。
 - 插件不修改官方 `app.asar`；通过 profile 安装，官方 app 保持原样。
 - 侧栏横向基准按 macOS 红绿灯按钮设计；Windows/Linux 版不保证同一像素位置。
 

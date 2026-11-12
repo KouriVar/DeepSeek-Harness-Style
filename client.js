@@ -97,7 +97,6 @@ window.__ModuleLoader__.load({
       statsRowSplit: true,        // 底部统计行：左组靠拢 + 上下文贴右
       sidebarCompact: true,
       hovercardInset: true,
-      pageTopSpacing: true,
       workspaceRowCompact: true,
       agentEntryMerge: true,
       // 会话悬浮详情卡背景：跟随系统（浅色浅底 / 深色深底）。
@@ -153,7 +152,6 @@ window.__ModuleLoader__.load({
         merged.composerLines = [2, 3, 4].includes(composerLines) ? composerLines : DEFAULTS.composerLines
         merged.sidebarCompact = merged.sidebarCompact !== false
         merged.hovercardInset = merged.hovercardInset !== false
-        merged.pageTopSpacing = merged.pageTopSpacing !== false
         merged.workspaceRowCompact = merged.workspaceRowCompact !== false
         merged.agentEntryMerge = merged.agentEntryMerge !== false
         merged.hovercardFollowTheme = merged.hovercardFollowTheme !== false
@@ -660,27 +658,23 @@ window.__ModuleLoader__.load({
       // 右栏 dock 标签栏比左/中低约 5px：top 偏移补齐（不用 transform）。
       'html[data-dsh-style-enabled="true"] [data-sidebar-right-panel]:not([data-sidebar-right-panel="fullscreen"]){top:-5px !important;}',
       // 账户区底部间距与左侧 12 同步。
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] > [class*="_root"]{padding-bottom:12px !important;}',
+      // 0.2.2 实测结构：sidebarCol[data-dsh-style-sidebar] > div[data-slot="sidebar"](display:contents)
+      // > div.root —— 中间隔着槽包裹层，直接子级没有 class（旧写法 0 命中，实测 root padding-bottom
+      // 只剩原生 6px）。与 L725 那条 `> div > [class*="_root"]` 统一。
+      'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] > div > [class*="_root"]{padding-bottom:12px !important;}',
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_footArea"]{padding-bottom:0 !important;margin-bottom:0 !important;}',
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_settingsArea"]{padding-bottom:0 !important;margin-bottom:0 !important;}',
       'html[data-dsh-style-enabled="true"] [data-dsh-style-sidebar] [class*="_triggerRow"]{padding-bottom:0 !important;margin-bottom:0 !important;}',
     ].join('')
 
-    // 页面顶部留白（插件页标题和自动化页顶部空白一致）——可开关 pageTopSpacing。
-    const PAGE_TOP_CSS = [
-      // 设置类页面统一顶部留白 78px。注意有两套 header：
-      //   · 外页（插件列表等）用 `_pageHead`；
-      //   · 子页（「实验性插件」等）用 `_moreHead` —— 实测 section._page > header._moreHead > h1._pageTitle，
-      //     之前只匹配 `_pageHead`，所以子页标题一直贴顶（y10）。
-      // 0.2.2 例外：插件管理器（plugin-manager）自带顶部留白（--plugin-page-top-inset:28px +
-      //   --dsh-frame-top-clearance），且列表页头是「JS 测高 + clip-path」的 sticky 条
-      //   （div.pageBar[data-plugin-bar] > header.pageHead，height:var(--plugin-header-rest-height)）。
-      //   78px 若打在这条 bar 上，内容被推下去但裁剪高度不变 → 副标题被拦腰裁掉（用户实测）。
-      //   子页 section.page[data-plugin-panel] > header.moreHead 同理原生已有留白，再 +78px 会双倍。
-      //   用这两个稳定 data 锚点把 plugin-manager 整体排除，交还原生；老结构设置页不受影响。
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-main] [class*="_page"]:not([data-plugin-bar]):has(> header[class*="_pageHead"]){padding-top:78px !important;}',
-      'html[data-dsh-style-enabled="true"] [data-dsh-style-main] [class*="_page"]:not([data-plugin-panel]):has(> header[class*="_moreHead"]){padding-top:78px !important;}',
-    ].join('')
+    // 页面顶部留白：0.2.2 起由原生接管，插件不再注入（2026-11-12 审计结论）。
+    //   · 插件管理器（plugin-manager）：div.pageBar[data-plugin-bar] > header.pageHead 是「JS 测高 +
+    //     clip-path」的 sticky 条，原生已给 --plugin-page-top-inset:28px + --dsh-frame-top-clearance；
+    //     往它上面加 78px 会推内容但裁剪高度不变 → 副标题被裁（0.5.10 事故）。
+    //   · 自动化任务页：.CDG4uW_pageHeading 自带 padding-top:28px（darwin 再加 frame clearance）。
+    //   · 设置页：0.2.2 改成模态（mask/overlay/panel），类名里已无 page/pageHead。
+    //   实测结论：旧的 [class*="_page"]:has(> header[class*="_pageHead"]) 两条规则全构建 0 命中，
+    //   pageTopSpacing 开关空转 → 规则与开关一并移除（旧 localStorage 值被忽略，无视觉变化）。
 
     // 把「智能体团队 / 子智能体 / 后台任务」三个头部入口从顶栏移到「任务监控」后，
     // 头部这几处隐藏（仅当任务监控开启，保证信息仍可见）。
@@ -874,12 +868,10 @@ window.__ModuleLoader__.load({
       // 欢迎块自身不再吃满高度（原生 HeroShell.root 是 height:100%，会把句子行推远）
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"]{justify-content:flex-end;}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="stack"] > :first-child{height:auto !important;flex:0 0 auto !important;}',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] div:has(> [data-slot="conversation.hero.brand.mark"]){gap:0 !important;height:auto !important;flex:0 0 auto !important;}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="headline"] + div{display:none !important;}',
 
       // ② 欢迎区：标题与句子同字号，层级只靠字重与颜色
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="headline"],',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] div:has(> [data-slot="conversation.hero.brand.mark"]){',
       'font-size:var(--dsh-q-title-size) !important;',
       'line-height:1.4 !important;',
       'font-weight:700 !important;',
@@ -904,7 +896,6 @@ window.__ModuleLoader__.load({
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"]::before{content:var(--dsh-q-prefix);margin-right:var(--dsh-q-gap-1);}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"]::after{content:var(--dsh-q-suffix);margin-left:var(--dsh-q-gap-2);}',
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"] [class*="heroOptions"]{display:none !important;}',
-      'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="sentence"] > [data-slot="conversation.hero.options"]{display:none !important;}',
 
       // 选择器本体：去掉胶囊底色与图标，变成带下划线的词
       'html[data-dsh-style-qoderhome="true"] [data-phase="hero"] [data-dsh-qoder="ws"],',
@@ -1946,7 +1937,6 @@ window.__ModuleLoader__.load({
         if (cfg.titlebarButtons !== false) rules.push(TITLEBAR_CSS)
         rules.push(SIDEBAR_BASE_CSS)
         if (cfg.sidebarCompact !== false) rules.push(ALIGN_CSS, SIDEBAR_COMPACT_CSS)
-        if (cfg.pageTopSpacing !== false) rules.push(PAGE_TOP_CSS)
         if (cfg.hovercardInset !== false) rules.push(HOVERCARD_CSS)
         if (cfg.hovercardFollowTheme !== false) rules.push(HOVERCARD_THEME_CSS)
         rules.push(HIDE_HEADER_CSS)
@@ -2098,7 +2088,6 @@ window.__ModuleLoader__.load({
         h(SwitchRow, { label: '侧栏对齐 / 紧凑（红绿灯基准列、行高内距）', checked: cfg.sidebarCompact !== false, onChange: (value) => set({ sidebarCompact: value }) }),
         h(SwitchRow, { label: '会话卡片（HoverCard）内缩', checked: cfg.hovercardInset !== false, onChange: (value) => set({ hovercardInset: value }) }),
         h(SwitchRow, { label: '会话详情背景：跟随系统（浅色/深色）', checked: cfg.hovercardFollowTheme !== false, onChange: (value) => set({ hovercardFollowTheme: value }) }),
-        h(SwitchRow, { label: '页面顶部留白对齐', checked: cfg.pageTopSpacing !== false, onChange: (value) => set({ pageTopSpacing: value }) }),
         h(SwitchRow, { label: '标题栏窗口按钮（折叠 / 后退 / 前进 / 刷新）', checked: cfg.titlebarButtons !== false, onChange: (value) => set({ titlebarButtons: value }) }),
         h(SwitchRow, { label: '标题栏刷新按钮（真正重新加载页面）', checked: cfg.titlebarRefresh !== false, onChange: (value) => set({ titlebarRefresh: value }) }))
     }
@@ -4202,7 +4191,6 @@ window.__ModuleLoader__.load({
         id: 'dsh-style-stamp',
         order: -30,
       }, QoderStampCard))
-
     }
 
     exports.apply = apply

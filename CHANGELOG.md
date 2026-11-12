@@ -2,6 +2,61 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.5.12] - 2026-11-12
+
+### 审计 · 0.2.2-rc.1 上「上一轮升级没跟上」的残留（真机探针实测）
+- **本轮基线**：从当前 app.asar 抽出全量源码 `research/extracted-0.2.2/`（330 包，dsh `0.2.2-rc.1`，
+  前端 `index-lh_YM6sT.css`）；另下载上游 nightly 最新包解出 `research/extracted-0.2.2-rc.2/`
+  （dsh `0.2.2-rc.2`，前端 `index-CSAdOBx6.css`）做升级预检。两份审计报告：
+  `research/findings/06-structural-delta.md`（0.2.1-rc.5 → 0.2.2-rc.1 结构差异）、
+  `research/findings/07-rule-audit.md`（313 个锚点逐条命中判定）、`research/findings/08-rc2-compat.md`（rc.2 预检）。
+- **方法**：插件里临时注入自检探针（枚举自己注入的**全部 643 条选择器** → 对当前 DOM 逐条
+  `querySelectorAll` 计数，附侧栏/标题栏/输入卡/会话行的 DOM 骨架与计算样式，POST 到本机日志）。
+  探针在交付前已整段删除，产物 `client.js` 不含任何探针代码。
+- **结论**：常驻「0 命中」的大多数规则是按状态设计的（深色 / 右栏开合 / 菜单展开 / hero 相位），
+  真实缺陷 4 处 + 1 处空转开关，均已修。
+
+### 修复 1 · 侧栏底部 12px 底距一直没生效（0.2.1 起就落空，非 0.2.2 回归）
+- **根因**：规则写成 `[data-dsh-style-sidebar] > [class*="_root"]`（直接子级）。实测 0.2.2 层级是
+  `div.sidebarCol[data-dsh-style-sidebar] > div[data-slot="sidebar"](display:contents) > div.root`
+  ——renderer 给非 inline 槽一律套 `div[data-slot]`，直接子级没有 class → 0 命中。
+- **修复**：改 `> div > [class*="_root"]`，与同文件 725 行那条写法统一。
+- **实测**：侧栏 root 的 `padding-bottom` 由原生 **6px → 12px**（探针读数，改前/改后各一次）。
+
+### 修复 2 · 移除已空转的 `pageTopSpacing`（78px 页面顶部留白）
+- **根因**：上一轮（0.5.10 / 0.5.11）为了救插件页留白，给两条 78px 规则加了
+  `:not([data-plugin-bar])` / `:not([data-plugin-panel])`。0.2.2 里**唯一**带
+  `> header[class*="_pageHead"]` 的元素就是 plugin-manager 的测高条本身（被排除），于是这两条在全构建
+  **0 匹配**：开关点了没有任何效果。且 0.2.2 已原生接管这套留白——plugin-manager 给
+  `--plugin-page-top-inset:28px + --dsh-frame-top-clearance`；自动化任务页 `.CDG4uW_pageHeading`
+  自带 `padding-top:28px`（darwin 再加 frame clearance）；设置页改成模态（mask/overlay/panel），
+  类名里已无 `page/pageHead`。
+- **修复**：删掉两条规则、`PAGE_TOP_CSS` 常量、`pageTopSpacing` 开关行、默认值与合并逻辑
+  （旧 localStorage 里的值被忽略，**无视觉变化**）。
+- **验证**：改后规则总数 643 → 636；侧栏/标题栏/输入卡/会话行实测数值与改前一致。
+
+### 修复 3 · 首页 hero 三条死选择器（条件写错，长期未生效）
+- `… div:has(> [data-slot="conversation.hero.brand.mark"])` × 2：该槽父级是
+  `span.fishHitbox`（`HeroShell` 源码里是 `<span>`），不是 `div`；而且本插件已把
+  `[class*="fishHitbox"]` 整块 `display:none`，这两条（gap/height 归零、字号组第二选择器）
+  本来就是冗余 → 删除，字号组保留 `[data-dsh-qoder="headline"]`。
+- `[data-dsh-qoder="sentence"] > [data-slot="conversation.hero.options"]`：槽实际包在
+  `div.heroOptions` 里，且上一行 `[class*="heroOptions"]{display:none}` 已把整块隐藏
+  （0.2.2 类名 `kiGsTW_heroOptions` 实测存在）→ 冗余删除。
+- **影响**：hero 视觉零变化（三条均为 0 命中/冗余）。
+
+### 预检 · 0.2.2-rc.2（上游 nightly 最新，本机仍是 rc.1，尚未安装）
+- 插件 **66 个** `[class*="_x"]` 类名锚点在 rc.2 **全部仍存在**（rc.2 只增不减名）；
+  primitives 侧 `_name_<hash>_n` 有 126/280 换 hash，但插件用的是**不带 hash 的尾缀锚**（`_card_`、
+  `_markdown_`、`_itemIcon`…）→ 天然免疫。
+- data 锚点 `data-composer-chip` / `data-ds-dark-theme` / `data-windows-titlebar` /
+  `data-natural|measuring|scrolled|compact` / `data-dockkit-*` 在 rc.2 **全部仍在**。
+- rc.2 新增结构（升级后需留意、但当前无需改码）：侧栏 `scrollRegion/scrollArea/scrollFade` +
+  `data-sidebar-scrollport`、entry-customization 的 `sidebarEntry/pinAnchor/pinButton`、
+  subagent 分区头部、chat `historyHidden/continuation`、`data-context-menu-trigger` 迁到新
+  `dsh-client-ui-context-menu` 包、plugin-manager sticky 头改 JS 测高属性组。
+- **结论：rc.2 不需要改代码即可用**；升级后按 `research/findings/08-rc2-compat.md` 的表逐项复核。
+
 ## [0.5.11] - 2026-11-08
 
 ### 修复 · 插件页顶部留白消失 + 副标题仍被裁（0.5.10 的真正根因）
