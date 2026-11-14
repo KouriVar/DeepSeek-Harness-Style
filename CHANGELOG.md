@@ -2,6 +2,32 @@
 
 本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/) 与 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式。
 
+## [0.5.13] - 2026-11-14
+
+### 修复 · 浅色模式下会话悬浮卡（HoverCard）仍是黑卡
+- **现象**：浅色主题下悬停会话行，卡片仍是原生 `#2C2C2E` 深底 + 白字；「跟随系统」开关开着也没用。
+- **根因（两处，都在**判定条件**上，不在样式值上）**：
+  1. 选择器锚点写的是 `div[class*="_card_"]:has([class*="hoverTitle"])`。卡片宿主是
+     `dsh-web-frontend` 里的共享 primitives（`_portal_* > div._card_…`），类名带构建哈希；
+     一旦该模块换哈希/换模块（0.5.7 就是这样栽的），整组规则静默失效，且**看不出来**——
+     规则还在样式表里，只是 0 命中。
+  2. 浅色判定用的是插件自己缓存的 `html[data-dsh-style-dark="false"]`。而 DSH 的真实主题源是
+     `dsh-client-ui-theme`: `document.body.toggleAttribute('data-ds-dark-theme', dark)`。
+     主题切换事件（MutationObserver 的 attributeFilter）漏一次，缓存值就停在 `true`，
+     卡片在浅色下继续吃深色分支。
+- **修复**：
+  1. 锚点改为 **结构锚点** `div:has(> [class*="hoverContent"])` —— 会话卡/工作区卡的 body 根节点
+     固定是 `div.hoverContent`（`Rows.module.css`，0.2.1→0.2.2 未改名），且它是卡片 div 的**直接子元素**，
+     全构建唯一，不依赖任何哈希。
+  2. 浅色门控改为 `html[…]:not([data-ds-dark-theme]) body:not([data-ds-dark-theme])` —— 直接跟原生属性，
+     html/body 任一处带该属性都不套浅色，主题切换即时生效，不再受缓存值影响。
+- **验证**：按 0.2.2 真实类名 + 真实 token（浅色 `#fff/#0f1115`、深色 `#1b1b1d/#f2f3f5`）在 WebKit
+  （QuickLook）里渲染真实卡片结构：
+  - 浅色（无 `data-ds-dark-theme`）→ 卡片浅底、标题/路径/时间/状态转深色；
+  - 深色（`body[data-ds-dark-theme]`）→ 保持原生黑卡白字。
+  证据：`research/shots/hovercard-light-after.png`、`research/shots/hovercard-dark-after.png`。
+  规则由 `client.js` 抽出后直接注入测试页，不是手抄（避免抄错哈希）。
+
 ## [0.5.12] - 2026-11-12
 
 ### 审计 · 0.2.2-rc.1 上「上一轮升级没跟上」的残留（真机探针实测）

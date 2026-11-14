@@ -740,18 +740,22 @@ window.__ModuleLoader__.load({
     // 0.2.2 起卡片哈希类名随构建变（_card_38jqx_9 → _card_bgejw_9…），且被包进 body>span[class*=portal]。
     // 改用不依赖哈希的语义锚点：含 hoverTitle 的 _card_ 容器；descendant 选择器兼容 portal 包裹层。
     const HOVERCARD_CSS = [
-      'html[data-dsh-style-layout="inset"] body div[class*="_card_"]:has([class*="hoverTitle"]){margin-left:15.5px !important;width:fit-content !important;max-width:244px !important;min-width:200px !important;}',
+      'html[data-dsh-style-layout="inset"] body div:has(> [class*="hoverContent"]){margin-left:15.5px !important;width:fit-content !important;max-width:244px !important;min-width:200px !important;}',
     ].join('')
 
     // 会话悬浮详情卡背景「跟随系统」——可开关 hovercardFollowTheme。
     // 原生把卡片底色写死为 --dsw-hovercard-bg:#2C2C2E（固定深色），所以浅色模式也是黑卡。
     // 这里仅在浅色模式把它改成主题浅底，并把内部文字改成深色 label；深色模式保持原生。
+    // 两个稳定性要点（2026-11-14 修）：
+    //   ① 锚点用「卡片有直接子元素 hoverContent」——不再依赖 _card_ 尾缀（构建换哈希/换模块时不至于整组失效）；
+    //   ② 浅色判定直接用 DSH 原生 body[data-ds-dark-theme]（dsh-client-ui-theme 在这上面 toggleAttribute），
+    //      不再用插件缓存的 data-dsh-style-dark——主题切换事件漏一次，缓存值就会过期，卡片会停在黑卡。
     const HOVERCARD_THEME_CSS = [
-      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_"]:has([class*="hoverTitle"]){--dsw-hovercard-bg:var(--dsw-alias-bg-base) !important;border:.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.1)) !important;}',
-      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_"]:has([class*="hoverTitle"]) [class*="hoverTitle"]{color:var(--dsw-alias-label-primary) !important;}',
-      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_"]:has([class*="hoverTitle"]) [class*="hoverPath"]{color:var(--dsw-alias-label-secondary) !important;}',
-      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_"]:has([class*="hoverTitle"]) [class*="hoverTime"]{color:var(--dsw-alias-label-secondary) !important;}',
-      'html[data-dsh-style-enabled="true"][data-dsh-style-dark="false"] body div[class*="_card_"]:has([class*="hoverTitle"]) [class*="hoverStatus"]{color:var(--dsw-alias-label-tertiary) !important;}',
+      'html[data-dsh-style-enabled="true"]:not([data-ds-dark-theme]) body:not([data-ds-dark-theme]) div:has(> [class*="hoverContent"]){--dsw-hovercard-bg:var(--dsw-alias-bg-base) !important;border:.5px solid var(--dsw-alias-border-l2,rgba(0,0,0,.1)) !important;}',
+      'html[data-dsh-style-enabled="true"]:not([data-ds-dark-theme]) body:not([data-ds-dark-theme]) div:has(> [class*="hoverContent"]) [class*="hoverTitle"]{color:var(--dsw-alias-label-primary) !important;}',
+      'html[data-dsh-style-enabled="true"]:not([data-ds-dark-theme]) body:not([data-ds-dark-theme]) div:has(> [class*="hoverContent"]) [class*="hoverPath"]{color:var(--dsw-alias-label-secondary) !important;}',
+      'html[data-dsh-style-enabled="true"]:not([data-ds-dark-theme]) body:not([data-ds-dark-theme]) div:has(> [class*="hoverContent"]) [class*="hoverTime"]{color:var(--dsw-alias-label-secondary) !important;}',
+      'html[data-dsh-style-enabled="true"]:not([data-ds-dark-theme]) body:not([data-ds-dark-theme]) div:has(> [class*="hoverContent"]) [class*="hoverStatus"]{color:var(--dsw-alias-label-tertiary) !important;}',
     ].join('')
 
     // 任务监控：工具栏按钮 + 浮层面板。
@@ -4191,6 +4195,7 @@ window.__ModuleLoader__.load({
         id: 'dsh-style-stamp',
         order: -30,
       }, QoderStampCard))
+
     }
 
     exports.apply = apply
