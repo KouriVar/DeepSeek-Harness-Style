@@ -16,7 +16,8 @@
     "README.md",
     "host",
     "icons",
-    "tools/icons"
+    "tools/icons",
+    "CHANGELOG.md"
   ],
   "keywords": [
     "dsh-plugin",
